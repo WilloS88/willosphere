@@ -1,0 +1,22 @@
+# Global
+node_modules/
+dist/
+.build/
+coverage/
+.env
+.env.*.local
+
+# Next.js
+bp-ui/.next/
+bp-ui/out/
+bp-ui/.env.local
+
+# NestJS
+bp-api/dist/
+bp-api/test/**/*.spec.ts
+bp-api/.env
+
+# OS/editor
+.DS_Store
+.vscode/
+.idea/
