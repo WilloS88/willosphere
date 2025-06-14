@@ -1,8 +1,25 @@
+@import url("https://fonts.cdnfonts.com/css/vcr-osd-mono");
 @import "tailwindcss";
+@plugin "daisyui";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* --background: #ffffff;
+  --foreground: #171717; */
+  --font-vcr: "VCR OSD Mono", sans-serif;
+  --font-bold: "The Bold Font", sans-serif;
+}
+
+@layer utilities {
+  .font-vcr {
+    font-family: var(--font-vcr);
+  }
+}
+
+@theme {
+  --font-fear: "VCR OSD Mono", sans-serif;
+  --text-fear: "VCR OSD Mono", sans-serif;
+
+  --color-fear: #ed2c5e;
 }
 
 @theme inline {
@@ -13,14 +30,20 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  /* :root {
     --background: #0a0a0a;
     --foreground: #ededed;
-  }
+  } */
+}
+
+html {
+  background-color: aliceblue;
 }
 
 body {
-  background: var(--background);
+  /* background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /* font-family: Arial, Helvetica, sans-serif; */
+  /* font-family: var(--font-vcr); */
+  background-color: aliceblue;
 }
