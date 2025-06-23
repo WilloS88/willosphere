@@ -20,10 +20,11 @@
   --text-fear: "VCR OSD Mono", sans-serif;
 
   --color-fear: #ed2c5e;
+  --color-darkblue: #0b0f2d;
+  --color-royalblue: #253078;
 }
 
-@theme inline {
-  --color-background: var(--background);
+@theme inline {  
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);

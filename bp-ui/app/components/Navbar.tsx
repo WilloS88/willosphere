@@ -1,11 +1,13 @@
 "use client";
 
+import LocaleSwitcher from "./LocaleSwitcher";
+
 export const Navbar = () => {
   return (
-    <div className="navbar bg-base-100 shadow-sm px-4 ">
+    <div className="navbar bg-base-100 px-4 shadow-sm">
       <div className="navbar-start">
         <a
-          className="btn  text-2xl text-fear text"
+          className="btn text-fear text text-2xl"
           style={{ fontFamily: "var(--font-bold)" }}
         >
           <span className="text-sm">LOGO</span>
@@ -20,7 +22,8 @@ export const Navbar = () => {
           className="input input-bordered w-[400px]"
         />
       </div>
-      <div className="flex gap-2 items-center navbar-end">
+      <div className="navbar-end flex items-center gap-2">
+        <LocaleSwitcher />
         <div className="dropdown dropdown-end">
           <div
             tabIndex={0}
@@ -29,10 +32,9 @@ export const Navbar = () => {
           >
             <div className="w-10 rounded-full"></div>
           </div>
-
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content z-[1] mt-3 w-52 rounded-box bg-base-100 p-2 shadow"
+            className="menu menu-sm dropdown-content rounded-box bg-base-100 z-[1] mt-3 w-52 p-2 shadow"
           >
             <li>
               <a className="justify-between">
@@ -51,4 +53,4 @@ export const Navbar = () => {
       </div>
     </div>
   );
-}
+};

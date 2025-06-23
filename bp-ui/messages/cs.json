@@ -1,0 +1,19 @@
+{
+  "LocaleSwitcher": {
+    "label": "Jazyk",
+    "locales": {
+      "cs": "Čeština",
+      "en": "Angličtina"
+    }
+  },
+  "Navbar": {
+    "title": "WilloSphere",
+    "search": "Hledat"
+  },
+  "Footer": {
+    "rights": "Všechna práva vyhrazena"
+  },
+  "HomePage": {
+    "title": "Nadpis"
+  }
+}
