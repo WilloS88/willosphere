@@ -3,6 +3,7 @@
 import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
 import { useTranslations } from "use-intl";
+import WilloSphere from "../components/ui/Header";
 
 export default function Home() {
   const t = useTranslations("HomePage")
@@ -15,6 +16,7 @@ export default function Home() {
         <p className="font-vcr text-fear text-center text-4xl font-bold">
           {t("title")}
         </p>
+        <WilloSphere />
       </main>
       <Footer />
     </>
