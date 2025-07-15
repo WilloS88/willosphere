@@ -11,7 +11,6 @@ export const Navbar = () => {
           style={{ fontFamily: "var(--font-bold)" }}
         >
           <span className="text-sm">LOGO</span>
-          WilloSphere
         </a>
       </div>
 

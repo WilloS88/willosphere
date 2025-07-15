@@ -4,9 +4,10 @@ import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
 import { useTranslations } from "use-intl";
 import WilloSphere from "../components/ui/Header";
+import Player from "../components/Player";
 
 export default function Home() {
-  const t = useTranslations("HomePage")
+  const t = useTranslations("HomePage");
 
   return (
     <>
@@ -17,6 +18,7 @@ export default function Home() {
           {t("title")}
         </p>
         <WilloSphere />
+        <Player />
       </main>
       <Footer />
     </>
