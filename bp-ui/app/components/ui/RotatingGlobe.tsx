@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import FloatingParticles from "../motion/FloatingParticles";
 
 export default function WilloSphere() {
   return (
@@ -117,46 +116,6 @@ export default function WilloSphere() {
           />
         </motion.svg>
       </motion.div>
-
-      {/* WilloSphere Title */}
-      {/* <motion.div
-        className="text-center"
-        initial={{ y: 50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
-      >
-        <motion.h1
-          className="text-6xl font-bold"
-          style={{
-            background: "linear-gradient(45deg, #ed2c5e, #253078, #ed2c5e)",
-            backgroundSize: "200% 200%",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-          }}
-          animate={{
-            backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-          }}
-          transition={{
-            duration: 3,
-            repeat: Number.POSITIVE_INFINITY,
-            ease: "linear",
-          }}
-        >
-          <span className="font-fear">WilloSphere</span>
-        </motion.h1>
-        <motion.p
-          className="mt-4 text-xl"
-          style={{ color: "#253078" }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1 }}
-        >
-          Open source, Open sound
-        </motion.p>
-      </motion.div> */}
-
-      <FloatingParticles />
     </div>
   );
 }

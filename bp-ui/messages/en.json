@@ -15,5 +15,31 @@
   },
   "HomePage": {
     "title": "Header"
+  },
+  "Validation": {
+    "notValidEmail": "Invalid email",
+    "maxEightChars": "At least 8 characters",
+    "atLeastOneDaySelected": "At least one day must be selected",
+    "atLeastOneValue": "At least one value must be selected",
+    "atLeastOneItem": "At least one item must be added",
+    "numberMustBePositive": "The number must be positive",
+    "passwordMismatch": "Password and confirmation do not match",
+    "usernameMustBeUnique": "The username must be unique",
+    "usernameMustExist": "The username must exist",
+    "itemFormatInvalid": "The item has an invalid format",
+    "requiredField": "This field is required",
+    "textTooLong": "The text is too long"
+  },
+  "Registration": {
+    "createAnAccount": "Create an account",
+    "registration": "Registration",
+    "email": "Email",
+    "password": "Password",
+    "displayedName": "Nickname",
+    "alreadyHaveAccount": "Already have an account?",
+    "login": "Login",
+    "signup": "Sign up",
+    "confirmPassword": "Confirm password"
   }
+
 }

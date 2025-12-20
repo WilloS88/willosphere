@@ -15,5 +15,32 @@
   },
   "HomePage": {
     "title": "Nadpis"
+  },
+  "Validation": {
+    "notValidEmail": "Neplatný email",
+    "maxEightChars": "Minimálně 8 znaků",
+    "atLeastOneDaySelected": "Alespoň jeden den musí být vybrán",
+    "atLeastOneValue": "Alespoň jedna hodnota musí být vybrána",
+    "atLeastOneItem": "Alespoň jedno zboží musí být přidáno",
+    "numberMustBePositive": "Číslo musí být kladné",
+    "passwordMismatch": "Heslo a kontrola hesla si neodpovídají",
+    "usernameMustBeUnique": "Uživatelské jméno musí být unikátní",
+    "usernameMustExist": "Uživatelské jméno musí existovat",
+    "itemFormatInvalid": "Položka je v chybném formátu",
+    "requiredField": "Položka musí být vyplněna",
+    "textTooLong": "Text je příliš dlouhý"
+  },
+  "Registration": {
+    "createAnAccount": "Vytvoř si účet",
+    "registration": "Registrace",
+    "email": "Email",
+    "password": "Heslo",
+    "displayedName": "Přezdívka",
+    "alreadyHaveAccount": "Už máš účet?",
+    "login": "Přihlásit se",
+    "signup": "Registrovat se",
+    "confirmPassword": "Potvrzení hesla"
   }
+
+
 }
