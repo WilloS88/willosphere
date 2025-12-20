@@ -1,0 +1,45 @@
+@baseUrl = http://localhost:3000
+@contentType = application/json
+
+
+
+http://{{baseUrl}}
+
+### Get all users 
+GET {{baseUrl}}/users
+
+### Create new user
+# @name createUser
+POST {{baseUrl}}/users
+Content-Type: {{contentType}}
+
+{
+  "email": "test@example2.com",
+  "password": "123",
+  "displayName": "Tester2",
+  "timezone": "Europe/Prague",
+  "language": "cs"
+}
+
+
+### get user by Id
+# @name findUserById
+GET {{baseUrl}}/users/6
+Content-Type: {{contentType}}
+
+
+### get user by email
+# @name findUserByEmail
+GET {{baseUrl}}/users?email=test%40example.com
+Content-Type: {{contentType}}
+
+
+### update user
+# @name updateUser
+PATCH {{baseUrl}}/users/6
+Content-Type: {{contentType}}
+
+{
+  "displayName": "Developer1",
+  "email": "email@haha.com"
+}
