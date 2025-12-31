@@ -6,14 +6,14 @@ import {
   MinLength,
 } from 'class-validator';
 
-export class CreateUserDto {
+export class SignupDto {
   @IsEmail()
   @IsNotEmpty()
   email!: string;
 
   @IsString()
   @IsNotEmpty()
-  @MinLength(3) // pro vyvojove ucely, pak zmenit na delsi!!
+  @MinLength(3)
   password!: string;
 
   @IsString()

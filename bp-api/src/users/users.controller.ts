@@ -22,14 +22,15 @@ export class UsersController {
   }
 
   @Get(':id')
-  async byId(@Param('id') id: string) {
+  async findById(@Param('id') id: string) {
     const u = await this.users.findById(+id);
     return plainToInstance(User, u);
   }
 
   @Get()
   async findByEmail(@Query('email') email?: string) {
-    if (email) return this.users.findByEmail(email);
+    if (email) 
+      return this.users.findByEmail(email);
     return this.users.findAll();
   }
 

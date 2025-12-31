@@ -6,6 +6,22 @@ CREATE DATABASE willosphere_db
   COLLATE utf8mb4_unicode_ci;
 USE willosphere_db;
 
+
+-- Refresh Tokens
+CREATE TABLE `refresh_tokens` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `token` char(36) NOT NULL,
+  `user_id` int NOT NULL,
+  `expires_at` datetime NOT NULL,
+  `revoked_at` datetime DEFAULT NULL,
+  `created_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_refresh_tokens_token` (`token`),
+  KEY `idx_refresh_tokens_user_id` (`user_id`),
+  CONSTRAINT `FK_user_refresh_token` FOREIGN KEY (`user_id`) 
+    REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
 -- Users
 CREATE TABLE users (
   id                INT AUTO_INCREMENT PRIMARY KEY,

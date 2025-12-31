@@ -5,6 +5,7 @@ import {
 import { Exclude } from 'class-transformer';
 import { UserRole } from './user-role.entity';
 import { ArtistProfile } from './artist-profile.entity';
+import { RefreshToken } from './refresh-token.entity';
 
 @Entity('users')
 @Index('uq_users_email', ['email'], { unique: true })
@@ -65,4 +66,7 @@ export class User {
 
   @OneToOne(() => ArtistProfile, (ap) => ap.user, { cascade: true })
   artistProfile?: ArtistProfile | null;
+
+  @OneToMany(() => RefreshToken, (rt) => rt.user, { cascade: true })
+  refreshTokens!: RefreshToken[];
 }
