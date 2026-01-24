@@ -1,23 +1,29 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import * as bcrypt from 'bcryptjs';
-import { v4 as uuidv4 } from 'uuid';
-import { UsersService } from '../users/users.service';
-import { RefreshToken } from '../entities/refresh-token.entity';
-import { SignupDto } from './dto/signup.dto';
+import { Injectable, UnauthorizedException } from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
+import * as bcrypt from "bcryptjs";
+import { v4 as uuidv4 } from "uuid";
+import { UsersService } from "../users/users.service";
+import { RefreshToken } from "../entities/refresh-token.entity";
+import { SignupDto } from "./dto/signup.dto";
+import { ConfigService } from "@nestjs/config";
 
-const REFRESH_TOKEN_TTL_DAYS = 30;
 
 @Injectable()
 export class AuthService {
+  private readonly refreshTokenTtlHours: number;
+
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
     @InjectRepository(RefreshToken)
     private readonly refreshRepo: Repository<RefreshToken>,
-  ) {}
+  ) {
+    this.refreshTokenTtlHours = this.configService.get<number>("REFRESH_TOKEN_TTL_HOURS", 3)
+
+  }
 
   async signup(dto: SignupDto) {
     const user    = await this.usersService.create(dto);
@@ -28,16 +34,16 @@ export class AuthService {
 
   async login(email: string, password: string) {
     const existing = await this.usersService.findByEmail(email);
-    if (!existing) 
-      throw new UnauthorizedException('Invalid credentials');
+    if(!existing)
+      throw new UnauthorizedException("Invalid credentials");
 
     const valid = await bcrypt.compare(password, existing.passwordHash);
-    if (!valid) 
-      throw new UnauthorizedException('Invalid credentials');
+    if(!valid)
+      throw new UnauthorizedException("Invalid credentials");
 
     const user = await this.usersService.findById(existing.id);
-    if (!user) 
-      throw new UnauthorizedException('Invalid credentials');
+    if(!user)
+      throw new UnauthorizedException("Invalid credentials");
 
     const tokens = await this.issueTokens(user.id, user.email);
 
@@ -49,19 +55,19 @@ export class AuthService {
       where: { token: refreshToken },
     });
 
-    if (!stored) 
-      throw new UnauthorizedException('Invalid refresh token');
+    if(!stored)
+      throw new UnauthorizedException("Invalid refresh token");
 
-    if (stored.expiresAt.getTime() <= Date.now()) {
+    if(stored.expiresAt.getTime() <= Date.now()) {
       await this.refreshRepo.delete({ id: stored.id });
-      throw new UnauthorizedException('Refresh token expired');
+      throw new UnauthorizedException("Refresh token expired");
     }
 
     await this.refreshRepo.delete({ id: stored.id });
 
     const user = await this.usersService.findById(stored.userId);
-    if (!user) 
-      throw new UnauthorizedException('Invalid refresh token');
+    if(!user)
+      throw new UnauthorizedException("Invalid refresh token");
 
     const tokens = await this.issueTokens(user.id, user.email);
 
@@ -73,7 +79,7 @@ export class AuthService {
     const refreshToken  = uuidv4();
     const expiresAt     = new Date();
     
-    expiresAt.setDate(expiresAt.getDate() + REFRESH_TOKEN_TTL_DAYS);
+    expiresAt.setDate(expiresAt.getHours() + this.refreshTokenTtlHours);
 
     await this.refreshRepo.save({
       token: refreshToken,

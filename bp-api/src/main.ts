@@ -1,10 +1,12 @@
-import { NestFactory, Reflector } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { ValidationPipe, ClassSerializerInterceptor } from '@nestjs/common';
-import { ConfigService } from 'node_modules/@nestjs/config';
+import { NestFactory, Reflector } from "@nestjs/core";
+import { AppModule } from "./app.module";
+import { ValidationPipe, ClassSerializerInterceptor } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app             = await NestFactory.create(AppModule);
+  const configService   = app.get(ConfigService);
+  const port            = configService.get<number>("PORT") ?? 3000;
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -14,10 +16,12 @@ async function bootstrap() {
     }),
   );
 
-  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
+  app.enableCors({
+      origin: configService.get<string>("FRONTEND_ORIGIN"),
+      credentials: true,
+  });
 
-  const configService = app.get(ConfigService);
-  const port          = configService.get<number>('PORT') ?? 3000;
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
   await app.listen(port);
 }

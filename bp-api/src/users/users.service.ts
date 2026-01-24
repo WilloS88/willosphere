@@ -2,15 +2,15 @@ import {
   Injectable,
   NotFoundException,
   ConflictException,
-} from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, DataSource } from 'typeorm';
-import * as bcrypt from 'bcryptjs';
-import { Role } from '../entities/role.enum';
-import { User } from '../entities/user.entity';
-import { UserRole } from '../entities/user-role.entity';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+} from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository, DataSource } from "typeorm";
+import * as bcrypt from "bcryptjs";
+import { Role } from "../entities/role.enum";
+import { User } from "../entities/user.entity";
+import { UserRole } from "../entities/user-role.entity";
+import { CreateUserDto } from "./dto/create-user.dto";
+import { UpdateUserDto } from "./dto/update-user.dto";
 
 @Injectable()
 export class UsersService {
@@ -25,15 +25,16 @@ export class UsersService {
     const exists = await this.usersRepo.findOne({
       where: { email: dto.email },
     });
-    if (exists) throw new ConflictException('Email already in use');
+    if(exists)
+      throw new ConflictException("Email already in use");
 
     const passwordHash = await bcrypt.hash(dto.password, 12);
     const user = this.usersRepo.create({
       email:            dto.email,
       passwordHash,
       displayName:      dto.displayName,
-      timezone:         dto.timezone ?? 'UTC',
-      language:         dto.language ?? 'en',
+      timezone:         dto.timezone ?? "UTC",
+      language:         dto.language ?? "en",
       profileImageUrl:  dto.profileImageUrl,
     });
 
@@ -46,45 +47,46 @@ export class UsersService {
 
       return trx.getRepository(User).findOneOrFail({
         where:      { id: saved.id },
-        relations:  ['roles', 'artistProfile'],
+        relations:  ["roles", "artistProfile"],
       });
     });
   }
 
   async findAll() {
     return this.usersRepo.find({
-      relations:  ['roles', 'artistProfile'],
-      order:      { id: 'ASC' },
+      relations:  ["roles", "artistProfile"],
+      order:      { id: "ASC" },
     });
   }
 
   findById(id: number) {
     return this.usersRepo.findOne({
       where:      { id },
-      relations:  ['roles', 'artistProfile'],
+      relations:  ["roles", "artistProfile"],
     });
   }
 
   findByEmail(email: string) {
     return this.usersRepo.findOne({
       where:    { email },
-      select:   ['id', 'email', 'passwordHash'],
+      select:   ["id", "email", "passwordHash"],
     });
   }
 
   async update(id: number, dto: UpdateUserDto) {
     const user = await this.usersRepo.findOne({ where: { id } });
-    if (!user) throw new NotFoundException();
+    if(!user)
+      throw new NotFoundException();
 
-    if (dto.password)
+    if(dto.password)
       user.passwordHash = await bcrypt.hash(dto.password, 12);
-    if (dto.displayName) 
+    if(dto.displayName)
       user.displayName  = dto.displayName;
-    if (dto.timezone) 
+    if(dto.timezone)
       user.timezone     = dto.timezone;
-    if (dto.language) 
+    if(dto.language)
       user.language     = dto.language;
-    if (dto.profileImageUrl !== undefined)
+    if(dto.profileImageUrl !== undefined)
       user.profileImageUrl = dto.profileImageUrl;
 
     await this.usersRepo.save(user);

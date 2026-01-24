@@ -1,5 +1,5 @@
 export enum Role {
-  LISTENER = 'listener',
-  ARTIST = 'artist',
-  ADMIN = 'admin',
+  LISTENER = "listener",
+  ARTIST = "artist",
+  ADMIN = "admin",
 }
