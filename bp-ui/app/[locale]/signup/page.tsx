@@ -1,14 +1,55 @@
 'use client';
 
 import Link from "next/link";
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from "next/navigation";
 import { useTranslations } from 'next-intl';
+import { useState } from "react";
+import type { FormEvent } from "react";
+import { useAuth } from "@/app/components/auth/AuthProvider";
+import { getRoleRedirect } from "@/lib/auth";
 
 
 export default function SignupPage() {
   const { locale }    = useParams<{ locale: string }>();
+  const router        = useRouter();
   const tRegistration = useTranslations('Registration');
-  const tValidation   = useTranslations('Validation');
+  const { signup }    = useAuth();
+
+  const [formState, setFormState] = useState({
+    displayName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setErrorMessage(null);
+
+    if(formState.password !== formState.confirmPassword) {
+      setErrorMessage("Passwords do not match.");
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const user = await signup({
+        email: formState.email,
+        password: formState.password,
+        displayName: formState.displayName,
+      });
+      router.push(getRoleRedirect(user, locale));
+    } catch(error) {
+      const message =
+        error instanceof Error ? error.message : "Signup failed. Try again.";
+      setErrorMessage(message);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-base-200">
@@ -18,68 +59,107 @@ export default function SignupPage() {
             {tRegistration('createAnAccount')}
           </h1>
 
-          <form className="mb-5">
+          <form className="mb-5 space-y-4" onSubmit={handleSubmit}>
             <div className="form-control">
               <fieldset className="fieldset">
                 <legend className="fieldset-legend">{tRegistration("displayedName")}</legend>
                 <input 
                   type="text" 
-                  className="input" 
-                  placeholder={`${tRegistration('displayedName').toLowerCase()} (${tValidation('requiredField')})`} 
+                  className="input w-full"
+                  placeholder={`${tRegistration('typeDisplayedName')}`}
+                  value={formState.displayName}
                   required
+                  onChange={(event) =>
+                    setFormState((prev) => ({
+                      ...prev,
+                      displayName: event.target.value,
+                    }))
+                  }
                 />
               </fieldset>
             </div>
 
             <div className="form-control">
               <fieldset className="fieldset">
-                <legend className="fieldset-legend">Email</legend>
+                <legend className="fieldset-legend">{tRegistration("email")}</legend>
                 <input 
                   type="email"
-                  className="input"
-                  placeholder="Type email"
+                  className="input w-full"
+                  autoComplete="username"
+                  placeholder={`${tRegistration('typeEmail')}`}
+                  value={formState.email}
                   required
+                  onChange={(event) =>
+                    setFormState((prev) => ({
+                      ...prev,
+                      email: event.target.value,
+                    }))
+                  }
                 />
               </fieldset>
             </div>
 
             <div className="form-control">
               <fieldset className="fieldset">
-                <legend className="fieldset-legend">Password</legend>
+                <legend className="fieldset-legend">{tRegistration("password")}</legend>
                 <input 
                   type="password" 
-                  className="input" 
-                  placeholder="Type password" 
-                  required  
+                  className="input w-full"
+                  autoComplete="new-password"
+                  placeholder={`${tRegistration('typePassword')}`}
+                  value={formState.password}
+                  required
+                  onChange={(event) =>
+                    setFormState((prev) => ({
+                      ...prev,
+                      password: event.target.value,
+                    }))
+                  }
                 />
               </fieldset>
             </div>
 
             <div className="form-control">
              <fieldset className="fieldset">
-                <legend className="fieldset-legend">Confirm password</legend>
+                <legend className="fieldset-legend">{tRegistration("confirmPassword")}</legend>
                 <input 
                   type="password" 
-                  className="input" 
-                  placeholder="Type the same password again" 
-                  required  
+                  className="input w-full"
+                  autoComplete="new-password"
+                  placeholder={`${tRegistration('typeConfirmPassword')}`}
+                  value={formState.confirmPassword}
+                  required
+                  onChange={(event) =>
+                    setFormState((prev) => ({
+                      ...prev,
+                      confirmPassword: event.target.value,
+                    }))
+                  }
                 />
               </fieldset>
             </div>
+
+            {errorMessage
+              ? (<div className="alert alert-error text-sm">{errorMessage}</div>)
+              : null}
+
+            <button className="btn btn-secondary w-full" disabled={isSubmitting}>
+              {isSubmitting ? "Creating account..." : tRegistration("signup")}
+            </button>
           </form>
 
-          <button className="btn btn-secondary w-full">
-            Sign up
-          </button>
-          <div className="divider">OR</div>
-          <p className="text-center text-sm">
-            Already have an account?
-            <Link 
+          <div className="divider">{tRegistration("or").toUpperCase()}</div>
+          <div className="flex items-center justify-center text-center text-sm gap-2">
+            <div>
+              {tRegistration("alreadyHaveAnAccount")}
+            </div>
+            <Link
               href={`/${locale}/login`}
-              className="link link-primary ml-1">
-              Login
+              className="link link-primary ml-1"
+            >
+              {tRegistration("login")}
             </Link>
-          </p>
+          </div>
         </div>
       </div>
     </div>

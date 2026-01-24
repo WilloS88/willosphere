@@ -3,7 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
 import { hasLocale } from "next-intl";
-import { routing } from "../i18n/routing";
+import { routing } from "@/app/i18n/routing";
+import { AuthProvider } from "@/app/components/auth/AuthProvider";
 import "../globals.css";
 
 const geistSans = Geist({
@@ -28,11 +29,11 @@ export default async function LocaleLayout({
   children: React.ReactNode;
   params: { locale: string };
 }) {
-  const { locale } = params;
 
-  if (!hasLocale(routing.locales, locale)) {
+  const { locale } = await params;
+
+  if (!hasLocale(routing.locales, locale))
     notFound();
-  }
 
   const messagesMap = {
     cs: () => import("@/messages/cs.json"),
@@ -47,7 +48,7 @@ export default async function LocaleLayout({
         className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col antialiased`}
       >
         <NextIntlClientProvider locale={locale} messages={messages}>
-          {children}
+          <AuthProvider>{children}</AuthProvider>
         </NextIntlClientProvider>
       </body>
     </html>

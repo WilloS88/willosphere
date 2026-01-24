@@ -1,10 +1,9 @@
 "use client";
 
-import { Navbar } from "../components/features/Navbar";
-import { Footer } from "../components/features/Footer";
+import { Navbar } from "@/app/components/features/Navbar";
+import { Footer } from "@/app/components/features/Footer";
+import Dither from "@/app/components/ui/dither/Dither";
 import { useTranslations } from "use-intl";
-import Dither from "../components/ui/dither/Dither";
-import GradientText from "../components/ui/gradient-text/GradientText";
 
 export default function Home() {
   const t = useTranslations("HomePage");

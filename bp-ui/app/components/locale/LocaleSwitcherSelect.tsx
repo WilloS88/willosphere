@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { Locale } from "next-intl";
 import { ChangeEvent, ReactNode, useTransition } from "react";
-import { usePathname, useRouter } from "../../i18n/navigation";
+import { usePathname, useRouter } from "@/app/i18n/navigation";
 
 type Props = {
   children: ReactNode;

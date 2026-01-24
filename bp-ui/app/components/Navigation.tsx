@@ -1,6 +1,6 @@
-import { useTranslations } from "next-intl";
-import LocaleSwitcher from "./locale/LocaleSwitcher";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
+import LocaleSwitcher from "@/app/components/locale/LocaleSwitcher";
 
 export default function Navigation() {
   const t = useTranslations("Navigation");

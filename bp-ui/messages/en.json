@@ -6,16 +6,27 @@
       "en": "English"
     }
   },
+
   "Navbar": {
     "title": "WilloSphere",
+    "search": "Search",
+    "signup": "Sign up",
+    "login": "Log in",
+    "logout": "Log out"
+  },
+
+  "Footer": {
+    "rights": "All rights reserved",
+    "twitter": "Twitter",
+    "youtube": "Youtube",
+    "facebook": "Facebook"
+  },
+
+  "HomePage": {
+    "title": "Header",
     "search": "Search"
   },
-  "Footer": {
-    "rights": "All rights reserved"
-  },
-  "HomePage": {
-    "title": "Header"
-  },
+
   "Validation": {
     "notValidEmail": "Invalid email",
     "maxEightChars": "At least 8 characters",
@@ -30,16 +41,33 @@
     "requiredField": "This field is required",
     "textTooLong": "The text is too long"
   },
+  
   "Registration": {
     "createAnAccount": "Create an account",
     "registration": "Registration",
     "email": "Email",
+    "typeEmail": "Type email",
     "password": "Password",
+    "typePassword": "Type password",
     "displayedName": "Nickname",
+    "typeDisplayedName": "Type nickname",
     "alreadyHaveAccount": "Already have an account?",
+    "or": "Or",
     "login": "Login",
     "signup": "Sign up",
-    "confirmPassword": "Confirm password"
-  }
+    "confirmPassword": "Confirm password",
+    "typeConfirmPassword": "Type the same password again",
+    "alreadyHaveAnAccount": "Already have an account?"
+  },
 
+  "Login": {
+    "header": "Log in to account",
+    "email": "Email",
+    "emailExample": "example@email.com",
+    "password": "Password",
+    "login": "Login",
+    "or": "Or",
+    "dontHaveAnAccount": "Don't have an account yet?",
+    "signup": "Zaregistrovat se"
+  }
 }
