@@ -6,12 +6,14 @@ import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useAuth } from "@/app/components/auth/AuthProvider";
 import LocaleSwitcher from "@/app/components/locale/LocaleSwitcher";
+import { Shield, LogIn, LogOut, UserPlus } from "lucide-react";
 
 export const Navbar = () => {
+  const t                   = useTranslations("Navbar");
   const { locale }          = useParams<{ locale: string }>();
   const { session, logout } = useAuth();
   const userName            = session?.user.displayName ?? "Guest";
-  const tNavbar             = useTranslations("Navbar");
+  const isAdmin             = session?.user.roles?.some((r) => r === "admin");
 
   return (
     <div className="navbar bg-base-100 px-4 shadow-sm">
@@ -24,7 +26,7 @@ export const Navbar = () => {
       <div className="navbar-center">
         <input
           type="text"
-          placeholder={`${tNavbar("search")}`}
+          placeholder={`${t("search")}`}
           className="input input-bordered w-[350px]"
         />
       </div>
@@ -49,19 +51,39 @@ export const Navbar = () => {
             tabIndex={-1}
             className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
           >
-            {session ? (
+            {
+            isAdmin
+              ? (
+              <li>
+                <Link href={`/${locale}/admin`}>
+                  <Shield size={20} />
+                  {t("adminDashboard")}
+                </Link>
+              </li>)
+              : null
+            }
+            {session
+              ? (
               <li>
                 <button type="button" onClick={logout}>
-                  {tNavbar("logout")}
+                  <LogOut size={20} />
+                  {t("logout")}
                 </button>
               </li>
             ) : (
               <>
                 <li>
-                  <Link href={`/${locale}/signup`}>{tNavbar("signup")}</Link>
+                  <Link href={`/${locale}/signup`}>
+                    <UserPlus size={20} />
+                    {t("signup")}
+                  </Link>
+
                 </li>
                 <li>
-                  <Link href={`/${locale}/login`}>{tNavbar("login")}</Link>
+                  <Link href={`/${locale}/login`}>
+                    <LogIn size={20} />
+                    {t("login")}
+                  </Link>
                 </li>
               </>
             )}

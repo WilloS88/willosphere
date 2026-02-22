@@ -12,7 +12,8 @@
     "search": "Hledat",
     "signup": "Zaregistrovat se",
     "login": "Přihlásit se",
-    "logout": "Odhlásit se"
+    "logout": "Odhlásit se",
+    "adminDashboard": "Admin"
   },
 
   "Footer": {
@@ -43,6 +44,7 @@
   },
   
   "Registration": {
+    "home": "Domů",
     "createAnAccount": "Vytvořit si účet",
     "registration": "Registrace",
     "email": "Email",
@@ -61,6 +63,7 @@
   },
 
   "Login": {
+    "home": "Domů",
     "header": "Přihlásit se na účet",
     "email": "Email",
     "emailExample": "jmeno@email.com",
@@ -69,5 +72,44 @@
     "or": "Nebo",
     "dontHaveAnAccount": "Nemáš ještě účet?",
     "signup": "Zaregistrovat se"
+  },
+
+  "Admin": {
+    "welcome": "Víteje",
+    "header": "WilloSphere Admin Rozhraní",
+    "operations": "Operace",
+    "administration": "Administrace",
+    "home": "Domů",
+    "refresh": "Obnovit",
+    "albums": "Alba",
+    "playlists": "Playlisty",
+    "products": "Produkty",
+    "orders": "Objednávky",
+    "tracks": "Skladby",
+
+    "save": "Uložit",
+    "close": "Zavřít",
+    "edit": "Upravit",
+    "create": "Vytvořit",
+    "delete": "Smazat",
+
+    "id": "Id",
+    "email": "Email",
+    "nickname": "Přezdívka",
+    "password": "Heslo",
+    "newPassword": "Nové heslo (volitelné)",
+    "role": "Role",
+    "timezone": "Časové pásmo",
+    "language": "Jazyk",
+    "profileImageUrl": "Url profilového obrázku",
+    "listener": "Posluchač",
+    "artist": "Umělec",
+    "admin": "Administrátor",
+    "users": "Uživatelé",
+    "deleteUserQuestion": "Smazat uživatele?",
+    "newUser": "Nový uživatel",
+    "detailUser": "Detail uživatele",
+    "editUser": "Editace uživatele"
+
   }
 }

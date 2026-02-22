@@ -1,23 +1,24 @@
 "use client";
 
 import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import type { FormEvent } from "react";
 import { useAuth } from "@/app/components/auth/AuthProvider";
 import { getRoleRedirect } from "@/lib/auth";
-import { useTranslations } from "next-intl";
 
 export default function LoginPage() {
+  const t                               = useTranslations("Login");
   const { locale }                      = useParams<{ locale: string }>();
-  const tLogin                          = useTranslations("Login");
   const router                          = useRouter();
   const { login }                       = useAuth();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [formState, setFormState] = useState({
-    email: "",
+    email:    "",
     password: "",
   });
 
@@ -42,22 +43,29 @@ export default function LoginPage() {
     <div className="bg-base-200 flex min-h-screen items-center justify-center">
       <div className="card bg-base-100 w-full max-w-md shadow-xl">
         <div className="card-body">
-          <h1 className="mb-6 text-center text-2xl font-bold">
-            {tLogin("header")}
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-sm opacity-80 hover:opacity-100"
+          >
+            <ArrowLeft size={16} />
+            {t("home")}
+          </Link>
+          <h1 className="mb-6 mt-2 text-center text-2xl font-bold">
+            {t("header")}
           </h1>
 
           <form className="space-y-4" onSubmit={handleSubmit}>
             <div className="form-control">
               <div className="mb-2">
                 <label className="label">
-                  <span className="label-text">Email</span>
+                  <span className="label-text">{t("email")}</span>
                 </label>
               </div>
               <div className="">
                 <input
                   type="email"
                   className="input input-bordered w-full"
-                  placeholder={`${tLogin("emailExample")}`}
+                  placeholder={`${t("emailExample")}`}
                   autoComplete="username"
                   value={formState.email}
                   required
@@ -74,7 +82,7 @@ export default function LoginPage() {
             <div className="form-control">
               <div className="mb-2">
                 <label className="label">
-                  <span className="label-text">{tLogin("password")}</span>
+                  <span className="label-text">{t("password")}</span>
                 </label>
               </div>
               <input
@@ -98,16 +106,16 @@ export default function LoginPage() {
             ) : null}
 
             <button className="btn btn-primary w-full" disabled={isSubmitting}>
-              {isSubmitting ? "Logging in..." : tLogin("login")}
+              {isSubmitting ? "Logging in..." : t("login")}
             </button>
           </form>
 
-          <div className="divider">{tLogin("or").toUpperCase()}</div>
+          <div className="divider">{t("or").toUpperCase()}</div>
 
           <div className="flex items-center justify-center gap-2 text-sm">
-            <div>{tLogin("dontHaveAnAccount")}</div>
+            <div>{t("dontHaveAnAccount")}</div>
             <Link href={`/${locale}/signup`} className="link link-primary ml-1">
-              {tLogin("signup")}
+              {t("signup")}
             </Link>
           </div>
         </div>

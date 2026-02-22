@@ -12,7 +12,8 @@
     "search": "Search",
     "signup": "Sign up",
     "login": "Log in",
-    "logout": "Log out"
+    "logout": "Log out",
+    "adminDashboard": "Admin"
   },
 
   "Footer": {
@@ -43,6 +44,7 @@
   },
   
   "Registration": {
+    "home": "Home",
     "createAnAccount": "Create an account",
     "registration": "Registration",
     "email": "Email",
@@ -61,6 +63,7 @@
   },
 
   "Login": {
+    "home": "Home",
     "header": "Log in to account",
     "email": "Email",
     "emailExample": "example@email.com",
@@ -68,6 +71,45 @@
     "login": "Login",
     "or": "Or",
     "dontHaveAnAccount": "Don't have an account yet?",
-    "signup": "Zaregistrovat se"
+    "signup": "Sign up"
+  },
+
+  "Admin": {
+    "welcome": "Welcome",
+    "header": "WilloSphere Admin Dashboard",
+    "operations": "Operations",
+    "administration": "Administration",
+    "home": "Go Home",
+    "refresh": "Refresh",
+    "albums": "Albums",
+    "playlists": "Playlists",
+    "products": "Products",
+    "orders": "Orders",
+    "tracks": "Tracks",
+
+    "save": "Save",
+    "close": "Close",
+    "edit": "Edit",
+    "create": "Create",
+    "delete": "Delete",
+
+    "id": "Id",
+    "email": "Email",
+    "nickname": "Nickname",
+    "password": "Password",
+    "newPassword": "New password (optional)",
+    "timezone": "Timezone",
+    "language": "Language",
+    "profileImageUrl": "Profile Image Url",
+    "role": "Role",
+    "listener": "Listener",
+    "artist": "Artist",
+    "admin": "Administrator",
+    "users": "Users",
+    "deleteUserQuestion": "Delete user?",
+    "newUser": "New user",
+    "detailUser": "Detail of user",
+    "editUser": "Edit user"
+
   }
 }

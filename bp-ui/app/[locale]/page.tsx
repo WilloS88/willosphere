@@ -1,9 +1,9 @@
 "use client";
 
+import { useTranslations } from "use-intl";
 import { Navbar } from "@/app/components/features/Navbar";
 import { Footer } from "@/app/components/features/Footer";
 import Dither from "@/app/components/ui/dither/Dither";
-import { useTranslations } from "use-intl";
 
 export default function Home() {
   const t = useTranslations("HomePage");
@@ -32,7 +32,6 @@ export default function Home() {
           </p>
           <p className="font-vcr text-fearyellow text-center text-xl font-bold mb-4 p-3 rounded bg-darkblue">
             Welcome to my streaming platform <br/>
-            asdasdasdasd
           </p>
           {/* 
           <GradientText
@@ -47,6 +46,7 @@ export default function Home() {
         </div>
       </div>
       <main className="flex min-h-screen flex-col">
+
       </main>
       <Footer />
     </>

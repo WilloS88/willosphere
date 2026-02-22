@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Twitter, Facebook, Youtube } from "lucide-react";
+import { Sun, Moon } from 'lucide-react';
 import { useTranslations } from "next-intl";
 
 export const Footer = () => {
-  const tFooter = useTranslations("Footer");
+  const t = useTranslations("Footer");
   
   return (
     <footer className="footer items-center sm:footer-horizontal bg-neutral text-neutral-content  p-4">
@@ -20,32 +20,25 @@ export const Footer = () => {
       <nav className="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
         <Link
           href="/"
-          title={`${tFooter("twitter")}`}
+          title={`${t("twitter")}`}
         >
-          <Twitter
-            color="#f4e526"
-            size={30}
-          />
         </Link>
         <Link
           href="/"
-          title={`${tFooter("youtube")}`}
+          title={`${t("youtube")}`}
         >
-          <Youtube
-            color="#f4e526"
-            size={30}
-          />
         </Link>
         <Link
           href="/"
-          title={`${tFooter("facebook")}`}
+          title={`${t("facebook")}`}
         >
-          <Facebook
-            color="#f4e526"
-            size={30}
-          />
         </Link>
       </nav>
+      <label className="flex cursor-pointer gap-2">
+        <Sun />
+        <input type="checkbox" value="synthwave" className="toggle theme-controller" />
+        <Moon />
+      </label>
     </footer>
   );
 };

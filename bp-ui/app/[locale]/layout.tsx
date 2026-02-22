@@ -43,7 +43,7 @@ export default async function LocaleLayout({
   const messages = (await messagesMap[locale as "cs" | "en"]()).default;
 
   return (
-    <html lang={locale}>
+    <html lang={locale} data-theme="light">
       <body
         className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col antialiased`}
       >

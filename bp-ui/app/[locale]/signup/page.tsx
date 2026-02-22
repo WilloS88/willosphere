@@ -1,6 +1,7 @@
 'use client';
 
 import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useTranslations } from 'next-intl';
 import { useState } from "react";
@@ -10,16 +11,16 @@ import { getRoleRedirect } from "@/lib/auth";
 
 
 export default function SignupPage() {
+  const t             = useTranslations("Registration");
   const { locale }    = useParams<{ locale: string }>();
   const router        = useRouter();
-  const tRegistration = useTranslations('Registration');
   const { signup }    = useAuth();
 
   const [formState, setFormState] = useState({
-    displayName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
+    displayName:      "",
+    email:            "",
+    password:         "",
+    confirmPassword:  "",
   });
   
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -37,9 +38,9 @@ export default function SignupPage() {
     setIsSubmitting(true);
     try {
       const user = await signup({
-        email: formState.email,
-        password: formState.password,
-        displayName: formState.displayName,
+        email:        formState.email,
+        password:     formState.password,
+        displayName:  formState.displayName,
       });
       router.push(getRoleRedirect(user, locale));
     } catch(error) {
@@ -55,18 +56,25 @@ export default function SignupPage() {
     <div className="min-h-screen flex items-center justify-center bg-base-200">
       <div className="card w-full max-w-md shadow-xl bg-base-100">
         <div className="card-body">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-sm opacity-80 hover:opacity-100"
+          >
+            <ArrowLeft size={16} />
+            {t("home")}
+          </Link>
           <h1 className="text-2xl font-bold text-center mb-6">
-            {tRegistration('createAnAccount')}
+            {t("createAnAccount")}
           </h1>
 
           <form className="mb-5 space-y-4" onSubmit={handleSubmit}>
             <div className="form-control">
               <fieldset className="fieldset">
-                <legend className="fieldset-legend">{tRegistration("displayedName")}</legend>
-                <input 
-                  type="text" 
+                <legend className="fieldset-legend">{t("displayedName")}</legend>
+                <input
+                  type="text"
                   className="input w-full"
-                  placeholder={`${tRegistration('typeDisplayedName')}`}
+                  placeholder={`${t("typeDisplayedName")}`}
                   value={formState.displayName}
                   required
                   onChange={(event) =>
@@ -81,12 +89,12 @@ export default function SignupPage() {
 
             <div className="form-control">
               <fieldset className="fieldset">
-                <legend className="fieldset-legend">{tRegistration("email")}</legend>
-                <input 
+                <legend className="fieldset-legend">{t("email")}</legend>
+                <input
                   type="email"
                   className="input w-full"
                   autoComplete="username"
-                  placeholder={`${tRegistration('typeEmail')}`}
+                  placeholder={`${t("typeEmail")}`}
                   value={formState.email}
                   required
                   onChange={(event) =>
@@ -101,12 +109,12 @@ export default function SignupPage() {
 
             <div className="form-control">
               <fieldset className="fieldset">
-                <legend className="fieldset-legend">{tRegistration("password")}</legend>
-                <input 
-                  type="password" 
+                <legend className="fieldset-legend">{t("password")}</legend>
+                <input
+                  type="password"
                   className="input w-full"
                   autoComplete="new-password"
-                  placeholder={`${tRegistration('typePassword')}`}
+                  placeholder={`${t('typePassword')}`}
                   value={formState.password}
                   required
                   onChange={(event) =>
@@ -121,12 +129,12 @@ export default function SignupPage() {
 
             <div className="form-control">
              <fieldset className="fieldset">
-                <legend className="fieldset-legend">{tRegistration("confirmPassword")}</legend>
-                <input 
-                  type="password" 
+                <legend className="fieldset-legend">{t("confirmPassword")}</legend>
+                <input
+                  type="password"
                   className="input w-full"
                   autoComplete="new-password"
-                  placeholder={`${tRegistration('typeConfirmPassword')}`}
+                  placeholder={`${t('typeConfirmPassword')}`}
                   value={formState.confirmPassword}
                   required
                   onChange={(event) =>
@@ -144,20 +152,20 @@ export default function SignupPage() {
               : null}
 
             <button className="btn btn-secondary w-full" disabled={isSubmitting}>
-              {isSubmitting ? "Creating account..." : tRegistration("signup")}
+              {isSubmitting ? "Creating account..." : t("signup")}
             </button>
           </form>
 
-          <div className="divider">{tRegistration("or").toUpperCase()}</div>
+          <div className="divider">{t("or").toUpperCase()}</div>
           <div className="flex items-center justify-center text-center text-sm gap-2">
             <div>
-              {tRegistration("alreadyHaveAnAccount")}
+              {t("alreadyHaveAnAccount")}
             </div>
             <Link
               href={`/${locale}/login`}
               className="link link-primary ml-1"
             >
-              {tRegistration("login")}
+              {t("login")}
             </Link>
           </div>
         </div>
