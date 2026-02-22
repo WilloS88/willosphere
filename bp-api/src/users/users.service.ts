@@ -16,6 +16,7 @@ import { UpdateUserDto } from "./dto/update-user.dto";
 export class UsersService {
   constructor(
     @InjectRepository(User) private readonly usersRepo: Repository<User>,
+    @InjectRepository(UserRole) private readonly userRoleRepo: Repository<UserRole>,
     @InjectDataSource() private readonly ds: DataSource,
   ) {}
 
@@ -35,6 +36,13 @@ export class UsersService {
     });
     if (!u) throw new NotFoundException("User not found");
     return u;
+  }
+
+  findByEmail(email: string) {
+    return this.usersRepo.findOne({
+      where:    { email },
+      select:   ["id", "email", "passwordHash"],
+    });
   }
 
   async create(dto: CreateUserDto): Promise<User> {
@@ -78,9 +86,7 @@ export class UsersService {
       const roleRepo = trx.getRepository(UserRole);
 
       const user = await userRepo.findOne({ where: { id } });
-
-      if(!user)
-        throw new NotFoundException("User not found");
+      if (!user) throw new NotFoundException("User not found");
 
       if(dto.password)
         user.passwordHash     = await bcrypt.hash(dto.password, 12);
@@ -110,7 +116,6 @@ export class UsersService {
   async remove(id: number) {
     await this.ds.transaction(async (trx) => {
       const exists = await trx.getRepository(User).findOne({ where: { id } });
-
       if(!exists)
         throw new NotFoundException("User not found");
 
