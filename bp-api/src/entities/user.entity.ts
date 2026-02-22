@@ -28,13 +28,6 @@ export class User {
   @Column({ name: "display_name", type: "varchar", length: 255 })
   displayName!: string;
 
-  @Column({
-    name: "signup_date",
-    type: "datetime",
-    default: () => "CURRENT_TIMESTAMP",
-  })
-  signupDate!: Date;
-
   @Column({ type: "varchar", length: 255, default: "UTC" })
   timezone!: string;
 
@@ -59,7 +52,6 @@ export class User {
   })
   updatedAt!: Date;
 
-  // --- relations ---
   @OneToMany(() => UserRole, (ur) => ur.user, { cascade: true })
   roles!: UserRole[];
 

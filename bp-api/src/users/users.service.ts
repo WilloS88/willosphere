@@ -3,7 +3,7 @@ import {
   NotFoundException,
   ConflictException,
 } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
+import { InjectRepository, InjectDataSource } from "@nestjs/typeorm";
 import { Repository, DataSource } from "typeorm";
 import * as bcrypt from "bcryptjs";
 import { Role } from "../entities/role.enum";
@@ -16,10 +16,26 @@ import { UpdateUserDto } from "./dto/update-user.dto";
 export class UsersService {
   constructor(
     @InjectRepository(User) private readonly usersRepo: Repository<User>,
-    @InjectRepository(UserRole)
-    private readonly rolesRepo: Repository<UserRole>,
-    private readonly ds: DataSource,
+    @InjectDataSource() private readonly ds: DataSource,
   ) {}
+
+  async findAllList(): Promise<User[]> {
+    return this.usersRepo
+        .createQueryBuilder("u")
+        .leftJoinAndSelect("u.roles", "ur")
+        .select(["u.id", "u.email", "u.displayName", "ur.role"])
+        .orderBy("u.id", "ASC")
+        .getMany();
+  }
+
+  async findById(id: number): Promise<User> {
+    const u = await this.usersRepo.findOne({
+      where: { id },
+      relations: ["roles", "artistProfile"],
+    });
+    if (!u) throw new NotFoundException("User not found");
+    return u;
+  }
 
   async create(dto: CreateUserDto): Promise<User> {
     const exists = await this.usersRepo.findOne({
@@ -43,7 +59,10 @@ export class UsersService {
       
       await trx
         .getRepository(UserRole)
-        .save({ userId: saved.id, role: Role.LISTENER });
+        .save({
+          userId: saved.id,
+          role: dto.role ?? Role.LISTENER,
+        });
 
       return trx.getRepository(User).findOneOrFail({
         where:      { id: saved.id },
@@ -52,57 +71,51 @@ export class UsersService {
     });
   }
 
-  async findAll() {
-    return this.usersRepo.find({
-      relations:  ["roles", "artistProfile"],
-      order:      { id: "ASC" },
-    });
-  }
-
-  findById(id: number) {
-    return this.usersRepo.findOne({
-      where:      { id },
-      relations:  ["roles", "artistProfile"],
-    });
-  }
-
-  findByEmail(email: string) {
-    return this.usersRepo.findOne({
-      where:    { email },
-      select:   ["id", "email", "passwordHash"],
-    });
-  }
-
   async update(id: number, dto: UpdateUserDto) {
-    const user = await this.usersRepo.findOne({ where: { id } });
-    if(!user)
-      throw new NotFoundException();
+    console.log("UPDATE DTO", dto);
+    return this.ds.transaction(async (trx) => {
+      const userRepo = trx.getRepository(User);
+      const roleRepo = trx.getRepository(UserRole);
 
-    if(dto.password)
-      user.passwordHash = await bcrypt.hash(dto.password, 12);
-    if(dto.displayName)
-      user.displayName  = dto.displayName;
-    if(dto.timezone)
-      user.timezone     = dto.timezone;
-    if(dto.language)
-      user.language     = dto.language;
-    if(dto.profileImageUrl !== undefined)
-      user.profileImageUrl = dto.profileImageUrl;
+      const user = await userRepo.findOne({ where: { id } });
 
-    await this.usersRepo.save(user);
+      if(!user)
+        throw new NotFoundException("User not found");
 
-    return this.findById(id);
+      if(dto.password)
+        user.passwordHash     = await bcrypt.hash(dto.password, 12);
+      if(dto.displayName)
+        user.displayName      = dto.displayName;
+      if(dto.timezone)
+        user.timezone         = dto.timezone;
+      if(dto.language)
+        user.language         = dto.language;
+      if(dto.profileImageUrl !== undefined)
+        user.profileImageUrl  = dto.profileImageUrl;
+
+      await userRepo.save(user);
+
+      if(dto.role) {
+        await roleRepo.delete({ userId: id });
+        await roleRepo.save({ userId: id, role: dto.role });
+      }
+
+      return userRepo.findOneOrFail({
+        where: { id },
+        relations: ["roles", "artistProfile"],
+      });
+    });
   }
 
-  async addRole(userId: number, role: Role) {
-    await this.rolesRepo.save({ userId, role });
+  async remove(id: number) {
+    await this.ds.transaction(async (trx) => {
+      const exists = await trx.getRepository(User).findOne({ where: { id } });
 
-    return this.findById(userId);
-  }
+      if(!exists)
+        throw new NotFoundException("User not found");
 
-  async removeRole(userId: number, role: Role) {
-    await this.rolesRepo.delete({ userId, role });
-    
-    return this.findById(userId);
+      await trx.getRepository(UserRole).delete({ userId: id });
+      await trx.getRepository(User).delete({ id });
+    });
   }
 }

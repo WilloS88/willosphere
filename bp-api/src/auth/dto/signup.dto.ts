@@ -1,10 +1,11 @@
 import {
-  IsEmail,
+  IsEmail, IsEnum,
   IsNotEmpty,
   IsOptional,
   IsString,
-  MinLength,
+  MinLength, ValidateIf,
 } from "class-validator";
+import { Role } from "../../entities/role.enum";
 
 export class SignupDto {
   @IsEmail()
@@ -29,6 +30,10 @@ export class SignupDto {
   language?: string;
 
   @IsOptional()
+  @ValidateIf((_, v) => v !== null)
   @IsString()
-  profileImageUrl?: string;
+  profileImageUrl?: string | null;
+
+  @IsEnum(Role)
+  role?: Role;
 }

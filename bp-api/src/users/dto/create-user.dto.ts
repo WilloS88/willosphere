@@ -1,10 +1,13 @@
 import {
   IsEmail,
+  IsEnum,
   IsNotEmpty,
   IsOptional,
   IsString,
   MinLength,
+  ValidateIf
 } from "class-validator";
+import { Role } from "../../entities/role.enum";
 
 export class CreateUserDto {
   @IsEmail()
@@ -29,6 +32,10 @@ export class CreateUserDto {
   language?: string;
 
   @IsOptional()
+  @ValidateIf((_, v) => v !== null)
   @IsString()
-  profileImageUrl?: string;
+  profileImageUrl?: string | null;
+
+  @IsEnum(Role)
+  role?: Role;
 }
