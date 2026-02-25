@@ -75,11 +75,14 @@ export class AuthService {
   }
 
   private async issueTokens(userId: number, email: string) {
-    const accessToken   = await this.jwtService.signAsync({ sub: userId, email });
+    const user    = await this.usersService.findById(userId);
+    const roles   = (user?.roles ?? []).map(r => r.role);
+
+    const accessToken   = await this.jwtService.signAsync({ sub: userId, email, roles });
     const refreshToken  = uuidv4();
     const expiresAt     = new Date();
     
-    expiresAt.setDate(expiresAt.getHours() + this.refreshTokenTtlHours);
+    expiresAt.setHours(expiresAt.getHours() + this.refreshTokenTtlHours);
 
     await this.refreshRepo.save({
       token: refreshToken,
