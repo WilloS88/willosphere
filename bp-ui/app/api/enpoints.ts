@@ -1,14 +1,14 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_NEST_API_URL;
-
 export const API_ENDPOINTS = {
   auth: {
-    signup:   `${API_BASE_URL}/auth/signup`,
-    login:    `${API_BASE_URL}/auth/login`,
-    logout:   `${API_BASE_URL}/auth/logout`,
+    signup:   "/auth/signup",
+    login:    "/auth/login",
+    logout:   "/auth/logout",
+    refresh:  "/auth/refresh",
+    me:       "/auth/me",
   },
 
   admin: {
-    users:    `${API_BASE_URL}/users`,
-    userDetail: (id: number) => `${API_BASE_URL}/users/${id}`,
-  }
+    users:      "/admin/users",
+    userDetail: (id: number) => `/admin/users/${id}`,
+  },
 } as const;

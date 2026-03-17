@@ -14,9 +14,7 @@ export type AuthUser = {
 };
 
 export type AuthSession = {
-  user:         AuthUser;
-  accessToken:  string;
-  refreshToken: string;
+  user: AuthUser;
 };
 
 export const getUserRoleNames = (roles: AuthUser["roles"] | undefined): Role[] => {
