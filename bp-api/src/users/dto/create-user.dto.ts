@@ -36,6 +36,7 @@ export class CreateUserDto {
   @IsString()
   profileImageUrl?: string | null;
 
+  @IsOptional()
   @IsEnum(Role)
   role?: Role;
 }
