@@ -166,7 +166,8 @@ function Slider({ defaultValue, startingValue, maxValue, isStepped, stepSize, le
 }
 
 function decay(value, max) {
-  if (max === 0) return 0;
+  if(max === 0)
+    return 0;
   const entry = value / max;
   return 2 * (1 / (1 + Math.exp(-entry)) - 0.5) * max;
 }

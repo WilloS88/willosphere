@@ -175,7 +175,7 @@ export function PlayerBar() {
 
   return (
     <div
-      className={`h-[110px] min-h-[90px] flex items-center gap-4 px-4 sm:px-8 z-50 border-t ${
+      className={`h-[130px] min-h-[100px] flex items-center gap-4 px-5 sm:px-8 z-50 border-t ${
         isDark
           ? "from-vhs-surface to-darkblue border-royalblue/40 bg-gradient-to-b"
           : "border-[#c4b8a8]/40 bg-gradient-to-b from-[#ede7db] to-[#e5dfd3]"
