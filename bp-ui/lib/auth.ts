@@ -33,7 +33,7 @@ export const hasRole = (user: AuthUser | null | undefined, role: Role) =>
 
 export const getRoleRedirect = (user: AuthUser | null, locale: string) => {
   if(!user)
-    return `/${locale}`;
+    return `/${locale}/home`;
 
   const roles = getUserRoleNames(user.roles);
 

@@ -1,33 +1,4 @@
 {
-  "LocaleSwitcher": {
-    "label": "Jazyk",
-    "locales": {
-      "cs": "Čeština",
-      "en": "Angličtina"
-    }
-  },
-
-  "Navbar": {
-    "title": "WilloSphere",
-    "search": "Hledat",
-    "signup": "Zaregistrovat se",
-    "login": "Přihlásit se",
-    "logout": "Odhlásit se",
-    "adminDashboard": "Admin"
-  },
-
-  "Footer": {
-    "rights": "Všechna práva vyhrazena",
-    "twitter": "Twitter",
-    "youtube": "Youtube",
-    "facebook": "Facebook"
-  },
-
-  "HomePage": {
-    "title": "Nadpis",
-    "search": "Hledat"
-  },
-
   "Validation": {
     "notValidEmail": "Neplatný email",
     "maxEightChars": "Minimálně 8 znaků",
@@ -40,9 +11,124 @@
     "usernameMustExist": "Uživatelské jméno musí existovat",
     "itemFormatInvalid": "Položka je v chybném formátu",
     "requiredField": "Položka musí být vyplněna",
-    "textTooLong": "Text je příliš dlouhý"
+    "textTooLong": "Text je příliš dlouhý",
+    "displayNameHint": "Musí mít 3 až 30 znaků (pouze písmena, čísla nebo pomlčka)",
+    "emailHint": "Zadejte platnou e-mailovou adresu",
+    "passwordHint": "Musí mít více než 8 znaků, včetně alespoň jednoho čísla, jednoho malého písmene a jednoho velkého písmene",
+    "passwordsDoNotMatch": "Hesla se neshodují",
+    "signupFailed": "Registrace selhala. Zkuste znovu."
   },
-  
+
+  "LocaleSwitcher": {
+    "label": "Jazyk",
+    "locales": {
+      "cs": "Čeština",
+      "en": "Angličtina"
+    }
+  },
+
+  "Navbar": {
+    "notLoggedIn": "Nepřihlášen",
+    "title": "WilloSphere",
+    "search": "Hledat",
+    "signup": "Zaregistrovat se",
+    "createArtist": "Vytvořit profil umělce",
+    "login": "Přihlásit se",
+    "logout": "Odhlásit se",
+    "adminDashboard": "Admin",
+    "application": "Aplikace"
+  },
+
+  "Footer": {
+    "rights": "Všechna práva vyhrazena",
+    "twitter": "Twitter",
+    "youtube": "Youtube",
+    "facebook": "Facebook",
+    "company": "Firma",
+    "aboutUs": "O nás",
+    "contact": "Kontakt"
+  },
+
+  "Landing": {
+    "heroTagline": "PROZKOUMAT VIBE",
+    "title": "WilloSphere",
+    "subtitle": "Streamování Hudby Nové Generace",
+    "welcome": "Vítej v ultimátní zkušenosti streamování",
+    "startListening": "ZAČÍT POSLOUCHAT",
+    "signUpFree": "REGISTRACE ZDARMA",
+    "featuredLabel": "DOPORUČENÉ",
+    "nowTrending": "Právě Trendy",
+    "featuredDesc": "Objevuj horké skladby a alba právě teď",
+    "listenNow": "POSLOUCHAT TEĎ",
+    "newRelease": "NOVÉ",
+    "streamTitle": "Neomezené Streamování",
+    "streamDesc": "Přístup k milionům skladeb v nejvyšší kvalitě. Bez reklam, bez přerušení—jen čistá hudební blaženost.",
+    "discoverTitle": "Objevuj Novou Hudbu",
+    "discoverDesc": "Personalizovaná doporučení poháněná AI. Najdi svého oblíbeného umělce nebo znovu objev zapomenuté skvosty.",
+    "supportTitle": "Podporuj Umělce",
+    "supportDesc": "Každý stream jde přímo umělcům. Věříme v férovou kompenzaci a transparentnost.",
+    "genresLabel": "PRŮZKUMUJ ŽÁNRY",
+    "genresDesc": "Najdi svůj zvuk mezi stovkami pečlivě vybraných kategorií",
+    "statsLabel": "PODLE ČÍSEL",
+    "statsArtists": "UMĚLCI",
+    "statsArtistsValue": "2.5M",
+    "statsArtistsDesc": "Nezávislých a vydavatelských umělců",
+    "statsTracks": "SKLADBY",
+    "statsTracksValue": "85M",
+    "statsTracksDesc": "Skladeb dostupných ke streamování",
+    "statsListeners": "POSLUCHAČI",
+    "statsListenersValue": "150K",
+    "statsListenersDesc": "Aktivních měsíčních posluchačů",
+    "statsPlays": "CELKEM PŘEHRÁVEK",
+    "statsPlaysValue": "2.3B",
+    "statsPlaysDesc": "Od spuštění",
+    "artistsLabel": "UMĚLCI V CENTRU POZORNOSTI",
+    "artistsDesc": "Objevuj nejtalentovanější tvůrce tvořící budoucnost hudby",
+    "ctaTitle": "Připraven Připojit Se k Revoluci?",
+    "ctaDesc": "Zažij hudbu tak, jak měla být slyšena. Připoj se k tisícům milovníků hudby objevujících každý den nové zvuky.",
+    "ctaButton": "VYTVOŘIT BEZPLATNÝ ÚČET",
+    "ctaSecondary": "DOZVĚDĚT SE VÍC"
+  },
+
+  "About": {
+    "home": "Domů",
+    "title": "O nás",
+    "intro": "WilloSphere je hudební platforma, která propojuje posluchače a umělce. Stavíme jednoduché, rychlé a férové prostředí pro objevování a sdílení hudby.",
+
+    "missionTitle": "Mise",
+    "missionText": "Dát umělcům prostor tvořit, publikovat a růst bez zbytečných bariér.",
+
+    "visionTitle": "Vize",
+    "visionText": "Jedno místo pro tvorbu, poslech a komunitu kolem hudby.",
+
+    "valuesTitle": "Hodnoty",
+    "valuesText": "Kvalita, férovost, bezpečí a jednoduchost v každém detailu.",
+
+    "contact": "Kontaktujte nás",
+    "backHome": "Zpět domů"
+  },
+
+  "Contact": {
+    "home": "Domů",
+    "title": "Kontakt",
+    "intro": "Napiš nám — ozveme se co nejdřív.",
+    "emailLabel": "Email",
+    "phoneLabel": "Telefon",
+    "addressLabel": "Adresa",
+    "address": "Zlín, Česká republika",
+
+    "about": "O nás",
+
+    "name": "Jméno",
+    "namePlaceholder": "Tvoje jméno",
+    "email": "Email",
+    "emailPlaceholder": "tvoje@email.cz",
+    "message": "Zpráva",
+    "messagePlaceholder": "S čím ti můžeme pomoct?",
+    "send": "Odeslat",
+    "note": "Formulář je zatím demo (bez odesílání do backendu)."
+  },
+
   "Registration": {
     "home": "Domů",
     "createAnAccount": "Vytvořit si účet",
@@ -59,7 +145,13 @@
     "signup": "Zaregistrovat se",
     "confirmPassword": "Potvrzení hesla",
     "typeConfirmPassword": "Napsat stejné heslo znovu",
-    "alreadyHaveAnAccount": "Už máš účet?"
+    "alreadyHaveAnAccount": "Už máš účet?",
+    "creatingAccount": "Vytváření účtu...",
+    "displayNameValidation": "Musí být 3 až 30 znaků (obsahovat pouze písmena, čísla nebo pomlčku)",
+    "emailValidation": "Zadejte platnou e-mailovou adresu",
+    "passwordValidation": "Musí mít více než 8 znaků, včetně\nAlespoň jednoho čísla\nAlespoň jednoho malého písmene\nAlespoň jednoho velkého písmene",
+    "passwordMismatch": "Hesla se neshodují",
+    "passwordsMustMatch": "Hesla se musí shodovat"
   },
 
   "Login": {
@@ -76,7 +168,7 @@
 
   "Admin": {
     "welcome": "Víteje",
-    "header": "WilloSphere Admin Rozhraní",
+    "header": "WilloSphere Admin",
     "operations": "Operace",
     "administration": "Administrace",
     "home": "Domů",
@@ -109,7 +201,159 @@
     "deleteUserQuestion": "Smazat uživatele?",
     "newUser": "Nový uživatel",
     "detailUser": "Detail uživatele",
-    "editUser": "Editace uživatele"
+    "editUser": "Editace uživatele",
 
+    "quickActions": "Rychlé akce",
+    "quickActionsHint": "Správa obsahu a uživatelů",
+
+    "kpi": {
+      "activeUsers": "Aktivní uživatelé",
+      "activeUsersHint": "placeholder (napojíš na API)",
+      "streamsToday": "Přehrání dnes",
+      "streamsTodayHint": "placeholder (napojíš na statistiky)",
+      "pendingOrders": "Nezpracované objednávky",
+      "pendingOrdersHint": "placeholder (napojíš na e-shop)"
+    },
+
+    "nav": {
+      "users": "Uživatelé",
+      "usersHint": "Správa účtů, rolí a profilů",
+      "tracks": "Tracky",
+      "tracksHint": "Nahrávání, editace metadat",
+      "albums": "Alba",
+      "albumsHint": "Release management",
+      "playlists": "Playlisty",
+      "playlistsHint": "Kurátorování a obsah",
+      "products": "Produkty",
+      "productsHint": "Merch / digitální produkty",
+      "orders": "Objednávky",
+      "ordersHint": "Zpracování a stav objednávek"
+    },
+
+    "recentActivity": "Poslední aktivita",
+    "recentActivityHint": "Zatím demo – doplníš data z backendu.",
+    "activity": {
+      "now": "teď",
+      "minutesAgo": "před {n} min",
+      "hoursAgo": "před {n} h",
+      "placeholder1": "Někdo se přihlásil do adminu",
+      "placeholder2": "Byl upraven uživatel",
+      "placeholder3": "Byla vytvořena nová objednávka"
+    },
+
+    "systemStatus": "Stav systému",
+    "status": {
+      "api": "API",
+      "db": "Databáze",
+      "storage": "Úložiště",
+      "ok": "OK",
+      "degraded": "Zhoršené"
+    },
+
+    "manageUsers": "Spravovat uživatele"
+  },
+
+  "Store": {
+    "playing": "PŘEHRÁVÁ SE",
+    "queue": "FRONTA",
+    "tracks": "SKLADEB",
+    "searchPlaceholder": "HLEDAT_V_DATABÁZI",
+    "collapse": "SBALIT",
+    "navigation": "NAVIGACE",
+    "categories": "KATEGORIE",
+    "systemStatus": "STAV_SYSTÉMU",
+
+    "nav_browse": "PROCHÁZET",
+    "nav_charts": "ŽEBŘÍČKY",
+    "nav_new": "NOVINKY",
+    "nav_radio": "RÁDIO_MIX",
+    "nav_artists": "UMĚLCI",
+    "nav_merch": "MERCH_OBCHOD",
+    "nav_vinyl": "VINYL_OBCHOD",
+    "nav_events": "ŽIVÉ_AKCE",
+    "nav_profile": "PROFIL",
+
+    "browseMusic": "PROCHÁZET_HUDBU",
+    "topCharts": "ŽEBŘÍČKY",
+    "newDrops": "NOVINKY",
+    "radioMix": "RÁDIO_MIX",
+    "artists": "UMĚLCI",
+    "merchShop": "MERCH_OBCHOD",
+    "vinylStore": "VINYL_OBCHOD",
+    "liveEvents": "ŽIVÉ_AKCE",
+
+    "showingRecords": "ZOBRAZUJI {count} ZÁZNAMŮ V DATABÁZI // FILTR: NEJNOVĚJŠÍ",
+    "buyNow": "KOUPIT",
+    "download": "STÁHNOUT",
+    "addToCart": "DO_KOŠÍKU",
+    "getTickets": "VSTUPENKY",
+    "free": "ZDARMA",
+    "verified": "OVĚŘENÝ",
+    "thisWeek": "TENTO TÝDEN",
+    "plays": "PŘEHRÁNÍ",
+    "likes": "LÍBÍ SE",
+    "followers": "SLEDUJÍCÍCH",
+    "listeners": "POSLUCHAČŮ",
+    "onAir": "NA VLNÁCH",
+    "live": "ŽIVĚ",
+    "freshUploads": "ČERSTVÉ_NAHRÁVKY // POSLEDNÍCH 24H",
+    "newRecordsAdded": "{count} NOVÝCH ZÁZNAMŮ PŘIDÁNO DO DATABÁZE",
+
+    "new": "NOVÉ",
+    "waveStore": "WAVE_STORE",
+    "user": "UŽIVATEL",
+    "lightMode": "Světlý režim",
+    "darkMode": "Tmavý režim",
+    "cacheLabel": "CACHE",
+    "signalLabel": "SIGNÁL",
+    "memoryLabel": "PAMĚŤ",
+    "optimalValue": "OPTIMÁLNÍ",
+    "accountInfo": "INFORMACE_O_ÚČTU",
+    "idLabel": "ID",
+    "emailLabel": "EMAIL",
+    "displayNameLabel": "ZOBRAZOVANÉ_JMÉNO",
+    "guestUser": "HOST"
+  },
+
+  "Artist": {
+    "back": "Zpět",
+    "dashboard": "DASHBOARD_UMĚLCE",
+    "tracks": "SKLADBY",
+    "albums": "ALBA",
+    "followers": "SLEDUJÍCÍ",
+    "plays": "PŘEHRÁNÍ",
+    "quickActions": "RYCHLÉ_AKCE",
+    "uploadTrack": "NAHRÁT_SKLADBU",
+    "createAlbum": "VYTVOŘIT_ALBUM",
+    "addMerch": "PŘIDAT_MERCH",
+    "recentActivity": "NEDÁVNÁ_AKTIVITA",
+    "noActivity": "ŽÁDNÁ_AKTIVITA // ZAČNI_NAHRÁNÍM_SKLADBY",
+    "backToDashboard": "ZPĚT_NA_DASHBOARD",
+    "editProfile": "UPRAVIT_PROFIL",
+    "displayName": "ZOBRAZOVANÉ_JMÉNO",
+    "bio": "BIO",
+    "profileImageUrl": "URL_PROFILOVÉHO_OBRÁZKU",
+    "bioPlaceholder": "Řekni světu něco o sobě...",
+    "imageUrlPlaceholder": "https://...",
+    "saveChanges": "ULOŽIT_ZMĚNY",
+    "createArtistProfile": "VYTVOŘIT_PROFIL_UMĚLCE",
+    "creating": "VYTVÁŘENÍ...",
+    "artistBio": "BIO_UMĚLCE",
+    "artistSince": "UMĚLEC_OD",
+    "genres": "ŽÁNRY",
+    "createFailed": "Nepodařilo se vytvořit profil umělce."
+  },
+
+  "NotFound": {
+    "code":        "CHYBA_404",
+    "title":       "STRÁNKA_NENALEZENA",
+    "description": "Stránka, kterou hledáš, neexistuje nebo byla přesunuta.",
+    "backHome":    "ZPĚT_NA_ÚVODNÍ_STRÁNKU",
+    "goBack":      "ZPĚT",
+    "tipsTitle":   "CO_MŮŽEŠ_ZKUSIT",
+    "tip1":        "Zkontroluj adresu URL",
+    "tip2":        "Vrať se na předchozí stránku",
+    "tip3":        "Otevři úvodní stránku",
+    "errorCode":   "NOT_FOUND"
   }
 }

@@ -1,0 +1,189 @@
+"use client";
+
+import { Music, Shuffle, SkipBack, SkipForward, Play, Pause, Repeat, AlignJustify } from "lucide-react";
+import { usePlayer } from "@/app/context/PlayerContext";
+import { useStoreTheme } from "@/app/context/StoreThemeContext";
+import { SectionLabel } from "@/app/components/ui/elastic-slider/StoreUI";
+import StoreElasticSlider from "@/app/components/ui/elastic-slider/StoreElasticSlider";
+import { PLAYLIST, formatTime } from "@/lib/store-data";
+import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
+
+/* ── Track info (left) ── */
+function TrackInfo() {
+  const t             = useTranslations("Store");
+  const { track }     = usePlayer();
+  const { isDark }    = useStoreTheme();
+
+  return (
+    <div className="flex items-center gap-2 sm:gap-3 min-w-0 sm:min-w-[180px] shrink-0">
+      <div className={`w-9 h-9 sm:w-11 sm:h-11 rounded-sm flex items-center justify-center border shrink-0 ${
+        isDark ? "bg-gradient-to-br from-royalblue to-fear/25 border-royalblue" : "bg-gradient-to-br from-[#c4234e]/20 to-[#c4a800]/10 border-[#c4b8a8]"
+      }`}><Music size={18} /></div>
+      <div className="min-w-0">
+        <div className={`text-[9px] sm:text-[11px] font-bold tracking-wider truncate ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}>
+          <span className={isDark ? "text-fearyellow" : "text-[#c4234e]"}>{track.title}</span>
+        </div>
+        <div className={`text-[8px] sm:text-[9px] tracking-wider truncate ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>{track.artist}</div>
+      </div>
+    </div>
+  );
+}
+
+/* ── Playback controls (center) — with ElasticSlider for seek ── */
+function PlaybackControls() {
+  const { isPlaying, setIsPlaying, shuffle, setShuffle, repeat, setRepeat, progress, setProgress, track, nextTrack, prevTrack } = usePlayer();
+  const { isDark } = useStoreTheme();
+
+  // Icon components for seek slider
+  const TimeLeft = () => (
+    <span className={`text-[9px] tracking-wider min-w-[28px] text-right tabular-nums ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
+      {formatTime(progress)}
+    </span>
+  );
+  const TimeRight = () => (
+    <span className={`text-[9px] tracking-wider min-w-[28px] tabular-nums ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
+      {formatTime(track.duration)}
+    </span>
+  );
+
+  const btnClass = (active?: boolean) => cn(
+    "bg-transparent border-none cursor-pointer p-1 transition-colors text-sm",
+    active
+      ? (isDark ? "text-fearyellow" : "text-[#c4234e]")
+      : (isDark ? "text-vhs-muted hover:text-vhs-light" : "text-[#8a8578] hover:text-[#5a5550]")
+  );
+
+  return (
+    <div className="flex-1 flex flex-col items-center gap-0.5 mx-1 sm:mx-4 min-w-0">
+      {/* Transport buttons */}
+      <div className="flex items-center gap-2 sm:gap-3">
+        <button className={cn(btnClass(shuffle), "hidden sm:block")} onClick={() => setShuffle(!shuffle)}><Shuffle size={16} /></button>
+        <button className={cn(btnClass())} onClick={prevTrack}><SkipBack size={16} /></button>
+        <button
+          onClick={() => setIsPlaying(!isPlaying)}
+          className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full border-2 cursor-pointer flex items-center justify-center text-white transition-all hover:scale-105 active:scale-95 ${
+            isDark
+              ? "bg-gradient-to-br from-fear to-fear/80 border-white/20 shadow-[0_0_15px_rgba(237,44,94,0.25)]"
+              : "bg-gradient-to-br from-[#c4234e] to-[#a01d40] border-[#c4234e]/30 shadow-[0_0_12px_rgba(196,35,78,0.2)]"
+          }`}
+        >{isPlaying ? <Pause size={17} /> : <Play size={17} />}</button>
+        <button className={cn(btnClass())} onClick={nextTrack}><SkipForward size={16} /></button>
+        <button className={cn(btnClass(repeat), "hidden sm:block")} onClick={() => setRepeat(!repeat)}><Repeat size={16} /></button>
+      </div>
+
+      {/* Seek bar — ElasticSlider */}
+      <div className="w-full max-w-[460px]">
+        <StoreElasticSlider
+          defaultValue={progress}
+          startingValue={0}
+          maxValue={track.duration}
+          onChange={(v) => setProgress(v)}
+          leftIcon={<TimeLeft />}
+          rightIcon={<TimeRight />}
+          showValue={false}
+          trackColor={isDark ? "var(--color-fear)" : "#c4234e"}
+          trackBg={isDark ? "rgba(37,48,120,0.5)" : "rgba(180,170,155,0.4)"}
+        />
+      </div>
+    </div>
+  );
+}
+
+/* ── Volume (right) — ElasticSlider ── */
+function VolumeControl() {
+  const { volume, setVolume, showQueue, setShowQueue } = usePlayer();
+  const { isDark } = useStoreTheme();
+
+  return (
+    <div className="flex items-center gap-1 sm:gap-2 min-w-0 sm:min-w-[140px] shrink-0">
+      <div className="hidden sm:block w-[100px]">
+        <StoreElasticSlider
+          defaultValue={volume}
+          startingValue={0}
+          maxValue={100}
+          onChange={(v) => setVolume(v)}
+          showValue={false}
+          trackColor={isDark ? "var(--color-vhs-light)" : "#8a8578"}
+          trackBg={isDark ? "rgba(37,48,120,0.5)" : "rgba(180,170,155,0.4)"}
+        />
+      </div>
+      <button
+        onClick={() => setShowQueue(!showQueue)}
+        className={cn(
+          "bg-transparent border-none cursor-pointer p-1 text-sm transition-colors",
+          showQueue
+            ? (isDark ? "text-fearyellow" : "text-[#c4234e]")
+            : (isDark ? "text-vhs-muted" : "text-[#8a8578]")
+        )}
+      >
+        <AlignJustify size={20} />
+      </button>
+    </div>
+  );
+}
+
+/* ── Queue track ── */
+function QueueTrack({ track, index }: { track: typeof PLAYLIST[number]; index: number }) {
+  const { currentTrack, isPlaying, playTrack }  = usePlayer();
+  const { isDark }                              = useStoreTheme();
+  const active                                  = currentTrack === index;
+
+  return (
+    <button onClick={() => playTrack(index)}
+      className={cn(
+        "w-full flex items-center gap-2.5 px-2.5 py-2 mb-0.5 rounded-sm cursor-pointer text-left font-vcr border",
+        active
+          ? (isDark ? "bg-fear/15 border-fear/20" : "bg-[#c4234e]/10 border-[#c4234e]/20")
+          : "bg-transparent border-transparent hover:bg-royalblue/10"
+      )}
+    >
+      <span className={cn("text-[10px] min-w-[16px]", active ? "text-fear" : (isDark ? "text-vhs-muted" : "text-[#8a8578]"), active && isPlaying && "animate-pulse-vhs")}>
+        {active && isPlaying ? <Play size={10} /> : `${index + 1}.`}
+      </span>
+      <div className="flex-1 min-w-0">
+        <div className={cn("text-[10px] tracking-wider truncate", active ? (isDark ? "text-fearyellow" : "text-[#c4234e]") : (isDark ? "text-vhs-white" : "text-[#2a2520]"))}>{track.title}</div>
+        <div className={`text-[8px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>{track.artist}</div>
+      </div>
+      <span className={`text-[9px] ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>{formatTime(track.duration)}</span>
+    </button>
+  );
+}
+
+/* ── Queue panel ── */
+export function QueuePanel() {
+  const t               = useTranslations("Store");
+  const { showQueue }   = usePlayer();
+  const { isDark }      = useStoreTheme();
+
+  if(!showQueue)
+    return null;
+
+  return (
+    <div className={`absolute bottom-[72px] right-0 w-[300px] max-sm:w-full border border-b-0 rounded-t p-4 z-[200] ${
+      isDark ? "bg-vhs-surface border-royalblue/25 shadow-[0_-4px_20px_rgba(11,15,45,0.8)]" : "bg-[#f0ebe3] border-[#c4b8a8]/40 shadow-[0_-4px_20px_rgba(0,0,0,0.1)]"
+    }`}>
+      <SectionLabel className="mb-3">{t("queue")} // {PLAYLIST.length} {t("tracks")}</SectionLabel>
+      {PLAYLIST.map((tr, i) => <QueueTrack key={i} track={tr} index={i} />)}
+    </div>
+  );
+}
+
+/* ── Player bar ── */
+export function PlayerBar() {
+  const { isDark } = useStoreTheme();
+
+  return (
+    <div
+      className={`h-[110px] min-h-[90px] flex items-center gap-4 px-4 sm:px-8 z-50 border-t ${
+        isDark
+          ? "from-vhs-surface to-darkblue border-royalblue/40 bg-gradient-to-b"
+          : "border-[#c4b8a8]/40 bg-gradient-to-b from-[#ede7db] to-[#e5dfd3]"
+      }`}
+    >
+      <TrackInfo />
+      <PlaybackControls />
+      <VolumeControl />
+    </div>
+  );
+}

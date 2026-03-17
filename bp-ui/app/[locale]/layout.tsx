@@ -32,7 +32,7 @@ export default async function LocaleLayout({
 
   const { locale } = await params;
 
-  if (!hasLocale(routing.locales, locale))
+  if(!hasLocale(routing.locales, locale))
     notFound();
 
   const messagesMap = {
@@ -43,14 +43,16 @@ export default async function LocaleLayout({
   const messages = (await messagesMap[locale as "cs" | "en"]()).default;
 
   return (
-    <html lang={locale} data-theme="light">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col antialiased`}
-      >
-        <NextIntlClientProvider locale={locale} messages={messages}>
-          <AuthProvider>{children}</AuthProvider>
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    <div
+      lang={locale}
+      data-theme="light"
+      className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col antialiased`}
+    >
+      <NextIntlClientProvider locale={locale} messages={messages}>
+        <AuthProvider>
+          {children}
+        </AuthProvider>
+      </NextIntlClientProvider>
+    </div>
   );
 }

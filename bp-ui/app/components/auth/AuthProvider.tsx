@@ -15,22 +15,22 @@ import { API_ENDPOINTS } from "@/app/api/enpoints";
 const AUTH_STORAGE_KEY  = process.env.AUTH_STORAGE_KEY!;
 
 type SignupPayload = {
-  email: string;
-  password: string;
-  displayName: string;
+  email:        string;
+  password:     string;
+  displayName:  string;
 };
 
 type LoginPayload = {
-  email: string;
+  email:    string;
   password: string;
 };
 
 type AuthContextValue = {
-  session: AuthSession | null;
+  session:    AuthSession | null;
   isHydrated: boolean;
-  signup: (payload: SignupPayload) => Promise<AuthUser>;
-  login: (payload: LoginPayload) => Promise<AuthUser>;
-  logout: () => void;
+  signup:     (payload: SignupPayload) => Promise<AuthUser>;
+  login:      (payload: LoginPayload) => Promise<AuthUser>;
+  logout:     () => void;
 };
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -85,7 +85,7 @@ const loadSession = () => {
 };
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [session, setSession] = useState<AuthSession | null>(null);
+  const [session, setSession]       = useState<AuthSession | null>(null);
   const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
@@ -162,6 +162,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
+
   if(!context) {
     throw new Error("useAuth must be used within an AuthProvider");
   }

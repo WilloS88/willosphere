@@ -1,33 +1,4 @@
 {
-  "LocaleSwitcher": {
-    "label": "Language",
-    "locales": {
-      "cs": "Czech",
-      "en": "English"
-    }
-  },
-
-  "Navbar": {
-    "title": "WilloSphere",
-    "search": "Search",
-    "signup": "Sign up",
-    "login": "Log in",
-    "logout": "Log out",
-    "adminDashboard": "Admin"
-  },
-
-  "Footer": {
-    "rights": "All rights reserved",
-    "twitter": "Twitter",
-    "youtube": "Youtube",
-    "facebook": "Facebook"
-  },
-
-  "HomePage": {
-    "title": "Header",
-    "search": "Search"
-  },
-
   "Validation": {
     "notValidEmail": "Invalid email",
     "maxEightChars": "At least 8 characters",
@@ -40,9 +11,124 @@
     "usernameMustExist": "The username must exist",
     "itemFormatInvalid": "The item has an invalid format",
     "requiredField": "This field is required",
-    "textTooLong": "The text is too long"
+    "textTooLong": "The text is too long",
+    "displayNameHint": "Must be 3 to 30 characters (containing only letters, numbers or dash)",
+    "emailHint": "Enter valid email address",
+    "passwordHint": "Must be more than 8 characters, including at least one number, one lowercase letter and one uppercase letter",
+    "passwordsDoNotMatch": "Passwords do not match",
+    "signupFailed": "Signup failed. Try again."
   },
-  
+
+  "LocaleSwitcher": {
+    "label": "Language",
+    "locales": {
+      "cs": "Czech",
+      "en": "English"
+    }
+  },
+
+  "Navbar": {
+    "notLoggedIn": "Not logged in",
+    "title": "WilloSphere",
+    "search": "Search",
+    "signup": "Sign up",
+    "createArtist": "Create artist profile",
+    "login": "Log in",
+    "logout": "Log out",
+    "adminDashboard": "Admin",
+    "application": "Application"
+  },
+
+  "Footer": {
+    "rights": "All rights reserved",
+    "twitter": "Twitter",
+    "youtube": "Youtube",
+    "facebook": "Facebook",
+    "company": "Company",
+    "aboutUs": "About us",
+    "contact": "Contact"
+  },
+
+  "Landing": {
+    "heroTagline": "EXPLORE THE VIBE",
+    "title": "WilloSphere",
+    "subtitle": "Next-Gen Music Streaming",
+    "welcome": "Welcome to the ultimate streaming experience",
+    "startListening": "START LISTENING",
+    "signUpFree": "SIGN UP FREE",
+    "featuredLabel": "FEATURED",
+    "nowTrending": "Now Trending",
+    "featuredDesc": "Discover the hottest tracks and albums right now",
+    "listenNow": "LISTEN NOW",
+    "newRelease": "NEW",
+    "streamTitle": "Stream Unlimited",
+    "streamDesc": "Access millions of songs in pristine quality. No ads, no interruptions—just pure music bliss.",
+    "discoverTitle": "Discover New Music",
+    "discoverDesc": "Personalized recommendations powered by AI. Find your next favorite artist or rediscover forgotten gems.",
+    "supportTitle": "Support Artists",
+    "supportDesc": "Every stream goes directly to artists. We believe in fair compensation and transparency.",
+    "genresLabel": "EXPLORE GENRES",
+    "genresDesc": "Find your sound across hundreds of carefully curated categories",
+    "statsLabel": "BY THE NUMBERS",
+    "statsArtists": "ARTISTS",
+    "statsArtistsValue": "2.5M",
+    "statsArtistsDesc": "Independent and major label artists",
+    "statsTracks": "TRACKS",
+    "statsTracksValue": "85M",
+    "statsTracksDesc": "Songs available to stream",
+    "statsListeners": "LISTENERS",
+    "statsListenersValue": "150K",
+    "statsListenersDesc": "Active monthly listeners",
+    "statsPlays": "TOTAL PLAYS",
+    "statsPlaysValue": "2.3B",
+    "statsPlaysDesc": "Since launch",
+    "artistsLabel": "SPOTLIGHT ARTISTS",
+    "artistsDesc": "Discover the most talented creators shaping the future of music",
+    "ctaTitle": "Ready to Join the Revolution?",
+    "ctaDesc": "Experience music the way it was meant to be heard. Join thousands of music lovers discovering new sounds every day.",
+    "ctaButton": "CREATE FREE ACCOUNT",
+    "ctaSecondary": "LEARN MORE"
+  },
+
+  "About": {
+    "home": "Home",
+    "title": "About us",
+    "intro": "WilloSphere is a music platform connecting listeners and artists. We build a simple, fast, and fair space for discovering and sharing music.",
+
+    "missionTitle": "Mission",
+    "missionText": "Give artists the tools and space to create, publish, and grow without unnecessary barriers.",
+
+    "visionTitle": "Vision",
+    "visionText": "One place for creation, listening, and a community built around music.",
+
+    "valuesTitle": "Values",
+    "valuesText": "Quality, fairness, safety, and simplicity in every detail.",
+
+    "contact": "Contact us",
+    "backHome": "Back home"
+  },
+
+  "Contact": {
+    "home": "Home",
+    "title": "Contact",
+    "intro": "Send us a message — we'll get back to you soon.",
+    "emailLabel": "Email",
+    "phoneLabel": "Phone",
+    "addressLabel": "Address",
+    "address": "Zlín, Czech Republic",
+
+    "about": "About us",
+
+    "name": "Name",
+    "namePlaceholder": "Your name",
+    "email": "Email",
+    "emailPlaceholder": "you@email.com",
+    "message": "Message",
+    "messagePlaceholder": "How can we help?",
+    "send": "Send",
+    "note": "This form is currently a demo (no backend sending yet)."
+  },
+
   "Registration": {
     "home": "Home",
     "createAnAccount": "Create an account",
@@ -59,7 +145,13 @@
     "signup": "Sign up",
     "confirmPassword": "Confirm password",
     "typeConfirmPassword": "Type the same password again",
-    "alreadyHaveAnAccount": "Already have an account?"
+    "alreadyHaveAnAccount": "Already have an account?",
+    "creatingAccount": "Creating account...",
+    "displayNameValidation": "Must be 3 to 30 characters (containing only letters, numbers or dash)",
+    "emailValidation": "Enter valid email address",
+    "passwordValidation": "Must be more than 8 characters, including\nAt least one number\nAt least one lowercase letter\nAt least one uppercase letter",
+    "passwordMismatch": "Passwords do not match",
+    "passwordsMustMatch": "Passwords must match"
   },
 
   "Login": {
@@ -76,7 +168,7 @@
 
   "Admin": {
     "welcome": "Welcome",
-    "header": "WilloSphere Admin Dashboard",
+    "header": "WilloSphere Admin",
     "operations": "Operations",
     "administration": "Administration",
     "home": "Go Home",
@@ -109,7 +201,161 @@
     "deleteUserQuestion": "Delete user?",
     "newUser": "New user",
     "detailUser": "Detail of user",
-    "editUser": "Edit user"
+    "editUser": "Edit user",
 
+    "quickActions": "Quick actions",
+    "quickActionsHint": "Manage content and users",
+
+    "kpi": {
+      "activeUsers": "Active users",
+      "activeUsersHint": "placeholder (connect to API)",
+      "streamsToday": "Streams today",
+      "streamsTodayHint": "placeholder (connect to analytics)",
+      "pendingOrders": "Pending orders",
+      "pendingOrdersHint": "placeholder (connect to store)"
+    },
+
+    "nav": {
+      "users": "Users",
+      "usersHint": "Manage accounts, roles and profiles",
+      "tracks": "Tracks",
+      "tracksHint": "Upload and edit metadata",
+      "albums": "Albums",
+      "albumsHint": "Release management",
+      "playlists": "Playlists",
+      "playlistsHint": "Curation and content",
+      "products": "Products",
+      "productsHint": "Merch / digital products",
+      "orders": "Orders",
+      "ordersHint": "Order processing and status"
+    },
+
+    "recentActivity": "Recent activity",
+    "recentActivityHint": "Demo only – connect to backend later.",
+    "activity": {
+      "now": "now",
+      "minutesAgo": "{n} min ago",
+      "hoursAgo": "{n} h ago",
+      "placeholder1": "Someone logged into admin",
+      "placeholder2": "A user was updated",
+      "placeholder3": "A new order was created"
+    },
+
+    "systemStatus": "System status",
+    "status": {
+      "api": "API",
+      "db": "Database",
+      "storage": "Storage",
+      "ok": "OK",
+      "degraded": "Degraded"
+    },
+
+    "manageUsers": "Manage users"
+  },
+
+  "Store": {
+    "playing": "PLAYING",
+    "queue": "QUEUE",
+    "tracks": "TRACKS",
+    "searchPlaceholder": "SEARCH_DATABASE",
+    "collapse": "COLLAPSE",
+    "navigation": "NAVIGATION",
+    "categories": "CATEGORIES",
+    "systemStatus": "SYSTEM_STATUS",
+
+    "nav_browse": "BROWSE_ALL",
+    "nav_charts": "TOP_CHARTS",
+    "nav_new": "NEW_DROPS",
+    "nav_radio": "RADIO_MIX",
+    "nav_artists": "ARTISTS",
+    "nav_merch": "MERCH_SHOP",
+    "nav_vinyl": "VINYL_STORE",
+    "nav_events": "LIVE_EVENTS",
+    "nav_profile": "PROFILE",
+
+    "browseMusic": "BROWSE_MUSIC",
+    "topCharts": "TOP_CHARTS",
+    "newDrops": "NEW_DROPS",
+    "radioMix": "RADIO_MIX",
+    "artists": "ARTISTS",
+    "merchShop": "MERCH_SHOP",
+    "vinylStore": "VINYL_STORE",
+    "liveEvents": "LIVE_EVENTS",
+
+    "showingRecords": "SHOWING {count} RECORDS IN DATABASE // FILTER: NEWEST_FIRST",
+    "buyNow": "BUY NOW",
+    "download": "DOWNLOAD",
+    "addToCart": "ADD_TO_CART",
+    "getTickets": "GET_TICKETS",
+    "free": "FREE",
+    "verified": "VERIFIED",
+    "thisWeek": "THIS WEEK",
+    "plays": "PLAYS",
+    "likes": "LIKES",
+    "followers": "FOLLOWERS",
+    "listeners": "LISTENERS",
+    "onAir": "ON AIR",
+    "live": "LIVE",
+    "freshUploads": "FRESH_UPLOADS // LAST 24H",
+    "newRecordsAdded": "{count} NEW RECORDS ADDED TO DATABASE",
+
+    "new": "NEW",
+    "waveStore": "WAVE_STORE",
+    "user": "USER",
+    "lightMode": "Light mode",
+    "darkMode": "Dark mode",
+    "cacheLabel": "CACHE",
+    "signalLabel": "SIGNAL",
+    "memoryLabel": "MEMORY",
+    "optimalValue": "OPTIMAL",
+    "accountInfo": "ACCOUNT_INFO",
+    "idLabel": "ID",
+    "emailLabel": "EMAIL",
+    "displayNameLabel": "DISPLAY_NAME",
+    "guestUser": "GUEST_USER"
+  },
+
+  "Artist": {
+    "back": "Back",
+    "dashboard": "ARTIST_DASHBOARD",
+    "tracks": "TRACKS",
+    "albums": "ALBUMS",
+    "followers": "FOLLOWERS",
+    "plays": "PLAYS",
+    "quickActions": "QUICK_ACTIONS",
+    "uploadTrack": "UPLOAD_TRACK",
+    "createAlbum": "CREATE_ALBUM",
+    "addMerch": "ADD_MERCH",
+    "recentActivity": "RECENT_ACTIVITY",
+    "noActivity": "NO_ACTIVITY_YET // START_BY_UPLOADING_A_TRACK",
+    "backToDashboard": "BACK_TO_DASHBOARD",
+    "editProfile": "EDIT_PROFILE",
+    "displayName": "DISPLAY_NAME",
+    "bio": "BIO",
+    "profileImageUrl": "PROFILE_IMAGE_URL",
+    "bioPlaceholder": "Tell the world about yourself...",
+    "imageUrlPlaceholder": "https://...",
+    "saveChanges": "SAVE_CHANGES",
+    "createArtistProfile": "CREATE_ARTIST_PROFILE",
+    "creating": "CREATING...",
+    "artistBio": "ARTIST_BIO",
+    "artistSince": "ARTIST_SINCE",
+    "genres": "GENRES",
+    "createFailed": "Failed to create artist profile."
+  },
+
+  "Home": {},
+
+  "NotFound": {
+    "code":        "ERROR_404",
+    "title":       "PAGE_NOT_FOUND",
+    "description": "The page you're looking for doesn't exist or has been moved.",
+    "backHome":    "BACK_TO_HOMEPAGE",
+    "goBack":      "GO_BACK",
+    "tipsTitle":   "WHAT_CAN_YOU_TRY",
+    "tip1":        "Check the URL address",
+    "tip2":        "Go back to the previous page",
+    "tip3":        "Open the homepage",
+    "errorCode":   "NOT_FOUND"
   }
 }
