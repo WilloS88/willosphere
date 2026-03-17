@@ -74,6 +74,13 @@ export class AuthService {
     return { user, ...tokens };
   }
 
+  async me(userId: number) {
+    const user = await this.usersService.findById(userId);
+    if(!user)
+      throw new UnauthorizedException("User not found");
+    return user;
+  }
+
   private async issueTokens(userId: number, email: string) {
     const user    = await this.usersService.findById(userId);
     const roles   = (user?.roles ?? []).map(r => r.role);

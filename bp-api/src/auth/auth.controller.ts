@@ -1,13 +1,16 @@
 import {
   Body,
   Controller,
+  Get,
   Post,
-  Res,
   Req,
+  Res,
   UnauthorizedException,
+  UseGuards,
 } from "@nestjs/common";
 import { Response, Request } from "express";
 import { AuthService } from "./auth.service";
+import { AuthGuard } from "./guard/jwt-auth.guard";
 import { ConfigService } from "@nestjs/config";
 import { CreateUserDto } from "../users/dto/create-user.dto";
 import { LoginDto } from "./dto/login.dto";
@@ -15,15 +18,19 @@ import { LoginDto } from "./dto/login.dto";
 
 @Controller("auth")
 export class AuthController {
-  private readonly cookieMaxAge: number;
-  private readonly cookieSecure: boolean;
-  private readonly cookieSameSite: "lax" | "strict" | "none";
+  private readonly accessCookieMaxAge:  number;
+  private readonly refreshCookieMaxAge: number;
+  private readonly cookieSecure:        boolean;
+  private readonly cookieSameSite:      "lax" | "strict" | "none";
 
   constructor(
-    private readonly authService: AuthService,
+    private readonly authService:   AuthService,
     private readonly configService: ConfigService,
   ) {
-    this.cookieMaxAge =
+    this.accessCookieMaxAge =
+        this.configService.get<number>("ACCESS_COOKIE_MAX_AGE_MS", 1800000);
+
+    this.refreshCookieMaxAge =
         this.configService.get<number>("REFRESH_COOKIE_MAX_AGE_MS", 10800000);
 
     this.cookieSecure =
@@ -36,9 +43,30 @@ export class AuthController {
         );
   }
 
+  private setAuthCookies(res: Response, accessToken: string, refreshToken: string) {
+    res.cookie("access_token", accessToken, {
+      httpOnly: true,
+      sameSite: this.cookieSameSite,
+      secure:   this.cookieSecure,
+      maxAge:   this.accessCookieMaxAge,
+    });
+
+    res.cookie("refresh_token", refreshToken, {
+      httpOnly: true,
+      sameSite: this.cookieSameSite,
+      secure:   this.cookieSecure,
+      maxAge:   this.refreshCookieMaxAge,
+    });
+  }
+
   @Post("signup")
-  signup(@Body() dto: CreateUserDto) {
-    return this.authService.signup(dto);
+  async signup(
+      @Body() dto: CreateUserDto,
+      @Res({ passthrough: true }) res: Response,
+  ) {
+    const { user, accessToken, refreshToken } = await this.authService.signup(dto);
+    this.setAuthCookies(res, accessToken, refreshToken);
+    return { user };
   }
 
   @Post("login")
@@ -47,15 +75,8 @@ export class AuthController {
       @Res({ passthrough: true }) res: Response,
   ) {
     const { user, accessToken, refreshToken } = await this.authService.login(dto.email, dto.password);
-
-    res.cookie("refresh_token", refreshToken, {
-      httpOnly: true,
-      sameSite: this.cookieSameSite,
-      secure:   this.cookieSecure,
-      maxAge:   this.cookieMaxAge
-    });
-
-    return { user, accessToken };
+    this.setAuthCookies(res, accessToken, refreshToken);
+    return { user };
   }
 
   @Post("refresh")
@@ -71,13 +92,20 @@ export class AuthController {
     const { user, accessToken, refreshToken: newRefreshToken } =
         await this.authService.refresh(refreshToken);
 
-    res.cookie("refresh_token", newRefreshToken, {
-      httpOnly: true,
-      sameSite: this.cookieSameSite,
-      secure:   this.cookieSecure,
-      maxAge:   this.cookieMaxAge,
-    });
+    this.setAuthCookies(res, accessToken, newRefreshToken);
+    return { user };
+  }
 
-    return { user, accessToken };
+  @Get("me")
+  @UseGuards(AuthGuard)
+  async me(@Req() req: Request) {
+    return this.authService.me((req as any).userId);
+  }
+
+  @Post("logout")
+  logout(@Res({ passthrough: true }) res: Response) {
+    res.clearCookie("access_token");
+    res.clearCookie("refresh_token");
+    return { ok: true };
   }
 }

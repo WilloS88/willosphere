@@ -15,14 +15,14 @@ export class AuthGuard implements CanActivate {
 
   canActivate( context: ExecutionContext ): boolean | Promise<boolean> | Observable<boolean> {
     const request = context.switchToHttp().getRequest();
-    const token   = this.extractTokenFromHeader(request);
+    const token   = this.extractToken(request);
 
     if(!token)
       throw new UnauthorizedException("Invalid token");
 
     try {
       const payload   = this.jwtService.verify(token);
-      request.userId  = payload.userId;
+      request.userId  = payload.sub;
     }
     catch(e) {
       Logger.error(e.message);
@@ -31,7 +31,10 @@ export class AuthGuard implements CanActivate {
     return true;
   }
 
-  private extractTokenFromHeader(request: Request): string | undefined {
-    return request.headers.authorization?.split(" ")[1];
+  private extractToken(request: Request): string | undefined {
+    return (
+      request.cookies?.access_token ??
+      request.headers.authorization?.split(" ")[1]
+    );
   }
 }
