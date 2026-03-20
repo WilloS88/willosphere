@@ -6,24 +6,7 @@ import { Pencil, Plus, Trash2, Users, RotateCcw  } from "lucide-react";
 import type { UserDetailDTO, UserDTO } from "@/app/types/user";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
 import { Dialog } from "@/app/components/admin/Dialog";
-
-async function fetchJson<T>(url: string, init?: RequestInit): Promise<T> {
-  const res = await fetch(url, {
-    credentials: "include",
-    headers: { "Content-Type": "application/json", ...(init?.headers ?? {}) },
-    ...init,
-  });
-
-  if(!res.ok) {
-    const msg = await res.text().catch(() => "");
-    throw new Error(msg || `HTTP ${res.status}`);
-  }
-
-  if(res.status === 204)
-    return null as never;
-
-  return res.json();
-}
+import api from "@/lib/axios";
 
 export default function UsersPage() {
   const t                                   = useTranslations("Admin");
@@ -41,8 +24,7 @@ export default function UsersPage() {
   const reloadUsers = async () => {
     setLoading(true);
 
-    const data = await fetchJson<UserDTO[]>(API_ENDPOINTS.admin.users);
-    console.log(data);
+    const { data } = await api.get<UserDTO[]>(API_ENDPOINTS.admin.users);
     setUsers(data);
 
     setLoading(false);
@@ -90,7 +72,7 @@ export default function UsersPage() {
     }));
 
     try {
-      const full = await fetchJson<UserDetailDTO>(API_ENDPOINTS.admin.userDetail(u.id));
+      const { data: full } = await api.get<UserDetailDTO>(API_ENDPOINTS.admin.userDetail(u.id));
       setDialogUser(full);
       setForm({
         email:            full.email,
@@ -114,7 +96,7 @@ export default function UsersPage() {
     setDialogMode("edit");
     setDialogOpen(true);
 
-    const full = await fetchJson<UserDetailDTO>(API_ENDPOINTS.admin.userDetail(base.id));
+    const { data: full } = await api.get<UserDetailDTO>(API_ENDPOINTS.admin.userDetail(base.id));
     setDialogUser(full);
 
     setForm({
@@ -130,16 +112,13 @@ export default function UsersPage() {
 
   const saveUser = async () => {
     if(dialogMode === "create") {
-      const created = await fetchJson<UserDetailDTO>(API_ENDPOINTS.admin.users, {
-        method: "POST",
-        body: JSON.stringify({
-          displayName:      form.displayName.trim(),
-          password:         form.password,
-          role:             form.role,
-          timezone:         form.timezone,
-          language:         form.language,
-          profileImageUrl:  form.profileImageUrl ? form.profileImageUrl : null,
-        }),
+      const { data: created } = await api.post<UserDetailDTO>(API_ENDPOINTS.admin.users, {
+        displayName:      form.displayName.trim(),
+        password:         form.password,
+        role:             form.role,
+        timezone:         form.timezone,
+        language:         form.language,
+        profileImageUrl:  form.profileImageUrl ? form.profileImageUrl : null,
       });
 
       await reloadUsers();
@@ -151,18 +130,14 @@ export default function UsersPage() {
       if(!dialogUser)
         throw new Error("No selected user detail loaded");
 
-      const updated = await fetchJson<UserDetailDTO>(
-        API_ENDPOINTS.admin.userDetail(dialogUser.id),
-        {
-          method: "PUT",
-          body: JSON.stringify({
-            displayName:      form.displayName.trim(),
-            role:             form.role,
-            timezone:         form.timezone,
-            language:         form.language,
-            profileImageUrl:  form.profileImageUrl ? form.profileImageUrl : null,
-            password:         form.password ? form.password : undefined,
-          }),
+      const { data: updated } = await api.put<UserDetailDTO>(
+        API_ENDPOINTS.admin.userDetail(dialogUser.id), {
+          displayName:      form.displayName.trim(),
+          role:             form.role,
+          timezone:         form.timezone,
+          language:         form.language,
+          profileImageUrl:  form.profileImageUrl ? form.profileImageUrl : null,
+          password:         form.password ? form.password : undefined,
         }
       );
 
@@ -177,7 +152,7 @@ export default function UsersPage() {
     if(!ok)
       return;
 
-    await fetchJson(API_ENDPOINTS.admin.userDetail(u.id), { method: "DELETE" });
+    await api.delete(API_ENDPOINTS.admin.userDetail(u.id));
     await reloadUsers();
 
     if(dialogUser?.id === u.id) {
