@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 import { UsersService } from "../users/users.service";
 import { RefreshToken } from "../entities/refresh-token.entity";
 import { SignupDto } from "./dto/signup.dto";
+import { SignupAsArtistDto } from "./dto/signup-artist.dto";
 import { ConfigService } from "@nestjs/config";
 
 
@@ -29,6 +30,12 @@ export class AuthService {
     const user    = await this.usersService.create(dto);
     const tokens  = await this.issueTokens(user.id, user.email);
 
+    return { user, ...tokens };
+  }
+
+  async signupAsArtist(dto: SignupAsArtistDto) {
+    const user   = await this.usersService.createWithArtistProfile(dto);
+    const tokens = await this.issueTokens(user.id, user.email);
     return { user, ...tokens };
   }
 

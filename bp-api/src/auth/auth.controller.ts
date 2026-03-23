@@ -14,6 +14,7 @@ import { AuthGuard } from "./guard/jwt-auth.guard";
 import { ConfigService } from "@nestjs/config";
 import { CreateUserDto } from "../users/dto/create-user.dto";
 import { LoginDto } from "./dto/login.dto";
+import { SignupAsArtistDto } from "./dto/signup-artist.dto";
 
 
 @Controller("auth")
@@ -65,6 +66,16 @@ export class AuthController {
       @Res({ passthrough: true }) res: Response,
   ) {
     const { user, accessToken, refreshToken } = await this.authService.signup(dto);
+    this.setAuthCookies(res, accessToken, refreshToken);
+    return { user };
+  }
+
+  @Post("signup-artist")
+  async signupAsArtist(
+      @Body() dto: SignupAsArtistDto,
+      @Res({ passthrough: true }) res: Response,
+  ) {
+    const { user, accessToken, refreshToken } = await this.authService.signupAsArtist(dto);
     this.setAuthCookies(res, accessToken, refreshToken);
     return { user };
   }

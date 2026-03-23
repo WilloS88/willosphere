@@ -9,14 +9,17 @@ import * as bcrypt from "bcryptjs";
 import { Role } from "../entities/role.enum";
 import { User } from "../entities/user.entity";
 import { UserRole } from "../entities/user-role.entity";
+import { ArtistProfile } from "../entities/artist-profile.entity";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
+import { SignupAsArtistDto } from "../auth/dto/signup-artist.dto";
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private readonly usersRepo: Repository<User>,
     @InjectRepository(UserRole) private readonly userRoleRepo: Repository<UserRole>,
+    @InjectRepository(ArtistProfile) private readonly artistProfileRepo: Repository<ArtistProfile>,
     @InjectDataSource() private readonly ds: DataSource,
   ) {}
 
@@ -75,6 +78,39 @@ export class UsersService {
       return trx.getRepository(User).findOneOrFail({
         where:      { id: saved.id },
         relations:  ["roles", "artistProfile"],
+      });
+    });
+  }
+
+  async createWithArtistProfile(dto: SignupAsArtistDto): Promise<User> {
+    const exists = await this.usersRepo.findOne({ where: { email: dto.email } });
+    if(exists)
+      throw new ConflictException("Email already in use");
+
+    const passwordHash = await bcrypt.hash(dto.password, 12);
+    const user = this.usersRepo.create({
+      email:        dto.email,
+      passwordHash,
+      displayName:  dto.displayName,
+      timezone:     dto.timezone ?? "UTC",
+      language:     dto.language ?? "en",
+    });
+
+    return this.ds.transaction(async (trx) => {
+      const saved = await trx.getRepository(User).save(user);
+
+      await trx.getRepository(UserRole).save({ userId: saved.id, role: Role.ARTIST });
+
+      await trx.getRepository(ArtistProfile).save({
+        userId:         saved.id,
+        bio:            dto.bio ?? null,
+        bannerImageUrl: dto.bannerImageUrl ?? null,
+        artistSince:    dto.artistSince ?? null,
+      });
+
+      return trx.getRepository(User).findOneOrFail({
+        where:     { id: saved.id },
+        relations: ["roles", "artistProfile"],
       });
     });
   }
