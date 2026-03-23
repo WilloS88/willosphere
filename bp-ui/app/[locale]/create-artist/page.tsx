@@ -3,58 +3,52 @@
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Mic2 } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import PageShell from "@/app/components/layout/PageShell";
 import { Navbar } from "@/app/components/layout/Navbar";
 import { useStoreTheme } from "@/app/context/StoreThemeContext";
-
-const GENRES = [
-  "Hip Hop",
-  "Rock",
-  "Electronic",
-  "Pop",
-  "Jazz",
-  "Metal",
-  "Synthwave",
-  "Lo-Fi",
-];
+import { useAuth } from "@/app/components/auth/AuthProvider";
+import { API_ENDPOINTS } from "@/app/api/enpoints";
+import { parseAxiosError } from "@/lib/axios";
+import type { ArtistDto } from "@/app/types/user";
+import api from "@/lib/axios";
 
 function CreateArtistContent() {
-  const t           = useTranslations("Artist");
-  const { locale }  = useParams<{ locale: string }>();
-  const router      = useRouter();
-  const { isDark }  = useStoreTheme();
+  const t                   = useTranslations("Artist");
+  const { locale }          = useParams<{ locale: string }>();
+  const router              = useRouter();
+  const { isDark }          = useStoreTheme();
+  const { refreshSession }  = useAuth();
 
-  const [formState, setFormState] = useState({
-    bio:             "",
-    profileImageUrl: "",
-    artistSince:      "",
-    genres: [] as string[],
+  const [form, setForm] = useState({
+    bio:            "",
+    bannerImageUrl: "",
+    artistSince:    "",
   });
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError]         = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
-  const toggleGenre = (genre: string) => {
-    setFormState((p) => ({
-      ...p,
-      genres: p.genres.includes(genre)
-        ? p.genres.filter((g) => g !== genre)
-        : [...p.genres, genre],
-    }));
-  };
+  const set = (field: keyof typeof form) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+      setForm((p) => ({ ...p, [field]: e.target.value }));
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setErrorMessage(null);
-    setIsSubmitting(true);
+    setError(null);
+    setSubmitting(true);
     try {
-      await new Promise((r) => setTimeout(r, 1000));
+      await api.post<ArtistDto>(API_ENDPOINTS.artists.become, {
+        bio:            form.bio || undefined,
+        bannerImageUrl: form.bannerImageUrl || undefined,
+        artistSince:    form.artistSince || undefined,
+      });
+      await refreshSession();
       router.push(`/${locale}/artist`);
-    } catch {
-      setErrorMessage(t("createFailed"));
+    } catch (err) {
+      setError(parseAxiosError(err));
     } finally {
-      setIsSubmitting(false);
+      setSubmitting(false);
     }
   };
 
@@ -70,94 +64,78 @@ function CreateArtistContent() {
       <Navbar />
       <div className="flex min-h-[calc(100vh-44px)] items-center justify-center px-4 py-8">
         <div
-          className={`w-full max-w-2xl rounded border p-6 sm:p-8 ${isDark ? "bg-vhs-card/80 border-royalblue/20" : "border-[#c4b8a8]/30 bg-white/80"}`}
+          className={`w-full max-w-lg rounded border p-6 sm:p-8 ${
+            isDark ? "bg-vhs-card/80 border-royalblue/20" : "border-[#c4b8a8]/30 bg-white/80"
+          }`}
         >
           <Link
             href={`/${locale}`}
-            className={`mb-4 inline-flex items-center gap-1.5 text-[10px] tracking-[2px] no-underline ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#8a8578] hover:text-[#c4234e]"}`}
+            className={`mb-4 inline-flex items-center gap-1.5 text-[10px] tracking-[2px] no-underline ${
+              isDark ? "text-vhs-muted hover:text-fear" : "text-[#8a8578] hover:text-[#c4234e]"
+            }`}
           >
             <ArrowLeft size={12} /> {t("back")}
           </Link>
+
+          <div className={`mb-2 flex items-center justify-center gap-2 text-[10px] font-bold tracking-[3px] ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`}>
+            <Mic2 size={14} />
+            {t("forExistingUsers")}
+          </div>
+
           <h1
-            className={`mb-6 text-center text-xl font-bold tracking-[3px] sm:text-2xl ${isDark ? "text-fearyellow" : "text-[#c4234e]"}`}
+            className={`mb-6 text-center text-xl font-bold tracking-[3px] sm:text-2xl ${
+              isDark ? "text-fearyellow" : "text-[#c4234e]"
+            }`}
           >
             {t("createArtistProfile")}
           </h1>
 
           <form className="space-y-4" onSubmit={handleSubmit}>
             <div>
-              <label className={labelCls}>{t("artistBio")}</label>
+              <label className={labelCls}>{t("bio")}</label>
               <textarea
                 className={`${inputCls} min-h-[100px] resize-y`}
                 placeholder={t("bioPlaceholder")}
-                value={formState.bio}
-                required
-                onChange={(e) =>
-                  setFormState((p) => ({ ...p, bio: e.target.value }))
-                }
+                value={form.bio}
+                onChange={set("bio")}
               />
             </div>
-            <div>
-              <label className={labelCls}>{t("profileImageUrl")}</label>
-              <input
-                type="url"
-                className={inputCls}
-                placeholder={t("imageUrlPlaceholder")}
-                value={formState.profileImageUrl}
-                onChange={(e) =>
-                  setFormState((p) => ({
-                    ...p,
-                    profileImageUrl: e.target.value,
-                  }))
-                }
-              />
-            </div>
+
             <div>
               <label className={labelCls}>{t("artistSince")}</label>
               <input
                 type="date"
                 className={inputCls}
-                value={formState.artistSince}
-                required
-                onChange={(e) =>
-                  setFormState((p) => ({ ...p, artistSince: e.target.value }))
-                }
+                value={form.artistSince}
+                onChange={set("artistSince")}
               />
             </div>
 
             <div>
-              <label className={labelCls}>{t("genres")}</label>
-              <div className="flex flex-wrap gap-2">
-                {GENRES.map((genre) => (
-                  <button
-                    key={genre}
-                    type="button"
-                    onClick={() => toggleGenre(genre)}
-                    className={`cursor-pointer rounded-sm border px-3 py-1.5 text-[10px] font-bold tracking-wider transition-all ${
-                      formState.genres.includes(genre)
-                        ? "bg-fear border-fear text-white"
-                        : isDark
-                          ? "border-royalblue/30 text-vhs-light hover:border-fear/40 bg-transparent"
-                          : "border-[#c4b8a8]/40 bg-transparent text-[#6b6560] hover:border-[#c4234e]/30"
-                    }`}
-                  >
-                    {genre}
-                  </button>
-                ))}
-              </div>
+              <label className={labelCls}>{t("bannerImageUrl")}</label>
+              <input
+                type="url"
+                className={inputCls}
+                placeholder="https://..."
+                value={form.bannerImageUrl}
+                onChange={set("bannerImageUrl")}
+              />
             </div>
 
-            {errorMessage && (
+            {error && (
               <div className="text-fear bg-fear/10 border-fear/20 rounded border p-2 text-[10px] tracking-wider">
-                {errorMessage}
+                {error}
               </div>
             )}
 
             <button
-              className={`mt-2 w-full cursor-pointer rounded-sm py-2.5 text-[11px] font-bold tracking-[2px] transition-all hover:brightness-110 disabled:opacity-50 ${isDark ? "bg-fear text-white" : "bg-[#c4234e] text-white"}`}
-              disabled={isSubmitting}
+              type="submit"
+              disabled={submitting}
+              className={`mt-2 w-full cursor-pointer rounded-sm py-2.5 text-[11px] font-bold tracking-[2px] transition-all hover:brightness-110 disabled:opacity-50 ${
+                isDark ? "bg-fear text-white" : "bg-[#c4234e] text-white"
+              }`}
             >
-              {isSubmitting ? t("creating") : t("createArtistProfile")}
+              {submitting ? t("creating") : t("createArtistProfile")}
             </button>
           </form>
         </div>

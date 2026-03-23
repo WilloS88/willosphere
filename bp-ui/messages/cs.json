@@ -87,7 +87,21 @@
     "ctaTitle": "Připraven Připojit Se k Revoluci?",
     "ctaDesc": "Zažij hudbu tak, jak měla být slyšena. Připoj se k tisícům milovníků hudby objevujících každý den nové zvuky.",
     "ctaButton": "VYTVOŘIT BEZPLATNÝ ÚČET",
-    "ctaSecondary": "DOZVĚDĚT SE VÍC"
+    "ctaSecondary": "DOZVĚDĚT SE VÍC",
+
+    "becomeArtistLabel": "PRO UMĚLCE",
+    "becomeArtistTitle": "Sdílej Svou Hudbu Se Světem",
+    "becomeArtistDesc": "Přidej se k tisícům nezávislých umělců, kteří already na WilloSphere publikují, vydělávají a rostou.",
+    "becomeArtistBenefit1Title": "Nahraj Své Skladby",
+    "becomeArtistBenefit1Desc": "Jednoduchý upload bez omezení formátů. Tvoje hudba bude dostupná okamžitě po schválení.",
+    "becomeArtistBenefit2Title": "Vydělávej Ze Streamů",
+    "becomeArtistBenefit2Desc": "Férové odměny za každý stream. Transparentní výplaty bez skrytých poplatků.",
+    "becomeArtistBenefit3Title": "Buduj Své Publikum",
+    "becomeArtistBenefit3Desc": "Sledující, statistiky, playlisty — vše co potřebuješ pro růst své hudební kariéry.",
+    "becomeArtistCta": "STÁT SE UMĚLCEM",
+    "becomeArtistNote": "Registrace zdarma · Bez skrytých poplatků",
+    "becomeArtistAlreadyArtist": "Už jsi umělec?",
+    "becomeArtistLogin": "Přihlásit se"
   },
 
   "About": {
@@ -250,7 +264,21 @@
       "degraded": "Zhoršené"
     },
 
-    "manageUsers": "Spravovat uživatele"
+    "manageUsers": "Spravovat uživatele",
+
+    "artists": "Umělci",
+    "artist": "Umělec",
+    "noArtists": "Žádní umělci nenalezeni",
+    "bio": "Bio",
+    "artistSince": "Umělec od",
+    "memberSince": "Člen od",
+    "bannerImageUrl": "URL banneru",
+    "view": "Zobrazit",
+    "total": "Celkem",
+    "deleteArtistQuestion": "Smazat umělce?",
+    "detailArtist": "Detail umělce",
+    "editArtist": "Editace umělce",
+    "noBio": "Bio nebylo vyplněno"
   },
 
   "Store": {
@@ -312,7 +340,9 @@
     "idLabel": "ID",
     "emailLabel": "EMAIL",
     "displayNameLabel": "ZOBRAZOVANÉ_JMÉNO",
-    "guestUser": "HOST"
+    "guestUser": "HOST",
+    "noArtists": "ŽÁDNÍ_UMĚLCI",
+    "since": "OD"
   },
 
   "Artist": {
@@ -341,7 +371,31 @@
     "artistBio": "BIO_UMĚLCE",
     "artistSince": "UMĚLEC_OD",
     "genres": "ŽÁNRY",
-    "createFailed": "Nepodařilo se vytvořit profil umělce."
+    "createFailed": "Nepodařilo se vytvořit profil umělce.",
+    "saving": "UKLÁDÁNÍ...",
+    "changesSaved": "Změny byly úspěšně uloženy.",
+    "memberSince": "ČLEN_OD",
+    "email": "EMAIL",
+    "bannerImageUrl": "URL BANNERU",
+    "forExistingUsers": "PRO PŘIHLÁŠENÉ UŽIVATELE"
+  },
+
+  "SignupArtist": {
+    "title": "Stát Se Umělcem",
+    "subtitle": "Vytvořit účet a ihned začít publikovat hudbu",
+    "sectionAccount": "INFORMACE O ÚČTU",
+    "sectionArtist": "PROFIL UMĚLCE",
+    "email": "EMAIL",
+    "displayName": "PŘEZDÍVKA",
+    "displayNamePlaceholder": "Tvoje jméno nebo alias",
+    "password": "HESLO",
+    "confirmPassword": "POTVRZENÍ HESLA",
+    "passwordMismatch": "Hesla se neshodují",
+    "submit": "VYTVOŘIT ÚČET UMĚLCE",
+    "submitting": "VYTVÁŘENÍ...",
+    "alreadyHaveAccount": "Máš již účet?",
+    "login": "Přihlásit se",
+    "signupAsListener": "Registrovat se jako posluchač"
   },
 
   "NotFound": {

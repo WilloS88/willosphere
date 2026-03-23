@@ -4,18 +4,72 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { ArrowLeft } from "lucide-react";
+import { useEffect, useState } from "react";
 import PageShell from "@/app/components/layout/PageShell";
 import { Navbar } from "@/app/components/layout/Navbar";
 import { useStoreTheme } from "@/app/context/StoreThemeContext";
 import { useAuth } from "@/app/components/auth/AuthProvider";
 import { SectionLabel, Badge } from "@/app/components/ui/elastic-slider/StoreUI";
+import { API_ENDPOINTS } from "@/app/api/enpoints";
+import { parseAxiosError } from "@/lib/axios";
+import type { ArtistDto } from "@/app/types/user";
+import api from "@/lib/axios";
 
 function ProfileContent() {
-  const { locale }   = useParams<{ locale: string }>();
-  const { isDark }   = useStoreTheme();
-  const { session }  = useAuth();
-  const t            = useTranslations("Artist");
-  const user         = session?.user;
+  const t             = useTranslations("Artist");
+  const { locale }    = useParams<{ locale: string }>();
+  const { isDark }    = useStoreTheme();
+  const { session }   = useAuth();
+  const user          = session?.user;
+
+  const [profile, setProfile]         = useState<ArtistDto | null>(null);
+  const [loading, setLoading]         = useState(true);
+  const [saving, setSaving]           = useState(false);
+  const [successMsg, setSuccessMsg]   = useState<string | null>(null);
+  const [errorMsg, setErrorMsg]       = useState<string | null>(null);
+
+  const [form, setForm] = useState({
+    bio:            "",
+    bannerImageUrl: "",
+    artistSince:    "",
+  });
+
+  useEffect(() => {
+    if (!user?.id)
+      return;
+
+    api.get<ArtistDto>(API_ENDPOINTS.artists.detail(user.id))
+      .then(({ data }) => {
+        setProfile(data);
+        setForm({
+          bio:            data.bio ?? "",
+          bannerImageUrl: data.bannerImageUrl ?? "",
+          artistSince:    data.artistSince ?? "",
+        });
+      })
+      .catch(console.error)
+      .finally(() => setLoading(false));
+  }, [user?.id]);
+
+  const handleSave = async () => {
+    setSaving(true);
+    setSuccessMsg(null);
+    setErrorMsg(null);
+
+    try {
+      const { data } = await api.patch<ArtistDto>(API_ENDPOINTS.artists.me, {
+        bio:            form.bio || null,
+        bannerImageUrl: form.bannerImageUrl || null,
+        artistSince:    form.artistSince || null,
+      });
+      setProfile(data);
+      setSuccessMsg(t("changesSaved"));
+    } catch (err) {
+      setErrorMsg(parseAxiosError(err));
+    } finally {
+      setSaving(false);
+    }
+  };
 
   const inputCls = `w-full rounded-sm px-3 py-2.5 border outline-none text-[11px] tracking-wider font-vcr transition-all ${
     isDark
@@ -52,9 +106,7 @@ function ProfileContent() {
               <div className="mt-1 flex gap-1.5">
                 {user?.roles?.map((r, i) => (
                   <Badge key={i} variant="cyan" className="text-[8px]">
-                    {typeof r === "string"
-                      ? r.toUpperCase()
-                      : r.role.toUpperCase()}
+                    {typeof r === "string" ? r.toUpperCase() : r.role.toUpperCase()}
                   </Badge>
                 ))}
               </div>
@@ -66,47 +118,83 @@ function ProfileContent() {
           >
             <SectionLabel className="mb-4">{t("editProfile")}</SectionLabel>
 
-            <form className="space-y-4">
-              <div>
-                <label className={labelCls}>{t("displayName")}</label>
-                <input
-                  type="text"
-                  className={inputCls}
-                  defaultValue={user?.displayName ?? ""}
+            {loading ? (
+              <div className="flex justify-center py-8">
+                <span
+                  className={`inline-block h-5 w-5 animate-spin rounded-full border-2 border-current border-t-transparent ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`}
                 />
               </div>
-              <div>
-                <label className={labelCls}>{t("email")}</label>
-                <input
-                  type="email"
-                  className={inputCls}
-                  defaultValue={user?.email ?? ""}
-                  disabled
-                />
-              </div>
-              <div>
-                <label className={labelCls}>{t("bio")}</label>
-                <textarea
-                  className={`${inputCls} min-h-[80px] resize-y`}
-                  placeholder={t("bioPlaceholder")}
-                />
-              </div>
-              <div>
-                <label className={labelCls}>{t("profileImageUrl")}</label>
-                <input
-                  type="url"
-                  className={inputCls}
-                  placeholder={t("imageUrlPlaceholder")}
-                />
-              </div>
+            ) : (
+              <div className="space-y-4">
+                <div>
+                  <label className={labelCls}>{t("displayName")}</label>
+                  <input
+                    type="text"
+                    className={inputCls}
+                    defaultValue={user?.displayName ?? ""}
+                    disabled
+                  />
+                </div>
+                <div>
+                  <label className={labelCls}>{t("email")}</label>
+                  <input
+                    type="email"
+                    className={inputCls}
+                    defaultValue={user?.email ?? ""}
+                    disabled
+                  />
+                </div>
+                <div>
+                  <label className={labelCls}>{t("bio")}</label>
+                  <textarea
+                    className={`${inputCls} min-h-[80px] resize-y`}
+                    placeholder={t("bioPlaceholder")}
+                    value={form.bio}
+                    onChange={(e) => setForm((p) => ({ ...p, bio: e.target.value }))}
+                  />
+                </div>
+                <div>
+                  <label className={labelCls}>{t("artistSince")}</label>
+                  <input
+                    type="date"
+                    className={inputCls}
+                    value={form.artistSince}
+                    onChange={(e) => setForm((p) => ({ ...p, artistSince: e.target.value }))}
+                  />
+                </div>
 
-              <button
-                type="button"
-                className={`w-full cursor-pointer rounded-sm py-2.5 text-[11px] font-bold tracking-[2px] transition-all hover:brightness-110 ${isDark ? "bg-fear text-white" : "bg-[#c4234e] text-white"}`}
-              >
-                {t("saveChanges")}
-              </button>
-            </form>
+                {successMsg && (
+                  <div
+                    className={`rounded border p-2 text-[10px] tracking-wider ${isDark ? "border-vhs-green/30 bg-vhs-green/10 text-vhs-green" : "border-green-300 bg-green-50 text-green-700"}`}
+                  >
+                    {successMsg}
+                  </div>
+                )}
+
+                {errorMsg && (
+                  <div className="text-fear bg-fear/10 border-fear/20 rounded border p-2 text-[10px] tracking-wider">
+                    {errorMsg}
+                  </div>
+                )}
+
+                <button
+                  type="button"
+                  onClick={handleSave}
+                  disabled={saving}
+                  className={`w-full cursor-pointer rounded-sm py-2.5 text-[11px] font-bold tracking-[2px] transition-all hover:brightness-110 disabled:opacity-50 ${isDark ? "bg-fear text-white" : "bg-[#c4234e] text-white"}`}
+                >
+                  {saving ? t("saving") : t("saveChanges")}
+                </button>
+
+                {profile && (
+                  <div
+                    className={`mt-4 border-t pt-4 text-[9px] tracking-wider ${isDark ? "border-royalblue/20 text-vhs-muted" : "border-[#c4b8a8]/20 text-[#8a8578]"}`}
+                  >
+                    {t("memberSince")}: {new Date(profile.memberSince).toLocaleDateString()}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </main>

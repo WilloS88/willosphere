@@ -1,5 +1,7 @@
 "use client";
 
+import React, { useEffect } from "react";
+import { useParams, useRouter } from "next/navigation";
 import { PlayerProvider } from "@/app/context/PlayerContext";
 import {
   StoreThemeProvider,
@@ -14,6 +16,7 @@ import {
 } from "@/app/components/layout/PlayerBar";
 import { HOME_NAV_ITEMS } from "@/lib/home-data";
 import Noise from "@/app/components/ui/react-bits/noise/Noise";
+import { useAuth } from "@/app/components/auth/AuthProvider";
 
 function HomeShell({ children }: { children: React.ReactNode }) {
   const { theme, isDark } = useStoreTheme();
@@ -54,6 +57,23 @@ function HomeShell({ children }: { children: React.ReactNode }) {
   );
 }
 
+function HomeGuard({ children }: { children: React.ReactNode }) {
+  const { session, isHydrated } = useAuth();
+  const router                  = useRouter();
+  const { locale }              = useParams<{ locale: string }>();
+
+  useEffect(() => {
+    if(isHydrated && !session) {
+      router.replace(`/${locale}/login`);
+    }
+  }, [session, isHydrated, router, locale]);
+
+  if(!isHydrated || !session)
+    return null;
+
+  return <>{children}</>;
+}
+
 export default function HomeLayout({
   children,
 }: {
@@ -62,7 +82,9 @@ export default function HomeLayout({
   return (
     <StoreThemeProvider>
       <PlayerProvider>
-        <HomeShell>{children}</HomeShell>
+        <HomeGuard>
+          <HomeShell>{children}</HomeShell>
+        </HomeGuard>
       </PlayerProvider>
     </StoreThemeProvider>
   );

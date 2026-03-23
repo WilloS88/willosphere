@@ -12,6 +12,10 @@ import {
   Play,
   ArrowBigDown,
   ArrowRight,
+  Upload,
+  TrendingUp,
+  Users,
+  Mic2,
 } from "lucide-react";
 import PageShell from "@/app/components/layout/PageShell";
 import { Navbar } from "@/app/components/layout/Navbar";
@@ -271,7 +275,7 @@ function LandingContent() {
               href={`/${locale}/signup`}
               className={`rounded-sm border px-8 py-3.5 text-sm font-bold tracking-[2px] no-underline transition-all hover:scale-105 ${
                 isDark
-                  ? "border-fearyellow/50 bg-black/30 text-fearyellow"
+                  ? "border-fearyellow/50 text-fearyellow bg-black/30"
                   : "border-[#c4a800]/50 bg-black/60 text-[#c4a800]"
               }`}
             >
@@ -299,7 +303,9 @@ function LandingContent() {
         <div className="mx-auto max-w-7xl">
           <div className="mb-8 flex items-end justify-between sm:mb-12">
             <div>
-              <SectionLabel className="mb-2">{t("featuredLabel")}</SectionLabel>
+              <SectionLabel className="mb-2 text-lg">
+                {t("featuredLabel")}
+              </SectionLabel>
               <h2
                 className={`text-2xl font-bold tracking-[3px] sm:text-4xl ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}
               >
@@ -472,7 +478,9 @@ function LandingContent() {
       >
         <div className="mx-auto max-w-6xl">
           <div className="mb-10 text-center">
-            <SectionLabel className="mb-2">{t("genresLabel")}</SectionLabel>
+            <SectionLabel className="mb-2 text-lg">
+              {t("genresLabel")}
+            </SectionLabel>
             <h2
               className={`text-2xl font-bold tracking-[3px] sm:text-3xl ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}
             >
@@ -512,7 +520,9 @@ function LandingContent() {
       <section className="px-4 py-16 sm:px-6 sm:py-24">
         <div className="mx-auto max-w-5xl">
           <div className="mb-10 text-center">
-            <SectionLabel className="mb-2">{t("statsLabel")}</SectionLabel>
+            <SectionLabel className="mb-2 text-lg">
+              {t("statsLabel")}
+            </SectionLabel>
           </div>
 
           <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
@@ -570,14 +580,146 @@ function LandingContent() {
       </section>
 
       {/* ═══════════════════════════════════════════
-          SECTION 6 — ARTIST SPOTLIGHT (TiltedCards)
+          SECTION 6 — BECOME AN ARTIST
+      ═══════════════════════════════════════════ */}
+      <section
+        className={`px-4 py-16 sm:px-6 sm:py-24 ${isDark ? "bg-vhs-surface/60" : "bg-[#ede7db]/60"}`}
+      >
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-12 text-center">
+            <SectionLabel className="mb-2 text-lg">
+              {t("becomeArtistLabel")}
+            </SectionLabel>
+            <h2
+              className={`text-2xl font-bold tracking-[3px] sm:text-4xl ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}
+            >
+              {t("becomeArtistTitle")}
+            </h2>
+            <p
+              className={`mx-auto mt-2 mb-5 max-w-xl text-base leading-relaxed tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+            >
+              {t("becomeArtistDesc")}
+            </p>
+          </div>
+
+          {/* Benefits grid */}
+          <div className="mb-10 grid gap-5 sm:grid-cols-3 sm:gap-6">
+            {[
+              {
+                icon: Upload,
+                title: t("becomeArtistBenefit1Title"),
+                desc: t("becomeArtistBenefit1Desc"),
+                color: "#ed2c5e",
+              },
+              {
+                icon: TrendingUp,
+                title: t("becomeArtistBenefit2Title"),
+                desc: t("becomeArtistBenefit2Desc"),
+                color: "#f4e526",
+              },
+              {
+                icon: Users,
+                title: t("becomeArtistBenefit3Title"),
+                desc: t("becomeArtistBenefit3Desc"),
+                color: "#00e5ff",
+              },
+            ].map((item, i) => {
+              const Icon = item.icon;
+              return (
+                <div
+                  key={i}
+                  className={`rounded-lg border p-6 transition-all hover:-translate-y-0.5 ${
+                    isDark
+                      ? "bg-vhs-card border-royalblue/20 hover:border-royalblue/40"
+                      : "border-[#c4b8a8]/30 bg-white/80 hover:border-[#c4b8a8]/60"
+                  }`}
+                >
+                  <div
+                    className="mb-4 flex h-11 w-11 items-center justify-center rounded-lg"
+                    style={{
+                      background: `${item.color}18`,
+                      color: item.color,
+                    }}
+                  >
+                    <Icon size={22} strokeWidth={1.75} />
+                  </div>
+                  <h3
+                    className={`mb-2 text-[15px] font-bold tracking-[2px] sm:text-xs ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}
+                  >
+                    {item.title}
+                  </h3>
+                  <p
+                    className={`text-[13px] leading-relaxed tracking-wide ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+                  >
+                    {item.desc}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+
+          <div
+            className={`flex w-full flex-col items-center gap-6 self-stretch rounded-xl border p-8 text-center justify-between sm:flex-row sm:text-left ${
+              isDark
+                ? "bg-darkblue/80 border-fear/20"
+                : "border-[#c4234e]/15 bg-white/90"
+            }`}
+          >
+            <div className="flex items-center gap-4">
+              <div
+                className={`flex h-14 w-14 shrink-0 items-center justify-center rounded p-4 ${
+                  isDark
+                    ? "bg-fear/15 text-fear"
+                    : "bg-[#c4234e]/10 text-[#c4234e]"
+                }`}
+              >
+                <Mic2 size={26} strokeWidth={1.5} />
+              </div>
+              <div>
+                <div
+                  className={`text-sm font-bold tracking-[2px] ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}
+                >
+                  {t("becomeArtistNote")}
+                </div>
+                <div
+                  className={`mt-0.5 text-[10px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+                >
+                  {t("becomeArtistAlreadyArtist")}{" "}
+                  <Link
+                    href={`/${locale}/login`}
+                    className={`underline ${isDark ? "text-vhs-cyan hover:text-fearyellow" : "text-[#c4234e]"}`}
+                  >
+                    {t("becomeArtistLogin")}
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            <Link
+              href={`/${locale}/signup-artist`}
+              className={`shrink-0 rounded-sm px-8 py-3.5 text-sm font-bold tracking-[2px] no-underline transition-all hover:scale-105 active:scale-95 sm:ml-auto ${
+                isDark
+                  ? "bg-fear text-white shadow-[0_0_30px_rgba(237,44,94,0.4)]"
+                  : "bg-[#c4234e] text-white shadow-[0_0_20px_rgba(196,35,78,0.3)]"
+              }`}
+            >
+              {t("becomeArtistCta")}
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════
+          SECTION 7 — ARTIST SPOTLIGHT (TiltedCards)
       ═══════════════════════════════════════════ */}
       <section
         className={`px-4 py-16 sm:px-6 sm:py-24 ${isDark ? "bg-vhs-surface/40" : "bg-[#ede7db]/40"}`}
       >
         <div className="mx-auto max-w-6xl">
           <div className="mb-10 text-center">
-            <SectionLabel className="mb-2">{t("artistsLabel")}</SectionLabel>
+            <SectionLabel className="mb-2 text-lg">
+              {t("artistsLabel")}
+            </SectionLabel>
             <h2
               className={`text-2xl font-bold tracking-[3px] sm:text-3xl ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}
             >
@@ -634,7 +776,7 @@ function LandingContent() {
       </section>
 
       {/* ═══════════════════════════════════════════
-          SECTION 7 — FINAL CTA
+          SECTION 8 — FINAL CTA
       ═══════════════════════════════════════════ */}
       <section className="px-4 py-20 sm:px-6 sm:py-28">
         <div className="mx-auto max-w-3xl text-center">

@@ -87,7 +87,21 @@
     "ctaTitle": "Ready to Join the Revolution?",
     "ctaDesc": "Experience music the way it was meant to be heard. Join thousands of music lovers discovering new sounds every day.",
     "ctaButton": "CREATE FREE ACCOUNT",
-    "ctaSecondary": "LEARN MORE"
+    "ctaSecondary": "LEARN MORE",
+
+    "becomeArtistLabel": "FOR ARTISTS",
+    "becomeArtistTitle": "Share Your Music With the World",
+    "becomeArtistDesc": "Join thousands of independent artists already publishing, earning and growing on WilloSphere.",
+    "becomeArtistBenefit1Title": "Upload Your Tracks",
+    "becomeArtistBenefit1Desc": "Simple upload with no format restrictions. Your music will be available immediately after approval.",
+    "becomeArtistBenefit2Title": "Earn From Streams",
+    "becomeArtistBenefit2Desc": "Fair rewards for every stream. Transparent payouts with no hidden fees.",
+    "becomeArtistBenefit3Title": "Grow Your Audience",
+    "becomeArtistBenefit3Desc": "Followers, analytics, playlists — everything you need to grow your music career.",
+    "becomeArtistCta": "BECOME AN ARTIST",
+    "becomeArtistNote": "Free to join · No hidden fees",
+    "becomeArtistAlreadyArtist": "Already an artist?",
+    "becomeArtistLogin": "Log in"
   },
 
   "About": {
@@ -250,7 +264,21 @@
       "degraded": "Degraded"
     },
 
-    "manageUsers": "Manage users"
+    "manageUsers": "Manage users",
+
+    "artists": "Artists",
+    "artist": "Artist",
+    "noArtists": "No artists found",
+    "bio": "Bio",
+    "artistSince": "Artist since",
+    "memberSince": "Member since",
+    "bannerImageUrl": "Banner URL",
+    "view": "View",
+    "total": "Total",
+    "deleteArtistQuestion": "Delete artist?",
+    "detailArtist": "Artist detail",
+    "editArtist": "Edit artist",
+    "noBio": "No bio provided"
   },
 
   "Store": {
@@ -312,7 +340,9 @@
     "idLabel": "ID",
     "emailLabel": "EMAIL",
     "displayNameLabel": "DISPLAY_NAME",
-    "guestUser": "GUEST_USER"
+    "guestUser": "GUEST_USER",
+    "noArtists": "NO_ARTISTS_FOUND",
+    "since": "SINCE"
   },
 
   "Artist": {
@@ -341,10 +371,34 @@
     "artistBio": "ARTIST_BIO",
     "artistSince": "ARTIST_SINCE",
     "genres": "GENRES",
-    "createFailed": "Failed to create artist profile."
+    "createFailed": "Failed to create artist profile.",
+    "saving": "SAVING...",
+    "changesSaved": "Changes saved successfully.",
+    "memberSince": "MEMBER_SINCE",
+    "email": "EMAIL",
+    "bannerImageUrl": "BANNER URL",
+    "forExistingUsers": "FOR LOGGED-IN USERS"
   },
 
   "Home": {},
+
+  "SignupArtist": {
+    "title": "Become an Artist",
+    "subtitle": "Create an account and start publishing music right away",
+    "sectionAccount": "ACCOUNT INFO",
+    "sectionArtist": "ARTIST PROFILE",
+    "email": "EMAIL",
+    "displayName": "DISPLAY NAME",
+    "displayNamePlaceholder": "Your name or alias",
+    "password": "PASSWORD",
+    "confirmPassword": "CONFIRM PASSWORD",
+    "passwordMismatch": "Passwords do not match",
+    "submit": "CREATE ARTIST ACCOUNT",
+    "submitting": "CREATING...",
+    "alreadyHaveAccount": "Already have an account?",
+    "login": "Log in",
+    "signupAsListener": "Sign up as listener"
+  },
 
   "NotFound": {
     "code":        "ERROR_404",

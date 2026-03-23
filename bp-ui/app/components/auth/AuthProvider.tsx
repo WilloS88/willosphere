@@ -25,11 +25,12 @@ type LoginPayload = {
 };
 
 type AuthContextValue = {
-  session:    AuthSession | null;
-  isHydrated: boolean;
-  signup:     (payload: SignupPayload) => Promise<AuthUser>;
-  login:      (payload: LoginPayload) => Promise<AuthUser>;
-  logout:     () => Promise<void>;
+  session:         AuthSession | null;
+  isHydrated:      boolean;
+  signup:          (payload: SignupPayload) => Promise<AuthUser>;
+  login:           (payload: LoginPayload) => Promise<AuthUser>;
+  logout:          () => Promise<void>;
+  refreshSession:  () => Promise<AuthUser>;
 };
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -71,9 +72,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setSession(null);
   }, []);
 
+  const refreshSession = useCallback(async () => {
+    const { data } = await api.get<AuthUser>(API_ENDPOINTS.auth.me);
+    setSession({ user: data });
+    return data;
+  }, []);
+
   const value = useMemo(
-    () => ({ session, isHydrated, signup, login, logout }),
-    [session, isHydrated, signup, login, logout],
+    () => ({ session, isHydrated, signup, login, logout, refreshSession }),
+    [session, isHydrated, signup, login, logout, refreshSession],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

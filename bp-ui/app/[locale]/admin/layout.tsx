@@ -6,7 +6,7 @@ import { ReactNode, useEffect } from "react";
 import { useTranslations } from "use-intl";
 import { getRoleRedirect } from "@/lib/auth";
 import { useAuth } from "@/app/components/auth/AuthProvider";
-import { ArrowBigLeft, Users, AudioLines, Disc3, Barcode, Package, ListMusic } from "lucide-react";
+import { ArrowBigLeft, Users, AudioLines, Disc3, Barcode, Package, ListMusic, Mic2 } from "lucide-react";
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
   const t                       = useTranslations("Admin");
@@ -65,13 +65,23 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
               </Link>
             </li>
 
-            <li className="border-b-1 pb-1 ">
+            <li>
               <Link
                 href={`/${locale}/admin/users`}
                 title={t("users")}
               >
                 <Users size={20} />
                 {t("users")}
+              </Link>
+            </li>
+
+            <li className="border-b-1 pb-1">
+              <Link
+                href={`/${locale}/admin/artists`}
+                title={t("artists")}
+              >
+                <Mic2 size={20} />
+                {t("artists")}
               </Link>
             </li>
 
