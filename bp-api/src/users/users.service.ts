@@ -13,6 +13,9 @@ import { ArtistProfile } from "../entities/artist-profile.entity";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { SignupAsArtistDto } from "../auth/dto/signup-artist.dto";
+import { ListUsersQueryDto } from "./dto/list-users-query.dto";
+import { PaginatedResult } from "../common/dto/paginated-result";
+import { UserDTO } from "./dto/user.dto";
 
 @Injectable()
 export class UsersService {
@@ -23,13 +26,38 @@ export class UsersService {
     @InjectDataSource() private readonly ds: DataSource,
   ) {}
 
-  async findAllList(): Promise<User[]> {
-    return this.usersRepo
-        .createQueryBuilder("u")
-        .leftJoinAndSelect("u.roles", "ur")
-        .select(["u.id", "u.email", "u.displayName", "ur.role"])
-        .orderBy("u.id", "ASC")
-        .getMany();
+  async findAllList(dto: ListUsersQueryDto): Promise<PaginatedResult<UserDTO>> {
+    const page  = dto.page  ?? 1;
+    const limit = dto.limit ?? 20;
+
+    const ALLOWED_SORT: Record<string, string> = {
+      id:          "u.id",
+      email:       "u.email",
+      displayName: "u.displayName",
+    };
+    const sortCol = (dto.sortBy && ALLOWED_SORT[dto.sortBy]) ? ALLOWED_SORT[dto.sortBy] : "u.id";
+    const sortDir = dto.sortDir ?? "ASC";
+
+    const qb = this.usersRepo
+      .createQueryBuilder("u")
+      .leftJoinAndSelect("u.roles", "ur");
+
+    if (dto.email)
+      qb.andWhere("u.email LIKE :email", { email: `%${dto.email}%` });
+
+    if (dto.displayName)
+      qb.andWhere("u.displayName LIKE :dn", { dn: `%${dto.displayName}%` });
+
+    if (dto.role)
+      qb.innerJoin("u.roles", "rf", "rf.role = :role", { role: dto.role });
+
+    qb.orderBy(sortCol, sortDir)
+      .skip((page - 1) * limit)
+      .take(limit);
+
+    const [users, total] = await qb.getManyAndCount();
+
+    return { data: users.map(UserDTO.fromEntity), total, page, limit };
   }
 
   async findById(id: number): Promise<User> {

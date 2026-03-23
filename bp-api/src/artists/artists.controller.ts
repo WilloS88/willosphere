@@ -9,6 +9,7 @@ import {
   Patch,
   Post,
   Req,
+  Query,
   UseGuards,
 } from "@nestjs/common";
 import { Request } from "express";
@@ -17,14 +18,16 @@ import { ArtistsService } from "./artists.service";
 import { ArtistDto } from "./dto/artist.dto";
 import { BecomeArtistDto } from "./dto/become-artist.dto";
 import { UpdateArtistProfileDto } from "./dto/update-artist-profile.dto";
+import { ListArtistsQueryDto } from "./dto/list-artists-query.dto";
+import { PaginatedResult } from "../common/dto/paginated-result";
 
 @Controller("artists")
 export class ArtistsController {
   constructor(private readonly artists: ArtistsService) {}
 
   @Get()
-  findAll(): Promise<ArtistDto[]> {
-    return this.artists.findAll();
+  findAll(@Query() query: ListArtistsQueryDto): Promise<PaginatedResult<ArtistDto>> {
+    return this.artists.findAll(query);
   }
 
   @Get(":id")

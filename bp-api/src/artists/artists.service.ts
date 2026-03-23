@@ -12,6 +12,8 @@ import { UserRole } from "../entities/user-role.entity";
 import { ArtistDto } from "./dto/artist.dto";
 import { BecomeArtistDto } from "./dto/become-artist.dto";
 import { UpdateArtistProfileDto } from "./dto/update-artist-profile.dto";
+import { ListArtistsQueryDto } from "./dto/list-artists-query.dto";
+import { PaginatedResult } from "../common/dto/paginated-result";
 
 @Injectable()
 export class ArtistsService {
@@ -24,14 +26,42 @@ export class ArtistsService {
     private readonly ds: DataSource,
   ) {}
 
-  async findAll(): Promise<ArtistDto[]> {
-    const profiles = await this.profileRepo
-      .createQueryBuilder("ap")
-      .innerJoinAndSelect("ap.user", "u")
-      .orderBy("ap.createdAt", "ASC")
-      .getMany();
+  async findAll(dto: ListArtistsQueryDto): Promise<PaginatedResult<ArtistDto>> {
+    const page  = dto.page  ?? 1;
+    const limit = dto.limit ?? 20;
 
-    return profiles.map((p) => ArtistDto.fromEntities(p.user, p));
+    const ALLOWED_SORT: Record<string, string> = {
+      userId:      "ap.userId",
+      displayName: "u.displayName",
+      email:       "u.email",
+      artistSince: "ap.artistSince",
+      memberSince: "ap.createdAt",
+    };
+    const sortCol = (dto.sortBy && ALLOWED_SORT[dto.sortBy]) ? ALLOWED_SORT[dto.sortBy] : "ap.createdAt";
+    const sortDir = dto.sortDir ?? "ASC";
+
+    const qb = this.profileRepo
+      .createQueryBuilder("ap")
+      .innerJoinAndSelect("ap.user", "u");
+
+    if (dto.displayName)
+      qb.andWhere("u.displayName LIKE :dn", { dn: `%${dto.displayName}%` });
+
+    if (dto.email)
+      qb.andWhere("u.email LIKE :email", { email: `%${dto.email}%` });
+
+    qb.orderBy(sortCol, sortDir)
+      .skip((page - 1) * limit)
+      .take(limit);
+
+    const [profiles, total] = await qb.getManyAndCount();
+
+    return {
+      data: profiles.map((p) => ArtistDto.fromEntities(p.user, p)),
+      total,
+      page,
+      limit,
+    };
   }
 
   async findOne(userId: number): Promise<ArtistDto> {

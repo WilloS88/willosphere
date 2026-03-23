@@ -12,15 +12,16 @@ import { UsersService } from "./users.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { UserDTO, UserDetailDTO } from "./dto/user.dto";
+import { ListUsersQueryDto } from "./dto/list-users-query.dto";
+import { PaginatedResult } from "../common/dto/paginated-result";
 
 @Controller("users")
 export class UsersController {
   constructor(private readonly users: UsersService) {}
 
   @Get()
-  async list(): Promise<UserDTO[]> {
-    const users = await this.users.findAllList();
-    return users.map(UserDTO.fromEntity);
+  async list(@Query() query: ListUsersQueryDto): Promise<PaginatedResult<UserDTO>> {
+    return this.users.findAllList(query);
   }
 
   @Get(":id")
