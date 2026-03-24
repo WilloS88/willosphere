@@ -6,6 +6,7 @@ import { Music, Clock, Search, Play } from "lucide-react";
 import { PageHeader } from "@/app/components/ui/elastic-slider/StoreUI";
 import { useStoreTheme } from "@/app/context/StoreThemeContext";
 import { usePlayer } from "@/app/context/PlayerContext";
+import { PlaylistPicker } from "@/app/components/home/PlaylistPicker";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
 import type { TrackDto, GenreDto } from "@/app/types/track";
 import type { PaginatedResponse } from "@/app/types/pagination";
@@ -205,6 +206,8 @@ export default function TracksPage() {
                     {track.price} CZK
                   </div>
                 )}
+
+                <PlaylistPicker trackId={track.id} />
               </div>
             ))}
           </div>

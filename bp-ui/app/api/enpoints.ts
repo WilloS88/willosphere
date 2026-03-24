@@ -41,4 +41,26 @@ export const API_ENDPOINTS = {
     list:   "/admin/genres",
     detail: (id: number) => `/admin/genres/${id}`,
   },
+
+  albums: {
+    list:   "/albums",
+    detail: (id: number) => `/albums/${id}`,
+  },
+
+  adminAlbums: {
+    list:   "/admin/albums",
+    detail: (id: number) => `/admin/albums/${id}`,
+  },
+
+  playlists: {
+    list:         "/playlists",
+    detail:       (id: number) => `/playlists/${id}`,
+    tracks:       (id: number) => `/playlists/${id}/tracks`,
+    removeTrack:  (id: number, trackId: number) => `/playlists/${id}/tracks/${trackId}`,
+  },
+
+  adminPlaylists: {
+    list:   "/admin/playlists",
+    detail: (id: number) => `/admin/playlists/${id}`,
+  },
 } as const;

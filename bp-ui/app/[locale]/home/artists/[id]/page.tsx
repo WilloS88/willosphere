@@ -7,6 +7,7 @@ import { Music, Clock, Play, ArrowLeft, CalendarDays, UserCircle2 } from "lucide
 import Link from "next/link";
 import { useStoreTheme } from "@/app/context/StoreThemeContext";
 import { usePlayer } from "@/app/context/PlayerContext";
+import { PlaylistPicker } from "@/app/components/home/PlaylistPicker";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
 import type { ArtistDto } from "@/app/types/user";
 import type { TrackDto } from "@/app/types/track";
@@ -222,6 +223,8 @@ export default function ArtistDetailPage() {
                     <Clock size={10} />
                     {formatTime(track.durationSeconds)}
                   </div>
+
+                  <PlaylistPicker trackId={track.id} />
                 </div>
               );
             })}
