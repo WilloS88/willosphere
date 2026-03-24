@@ -8,6 +8,8 @@ import { AuthModule } from "./auth/auth.module";
 import { ArtistsModule } from "./artists/artists.module";
 import { GenresModule } from "./genres/genres.module";
 import { TracksModule } from "./tracks/tracks.module";
+import { AlbumsModule } from "./albums/albums.module";
+import { PlaylistsModule } from "./playlists/playlists.module";
 import { JwtModule } from "node_modules/@nestjs/jwt";
 
 @Module({
@@ -46,6 +48,8 @@ import { JwtModule } from "node_modules/@nestjs/jwt";
     ArtistsModule,
     GenresModule,
     TracksModule,
+    AlbumsModule,
+    PlaylistsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

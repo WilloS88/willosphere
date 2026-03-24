@@ -4,7 +4,10 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from "typeorm";
+import { AlbumArtist } from "./album-artist.entity";
+import { Track } from "./track.entity";
 
 @Entity("Album")
 export class Album {
@@ -22,6 +25,12 @@ export class Album {
 
   @Column({ type: "decimal", precision: 10, scale: 2 })
   price!: string;
+
+  @OneToMany(() => AlbumArtist, (aa) => aa.album, { cascade: true })
+  albumArtists!: AlbumArtist[];
+
+  @OneToMany(() => Track, (t) => t.album)
+  tracks!: Track[];
 
   @CreateDateColumn({
     name: "created_at",
