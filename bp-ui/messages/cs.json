@@ -284,13 +284,46 @@
     "allRoles": "Všechny role",
     "pageInfo": "{from}–{to} z {total}",
     "prevPage": "Předchozí",
-    "nextPage": "Další"
+    "nextPage": "Další",
+
+    "genres": "Žánry",
+    "genre": "Žánr",
+    "noGenres": "Žádné žánry nenalezeny",
+    "newGenre": "Nový žánr",
+    "deleteGenreQuestion": "Smazat žánr?",
+    "detailGenre": "Detail žánru",
+    "editGenre": "Editace žánru",
+    "genreName": "Název žánru",
+
+    "noTracks": "Žádné skladby nenalezeny",
+    "newTrack": "Nová skladba",
+    "deleteTrackQuestion": "Smazat skladbu?",
+    "detailTrack": "Detail skladby",
+    "editTrack": "Editace skladby",
+    "title": "Název",
+    "duration": "Délka (s)",
+    "bpm": "BPM",
+    "audioUrl": "URL audia",
+    "price": "Cena",
+    "coverImageUrl": "URL obalu",
+    "albumId": "ID alba",
+    "primaryRole": "Hlavní umělec",
+    "featRole": "Spolupráce",
+    "addArtist": "Přidat umělce",
+    "removeArtist": "Odebrat",
+    "artistId": "ID umělce",
+    "artistRole": "Role",
+
+    "createdAt": "Vytvořeno",
+    "updatedAt": "Aktualizováno"
   },
 
   "Store": {
     "playing": "PŘEHRÁVÁ SE",
     "queue": "FRONTA",
     "tracks": "SKLADEB",
+    "noTracks": "ŽÁDNÉ SKLADBY NENALEZENY",
+    "memberSince": "ČLEN OD",
     "searchPlaceholder": "HLEDAT_V_DATABÁZI",
     "collapse": "SBALIT",
     "navigation": "NAVIGACE",
@@ -348,7 +381,14 @@
     "displayNameLabel": "ZOBRAZOVANÉ_JMÉNO",
     "guestUser": "HOST",
     "noArtists": "ŽÁDNÍ_UMĚLCI",
-    "since": "OD"
+    "since": "OD",
+    "artistLabel": "UMĚLEC",
+    "playAll": "PŘEHRÁT VŠE",
+    "aboutSection": "// O UMĚLCI",
+    "tracksSection": "// SKLADBY",
+    "artistNotFound": "UMĚLEC_NENALEZEN",
+    "noTracksYet": "ZATÍM_ŽÁDNÉ_SKLADBY",
+    "allGenres": "VŠE"
   },
 
   "Artist": {

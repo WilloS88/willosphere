@@ -284,13 +284,46 @@
     "allRoles": "All roles",
     "pageInfo": "{from}–{to} of {total}",
     "prevPage": "Previous",
-    "nextPage": "Next"
+    "nextPage": "Next",
+
+    "genres": "Genres",
+    "genre": "Genre",
+    "noGenres": "No genres found",
+    "newGenre": "New genre",
+    "deleteGenreQuestion": "Delete genre?",
+    "detailGenre": "Genre detail",
+    "editGenre": "Edit genre",
+    "genreName": "Genre name",
+
+    "noTracks": "No tracks found",
+    "newTrack": "New track",
+    "deleteTrackQuestion": "Delete track?",
+    "detailTrack": "Track detail",
+    "editTrack": "Edit track",
+    "title": "Title",
+    "duration": "Duration (s)",
+    "bpm": "BPM",
+    "audioUrl": "Audio URL",
+    "price": "Price",
+    "coverImageUrl": "Cover image URL",
+    "albumId": "Album ID",
+    "primaryRole": "Primary artist",
+    "featRole": "Featured",
+    "addArtist": "Add artist",
+    "removeArtist": "Remove",
+    "artistId": "Artist ID",
+    "artistRole": "Role",
+
+    "createdAt": "Created",
+    "updatedAt": "Updated"
   },
 
   "Store": {
     "playing": "PLAYING",
     "queue": "QUEUE",
     "tracks": "TRACKS",
+    "noTracks": "NO TRACKS FOUND",
+    "memberSince": "MEMBER SINCE",
     "searchPlaceholder": "SEARCH_DATABASE",
     "collapse": "COLLAPSE",
     "navigation": "NAVIGATION",
@@ -348,7 +381,14 @@
     "displayNameLabel": "DISPLAY_NAME",
     "guestUser": "GUEST_USER",
     "noArtists": "NO_ARTISTS_FOUND",
-    "since": "SINCE"
+    "since": "SINCE",
+    "artistLabel": "ARTIST",
+    "playAll": "PLAY ALL",
+    "aboutSection": "// ABOUT",
+    "tracksSection": "// TRACKS",
+    "artistNotFound": "ARTIST_NOT_FOUND",
+    "noTracksYet": "NO_TRACKS_YET",
+    "allGenres": "ALL"
   },
 
   "Artist": {

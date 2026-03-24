@@ -1,10 +1,10 @@
 "use client";
 
 import {
-  createContext, useContext, useState, useEffect, useCallback,
+  createContext, useContext, useState, useEffect, useCallback, useRef,
   type ReactNode, type Dispatch, type SetStateAction,
 } from "react";
-import { PLAYLIST, type Track } from "@/lib/store-data";
+import type { TrackDto } from "@/app/types/track";
 
 interface PlayerContextValue {
   navCollapsed:      boolean;
@@ -15,10 +15,9 @@ interface PlayerContextValue {
   toggleLike:        (id: number) => void;
   isPlaying:         boolean;
   setIsPlaying:      Dispatch<SetStateAction<boolean>>;
-  currentTrack:      number;
-  setCurrentTrack:   Dispatch<SetStateAction<number>>;
+  track:             TrackDto | null;
   progress:          number;
-  setProgress:       Dispatch<SetStateAction<number>>;
+  duration:          number;
   volume:            number;
   setVolume:         Dispatch<SetStateAction<number>>;
   shuffle:           boolean;
@@ -27,10 +26,11 @@ interface PlayerContextValue {
   setRepeat:         Dispatch<SetStateAction<boolean>>;
   showQueue:         boolean;
   setShowQueue:      Dispatch<SetStateAction<boolean>>;
-  track:             Track;
-  playTrack:         (idx: number) => void;
+  queue:             TrackDto[];
+  playTrack:         (track: TrackDto, queue?: TrackDto[]) => void;
   nextTrack:         () => void;
   prevTrack:         () => void;
+  seekTo:            (seconds: number) => void;
 }
 
 const PlayerContext = createContext<PlayerContextValue | null>(null);
@@ -40,27 +40,152 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [likedItems, setLikedItems]         = useState<Set<number>>(new Set());
 
-  const [isPlaying, setIsPlaying]       = useState(false);
-  const [currentTrack, setCurrentTrack] = useState(0);
-  const [progress, setProgress]         = useState(0);
-  const [volume, setVolume]             = useState(75);
-  const [shuffle, setShuffle]           = useState(false);
-  const [repeat, setRepeat]             = useState(false);
-  const [showQueue, setShowQueue]       = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [track, setTrack]         = useState<TrackDto | null>(null);
+  const [progress, setProgress]   = useState(0);
+  const [duration, setDuration]   = useState(0);
+  const [volume, setVolume]       = useState(75);
+  const [shuffle, setShuffle]     = useState(false);
+  const [repeat, setRepeat]       = useState(false);
+  const [showQueue, setShowQueue] = useState(false);
+  const [queue, setQueue]         = useState<TrackDto[]>([]);
 
+  const audioRef     = useRef<HTMLAudioElement | null>(null);
+  const queueRef     = useRef<TrackDto[]>([]);
+  const queueIdxRef  = useRef<number>(-1);
+  const repeatRef    = useRef(repeat);
+
+  // Keep refs in sync
+  useEffect(() => { queueRef.current = queue; }, [queue]);
+  useEffect(() => { repeatRef.current = repeat; }, [repeat]);
+
+  // Init audio element (client-only)
   useEffect(() => {
-    if (!isPlaying) return;
-    const t = setInterval(() => {
-      setProgress((p) => {
-        if (p >= PLAYLIST[currentTrack].duration) {
-          setCurrentTrack((c) => (c + 1) % PLAYLIST.length);
-          return 0;
-        }
-        return p + 1;
-      });
-    }, 1000);
-    return () => clearInterval(t);
-  }, [isPlaying, currentTrack]);
+    const audio = new Audio();
+    audioRef.current = audio;
+
+    audio.ontimeupdate     = () => setProgress(Math.floor(audio.currentTime));
+    audio.ondurationchange = () => setDuration(Math.floor(audio.duration) || 0);
+    audio.onended          = () => {
+      if(repeatRef.current) {
+        audio.currentTime = 0;
+        void audio.play();
+        return;
+      }
+      const q   = queueRef.current;
+      const idx = queueIdxRef.current;
+
+      if(q.length > 0 && idx < q.length - 1) {
+        const next = q[idx + 1];
+        queueIdxRef.current = idx + 1;
+        setTrack(next);
+        setProgress(0);
+        audio.src = next.audioUrl;
+        void audio.play();
+      } else {
+        setIsPlaying(false);
+        setProgress(0);
+      }
+    };
+
+    return () => {
+      audio.pause();
+      audio.src = "";
+    };
+  }, []);
+
+  // Sync isPlaying → audio
+  useEffect(() => {
+    const audio = audioRef.current;
+    if(!audio || !audio.src)
+      return;
+
+    if(isPlaying) {
+      void audio.play();
+    } else {
+      audio.pause();
+    }
+  }, [isPlaying]);
+
+  // Sync volume → audio
+  useEffect(() => {
+    if(audioRef.current) {
+      audioRef.current.volume = volume / 100;
+    }
+  }, [volume]);
+
+  const playTrack = useCallback((newTrack: TrackDto, newQueue?: TrackDto[]) => {
+    const q   = newQueue ?? [newTrack];
+    const idx = q.findIndex((t) => t.id === newTrack.id);
+
+    queueRef.current    = q;
+    queueIdxRef.current = idx >= 0 ? idx : 0;
+    setQueue(q);
+    setTrack(newTrack);
+    setProgress(0);
+    setIsPlaying(true);
+
+    const audio = audioRef.current;
+    if(audio) {
+      audio.src = newTrack.audioUrl;
+      void audio.play();
+    }
+  }, []);
+
+  const nextTrack = useCallback(() => {
+    const q   = queueRef.current;
+    const idx = queueIdxRef.current;
+    if (q.length === 0) return;
+    const next = (idx + 1) % q.length;
+    const nextTrackItem = q[next];
+    if (!nextTrackItem) return;
+    queueIdxRef.current = next;
+    setTrack(nextTrackItem);
+    setProgress(0);
+    const audio = audioRef.current;
+    if(audio) {
+      audio.src = nextTrackItem.audioUrl;
+      void audio.play();
+    }
+  }, []);
+
+  const prevTrack = useCallback(() => {
+    const audio = audioRef.current;
+    // If more than 3s played, restart current track
+    if (audio && audio.currentTime > 3) {
+      audio.currentTime = 0;
+      setProgress(0);
+      return;
+    }
+    const q   = queueRef.current;
+    const idx = queueIdxRef.current;
+
+    if(q.length === 0)
+      return;
+
+    const prev          = (idx - 1 + q.length) % q.length;
+    const prevTrackItem = q[prev];
+
+    if (!prevTrackItem)
+      return;
+
+    queueIdxRef.current = prev;
+    setTrack(prevTrackItem);
+    setProgress(0);
+
+    if(audio) {
+      audio.src = prevTrackItem.audioUrl;
+      void audio.play();
+    }
+  }, []);
+
+  const seekTo = useCallback((seconds: number) => {
+    const audio = audioRef.current;
+    if(audio) {
+      audio.currentTime = seconds;
+    }
+    setProgress(seconds);
+  }, []);
 
   const toggleLike = useCallback((id: number) => {
     setLikedItems((prev) => {
@@ -68,22 +193,6 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       next.has(id) ? next.delete(id) : next.add(id);
       return next;
     });
-  }, []);
-
-  const playTrack = useCallback((idx: number) => {
-    setCurrentTrack(idx % PLAYLIST.length);
-    setProgress(0);
-    setIsPlaying(true);
-  }, []);
-
-  const nextTrack = useCallback(() => {
-    setCurrentTrack((c) => (c + 1) % PLAYLIST.length);
-    setProgress(0);
-  }, []);
-
-  const prevTrack = useCallback(() => {
-    setCurrentTrack((c) => (c - 1 + PLAYLIST.length) % PLAYLIST.length);
-    setProgress(0);
   }, []);
 
   // Auto-collapse on mobile
@@ -100,10 +209,11 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       value={{
         navCollapsed, setNavCollapsed, activeCategory, setActiveCategory,
         likedItems, toggleLike,
-        isPlaying, setIsPlaying, currentTrack, setCurrentTrack,
-        progress, setProgress, volume, setVolume,
-        shuffle, setShuffle, repeat, setRepeat, showQueue, setShowQueue,
-        track: PLAYLIST[currentTrack], playTrack, nextTrack, prevTrack,
+        isPlaying, setIsPlaying,
+        track, progress, duration, volume, setVolume,
+        shuffle, setShuffle, repeat, setRepeat,
+        showQueue, setShowQueue,
+        queue, playTrack, nextTrack, prevTrack, seekTo,
       }}
     >
       {children}

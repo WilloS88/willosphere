@@ -261,8 +261,8 @@ export default function UsersPage() {
               <AdminDetailField label={t("role")}     value={<RoleBadges roles={dialogUser.roles as Role[]} />} />
               <AdminDetailField label={t("timezone")} value={dialogUser.timezone} />
               <AdminDetailField label={t("language")} value={dialogUser.language} />
-              <AdminDetailField label="Created"       value={new Date(dialogUser.createdAt).toLocaleString()} />
-              <AdminDetailField label="Updated"       value={new Date(dialogUser.updatedAt).toLocaleString()} />
+              <AdminDetailField label={t("createdAt")} value={new Date(dialogUser.createdAt).toLocaleString()} />
+              <AdminDetailField label={t("updatedAt")} value={new Date(dialogUser.updatedAt).toLocaleString()} />
             </div>
           ) : (
             <div className="flex justify-center py-4">

@@ -31,7 +31,7 @@ function SignupContent() {
     event.preventDefault();
     setErrorMessage(null);
     if (formState.password !== formState.confirmPassword) {
-      setErrorMessage("Passwords do not match.");
+      setErrorMessage(t("passwordsMustMatch"));
       return;
     }
     setIsSubmitting(true);

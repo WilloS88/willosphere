@@ -21,4 +21,24 @@ export const API_ENDPOINTS = {
     me:       "/artists/me",
     detail:   (id: number) => `/artists/${id}`,
   },
+
+  tracks: {
+    list:   "/tracks",
+    detail: (id: number) => `/tracks/${id}`,
+  },
+
+  genres: {
+    list:   "/genres",
+    detail: (id: number) => `/genres/${id}`,
+  },
+
+  adminTracks: {
+    list:   "/admin/tracks",
+    detail: (id: number) => `/admin/tracks/${id}`,
+  },
+
+  adminGenres: {
+    list:   "/admin/genres",
+    detail: (id: number) => `/admin/genres/${id}`,
+  },
 } as const;

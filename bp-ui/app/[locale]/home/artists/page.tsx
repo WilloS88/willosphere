@@ -2,11 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
+import { useParams } from "next/navigation";
+import Link from "next/link";
 import { Music } from "lucide-react";
 import { PageHeader } from "@/app/components/ui/elastic-slider/StoreUI";
 import { useStoreTheme } from "@/app/context/StoreThemeContext";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
 import type { ArtistDto } from "@/app/types/user";
+import type { PaginatedResponse } from "@/app/types/pagination";
 import api from "@/lib/axios";
 
 const AVATAR_COLORS = ["#00e5ff", "#9b59ff", "#ed2c5e", "#f4e526", "#00ff88"];
@@ -14,12 +17,13 @@ const AVATAR_COLORS = ["#00e5ff", "#9b59ff", "#ed2c5e", "#f4e526", "#00ff88"];
 export default function ArtistsPage() {
   const t                           = useTranslations("Store");
   const { isDark }                  = useStoreTheme();
+  const { locale }                  = useParams<{ locale: string }>();
   const [artists, setArtists]       = useState<ArtistDto[]>([]);
   const [loading, setLoading]       = useState(true);
 
   useEffect(() => {
-    api.get<ArtistDto[]>(API_ENDPOINTS.artists.list)
-      .then(({ data }) => setArtists(data))
+    api.get<PaginatedResponse<ArtistDto>>(API_ENDPOINTS.artists.list)
+      .then(({ data }) => setArtists(data.data))
       .catch(console.error)
       .finally(() => setLoading(false));
   }, []);
@@ -45,9 +49,10 @@ export default function ArtistsPage() {
           {artists.map((artist, i) => {
             const color = AVATAR_COLORS[i % AVATAR_COLORS.length];
             return (
-              <div
+              <Link
                 key={artist.userId}
-                className={`animate-slide-up cursor-pointer rounded border p-4 text-center transition-all hover:-translate-y-0.5 ${
+                href={`/${locale}/home/artists/${artist.userId}`}
+                className={`animate-slide-up cursor-pointer rounded border p-4 text-center transition-all hover:-translate-y-0.5 block ${
                   isDark
                     ? "border-royalblue/20 bg-vhs-card hover:border-royalblue/40"
                     : "border-[#c4b8a8]/30 bg-white/80 hover:border-[#c4b8a8]/50"
@@ -94,7 +99,7 @@ export default function ArtistsPage() {
                     {t("since")} {new Date(artist.artistSince).getFullYear()}
                   </div>
                 )}
-              </div>
+              </Link>
             );
           })}
         </div>
