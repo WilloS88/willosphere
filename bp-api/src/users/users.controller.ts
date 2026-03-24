@@ -7,6 +7,7 @@ import {
   Post,
   Put,
   ParseIntPipe, Query,
+  UseGuards,
 } from "@nestjs/common";
 import { UsersService } from "./users.service";
 import { CreateUserDto } from "./dto/create-user.dto";
@@ -14,8 +15,14 @@ import { UpdateUserDto } from "./dto/update-user.dto";
 import { UserDTO, UserDetailDTO } from "./dto/user.dto";
 import { ListUsersQueryDto } from "./dto/list-users-query.dto";
 import { PaginatedResult } from "../common/dto/paginated-result";
+import { AuthGuard } from "../auth/guard/jwt-auth.guard";
+import { RolesGuard } from "../auth/guard/roles.guard";
+import { Roles } from "../auth/decorators/roles.decorator";
+import { Role } from "../entities/role.enum";
 
 @Controller("users")
+@UseGuards(AuthGuard, RolesGuard)
+@Roles(Role.ADMIN)
 export class UsersController {
   constructor(private readonly users: UsersService) {}
 

@@ -14,6 +14,9 @@ import {
 } from "@nestjs/common";
 import { Request } from "express";
 import { AuthGuard } from "../auth/guard/jwt-auth.guard";
+import { RolesGuard } from "../auth/guard/roles.guard";
+import { Roles } from "../auth/decorators/roles.decorator";
+import { Role } from "../entities/role.enum";
 import { ArtistsService } from "./artists.service";
 import { ArtistDto } from "./dto/artist.dto";
 import { BecomeArtistDto } from "./dto/become-artist.dto";
@@ -61,6 +64,8 @@ export class ArtistsController {
   }
 
   @Patch(":id")
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   updateProfileById(
     @Param("id", ParseIntPipe) id: number,
     @Body() dto: UpdateArtistProfileDto,
@@ -69,6 +74,8 @@ export class ArtistsController {
   }
 
   @Delete(":id")
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   @HttpCode(204)
   resignById(@Param("id", ParseIntPipe) id: number): Promise<void> {
     return this.artists.resign(id);
