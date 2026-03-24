@@ -8,7 +8,8 @@ const NEST_API_URL = process.env.NEST_API_URL!;
  * - Forwards Set-Cookie headers from NestJS back to the client.
  */
 export async function proxy(req: NextRequest, path: string): Promise<NextResponse> {
-  const url     = `${NEST_API_URL}${path}`;
+  const qs  = req.nextUrl.searchParams.toString();
+  const url = `${NEST_API_URL}${path}${qs ? `?${qs}` : ""}`;
   const headers: Record<string, string> = { "Content-Type": "application/json" };
 
   const cookie = req.headers.get("cookie");

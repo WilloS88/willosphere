@@ -278,7 +278,13 @@
     "deleteArtistQuestion": "Smazat umělce?",
     "detailArtist": "Detail umělce",
     "editArtist": "Editace umělce",
-    "noBio": "Bio nebylo vyplněno"
+    "noBio": "Bio nebylo vyplněno",
+
+    "filterPlaceholder": "Filtrovat...",
+    "allRoles": "Všechny role",
+    "pageInfo": "{from}–{to} z {total}",
+    "prevPage": "Předchozí",
+    "nextPage": "Další"
   },
 
   "Store": {

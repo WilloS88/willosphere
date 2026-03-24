@@ -278,7 +278,13 @@
     "deleteArtistQuestion": "Delete artist?",
     "detailArtist": "Artist detail",
     "editArtist": "Edit artist",
-    "noBio": "No bio provided"
+    "noBio": "No bio provided",
+
+    "filterPlaceholder": "Filter...",
+    "allRoles": "All roles",
+    "pageInfo": "{from}–{to} of {total}",
+    "prevPage": "Previous",
+    "nextPage": "Next"
   },
 
   "Store": {
