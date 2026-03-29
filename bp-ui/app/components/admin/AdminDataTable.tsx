@@ -5,7 +5,7 @@ import { useTranslations } from "use-intl";
 import { ChevronUp, ChevronDown, ChevronsUpDown } from "lucide-react";
 
 export type FilterConfig =
-  | { type: "text" }
+  | { type: "text"; placeholder?: string }
   | { type: "enum"; options: { value: string; label: string }[] };
 
 export type Column = {
@@ -13,6 +13,7 @@ export type Column = {
   align?:     "left" | "center" | "right";
   className?: string;
   sortKey?:   string;
+  filterKey?: string;
   filter?:    FilterConfig;
 };
 
@@ -44,12 +45,13 @@ const alignClass: Record<NonNullable<Column["align"]>, string> = {
 };
 
 function getPageNumbers(current: number, total: number): (number | "…")[] {
-  if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+  if(total <= 7)
+    return Array.from({ length: total }, (_, i) => i + 1);
 
-  if (current <= 4)
+  if(current <= 4)
     return [1, 2, 3, 4, 5, "…", total];
 
-  if (current >= total - 3)
+  if(current >= total - 3)
     return [1, "…", total - 4, total - 3, total - 2, total - 1, total];
 
   return [1, "…", current - 1, current, current + 1, "…", total];
@@ -128,18 +130,18 @@ export function AdminDataTable({
                     {col.filter.type === "text" ? (
                       <input
                         className="input input-xs w-full border border-slate-300 bg-white font-normal normal-case"
-                        placeholder={t("filterPlaceholder")}
-                        value={filters[col.sortKey ?? col.label] ?? ""}
+                        placeholder={(col.filter as { type: "text"; placeholder?: string }).placeholder ?? t("filterPlaceholder")}
+                        value={filters[col.filterKey ?? col.sortKey ?? col.label] ?? ""}
                         onChange={(e) =>
-                          onFilterChange(col.sortKey ?? col.label, e.target.value)
+                          onFilterChange(col.filterKey ?? col.sortKey ?? col.label, e.target.value)
                         }
                       />
                     ) : (
                       <select
                         className="select select-xs w-full border border-slate-300 bg-white font-normal normal-case"
-                        value={filters[col.sortKey ?? col.label] ?? ""}
+                        value={filters[col.filterKey ?? col.sortKey ?? col.label] ?? ""}
                         onChange={(e) =>
-                          onFilterChange(col.sortKey ?? col.label, e.target.value)
+                          onFilterChange(col.filterKey ?? col.sortKey ?? col.label, e.target.value)
                         }
                       >
                         <option value="">{t("allRoles")}</option>

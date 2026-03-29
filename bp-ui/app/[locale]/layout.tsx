@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { hasLocale } from "next-intl";
 import { routing } from "@/app/i18n/routing";
 import { AuthProvider } from "@/app/components/auth/AuthProvider";
+import { ReduxProvider } from "@/app/components/providers/ReduxProvider";
 import "../globals.css";
 
 const geistSans = Geist({
@@ -49,9 +50,11 @@ export default async function LocaleLayout({
       className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col antialiased`}
     >
       <NextIntlClientProvider locale={locale} messages={messages}>
-        <AuthProvider>
-          {children}
-        </AuthProvider>
+        <ReduxProvider>
+          <AuthProvider>
+            {children}
+          </AuthProvider>
+        </ReduxProvider>
       </NextIntlClientProvider>
     </div>
   );

@@ -17,10 +17,11 @@ export default function AlbumDetailPage() {
   const t              = useTranslations("Store");
   const { id, locale } = useParams<{ id: string; locale: string }>();
   const { isDark }     = useStoreTheme();
-  const { playTrack, track: currentTrack, isPlaying } = usePlayer();
 
   const [album, setAlbum]     = useState<AlbumDto | null>(null);
   const [loading, setLoading] = useState(true);
+
+  const { playTrack, track: currentTrack, isPlaying } = usePlayer();
 
   useEffect(() => {
     if(!id)

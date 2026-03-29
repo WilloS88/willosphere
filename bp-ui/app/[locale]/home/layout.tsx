@@ -3,6 +3,7 @@
 import React, { useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { PlayerProvider } from "@/app/context/PlayerContext";
+import { ToastProvider } from "@/app/context/ToastContext";
 import {
   StoreThemeProvider,
   useStoreTheme,
@@ -81,11 +82,13 @@ export default function HomeLayout({
 }) {
   return (
     <StoreThemeProvider>
+      <ToastProvider>
       <PlayerProvider>
         <HomeGuard>
           <HomeShell>{children}</HomeShell>
         </HomeGuard>
       </PlayerProvider>
+      </ToastProvider>
     </StoreThemeProvider>
   );
 }

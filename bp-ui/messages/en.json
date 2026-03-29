@@ -18,7 +18,6 @@
     "passwordsDoNotMatch": "Passwords do not match",
     "signupFailed": "Signup failed. Try again."
   },
-
   "LocaleSwitcher": {
     "label": "Language",
     "locales": {
@@ -26,7 +25,6 @@
       "en": "English"
     }
   },
-
   "Navbar": {
     "notLoggedIn": "Not logged in",
     "title": "WilloSphere",
@@ -38,7 +36,6 @@
     "adminDashboard": "Admin",
     "application": "Application"
   },
-
   "Footer": {
     "rights": "All rights reserved",
     "twitter": "Twitter",
@@ -48,7 +45,6 @@
     "aboutUs": "About us",
     "contact": "Contact"
   },
-
   "Landing": {
     "heroTagline": "EXPLORE THE VIBE",
     "title": "WilloSphere",
@@ -88,7 +84,6 @@
     "ctaDesc": "Experience music the way it was meant to be heard. Join thousands of music lovers discovering new sounds every day.",
     "ctaButton": "CREATE FREE ACCOUNT",
     "ctaSecondary": "LEARN MORE",
-
     "becomeArtistLabel": "FOR ARTISTS",
     "becomeArtistTitle": "Share Your Music With the World",
     "becomeArtistDesc": "Join thousands of independent artists already publishing, earning and growing on WilloSphere.",
@@ -103,25 +98,19 @@
     "becomeArtistAlreadyArtist": "Already an artist?",
     "becomeArtistLogin": "Log in"
   },
-
   "About": {
     "home": "Home",
     "title": "About us",
     "intro": "WilloSphere is a music platform connecting listeners and artists. We build a simple, fast, and fair space for discovering and sharing music.",
-
     "missionTitle": "Mission",
     "missionText": "Give artists the tools and space to create, publish, and grow without unnecessary barriers.",
-
     "visionTitle": "Vision",
     "visionText": "One place for creation, listening, and a community built around music.",
-
     "valuesTitle": "Values",
     "valuesText": "Quality, fairness, safety, and simplicity in every detail.",
-
     "contact": "Contact us",
     "backHome": "Back home"
   },
-
   "Contact": {
     "home": "Home",
     "title": "Contact",
@@ -130,9 +119,7 @@
     "phoneLabel": "Phone",
     "addressLabel": "Address",
     "address": "Zlín, Czech Republic",
-
     "about": "About us",
-
     "name": "Name",
     "namePlaceholder": "Your name",
     "email": "Email",
@@ -142,7 +129,6 @@
     "send": "Send",
     "note": "This form is currently a demo (no backend sending yet)."
   },
-
   "Registration": {
     "home": "Home",
     "createAnAccount": "Create an account",
@@ -167,7 +153,6 @@
     "passwordMismatch": "Passwords do not match",
     "passwordsMustMatch": "Passwords must match"
   },
-
   "Login": {
     "home": "Home",
     "header": "Log in to account",
@@ -179,7 +164,6 @@
     "dontHaveAnAccount": "Don't have an account yet?",
     "signup": "Sign up"
   },
-
   "Admin": {
     "welcome": "Welcome",
     "header": "WilloSphere Admin",
@@ -192,13 +176,11 @@
     "products": "Products",
     "orders": "Orders",
     "tracks": "Tracks",
-
     "save": "Save",
     "close": "Close",
     "edit": "Edit",
     "create": "Create",
     "delete": "Delete",
-
     "id": "Id",
     "email": "Email",
     "nickname": "Nickname",
@@ -216,10 +198,8 @@
     "newUser": "New user",
     "detailUser": "Detail of user",
     "editUser": "Edit user",
-
     "quickActions": "Quick actions",
     "quickActionsHint": "Manage content and users",
-
     "kpi": {
       "activeUsers": "Active users",
       "activeUsersHint": "placeholder (connect to API)",
@@ -228,7 +208,6 @@
       "pendingOrders": "Pending orders",
       "pendingOrdersHint": "placeholder (connect to store)"
     },
-
     "nav": {
       "users": "Users",
       "usersHint": "Manage accounts, roles and profiles",
@@ -243,7 +222,6 @@
       "orders": "Orders",
       "ordersHint": "Order processing and status"
     },
-
     "recentActivity": "Recent activity",
     "recentActivityHint": "Demo only – connect to backend later.",
     "activity": {
@@ -254,7 +232,6 @@
       "placeholder2": "A user was updated",
       "placeholder3": "A new order was created"
     },
-
     "systemStatus": "System status",
     "status": {
       "api": "API",
@@ -263,11 +240,8 @@
       "ok": "OK",
       "degraded": "Degraded"
     },
-
     "manageUsers": "Manage users",
-
     "artists": "Artists",
-    "artist": "Artist",
     "noArtists": "No artists found",
     "bio": "Bio",
     "artistSince": "Artist since",
@@ -279,13 +253,11 @@
     "detailArtist": "Artist detail",
     "editArtist": "Edit artist",
     "noBio": "No bio provided",
-
     "filterPlaceholder": "Filter...",
     "allRoles": "All roles",
     "pageInfo": "{from}–{to} of {total}",
     "prevPage": "Previous",
     "nextPage": "Next",
-
     "genres": "Genres",
     "genre": "Genre",
     "noGenres": "No genres found",
@@ -294,7 +266,6 @@
     "detailGenre": "Genre detail",
     "editGenre": "Edit genre",
     "genreName": "Genre name",
-
     "noTracks": "No tracks found",
     "newTrack": "New track",
     "deleteTrackQuestion": "Delete track?",
@@ -313,10 +284,8 @@
     "removeArtist": "Remove",
     "artistId": "Artist ID",
     "artistRole": "Role",
-
     "createdAt": "Created",
     "updatedAt": "Updated",
-
     "newAlbum": "New album",
     "editAlbum": "Edit album",
     "detailAlbum": "Album detail",
@@ -324,7 +293,6 @@
     "noAlbums": "No albums found",
     "releaseDate": "Release date",
     "collaboratorRole": "Collaborator",
-
     "newPlaylist": "New playlist",
     "editPlaylist": "Edit playlist",
     "detailPlaylist": "Playlist detail",
@@ -333,21 +301,39 @@
     "isPublic": "Public",
     "isCollaborative": "Collaborative",
     "trackCount": "Track count",
-    "owner": "Owner (userId)"
+    "owner": "Owner (userId)",
+    "noProducts": "No products found",
+    "newProduct": "New product",
+    "editProduct": "Edit product",
+    "detailProduct": "Product detail",
+    "deleteProductQuestion": "Delete product?",
+    "productName": "Name",
+    "productType": "Type",
+    "productDescription": "Description",
+    "physical": "Physical",
+    "digital": "Digital",
+    "linkedTrack": "Linked track (ID)",
+    "linkedAlbum": "Linked album (ID)",
+    "noOrders": "No orders found",
+    "detailOrder": "Order detail",
+    "purchaseDate": "Purchase date",
+    "totalPrice": "Total price",
+    "currency": "Currency",
+    "itemCount": "Items",
+    "orderItems": "Order items"
   },
-
   "Store": {
+    "clearAll": "Clear All",
     "playing": "PLAYING",
     "queue": "QUEUE",
     "tracks": "TRACKS",
     "noTracks": "NO TRACKS FOUND",
     "memberSince": "MEMBER SINCE",
     "searchPlaceholder": "SEARCH_DATABASE",
-    "collapse": "COLLAPSE",
+    "collapse": "CLOSE",
     "navigation": "NAVIGATION",
     "categories": "CATEGORIES",
     "systemStatus": "SYSTEM_STATUS",
-
     "nav_browse": "BROWSE_ALL",
     "nav_charts": "TOP_CHARTS",
     "nav_new": "NEW_DROPS",
@@ -357,7 +343,6 @@
     "nav_vinyl": "VINYL_STORE",
     "nav_events": "LIVE_EVENTS",
     "nav_profile": "PROFILE",
-
     "browseMusic": "BROWSE_MUSIC",
     "topCharts": "TOP_CHARTS",
     "newDrops": "NEW_DROPS",
@@ -366,7 +351,6 @@
     "merchShop": "MERCH_SHOP",
     "vinylStore": "VINYL_STORE",
     "liveEvents": "LIVE_EVENTS",
-
     "showingRecords": "SHOWING {count} RECORDS IN DATABASE // FILTER: NEWEST_FIRST",
     "buyNow": "BUY NOW",
     "download": "DOWNLOAD",
@@ -383,7 +367,6 @@
     "live": "LIVE",
     "freshUploads": "FRESH_UPLOADS // LAST 24H",
     "newRecordsAdded": "{count} NEW RECORDS ADDED TO DATABASE",
-
     "new": "NEW",
     "waveStore": "WAVE_STORE",
     "user": "USER",
@@ -412,7 +395,6 @@
     "creating": "CREATING...",
     "isPublic": "Public",
     "isCollaborative": "Collaborative",
-    "collapse": "CLOSE",
     "albums": "ALBUMS",
     "noAlbums": "NO_ALBUMS_FOUND",
     "playlists": "PLAYLISTS",
@@ -428,9 +410,38 @@
     "artistNotFound": "ARTIST_NOT_FOUND",
     "noTracksYet": "NO_TRACKS_YET",
     "allGenres": "ALL",
-    "albumNotFound": "ALBUM_NOT_FOUND"
+    "albumNotFound": "ALBUM_NOT_FOUND",
+    "allTypes": "ALL",
+    "physical": "PHYSICAL",
+    "digital": "DIGITAL",
+    "addedToCart": "Added to cart",
+    "viewDetails": "View details",
+    "linkedTrack": "Track",
+    "linkedAlbum": "Album",
+    "filterByType": "Filter by type",
+    "cartTitle": "CART",
+    "cartEmpty": "Your cart is empty",
+    "cartEmptyHint": "Browse the shop and add some products",
+    "goToShop": "GO TO SHOP",
+    "removeItem": "Remove",
+    "total": "TOTAL",
+    "proceedToCheckout": "PROCEED TO CHECKOUT",
+    "checkoutTitle": "CHECKOUT",
+    "orderSummary": "ORDER SUMMARY",
+    "placeOrder": "PLACE ORDER",
+    "orderSuccess": "Order placed successfully!",
+    "orderError": "Failed to place order",
+    "ordersTitle": "MY ORDERS",
+    "noOrders": "No orders yet",
+    "ordersHint": "Your purchase history will appear here",
+    "orderDate": "Date",
+    "orderTotal": "Total",
+    "orderItems": "Items",
+    "expandOrder": "Show items",
+    "collapseOrder": "Hide items",
+    "nav_cart": "CART",
+    "nav_orders": "ORDERS"
   },
-
   "Artist": {
     "back": "Back",
     "dashboard": "ARTIST_DASHBOARD",
@@ -490,11 +501,29 @@
     "recentAlbums": "RECENT ALBUMS",
     "noRecentTracks": "NO TRACKS YET",
     "noRecentAlbums": "NO ALBUMS YET",
-    "viewAll": "VIEW ALL"
+    "viewAll": "VIEW ALL",
+    "myProducts": "My Products",
+    "products": "Products",
+    "noProducts": "No products yet",
+    "addProduct": "Add product",
+    "manageProducts": "Manage products",
+    "createProduct": "Create product",
+    "productName": "Product name",
+    "productType": "Type",
+    "productDescription": "Description (optional)",
+    "productPrice": "Price",
+    "linkToTrack": "Link to track (optional)",
+    "linkToAlbum": "Link to album (optional)",
+    "selectTrack": "Select track",
+    "selectAlbum": "Select album",
+    "none": "None",
+    "physical": "Physical (merch, CD, vinyl...)",
+    "digital": "Digital (download, stream...)",
+    "productSaved": "Product saved",
+    "productDeleted": "Product deleted",
+    "editProduct": "Edit product"
   },
-
   "Home": {},
-
   "SignupArtist": {
     "title": "Become an Artist",
     "subtitle": "Create an account and start publishing music right away",
@@ -512,17 +541,16 @@
     "login": "Log in",
     "signupAsListener": "Sign up as listener"
   },
-
   "NotFound": {
-    "code":        "ERROR_404",
-    "title":       "PAGE_NOT_FOUND",
+    "code": "ERROR_404",
+    "title": "PAGE_NOT_FOUND",
     "description": "The page you're looking for doesn't exist or has been moved.",
-    "backHome":    "BACK_TO_HOMEPAGE",
-    "goBack":      "GO_BACK",
-    "tipsTitle":   "WHAT_CAN_YOU_TRY",
-    "tip1":        "Check the URL address",
-    "tip2":        "Go back to the previous page",
-    "tip3":        "Open the homepage",
-    "errorCode":   "NOT_FOUND"
+    "backHome": "BACK_TO_HOMEPAGE",
+    "goBack": "GO_BACK",
+    "tipsTitle": "WHAT_CAN_YOU_TRY",
+    "tip1": "Check the URL address",
+    "tip2": "Go back to the previous page",
+    "tip3": "Open the homepage",
+    "errorCode": "NOT_FOUND"
   }
 }

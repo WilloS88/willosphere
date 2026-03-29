@@ -115,9 +115,9 @@ function Slider({ defaultValue, startingValue, maxValue, isStepped, stepSize, le
   return (
     <>
       <motion.div
-        onHoverStart={() => animate(scale, 1.2)}
+        onHoverStart={() => animate(scale, 1.1)}
         onHoverEnd={() => animate(scale, 1)}
-        onTouchStart={() => animate(scale, 1.2)}
+        onTouchStart={() => animate(scale, 1.1)}
         onTouchEnd={() => animate(scale, 1)}
         style={{ scale, opacity: useTransform(scale, [1, 1.2], [0.7, 1]) }}
         className="store-slider-wrapper"

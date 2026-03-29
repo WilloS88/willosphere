@@ -63,4 +63,20 @@ export const API_ENDPOINTS = {
     list:   "/admin/playlists",
     detail: (id: number) => `/admin/playlists/${id}`,
   },
+
+  products: {
+    list:   "/products",
+    detail: (id: number) => `/products/${id}`,
+  },
+
+  adminProducts: {
+    list:   "/admin/products",
+    detail: (id: number) => `/admin/products/${id}`,
+  },
+
+  purchases: {
+    list:   "/purchases",
+    detail: (id: number) => `/purchases/${id}`,
+    create: "/purchases",
+  },
 } as const;

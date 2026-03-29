@@ -8,16 +8,17 @@ import { motion, AnimatePresence } from "motion/react";
 import { usePlayer } from "@/app/context/PlayerContext";
 import { useStoreTheme } from "@/app/context/StoreThemeContext";
 import { SectionLabel } from "@/app/components/ui/elastic-slider/StoreUI";
-import { CATEGORIES, type StoreNavItem } from "@/lib/store-data";
+import { type StoreNavItem } from "@/lib/store-data";
 import { cn } from "@/lib/utils";
+import { Menu } from "lucide-react";
 
 function NavItem({ item }: { item: StoreNavItem }) {
-  const t = useTranslations("Store");
-  const { navCollapsed } = usePlayer();
-  const { isDark } = useStoreTheme();
-  const pathname = usePathname();
-  const { locale } = useParams<{ locale: string }>();
-  const fullHref = `/${locale}${item.href}`;
+  const t                 = useTranslations("Store");
+  const { navCollapsed }  = usePlayer();
+  const { isDark }        = useStoreTheme();
+  const pathname          = usePathname();
+  const { locale }        = useParams<{ locale: string }>();
+  const fullHref          = `/${locale}${item.href}`;
   const active =
     pathname === fullHref ||
     (item.href !== "/store" &&
@@ -87,11 +88,15 @@ function NavItem({ item }: { item: StoreNavItem }) {
             )}
             // Pozici vypočítáme přes ref na wrapper
             ref={(el) => {
-              if (!el) return;
+              if (!el)
+                return;
+
               const parent = el.parentElement;
-              if (!parent) return;
-              const rect = parent.getBoundingClientRect();
-              el.style.top = `${rect.top + rect.height / 2 - el.offsetHeight / 2}px`;
+              if (!parent)
+                return;
+
+              const rect    = parent.getBoundingClientRect();
+              el.style.top  = `${rect.top + rect.height / 2 - el.offsetHeight / 2}px`;
               el.style.left = `${rect.right + 8}px`;
             }}
           >
@@ -112,8 +117,8 @@ function NavItem({ item }: { item: StoreNavItem }) {
 
 function CategoryItem({ name }: { name: string }) {
   const { activeCategory, setActiveCategory } = usePlayer();
-  const { isDark } = useStoreTheme();
-  const active = activeCategory === name;
+  const { isDark }                            = useStoreTheme();
+  const active                                = activeCategory === name;
 
   return (
     <button
@@ -171,9 +176,9 @@ function SystemStatus() {
 }
 
 export function Sidebar({ navItems }: { navItems: StoreNavItem[] }) {
-  const { navCollapsed, setNavCollapsed } = usePlayer();
-  const { isDark } = useStoreTheme();
-  const t = useTranslations("Store");
+  const t                                   = useTranslations("Store");
+  const { navCollapsed, setNavCollapsed }   = usePlayer();
+  const { isDark }                          = useStoreTheme();
 
   return (
     <aside
@@ -202,7 +207,7 @@ export function Sidebar({ navItems }: { navItems: StoreNavItem[] }) {
           className="text-base transition-transform duration-300"
           style={{ transform: navCollapsed ? "rotate(0)" : "rotate(180deg)" }}
         >
-          ☰
+          <Menu />
         </span>
         {!navCollapsed && (
           <span
@@ -232,20 +237,6 @@ export function Sidebar({ navItems }: { navItems: StoreNavItem[] }) {
         ))}
       </div>
 
-      {!navCollapsed && (
-        <>
-          <SectionLabel
-            className={`border-t border-b px-4 py-2 ${isDark ? "border-royalblue/15 border-b-royalblue/10" : "border-[#c4b8a8]/20 border-b-[#c4b8a8]/15"}`}
-          >
-            {t("categories")}
-          </SectionLabel>
-          <div className="vhs-scrollbar max-h-[200px] overflow-y-auto">
-            {CATEGORIES.map((cat) => (
-              <CategoryItem key={cat} name={cat} />
-            ))}
-          </div>
-        </>
-      )}
       <SystemStatus />
     </aside>
   );

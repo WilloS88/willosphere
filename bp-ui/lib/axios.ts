@@ -8,6 +8,34 @@ const api = axios.create({
   },
 });
 
+let refreshing: Promise<void> | null = null;
+
+api.interceptors.response.use(
+  (res) => res,
+  async (err: AxiosError) => {
+    const original = err.config as typeof err.config & { _retry?: boolean };
+
+    if(err.response?.status === 401 && !original?._retry) {
+      original._retry = true;
+
+      if(!refreshing) {
+        refreshing = axios
+          .post("/api/auth/refresh", null, { withCredentials: true })
+          .then(() => { refreshing = null; })
+          .catch(() => { refreshing = null; });
+      }
+      try {
+        await refreshing;
+        return api(original);
+      }
+      catch {
+        return Promise.reject(err);
+      }
+    }
+    return Promise.reject(err);
+  }
+);
+
 export default api;
 
 export const parseAxiosError = (err: unknown): string => {

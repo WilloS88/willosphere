@@ -12,19 +12,22 @@ import {
   Moon,
   Sun,
   Search,
+  ShoppingCart,
 } from "lucide-react";
 import { useAuth } from "@/app/components/auth/AuthProvider";
 import { useStoreTheme } from "@/app/context/StoreThemeContext";
 import LocaleSwitcher from "@/app/components/locale/LocaleSwitcher";
 import { hasRole } from "@/lib/auth";
 import { GlitchText } from "@/app/components/ui/elastic-slider/StoreUI";
+import { useAppSelector } from "@/lib/hooks";
 
 export function Navbar() {
   const t                   = useTranslations("Navbar");
   const { locale }          = useParams<{ locale: string }>();
   const { session, logout } = useAuth();
   const { isDark, toggle }  = useStoreTheme();
-  const isAdmin             = hasRole(session?.user, "admin");
+  const isAdmin    = hasRole(session?.user, "admin");
+  const cartCount  = useAppSelector((s) => s.cart.items.reduce((n, i) => n + i.quantity, 0));
 
   const linkClass = `text-[11px] tracking-wider px-3 py-1.5 rounded-sm transition-all no-underline border ${
     isDark
@@ -91,6 +94,20 @@ export function Navbar() {
             </span>
           </Link>
         }
+
+        {/* Cart link */}
+        {session && (
+          <Link href={`/${locale}/home/cart`} className={`${linkClass} relative`}>
+            <span className="flex items-center gap-1.5">
+              <ShoppingCart size={14} />
+              {cartCount > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-fear text-[8px] font-bold text-white leading-none">
+                  {cartCount > 9 ? "9+" : cartCount}
+                </span>
+              )}
+            </span>
+          </Link>
+        )}
 
         {/* Admin link */}
         {isAdmin && (

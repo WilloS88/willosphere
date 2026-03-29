@@ -18,7 +18,6 @@
     "passwordsDoNotMatch": "Hesla se neshodují",
     "signupFailed": "Registrace selhala. Zkuste znovu."
   },
-
   "LocaleSwitcher": {
     "label": "Jazyk",
     "locales": {
@@ -26,7 +25,6 @@
       "en": "Angličtina"
     }
   },
-
   "Navbar": {
     "notLoggedIn": "Nepřihlášen",
     "title": "WilloSphere",
@@ -38,7 +36,6 @@
     "adminDashboard": "Admin",
     "application": "Aplikace"
   },
-
   "Footer": {
     "rights": "Všechna práva vyhrazena",
     "twitter": "Twitter",
@@ -48,7 +45,6 @@
     "aboutUs": "O nás",
     "contact": "Kontakt"
   },
-
   "Landing": {
     "heroTagline": "PROZKOUMAT VIBE",
     "title": "WilloSphere",
@@ -88,7 +84,6 @@
     "ctaDesc": "Zažij hudbu tak, jak měla být slyšena. Připoj se k tisícům milovníků hudby objevujících každý den nové zvuky.",
     "ctaButton": "VYTVOŘIT BEZPLATNÝ ÚČET",
     "ctaSecondary": "DOZVĚDĚT SE VÍC",
-
     "becomeArtistLabel": "PRO UMĚLCE",
     "becomeArtistTitle": "Sdílej Svou Hudbu Se Světem",
     "becomeArtistDesc": "Přidej se k tisícům nezávislých umělců, kteří already na WilloSphere publikují, vydělávají a rostou.",
@@ -103,25 +98,19 @@
     "becomeArtistAlreadyArtist": "Už jsi umělec?",
     "becomeArtistLogin": "Přihlásit se"
   },
-
   "About": {
     "home": "Domů",
     "title": "O nás",
     "intro": "WilloSphere je hudební platforma, která propojuje posluchače a umělce. Stavíme jednoduché, rychlé a férové prostředí pro objevování a sdílení hudby.",
-
     "missionTitle": "Mise",
     "missionText": "Dát umělcům prostor tvořit, publikovat a růst bez zbytečných bariér.",
-
     "visionTitle": "Vize",
     "visionText": "Jedno místo pro tvorbu, poslech a komunitu kolem hudby.",
-
     "valuesTitle": "Hodnoty",
     "valuesText": "Kvalita, férovost, bezpečí a jednoduchost v každém detailu.",
-
     "contact": "Kontaktujte nás",
     "backHome": "Zpět domů"
   },
-
   "Contact": {
     "home": "Domů",
     "title": "Kontakt",
@@ -130,9 +119,7 @@
     "phoneLabel": "Telefon",
     "addressLabel": "Adresa",
     "address": "Zlín, Česká republika",
-
     "about": "O nás",
-
     "name": "Jméno",
     "namePlaceholder": "Tvoje jméno",
     "email": "Email",
@@ -142,7 +129,6 @@
     "send": "Odeslat",
     "note": "Formulář je zatím demo (bez odesílání do backendu)."
   },
-
   "Registration": {
     "home": "Domů",
     "createAnAccount": "Vytvořit si účet",
@@ -167,7 +153,6 @@
     "passwordMismatch": "Hesla se neshodují",
     "passwordsMustMatch": "Hesla se musí shodovat"
   },
-
   "Login": {
     "home": "Domů",
     "header": "Přihlásit se na účet",
@@ -179,7 +164,6 @@
     "dontHaveAnAccount": "Nemáš ještě účet?",
     "signup": "Zaregistrovat se"
   },
-
   "Admin": {
     "welcome": "Víteje",
     "header": "WilloSphere Admin",
@@ -192,13 +176,11 @@
     "products": "Produkty",
     "orders": "Objednávky",
     "tracks": "Skladby",
-
     "save": "Uložit",
     "close": "Zavřít",
     "edit": "Upravit",
     "create": "Vytvořit",
     "delete": "Smazat",
-
     "id": "Id",
     "email": "Email",
     "nickname": "Přezdívka",
@@ -216,10 +198,8 @@
     "newUser": "Nový uživatel",
     "detailUser": "Detail uživatele",
     "editUser": "Editace uživatele",
-
     "quickActions": "Rychlé akce",
     "quickActionsHint": "Správa obsahu a uživatelů",
-
     "kpi": {
       "activeUsers": "Aktivní uživatelé",
       "activeUsersHint": "placeholder (napojíš na API)",
@@ -228,7 +208,6 @@
       "pendingOrders": "Nezpracované objednávky",
       "pendingOrdersHint": "placeholder (napojíš na e-shop)"
     },
-
     "nav": {
       "users": "Uživatelé",
       "usersHint": "Správa účtů, rolí a profilů",
@@ -243,7 +222,6 @@
       "orders": "Objednávky",
       "ordersHint": "Zpracování a stav objednávek"
     },
-
     "recentActivity": "Poslední aktivita",
     "recentActivityHint": "Zatím demo – doplníš data z backendu.",
     "activity": {
@@ -254,7 +232,6 @@
       "placeholder2": "Byl upraven uživatel",
       "placeholder3": "Byla vytvořena nová objednávka"
     },
-
     "systemStatus": "Stav systému",
     "status": {
       "api": "API",
@@ -263,11 +240,8 @@
       "ok": "OK",
       "degraded": "Zhoršené"
     },
-
     "manageUsers": "Spravovat uživatele",
-
     "artists": "Umělci",
-    "artist": "Umělec",
     "noArtists": "Žádní umělci nenalezeni",
     "bio": "Bio",
     "artistSince": "Umělec od",
@@ -279,13 +253,11 @@
     "detailArtist": "Detail umělce",
     "editArtist": "Editace umělce",
     "noBio": "Bio nebylo vyplněno",
-
     "filterPlaceholder": "Filtrovat...",
     "allRoles": "Všechny role",
     "pageInfo": "{from}–{to} z {total}",
     "prevPage": "Předchozí",
     "nextPage": "Další",
-
     "genres": "Žánry",
     "genre": "Žánr",
     "noGenres": "Žádné žánry nenalezeny",
@@ -294,7 +266,6 @@
     "detailGenre": "Detail žánru",
     "editGenre": "Editace žánru",
     "genreName": "Název žánru",
-
     "noTracks": "Žádné skladby nenalezeny",
     "newTrack": "Nová skladba",
     "deleteTrackQuestion": "Smazat skladbu?",
@@ -313,10 +284,8 @@
     "removeArtist": "Odebrat",
     "artistId": "ID umělce",
     "artistRole": "Role",
-
     "createdAt": "Vytvořeno",
     "updatedAt": "Aktualizováno",
-
     "newAlbum": "Nové album",
     "editAlbum": "Editace alba",
     "detailAlbum": "Detail alba",
@@ -324,7 +293,6 @@
     "noAlbums": "Žádná alba nenalezena",
     "releaseDate": "Datum vydání",
     "collaboratorRole": "Spolupráce",
-
     "newPlaylist": "Nový playlist",
     "editPlaylist": "Editace playlistu",
     "detailPlaylist": "Detail playlistu",
@@ -333,21 +301,39 @@
     "isPublic": "Veřejný",
     "isCollaborative": "Kolaborativní",
     "trackCount": "Počet skladeb",
-    "owner": "Vlastník (userId)"
+    "owner": "Vlastník (userId)",
+    "noProducts": "Žádné produkty nenalezeny",
+    "newProduct": "Nový produkt",
+    "editProduct": "Editace produktu",
+    "detailProduct": "Detail produktu",
+    "deleteProductQuestion": "Smazat produkt?",
+    "productName": "Název",
+    "productType": "Typ",
+    "productDescription": "Popis",
+    "physical": "Fyzický",
+    "digital": "Digitální",
+    "linkedTrack": "Propojená skladba (ID)",
+    "linkedAlbum": "Propojené album (ID)",
+    "noOrders": "Žádné objednávky nenalezeny",
+    "detailOrder": "Detail objednávky",
+    "purchaseDate": "Datum nákupu",
+    "totalPrice": "Celková cena",
+    "currency": "Měna",
+    "itemCount": "Položek",
+    "orderItems": "Položky objednávky"
   },
-
   "Store": {
+    "clearAll": "Vyloučit vše",
     "playing": "PŘEHRÁVÁ SE",
     "queue": "FRONTA",
     "tracks": "SKLADEB",
     "noTracks": "ŽÁDNÉ SKLADBY NENALEZENY",
     "memberSince": "ČLEN OD",
     "searchPlaceholder": "HLEDAT_V_DATABÁZI",
-    "collapse": "SBALIT",
+    "collapse": "ZAVŘÍT",
     "navigation": "NAVIGACE",
     "categories": "KATEGORIE",
     "systemStatus": "STAV_SYSTÉMU",
-
     "nav_browse": "PROCHÁZET",
     "nav_charts": "ŽEBŘÍČKY",
     "nav_new": "NOVINKY",
@@ -357,7 +343,6 @@
     "nav_vinyl": "VINYL_OBCHOD",
     "nav_events": "ŽIVÉ_AKCE",
     "nav_profile": "PROFIL",
-
     "browseMusic": "PROCHÁZET_HUDBU",
     "topCharts": "ŽEBŘÍČKY",
     "newDrops": "NOVINKY",
@@ -366,7 +351,6 @@
     "merchShop": "MERCH_OBCHOD",
     "vinylStore": "VINYL_OBCHOD",
     "liveEvents": "ŽIVÉ_AKCE",
-
     "showingRecords": "ZOBRAZUJI {count} ZÁZNAMŮ V DATABÁZI // FILTR: NEJNOVĚJŠÍ",
     "buyNow": "KOUPIT",
     "download": "STÁHNOUT",
@@ -383,7 +367,6 @@
     "live": "ŽIVĚ",
     "freshUploads": "ČERSTVÉ_NAHRÁVKY // POSLEDNÍCH 24H",
     "newRecordsAdded": "{count} NOVÝCH ZÁZNAMŮ PŘIDÁNO DO DATABÁZE",
-
     "new": "NOVÉ",
     "waveStore": "WAVE_STORE",
     "user": "UŽIVATEL",
@@ -412,7 +395,6 @@
     "creating": "VYTVÁŘENÍ...",
     "isPublic": "Veřejný",
     "isCollaborative": "Kolaborativní",
-    "collapse": "ZAVŘÍT",
     "albums": "ALBA",
     "noAlbums": "ŽÁDNÁ_ALBA",
     "playlists": "PLAYLISTY",
@@ -428,9 +410,38 @@
     "artistNotFound": "UMĚLEC_NENALEZEN",
     "noTracksYet": "ZATÍM_ŽÁDNÉ_SKLADBY",
     "allGenres": "VŠE",
-    "albumNotFound": "ALBUM_NENALEZENO"
+    "albumNotFound": "ALBUM_NENALEZENO",
+    "allTypes": "VŠE",
+    "physical": "FYZICKÉ",
+    "digital": "DIGITÁLNÍ",
+    "addedToCart": "Přidáno do košíku",
+    "viewDetails": "Detail",
+    "linkedTrack": "Skladba",
+    "linkedAlbum": "Album",
+    "filterByType": "Filtr typu",
+    "cartTitle": "KOŠÍK",
+    "cartEmpty": "Košík je prázdný",
+    "cartEmptyHint": "Procházej obchod a přidej produkty",
+    "goToShop": "DO OBCHODU",
+    "removeItem": "Odebrat",
+    "total": "CELKEM",
+    "proceedToCheckout": "POKRAČOVAT K PLATBĚ",
+    "checkoutTitle": "POKLADNA",
+    "orderSummary": "SOUHRN OBJEDNÁVKY",
+    "placeOrder": "OBJEDNAT",
+    "orderSuccess": "Objednávka úspěšně vytvořena!",
+    "orderError": "Chyba při vytváření objednávky",
+    "ordersTitle": "MÉ OBJEDNÁVKY",
+    "noOrders": "Zatím žádné objednávky",
+    "ordersHint": "Zde se zobrazí tvá nákupní historie",
+    "orderDate": "Datum",
+    "orderTotal": "Celkem",
+    "orderItems": "Položky",
+    "expandOrder": "Zobrazit položky",
+    "collapseOrder": "Skrýt položky",
+    "nav_cart": "KOŠÍK",
+    "nav_orders": "OBJEDNÁVKY"
   },
-
   "Artist": {
     "back": "Zpět",
     "dashboard": "DASHBOARD_UMĚLCE",
@@ -490,9 +501,28 @@
     "recentAlbums": "NEDÁVNÁ ALBA",
     "noRecentTracks": "ZATÍM ŽÁDNÉ SKLADBY",
     "noRecentAlbums": "ZATÍM ŽÁDNÁ ALBA",
-    "viewAll": "ZOBRAZIT VŠE"
+    "viewAll": "ZOBRAZIT VŠE",
+    "myProducts": "Moje produkty",
+    "products": "Produkty",
+    "noProducts": "Zatím žádné produkty",
+    "addProduct": "Přidat produkt",
+    "manageProducts": "Spravovat produkty",
+    "createProduct": "Vytvořit produkt",
+    "productName": "Název produktu",
+    "productType": "Typ",
+    "productDescription": "Popis (volitelný)",
+    "productPrice": "Cena",
+    "linkToTrack": "Propojit se skladbou (volitelné)",
+    "linkToAlbum": "Propojit s albem (volitelné)",
+    "selectTrack": "Vybrat skladbu",
+    "selectAlbum": "Vybrat album",
+    "none": "Žádné",
+    "physical": "Fyzický (merch, CD, vinyl...)",
+    "digital": "Digitální (stažení, stream...)",
+    "productSaved": "Produkt uložen",
+    "productDeleted": "Produkt smazán",
+    "editProduct": "Upravit produkt"
   },
-
   "SignupArtist": {
     "title": "Stát Se Umělcem",
     "subtitle": "Vytvořit účet a ihned začít publikovat hudbu",
@@ -510,17 +540,16 @@
     "login": "Přihlásit se",
     "signupAsListener": "Registrovat se jako posluchač"
   },
-
   "NotFound": {
-    "code":        "CHYBA_404",
-    "title":       "STRÁNKA_NENALEZENA",
+    "code": "CHYBA_404",
+    "title": "STRÁNKA_NENALEZENA",
     "description": "Stránka, kterou hledáš, neexistuje nebo byla přesunuta.",
-    "backHome":    "ZPĚT_NA_ÚVODNÍ_STRÁNKU",
-    "goBack":      "ZPĚT",
-    "tipsTitle":   "CO_MŮŽEŠ_ZKUSIT",
-    "tip1":        "Zkontroluj adresu URL",
-    "tip2":        "Vrať se na předchozí stránku",
-    "tip3":        "Otevři úvodní stránku",
-    "errorCode":   "NOT_FOUND"
+    "backHome": "ZPĚT_NA_ÚVODNÍ_STRÁNKU",
+    "goBack": "ZPĚT",
+    "tipsTitle": "CO_MŮŽEŠ_ZKUSIT",
+    "tip1": "Zkontroluj adresu URL",
+    "tip2": "Vrať se na předchozí stránku",
+    "tip3": "Otevři úvodní stránku",
+    "errorCode": "NOT_FOUND"
   }
 }
