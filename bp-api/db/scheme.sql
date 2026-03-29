@@ -153,6 +153,29 @@ CREATE TABLE Playlist_Track (
   INDEX idx_playlist_track_track (track_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- Products
+CREATE TABLE Product (
+  id          INT AUTO_INCREMENT PRIMARY KEY,
+  name        VARCHAR(255) NOT NULL,
+  type        ENUM('physical','digital') NOT NULL DEFAULT 'digital',
+  description TEXT NULL,
+  price       DECIMAL(10,2) NOT NULL,
+  artist_id   INT NOT NULL,
+  track_id    INT NULL,
+  album_id    INT NULL,
+  created_at  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT fk_product_artist FOREIGN KEY (artist_id)
+    REFERENCES ArtistProfile(user_id) ON DELETE RESTRICT,
+  CONSTRAINT fk_product_track  FOREIGN KEY (track_id)
+    REFERENCES Track(id) ON DELETE SET NULL,
+  CONSTRAINT fk_product_album  FOREIGN KEY (album_id)
+    REFERENCES Album(id) ON DELETE SET NULL,
+  INDEX idx_product_artist (artist_id),
+  INDEX idx_product_track  (track_id),
+  INDEX idx_product_album  (album_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- Purchases (RESTRICT)
 CREATE TABLE Purchase (
   id             INT AUTO_INCREMENT PRIMARY KEY,
@@ -166,15 +189,17 @@ CREATE TABLE Purchase (
   INDEX idx_purchase_user_time (user_id, purchase_date)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- Purchase_Item
 CREATE TABLE Purchase_Item (
   purchase_id INT NOT NULL,
-  item_type   ENUM('track','album') NOT NULL,
-  item_id     INT NOT NULL,
+  product_id  INT NOT NULL,
   price       DECIMAL(10,2) NOT NULL,
   created_at  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (purchase_id, item_type, item_id),
-  CONSTRAINT fk_purchase_item_purchase FOREIGN KEY (purchase_id) REFERENCES Purchase(id) ON DELETE RESTRICT,
-  INDEX idx_purchase_item_purchase (purchase_id)
+  PRIMARY KEY (purchase_id, product_id),
+  CONSTRAINT fk_pi_purchase FOREIGN KEY (purchase_id) REFERENCES Purchase(id) ON DELETE RESTRICT,
+  CONSTRAINT fk_pi_product  FOREIGN KEY (product_id)  REFERENCES Product(id)  ON DELETE RESTRICT,
+  INDEX idx_pi_purchase (purchase_id),
+  INDEX idx_pi_product  (product_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Listen History

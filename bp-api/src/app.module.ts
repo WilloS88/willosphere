@@ -10,6 +10,8 @@ import { GenresModule } from "./genres/genres.module";
 import { TracksModule } from "./tracks/tracks.module";
 import { AlbumsModule } from "./albums/albums.module";
 import { PlaylistsModule } from "./playlists/playlists.module";
+import { ProductsModule } from "./products/products.module";
+import { PurchasesModule } from "./purchases/purchases.module";
 import { JwtModule } from "node_modules/@nestjs/jwt";
 
 @Module({
@@ -50,6 +52,8 @@ import { JwtModule } from "node_modules/@nestjs/jwt";
     TracksModule,
     AlbumsModule,
     PlaylistsModule,
+    ProductsModule,
+    PurchasesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
