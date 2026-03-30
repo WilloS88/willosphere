@@ -3,9 +3,16 @@ export const API_ENDPOINTS = {
     signup:        "/auth/signup",
     signupArtist:  "/auth/signup-artist",
     login:         "/auth/login",
+    verifyLogin:   "/auth/verify-login",
     logout:        "/auth/logout",
     refresh:       "/auth/refresh",
     me:            "/auth/me",
+  },
+
+  mfa: {
+    enroll:        "mfa/enroll",
+    confirm:       "mfa/confirm",
+    status:        "mfa/status",
   },
 
   admin: {

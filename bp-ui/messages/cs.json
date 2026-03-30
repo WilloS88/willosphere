@@ -162,7 +162,11 @@
     "login": "Přihlásit se",
     "or": "Nebo",
     "dontHaveAnAccount": "Nemáš ještě účet?",
-    "signup": "Zaregistrovat se"
+    "signup": "Zaregistrovat se",
+    "mfaTitle": "OVĚŘENÍ 2FA",
+    "mfaDescription": "Zadej 6místný kód z vaší authenticator aplikace",
+    "mfaVerify": "OVĚŘIT",
+    "mfaExpiry": "Kód vyprší za 2 minuty. Max 5 pokusů."
   },
   "Admin": {
     "welcome": "Víteje",
@@ -440,7 +444,10 @@
     "expandOrder": "Zobrazit položky",
     "collapseOrder": "Skrýt položky",
     "nav_cart": "KOŠÍK",
-    "nav_orders": "OBJEDNÁVKY"
+    "nav_orders": "OBJEDNÁVKY",
+    "securitySection": "ZABEZPEČENÍ",
+    "mfaLabel": "Dvoufaktorové ověření (2FA)",
+    "mfaManage": "NASTAVIT →"
   },
   "Artist": {
     "back": "Zpět",
@@ -522,6 +529,27 @@
     "productSaved": "Produkt uložen",
     "productDeleted": "Produkt smazán",
     "editProduct": "Upravit produkt"
+  },
+  "Mfa": {
+    "activeTitle": "2FA JE AKTIVNÍ",
+    "activeDesc": "Dvoufaktorové ověření je pro váš účet již aktivní. Při každém přihlášení budete vyzváni k zadání kódu z vaší authenticator aplikace.",
+    "backToProfile": "ZPĚT NA PROFIL",
+    "setupTitle": "NASTAVENÍ MFA",
+    "setupDesc": "Přidejte další vrstvu zabezpečení pomocí TOTP authenticator aplikace (Google Authenticator, Authy a jiné).",
+    "enableBtn": "AKTIVOVAT 2FA",
+    "scanTitle": "NASKENOVAT QR KÓD",
+    "scanDesc": "Otevři authenticator aplikaci a naskenuj tento QR kód.",
+    "qrAlt": "TOTP QR kód",
+    "manualEntry": "Nebo zadej klíč ručně:",
+    "nextBtn": "DÁLE — OVĚŘIT KÓD",
+    "verifyTitle": "OVĚŘIT KÓD",
+    "verifyDesc": "Zadej 6místný kód z authenticator aplikace pro potvrzení nastavení.",
+    "confirmBtn": "POTVRDIT A AKTIVOVAT",
+    "backToQr": "Zpět na QR kód",
+    "doneTitle": "2FA AKTIVOVÁNO",
+    "doneDesc": "Váš účet je nyní chráněn dvoufaktorovým ověřením. Při každém přihlášení budete potřebovat authenticator aplikaci.",
+    "copy": "KOPÍROVAT",
+    "copied": "ZKOPÍROVÁNO"
   },
   "SignupArtist": {
     "title": "Stát Se Umělcem",

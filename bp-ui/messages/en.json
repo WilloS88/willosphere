@@ -162,7 +162,11 @@
     "login": "Login",
     "or": "Or",
     "dontHaveAnAccount": "Don't have an account yet?",
-    "signup": "Sign up"
+    "signup": "Sign up",
+    "mfaTitle": "2FA VERIFICATION",
+    "mfaDescription": "Enter the 6-digit code from your authenticator app",
+    "mfaVerify": "VERIFY",
+    "mfaExpiry": "Code expires in 2 minutes. Max 5 attempts."
   },
   "Admin": {
     "welcome": "Welcome",
@@ -440,7 +444,10 @@
     "expandOrder": "Show items",
     "collapseOrder": "Hide items",
     "nav_cart": "CART",
-    "nav_orders": "ORDERS"
+    "nav_orders": "ORDERS",
+    "securitySection": "SECURITY",
+    "mfaLabel": "Two-Factor Authentication (2FA)",
+    "mfaManage": "MANAGE →"
   },
   "Artist": {
     "back": "Back",
@@ -524,6 +531,27 @@
     "editProduct": "Edit product"
   },
   "Home": {},
+  "Mfa": {
+    "activeTitle": "2FA IS ACTIVE",
+    "activeDesc": "Two-factor authentication is already enabled for your account. You will be asked for a code from your authenticator app each time you log in.",
+    "backToProfile": "BACK TO PROFILE",
+    "setupTitle": "MFA SETUP",
+    "setupDesc": "Add an extra layer of security to your account using a TOTP authenticator app (Google Authenticator, Authy, etc.).",
+    "enableBtn": "ENABLE 2FA",
+    "scanTitle": "SCAN QR CODE",
+    "scanDesc": "Open your authenticator app and scan this QR code.",
+    "qrAlt": "TOTP QR Code",
+    "manualEntry": "Or enter this key manually:",
+    "nextBtn": "NEXT — VERIFY CODE",
+    "verifyTitle": "VERIFY CODE",
+    "verifyDesc": "Enter the 6-digit code from your authenticator app to confirm setup.",
+    "confirmBtn": "CONFIRM & ACTIVATE",
+    "backToQr": "Back to QR code",
+    "doneTitle": "2FA ENABLED",
+    "doneDesc": "Your account is now protected with two-factor authentication. You will need your authenticator app each time you log in.",
+    "copy": "COPY",
+    "copied": "COPIED"
+  },
   "SignupArtist": {
     "title": "Become an Artist",
     "subtitle": "Create an account and start publishing music right away",
