@@ -9,18 +9,55 @@ USE willosphere_db;
 
 -- Refresh Tokens
 CREATE TABLE `refresh_tokens` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `token` char(36) NOT NULL,
-  `user_id` int NOT NULL,
-  `expires_at` datetime NOT NULL,
-  `revoked_at` datetime DEFAULT NULL,
-  `created_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  `id`               INT          NOT NULL AUTO_INCREMENT,
+  `user_id`          INT          NOT NULL,
+  `device_id`        VARCHAR(255) NOT NULL,
+  `token_hash`       VARCHAR(255) NOT NULL,
+  `expires_at`       DATETIME     NOT NULL,
+  `revoked_at`       DATETIME     DEFAULT NULL,
+  `replaced_by_hash` VARCHAR(255) DEFAULT NULL,
+  `created_at`       DATETIME(6)  NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uq_refresh_tokens_token` (`token`),
+  UNIQUE KEY `uq_refresh_tokens_token_hash` (`token_hash`),
   KEY `idx_refresh_tokens_user_id` (`user_id`),
-  CONSTRAINT `FK_user_refresh_token` FOREIGN KEY (`user_id`) 
+  KEY `idx_refresh_tokens_expires_at` (`expires_at`),
+
+  CONSTRAINT `FK_refresh_token_user` FOREIGN KEY (`user_id`)
+      REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- TOTP secrets
+CREATE TABLE `user_mfa` (
+    `user_id`    INT          NOT NULL,
+    `secret`     VARCHAR(512) NOT NULL COMMENT 'AES-256-GCM encrypted TOTP secret',
+    `enabled`    TINYINT(1)   NOT NULL DEFAULT 0,
+    `created_at` DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (`user_id`),
+    CONSTRAINT `FK_user_mfa_user` FOREIGN KEY (`user_id`)
+        REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+-- MFA login challenges
+CREATE TABLE `mfa_challenge` (
+    `id`          VARCHAR(36)  NOT NULL,
+    `user_id`     INT          NOT NULL,
+    `purpose`     VARCHAR(20)  NOT NULL DEFAULT 'LOGIN',
+    `expires_at`  DATETIME     NOT NULL,
+    `attempts`    INT          NOT NULL DEFAULT 0,
+    `verified_at` DATETIME     DEFAULT NULL,
+    `created_at`  DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (`id`),
+    KEY `idx_mfa_challenge_user_id` (`user_id`),
+    KEY `idx_mfa_challenge_expires_at` (`expires_at`),
+
+    CONSTRAINT `FK_mfa_challenge_user` FOREIGN KEY (`user_id`)
     REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Users
 CREATE TABLE users (

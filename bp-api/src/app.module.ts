@@ -12,23 +12,12 @@ import { AlbumsModule } from "./albums/albums.module";
 import { PlaylistsModule } from "./playlists/playlists.module";
 import { ProductsModule } from "./products/products.module";
 import { PurchasesModule } from "./purchases/purchases.module";
-import { JwtModule } from "node_modules/@nestjs/jwt";
+import { CryptoModule } from "./auth/crypto/crypto.module";
 
 @Module({
   imports: [
     ConfigModule.forRoot({
         isGlobal: true
-    }),
-     JwtModule.registerAsync({
-      imports: [ConfigModule],
-      useFactory: (cfg) => ({
-        secret: cfg.get("JWT_SECRET"),
-         signOptions: {
-          expiresIn: cfg.get("JWT_EXPIRES_IN") ?? "30m",
-        },
-      }),
-      global: true,
-      inject: [ConfigService],
     }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
@@ -46,6 +35,7 @@ import { JwtModule } from "node_modules/@nestjs/jwt";
       }),
     }),
     UsersModule,
+    CryptoModule,
     AuthModule,
     ArtistsModule,
     GenresModule,

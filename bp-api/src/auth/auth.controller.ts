@@ -9,18 +9,24 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { Response, Request } from "express";
+import { randomUUID } from "crypto";
+import { ConfigService } from "@nestjs/config";
 import { AuthService } from "./auth.service";
 import { AuthGuard } from "./guard/jwt-auth.guard";
-import { ConfigService } from "@nestjs/config";
 import { CreateUserDto } from "../users/dto/create-user.dto";
 import { LoginDto } from "./dto/login.dto";
 import { SignupAsArtistDto } from "./dto/signup-artist.dto";
+import { MfaVerifyDto } from "./dto/mfa.dto";
 
+const COOKIE_ACCESS_TOKEN   = "access_token";
+const COOKIE_REFRESH_TOKEN  = "refresh_token";
+const COOKIE_DEVICE_ID      = "device_id";
 
 @Controller("auth")
 export class AuthController {
   private readonly accessCookieMaxAge:  number;
   private readonly refreshCookieMaxAge: number;
+  private readonly deviceCookieMaxAge:  number;
   private readonly cookieSecure:        boolean;
   private readonly cookieSameSite:      "lax" | "strict" | "none";
 
@@ -34,6 +40,8 @@ export class AuthController {
     this.refreshCookieMaxAge =
         this.configService.get<number>("REFRESH_COOKIE_MAX_AGE_MS", 10800000);
 
+    this.deviceCookieMaxAge = this.refreshCookieMaxAge;
+
     this.cookieSecure =
         this.configService.get<boolean>("REFRESH_COOKIE_SECURE", false);
 
@@ -44,20 +52,42 @@ export class AuthController {
         );
   }
 
-  private setAuthCookies(res: Response, accessToken: string, refreshToken: string) {
-    res.cookie("access_token", accessToken, {
+  private setAuthCookies(
+    res:          Response,
+    accessToken:  string,
+    refreshToken: string,
+    deviceId:     string
+  ) {
+    const cookieOptions = {
       httpOnly: true,
-      sameSite: this.cookieSameSite,
-      secure:   this.cookieSecure,
-      maxAge:   this.accessCookieMaxAge,
+      sameSite: this.cookieSameSite as boolean | "lax" | "strict" | "none",
+      secure: this.cookieSecure,
+    };
+
+    res.cookie(COOKIE_ACCESS_TOKEN, accessToken, {
+      ...cookieOptions,
+      maxAge: this.accessCookieMaxAge,
     });
 
-    res.cookie("refresh_token", refreshToken, {
-      httpOnly: true,
-      sameSite: this.cookieSameSite,
-      secure:   this.cookieSecure,
-      maxAge:   this.refreshCookieMaxAge,
+    res.cookie(COOKIE_REFRESH_TOKEN, refreshToken, {
+      ...cookieOptions,
+      maxAge: this.refreshCookieMaxAge,
     });
+
+    res.cookie(COOKIE_DEVICE_ID, deviceId, {
+      ...cookieOptions,
+      maxAge: this.deviceCookieMaxAge,
+    });
+  }
+
+  private clearAuthCookies(res: Response) {
+    res.clearCookie(COOKIE_ACCESS_TOKEN);
+    res.clearCookie(COOKIE_REFRESH_TOKEN);
+    res.clearCookie(COOKIE_DEVICE_ID);
+  }
+
+  private getOrCreateDeviceId(req: Request): string {
+    return req.cookies?.[COOKIE_DEVICE_ID] || randomUUID();
   }
 
   @Post("signup")
@@ -65,8 +95,10 @@ export class AuthController {
       @Body() dto: CreateUserDto,
       @Res({ passthrough: true }) res: Response,
   ) {
-    const { user, accessToken, refreshToken } = await this.authService.signup(dto);
-    this.setAuthCookies(res, accessToken, refreshToken);
+    const { user, accessToken, refreshToken, deviceId } =
+      await this.authService.signup(dto);
+
+    this.setAuthCookies(res, accessToken, refreshToken, deviceId);
     return { user };
   }
 
@@ -75,35 +107,77 @@ export class AuthController {
       @Body() dto: SignupAsArtistDto,
       @Res({ passthrough: true }) res: Response,
   ) {
-    const { user, accessToken, refreshToken } = await this.authService.signupAsArtist(dto);
-    this.setAuthCookies(res, accessToken, refreshToken);
+    const { user, accessToken, refreshToken, deviceId } =
+      await this.authService.signupAsArtist(dto);
+
+    this.setAuthCookies(res, accessToken, refreshToken, deviceId);
     return { user };
   }
 
   @Post("login")
   async login(
       @Body() dto: LoginDto,
+      @Req() req: Request,
       @Res({ passthrough: true }) res: Response,
   ) {
-    const { user, accessToken, refreshToken } = await this.authService.login(dto.email, dto.password);
-    this.setAuthCookies(res, accessToken, refreshToken);
+    const deviceId = this.getOrCreateDeviceId(req);
+
+    const result = await this.authService.login(dto.email, dto.password, deviceId);
+
+    if (result.mfaRequired) {
+      res.cookie(COOKIE_DEVICE_ID, deviceId, {
+        httpOnly: true,
+        sameSite: this.cookieSameSite as boolean | "lax" | "strict" | "none",
+        secure: this.cookieSecure,
+        maxAge: this.deviceCookieMaxAge,
+      });
+
+      return {
+        mfaRequired: true,
+        challengeId: result.challengeId,
+      };
+    }
+
+    this.setAuthCookies(res, result.accessToken!, result.refreshToken!, result.deviceId!);
+    return { user: result.user };
+  }
+
+  @Post("verify-login")
+  async verifyLogin(
+    @Body() dto: MfaVerifyDto,
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const deviceId = this.getOrCreateDeviceId(req);
+
+    const { user, accessToken, refreshToken } =
+      await this.authService.verifyMfaLogin(dto.challengeId, dto.code, deviceId);
+
+    this.setAuthCookies(res, accessToken, refreshToken, deviceId);
     return { user };
   }
 
   @Post("refresh")
   async refresh(
-      @Req() req: Request,
-      @Res({ passthrough: true }) res: Response,
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
   ) {
-    const refreshToken = req.cookies?.refresh_token;
+    const refreshToken = req.cookies?.[COOKIE_REFRESH_TOKEN];
+    const deviceId = req.cookies?.[COOKIE_DEVICE_ID];
 
     if(!refreshToken)
       throw new UnauthorizedException("Missing refresh token");
 
-    const { user, accessToken, refreshToken: newRefreshToken } =
-        await this.authService.refresh(refreshToken);
+    if(!deviceId)
+      throw new UnauthorizedException("Missing device ID");
 
-    this.setAuthCookies(res, accessToken, newRefreshToken);
+    const {
+      user,
+      accessToken: newAccessToken,
+      refreshToken: newRefreshToken,
+    } = await this.authService.refresh(refreshToken, deviceId);
+
+    this.setAuthCookies(res, newAccessToken, newRefreshToken, deviceId);
     return { user };
   }
 
@@ -114,9 +188,14 @@ export class AuthController {
   }
 
   @Post("logout")
-  logout(@Res({ passthrough: true }) res: Response) {
-    res.clearCookie("access_token");
-    res.clearCookie("refresh_token");
+  async logout(
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const refreshToken = req.cookies?.[COOKIE_REFRESH_TOKEN];
+    await this.authService.logout(refreshToken);
+
+    this.clearAuthCookies(res);
     return { ok: true };
   }
 }
