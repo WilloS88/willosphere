@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Patch,
   Post,
   Req,
   Res,
@@ -17,6 +18,20 @@ import { CreateUserDto } from "../users/dto/create-user.dto";
 import { LoginDto } from "./dto/login.dto";
 import { SignupAsArtistDto } from "./dto/signup-artist.dto";
 import { MfaVerifyDto } from "./dto/mfa.dto";
+import { IsOptional, IsString, MaxLength } from "class-validator";
+import { UsersService } from "../users/users.service";
+
+class PatchMeDto {
+  @IsOptional()
+  @IsString()
+  @MaxLength(255)
+  profileImageUrl?: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(30)
+  displayName?: string;
+}
 
 const COOKIE_ACCESS_TOKEN   = "access_token";
 const COOKIE_REFRESH_TOKEN  = "refresh_token";
@@ -33,6 +48,7 @@ export class AuthController {
   constructor(
     private readonly authService:   AuthService,
     private readonly configService: ConfigService,
+    private readonly usersService:  UsersService,
   ) {
     this.accessCookieMaxAge =
         this.configService.get<number>("ACCESS_COOKIE_MAX_AGE_MS", 1800000);
@@ -185,6 +201,14 @@ export class AuthController {
   @UseGuards(AuthGuard)
   async me(@Req() req: Request) {
     return this.authService.me((req as any).userId);
+  }
+
+  @Patch("me")
+  @UseGuards(AuthGuard)
+  async patchMe(@Req() req: Request, @Body() dto: PatchMeDto) {
+    const userId = (req as any).userId as number;
+    await this.usersService.update(userId, dto);
+    return this.authService.me(userId);
   }
 
   @Post("logout")

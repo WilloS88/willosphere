@@ -15,6 +15,7 @@ import { CreateTrackDto } from "./dto/create-track.dto";
 import { UpdateTrackDto } from "./dto/update-track.dto";
 import { ListTracksQueryDto } from "./dto/list-tracks-query.dto";
 import { PaginatedResult } from "../common/dto/paginated-result";
+import { CloudFrontService } from "../common/cloudfront.service";
 
 @Injectable()
 export class TracksService {
@@ -27,6 +28,7 @@ export class TracksService {
     private readonly artistRepo: Repository<ArtistProfile>,
     @InjectDataSource()
     private readonly ds: DataSource,
+    private readonly cf: CloudFrontService,
   ) {}
 
   async findAll(dto: ListTracksQueryDto): Promise<PaginatedResult<TrackDto>> {
@@ -67,7 +69,7 @@ export class TracksService {
     const [tracks, total] = await qb.getManyAndCount();
 
     return {
-      data: tracks.map(TrackDto.fromEntity),
+      data: tracks.map((t) => this.signTrackUrls(TrackDto.fromEntity(t))),
       total,
       page,
       limit,
@@ -88,7 +90,7 @@ export class TracksService {
     if (!track)
       throw new NotFoundException("Track not found");
 
-    return TrackDto.fromEntity(track);
+    return this.signTrackUrls(TrackDto.fromEntity(track));
   }
 
   async create(dto: CreateTrackDto): Promise<TrackDto> {
@@ -222,5 +224,13 @@ export class TracksService {
       const missing  = unique.filter((id) => !foundIds.includes(id));
       throw new BadRequestException(`Genres not found for ids: ${missing.join(", ")}`);
     }
+  }
+
+  private signTrackUrls(dto: TrackDto): TrackDto {
+    dto.audioUrl = this.cf.signUrl(dto.audioUrl);
+    if (dto.coverImageUrl) {
+      dto.coverImageUrl = this.cf.signUrl(dto.coverImageUrl);
+    }
+    return dto;
   }
 }
