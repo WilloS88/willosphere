@@ -26,7 +26,7 @@ function AboutContent() {
       <main className="mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-16">
         {/* Breadcrumbs */}
         <div
-          className={`mb-6 flex gap-2 text-[10px] tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+          className={`mb-6 flex gap-2 text-xs tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
         >
           <Link
             href={`/${locale}`}

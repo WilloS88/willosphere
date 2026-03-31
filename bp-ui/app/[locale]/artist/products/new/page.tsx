@@ -81,7 +81,7 @@ function NewProductContent() {
       ? "bg-darkblue/60 border-royalblue/30 text-vhs-white placeholder:text-vhs-muted focus:border-fear"
       : "bg-[#ede7db]/80 border-[#c4b8a8]/40 text-[#2a2520] placeholder:text-[#8a8578] focus:border-[#c4234e]"
   }`;
-  const labelCls = `block text-[9px] tracking-[2px] mb-1.5 ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`;
+  const labelCls = `block text-[11px] tracking-[2px] mb-1.5 ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`;
   const selectCls = `${inputCls} cursor-pointer`;
 
   return (
@@ -90,7 +90,7 @@ function NewProductContent() {
       <main className="mx-auto max-w-2xl px-4 py-10 sm:px-6 sm:py-16">
         <Link
           href={`/${locale}/artist/products`}
-          className={`mb-6 inline-flex items-center gap-1.5 text-[10px] tracking-[2px] no-underline ${
+          className={`mb-6 inline-flex items-center gap-1.5 text-xs tracking-[2px] no-underline ${
             isDark ? "text-vhs-muted hover:text-fear" : "text-[#8a8578] hover:text-[#c4234e]"
           }`}
         >
@@ -186,7 +186,7 @@ function NewProductContent() {
             </div>
 
             {error && (
-              <div className="rounded border border-red-400/30 bg-red-400/10 p-2 text-[10px] tracking-wide text-red-400">
+              <div className="rounded border border-red-400/30 bg-red-400/10 p-2 text-xs tracking-wide text-red-400">
                 {error}
               </div>
             )}

@@ -29,11 +29,11 @@ export default function CartPage() {
       <div className="flex flex-col items-center justify-center py-24 gap-4">
         <ShoppingCart size={48} className="opacity-20" />
         <SectionLabel>{t("cartTitle")}</SectionLabel>
-        <p className={`text-[10px] tracking-widest ${mutedCls}`}>{t("cartEmpty")}</p>
-        <p className={`text-[9px] ${mutedCls}`}>{t("cartEmptyHint")}</p>
+        <p className={`text-xs tracking-widest ${mutedCls}`}>{t("cartEmpty")}</p>
+        <p className={`text-[11px] ${mutedCls}`}>{t("cartEmptyHint")}</p>
         <Link
           href={`/${locale}/home/merch`}
-          className={`mt-2 border rounded-sm px-4 py-2 text-[9px] font-bold tracking-widest transition-all no-underline ${
+          className={`mt-2 border rounded-sm px-4 py-2 text-[11px] font-bold tracking-widest transition-all no-underline ${
             isDark ? "border-royalblue/40 text-vhs-light hover:border-fear/40" : "border-[#c4b8a8] text-[#6b6560] hover:border-[#c4234e]"
           }`}
         >
@@ -48,13 +48,13 @@ export default function CartPage() {
       <div className="mb-5 flex items-center justify-between">
         <div>
           <SectionLabel className="mb-1">{t("cartTitle")}</SectionLabel>
-          <div className={`text-[9px] tracking-widest ${mutedCls}`}>
+          <div className={`text-[11px] tracking-widest ${mutedCls}`}>
             {items.length} items
           </div>
         </div>
         <button
           onClick={() => dispatch(clearCart())}
-          className={`cursor-pointer rounded-sm border px-3 py-1.5 text-[9px] tracking-wider transition-opacity hover:opacity-70 ${
+          className={`cursor-pointer rounded-sm border px-3 py-1.5 text-[11px] tracking-wider transition-opacity hover:opacity-70 ${
             isDark
               ? "border-royalblue/30 text-vhs-muted"
               : "border-[#c4b8a8]/40 text-[#8a8578]"
@@ -72,7 +72,7 @@ export default function CartPage() {
           >
             {/* Type badge */}
             <span
-              className={`shrink-0 rounded-sm border px-1.5 py-0.5 text-[8px] font-bold tracking-wider ${
+              className={`shrink-0 rounded-sm border px-1.5 py-0.5 text-[10px] font-bold tracking-wider ${
                 item.type === "physical"
                   ? isDark
                     ? "border-fearyellow/30 text-fearyellow"
@@ -92,7 +92,7 @@ export default function CartPage() {
               >
                 {item.name}
               </div>
-              <div className={`text-[9px] ${mutedCls}`}>{item.artistName}</div>
+              <div className={`text-[11px] ${mutedCls}`}>{item.artistName}</div>
             </div>
 
             {/* Quantity */}
@@ -159,7 +159,7 @@ export default function CartPage() {
         className={`rounded border px-4 py-4 ${cardCls} flex items-center justify-between`}
       >
         <div>
-          <div className={`mb-1 text-[9px] tracking-widest ${mutedCls}`}>
+          <div className={`mb-1 text-[11px] tracking-widest ${mutedCls}`}>
             {t("total")}
           </div>
           <div className="text-fear text-xl font-bold">

@@ -76,7 +76,7 @@ function ProfileContent() {
       ? "bg-darkblue/60 border-royalblue/30 text-vhs-white placeholder:text-vhs-muted focus:border-fear"
       : "bg-[#ede7db]/80 border-[#c4b8a8]/40 text-[#2a2520] placeholder:text-[#8a8578] focus:border-[#c4234e]"
   }`;
-  const labelCls = `block text-[9px] tracking-[2px] mb-1.5 ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`;
+  const labelCls = `block text-[11px] tracking-[2px] mb-1.5 ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`;
 
   return (
     <>
@@ -84,7 +84,7 @@ function ProfileContent() {
       <main className="mx-auto max-w-2xl px-4 py-10 sm:px-6 sm:py-16">
         <Link
           href={`/${locale}/artist`}
-          className={`mb-6 inline-flex items-center gap-1.5 text-[10px] tracking-[2px] no-underline ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#8a8578] hover:text-[#c4234e]"}`}
+          className={`mb-6 inline-flex items-center gap-1.5 text-xs tracking-[2px] no-underline ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#8a8578] hover:text-[#c4234e]"}`}
         >
           <ArrowLeft size={12} /> {t("backToDashboard")}
         </Link>
@@ -105,7 +105,7 @@ function ProfileContent() {
               </h1>
               <div className="mt-1 flex gap-1.5">
                 {user?.roles?.map((r, i) => (
-                  <Badge key={i} variant="cyan" className="text-[8px]">
+                  <Badge key={i} variant="cyan" className="text-[10px]">
                     {typeof r === "string" ? r.toUpperCase() : r.role.toUpperCase()}
                   </Badge>
                 ))}
@@ -165,14 +165,14 @@ function ProfileContent() {
 
                 {successMsg && (
                   <div
-                    className={`rounded border p-2 text-[10px] tracking-wider ${isDark ? "border-vhs-green/30 bg-vhs-green/10 text-vhs-green" : "border-green-300 bg-green-50 text-green-700"}`}
+                    className={`rounded border p-2 text-xs tracking-wider ${isDark ? "border-vhs-green/30 bg-vhs-green/10 text-vhs-green" : "border-green-300 bg-green-50 text-green-700"}`}
                   >
                     {successMsg}
                   </div>
                 )}
 
                 {errorMsg && (
-                  <div className="text-fear bg-fear/10 border-fear/20 rounded border p-2 text-[10px] tracking-wider">
+                  <div className="text-fear bg-fear/10 border-fear/20 rounded border p-2 text-xs tracking-wider">
                     {errorMsg}
                   </div>
                 )}
@@ -188,7 +188,7 @@ function ProfileContent() {
 
                 {profile && (
                   <div
-                    className={`mt-4 border-t pt-4 text-[9px] tracking-wider ${isDark ? "border-royalblue/20 text-vhs-muted" : "border-[#c4b8a8]/20 text-[#8a8578]"}`}
+                    className={`mt-4 border-t pt-4 text-[11px] tracking-wider ${isDark ? "border-royalblue/20 text-vhs-muted" : "border-[#c4b8a8]/20 text-[#8a8578]"}`}
                   >
                     {t("memberSince")}: {new Date(profile.memberSince).toLocaleDateString()}
                   </div>

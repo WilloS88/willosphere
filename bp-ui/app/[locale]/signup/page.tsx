@@ -51,12 +51,12 @@ function SignupContent() {
     }
   };
 
-  const inputCls = `w-full rounded-sm px-3 py-2.5 border outline-none text-[11px] tracking-wider font-vcr transition-all ${
+  const inputCls = `w-full rounded-sm px-3 py-2.5 border outline-none text-sm tracking-wider font-vcr transition-all ${
     isDark
       ? "bg-darkblue/60 border-royalblue/30 text-vhs-white placeholder:text-vhs-muted focus:border-fear"
       : "bg-[#ede7db]/80 border-[#c4b8a8]/40 text-[#2a2520] placeholder:text-[#8a8578] focus:border-[#c4234e]"
   }`;
-  const labelCls = `block text-[9px] tracking-[2px] mb-1.5 ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`;
+  const labelCls = `block text-[11px] tracking-[2px] mb-1.5 ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`;
 
   return (
     <div className="flex min-h-screen items-center justify-center px-4 py-8">
@@ -65,7 +65,7 @@ function SignupContent() {
       >
         <Link
           href={`/${locale}`}
-          className={`mb-4 inline-flex items-center gap-1.5 text-[10px] tracking-[2px] no-underline ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#8a8578] hover:text-[#c4234e]"}`}
+          className={`mb-4 inline-flex items-center gap-1.5 text-xs tracking-[2px] no-underline ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#8a8578] hover:text-[#c4234e]"}`}
         >
           <ArrowLeft size={12} /> {t("home")}
         </Link>
@@ -134,13 +134,13 @@ function SignupContent() {
           </div>
 
           {errorMessage && (
-            <div className="text-fear bg-fear/10 border-fear/20 rounded border p-2 text-[10px] tracking-wider">
+            <div className="text-fear bg-fear/10 border-fear/20 rounded border p-2 text-xs tracking-wider">
               {errorMessage}
             </div>
           )}
 
           <button
-            className={`mt-2 w-full cursor-pointer rounded-sm py-2.5 text-[11px] font-bold tracking-[2px] transition-all hover:brightness-110 disabled:opacity-50 ${isDark ? "bg-vhs-purple text-white" : "bg-[#7040c0] text-white"}`}
+            className={`mt-2 w-full cursor-pointer rounded-sm py-2.5 text-xs font-bold tracking-[2px] transition-all hover:brightness-110 disabled:opacity-50 ${isDark ? "bg-vhs-purple text-white" : "bg-[#7040c0] text-white"}`}
             disabled={isSubmitting}
           >
             {isSubmitting ? "..." : t("signup")}
@@ -153,7 +153,7 @@ function SignupContent() {
           <div
             className={`h-px flex-1 ${isDark ? "bg-royalblue/30" : "bg-[#c4b8a8]/30"}`}
           />
-          <span className="text-[9px] tracking-[2px]">
+          <span className="text-[11px] tracking-[2px]">
             {t("or").toUpperCase()}
           </span>
           <div
@@ -161,7 +161,7 @@ function SignupContent() {
           />
         </div>
 
-        <div className="text-center text-[11px] tracking-wider">
+        <div className="text-center text-sm tracking-wider">
           <span className={isDark ? "text-vhs-muted" : "text-[#8a8578]"}>
             {t("alreadyHaveAnAccount")}{" "}
           </span>

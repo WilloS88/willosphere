@@ -29,9 +29,11 @@ export function PlaylistPicker({ trackId }: Props) {
 
   // Close on outside click
   useEffect(() => {
-    if (!open) return;
+    if(!open)
+      return;
+
     const handler = (e: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node))
+      if(containerRef.current && !containerRef.current.contains(e.target as Node))
         setOpen(false);
     };
     document.addEventListener("mousedown", handler);
@@ -39,7 +41,9 @@ export function PlaylistPicker({ trackId }: Props) {
   }, [open]);
 
   const fetchPlaylists = async () => {
-    if (!session?.user?.id) return;
+    if(!session?.user?.id)
+      return;
+
     setLoading(true);
     try {
       const { data } = await api.get<PaginatedResponse<PlaylistDto>>(
@@ -53,13 +57,17 @@ export function PlaylistPicker({ trackId }: Props) {
 
   const handleOpen = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (!open) void fetchPlaylists();
+    if(!open)
+      void fetchPlaylists();
+
     setOpen((v) => !v);
   };
 
   const handleAdd = async (e: React.MouseEvent, playlistId: number) => {
     e.stopPropagation();
-    if (added.has(playlistId) || adding !== null) return;
+    if(added.has(playlistId) || adding !== null)
+      return;
+
     setError(null);
     setAdding(playlistId);
     try {
@@ -72,7 +80,8 @@ export function PlaylistPicker({ trackId }: Props) {
     }
   };
 
-  if (!session?.user?.id) return null;
+  if(!session?.user?.id)
+    return null;
 
   const btn = isDark
     ? "text-vhs-muted hover:text-vhs-cyan"
@@ -97,8 +106,8 @@ export function PlaylistPicker({ trackId }: Props) {
       </button>
 
       {open && (
-        <div className={`absolute right-0 bottom-full mb-1 z-50 min-w-[160px] rounded border shadow-lg text-[10px] tracking-wider ${dropdown}`}>
-          <div className={`px-3 py-1.5 text-[9px] font-bold border-b ${isDark ? "border-royalblue/20 text-vhs-muted" : "border-[#e8e0d4] text-[#8a8578]"}`}>
+        <div className={`absolute right-0 bottom-full mb-1 z-50 min-w-[160px] rounded border shadow-lg text-xs tracking-wider ${dropdown}`}>
+          <div className={`px-3 py-1.5 text-[11px] font-bold border-b ${isDark ? "border-royalblue/20 text-vhs-muted" : "border-[#e8e0d4] text-[#8a8578]"}`}>
             {t("selectPlaylist")}
           </div>
 
@@ -107,7 +116,7 @@ export function PlaylistPicker({ trackId }: Props) {
               <Loader size={14} className={`animate-spin ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`} />
             </div>
           ) : playlists.length === 0 ? (
-            <div className={`px-3 py-2 text-[9px] ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
+            <div className={`px-3 py-2 text-[11px] ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
               {t("noPlaylists")}
             </div>
           ) : (

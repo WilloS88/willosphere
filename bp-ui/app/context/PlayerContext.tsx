@@ -115,8 +115,11 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   }, [volume]);
 
   const playTrack = useCallback((newTrack: TrackDto, newQueue?: TrackDto[]) => {
+    console.log('Playing URL:', newTrack.audioUrl); // ← přidej toto
     const q   = newQueue ?? [newTrack];
     const idx = q.findIndex((t) => t.id === newTrack.id);
+
+
 
     queueRef.current    = q;
     queueIdxRef.current = idx >= 0 ? idx : 0;
@@ -135,14 +138,21 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const nextTrack = useCallback(() => {
     const q   = queueRef.current;
     const idx = queueIdxRef.current;
-    if (q.length === 0) return;
-    const next = (idx + 1) % q.length;
+
+    if(q.length === 0)
+      return;
+
+    const next          = (idx + 1) % q.length;
     const nextTrackItem = q[next];
-    if (!nextTrackItem) return;
+
+    if(!nextTrackItem)
+      return;
+
     queueIdxRef.current = next;
     setTrack(nextTrackItem);
     setProgress(0);
     const audio = audioRef.current;
+
     if(audio) {
       audio.src = nextTrackItem.audioUrl;
       void audio.play();
@@ -152,7 +162,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const prevTrack = useCallback(() => {
     const audio = audioRef.current;
     // If more than 3s played, restart current track
-    if (audio && audio.currentTime > 3) {
+    if(audio && audio.currentTime > 3) {
       audio.currentTime = 0;
       setProgress(0);
       return;
@@ -223,6 +233,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
 
 export function usePlayer() {
   const ctx = useContext(PlayerContext);
-  if (!ctx) throw new Error("usePlayer must be inside PlayerProvider");
+  if(!ctx)
+    throw new Error("usePlayer must be inside PlayerProvider");
   return ctx;
 }

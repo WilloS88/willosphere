@@ -57,7 +57,7 @@ function CreateArtistContent() {
       ? "bg-darkblue/60 border-royalblue/30 text-vhs-white placeholder:text-vhs-muted focus:border-fear"
       : "bg-[#ede7db]/80 border-[#c4b8a8]/40 text-[#2a2520] placeholder:text-[#8a8578] focus:border-[#c4234e]"
   }`;
-  const labelCls = `block text-[9px] tracking-[2px] mb-1.5 ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`;
+  const labelCls = `block text-[11px] tracking-[2px] mb-1.5 ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`;
 
   return (
     <>
@@ -70,14 +70,14 @@ function CreateArtistContent() {
         >
           <Link
             href={`/${locale}`}
-            className={`mb-4 inline-flex items-center gap-1.5 text-[10px] tracking-[2px] no-underline ${
+            className={`mb-4 inline-flex items-center gap-1.5 text-xs tracking-[2px] no-underline ${
               isDark ? "text-vhs-muted hover:text-fear" : "text-[#8a8578] hover:text-[#c4234e]"
             }`}
           >
             <ArrowLeft size={12} /> {t("back")}
           </Link>
 
-          <div className={`mb-2 flex items-center justify-center gap-2 text-[10px] font-bold tracking-[3px] ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`}>
+          <div className={`mb-2 flex items-center justify-center gap-2 text-xs font-bold tracking-[3px] ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`}>
             <Mic2 size={14} />
             {t("forExistingUsers")}
           </div>
@@ -123,7 +123,7 @@ function CreateArtistContent() {
             </div>
 
             {error && (
-              <div className="text-fear bg-fear/10 border-fear/20 rounded border p-2 text-[10px] tracking-wider">
+              <div className="text-fear bg-fear/10 border-fear/20 rounded border p-2 text-xs tracking-wider">
                 {error}
               </div>
             )}

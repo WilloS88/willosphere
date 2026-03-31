@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { Clock, Disc2, Music, Package, Play, Settings } from "lucide-react";
+import { ArrowRight, Clock, Disc2, Music, Package, Pencil, Play, Settings, Trash2 } from "lucide-react";
 import PageShell from "@/app/components/layout/PageShell";
 import { Navbar } from "@/app/components/layout/Navbar";
 import { Footer } from "@/app/components/layout/Footer";
@@ -36,6 +36,28 @@ function ArtistContent() {
   const [recentTracks, setRecentTracks] = useState<TrackDto[]>([]);
   const [recentAlbums, setRecentAlbums] = useState<AlbumDto[]>([]);
   const [loading, setLoading]           = useState(true);
+
+  const deleteTrack = async (id: number, title: string) => {
+    if(!confirm(`Delete "${title}"?`))
+      return;
+
+    try {
+      await (await import("@/lib/axios")).default.delete(API_ENDPOINTS.tracks.detail(id));
+      setRecentTracks((p) => p.filter((t) => t.id !== id));
+      setTrackTotal((n) => (n ?? 1) - 1);
+    } catch {}
+  };
+
+  const deleteAlbum = async (id: number, title: string) => {
+    if(!confirm(`Delete "${title}"?`))
+      return;
+
+    try {
+      await (await import("@/lib/axios")).default.delete(API_ENDPOINTS.albums.detail(id));
+      setRecentAlbums((p) => p.filter((a) => a.id !== id));
+      setAlbumTotal((n) => (n ?? 1) - 1);
+    } catch {}
+  };
 
   useEffect(() => {
     if(!userId) {
@@ -77,7 +99,7 @@ function ArtistContent() {
           </div>
           <Link
             href={`/${locale}/artist/profile`}
-            className={`flex items-center gap-2 rounded-sm border px-4 py-2 text-[10px] font-bold tracking-[2px] no-underline transition-all ${
+            className={`flex items-center gap-2 rounded-sm border px-4 py-2 text-xs font-bold tracking-[2px] no-underline transition-all ${
               isDark
                 ? "border-royalblue/40 text-vhs-light hover:border-fear"
                 : "border-[#c4b8a8] text-[#6b6560] hover:border-[#c4234e]"
@@ -96,7 +118,7 @@ function ArtistContent() {
             { label: t("plays"),       value: "—",                 color: "text-vhs-green" },
           ].map((s) => (
             <div key={s.label} className={statCls}>
-              <div className={`mb-1 text-[9px] tracking-wider ${mutedCls}`}>{s.label}</div>
+              <div className={`mb-1 text-[11px] tracking-wider ${mutedCls}`}>{s.label}</div>
               <div className={`text-xl font-bold ${s.color}`}>{String(s.value)}</div>
             </div>
           ))}
@@ -138,14 +160,12 @@ function ArtistContent() {
             <div className={cardCls}>
               <div className="mb-3 flex items-center justify-between">
                 <SectionLabel>{t("recentTracks")}</SectionLabel>
-                {(trackTotal ?? 0) > 5 && (
-                  <Link href={`/${locale}/home/tracks`} className={`text-[9px] tracking-widest no-underline ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#8a8578] hover:text-[#c4234e]"}`}>
-                    {t("viewAll")} →
-                  </Link>
-                )}
+                <Link href={`/${locale}/artist/tracks`} className={`text-[11px] tracking-widest no-underline ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#8a8578] hover:text-[#c4234e]"}`}>
+                  {t("viewAll")} <ArrowRight size={11} />
+                </Link>
               </div>
               {recentTracks.length === 0 ? (
-                <div className={`py-6 text-center text-[10px] tracking-widest ${mutedCls}`}>{t("noRecentTracks")}</div>
+                <div className={`py-6 text-center text-xs tracking-widest ${mutedCls}`}>{t("noRecentTracks")}</div>
               ) : (
                 <div className="space-y-1">
                   {recentTracks.map((track) => (
@@ -159,10 +179,18 @@ function ArtistContent() {
                       )}
                       <div className="min-w-0 flex-1">
                         <div className={`truncate text-[11px] font-bold tracking-wider ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}>{track.title}</div>
-                        <div className={`text-[9px] tracking-wide ${mutedCls}`}>{track.genres.map((g) => g.name).join(" · ")}</div>
+                        <div className={`text-[11px] tracking-wide ${mutedCls}`}>{track.genres.map((g) => g.name).join(" · ")}</div>
                       </div>
-                      <div className={`flex shrink-0 items-center gap-1 text-[9px] tabular-nums ${mutedCls}`}>
+                      <div className={`flex shrink-0 items-center gap-1 text-[11px] tabular-nums ${mutedCls}`}>
                         <Clock size={9} />{formatDuration(track.durationSeconds)}
+                      </div>
+                      <div className="flex shrink-0 items-center gap-1">
+                        <Link href={`/${locale}/artist/tracks/${track.id}/edit`} className={`flex h-6 w-6 items-center justify-center rounded-sm border transition-opacity hover:opacity-70 ${isDark ? "border-royalblue/30 text-vhs-muted" : "border-[#c4b8a8]/40 text-[#8a8578]"}`}>
+                          <Pencil size={10} />
+                        </Link>
+                        <button onClick={() => void deleteTrack(track.id, track.title)} className={`hover:text-fear flex h-6 w-6 cursor-pointer items-center justify-center rounded-sm border transition-all ${isDark ? "border-royalblue/30 text-vhs-muted" : "border-[#c4b8a8]/40 text-[#8a8578]"}`}>
+                          <Trash2 size={10} />
+                        </button>
                       </div>
                     </div>
                   ))}
@@ -174,14 +202,12 @@ function ArtistContent() {
             <div className={cardCls}>
               <div className="mb-3 flex items-center justify-between">
                 <SectionLabel>{t("recentAlbums")}</SectionLabel>
-                {(albumTotal ?? 0) > 5 && (
-                  <Link href={`/${locale}/home/albums`} className={`text-[9px] tracking-widest no-underline ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#8a8578] hover:text-[#c4234e]"}`}>
-                    {t("viewAll")} →
-                  </Link>
-                )}
+                <Link href={`/${locale}/artist/albums`} className={`text-[11px] tracking-widest no-underline ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#8a8578] hover:text-[#c4234e]"}`}>
+                  {t("viewAll")} <ArrowRight size={11} />
+                </Link>
               </div>
               {recentAlbums.length === 0 ? (
-                <div className={`py-6 text-center text-[10px] tracking-widest ${mutedCls}`}>{t("noRecentAlbums")}</div>
+                <div className={`py-6 text-center text-xs tracking-widest ${mutedCls}`}>{t("noRecentAlbums")}</div>
               ) : (
                 <div className="space-y-1">
                   {recentAlbums.map((album) => (
@@ -194,10 +220,18 @@ function ArtistContent() {
                       />
                       <div className="min-w-0 flex-1">
                         <div className={`truncate text-[11px] font-bold tracking-wider ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}>{album.title}</div>
-                        <div className={`text-[9px] tracking-wide ${mutedCls}`}>{new Date(album.releaseDate).getFullYear()}</div>
+                        <div className={`text-[11px] tracking-wide ${mutedCls}`}>{new Date(album.releaseDate).getFullYear()}</div>
                       </div>
-                      <div className={`shrink-0 text-[9px] tabular-nums ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`}>
+                      <div className={`shrink-0 text-[11px] tabular-nums ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`}>
                         {album.price} CZK
+                      </div>
+                      <div className="flex shrink-0 items-center gap-1">
+                        <Link href={`/${locale}/artist/albums/${album.id}/edit`} className={`flex h-6 w-6 items-center justify-center rounded-sm border transition-opacity hover:opacity-70 ${isDark ? "border-royalblue/30 text-vhs-muted" : "border-[#c4b8a8]/40 text-[#8a8578]"}`}>
+                          <Pencil size={10} />
+                        </Link>
+                        <button onClick={() => void deleteAlbum(album.id, album.title)} className={`hover:text-fear flex h-6 w-6 cursor-pointer items-center justify-center rounded-sm border transition-all ${isDark ? "border-royalblue/30 text-vhs-muted" : "border-[#c4b8a8]/40 text-[#8a8578]"}`}>
+                          <Trash2 size={10} />
+                        </button>
                       </div>
                     </div>
                   ))}

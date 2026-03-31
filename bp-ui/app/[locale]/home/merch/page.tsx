@@ -2,7 +2,7 @@
 
 import { memo, useCallback, useEffect, useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
-import { ShoppingCart, X, Music, Disc3, Package, Zap } from "lucide-react";
+import { ShoppingCart, X, Music, Disc3, Package, Zap, Check } from "lucide-react";
 import { CardGrid, PageHeader, SectionLabel, VHSButton } from "@/app/components/ui/elastic-slider/StoreUI";
 import { useStoreTheme } from "@/app/context/StoreThemeContext";
 import { useToast } from "@/app/context/ToastContext";
@@ -53,21 +53,21 @@ const ProductCard = memo(function ProductCard({
       <div className={`relative flex h-36 items-center justify-center rounded-t ${isDark ? "bg-royalblue/10" : "bg-[#f0ebe3]"}`}>
         <div className="flex flex-col items-center gap-1 opacity-30">
           <Package size={32} />
-          <span className="text-[9px] tracking-widest font-vcr">PRODUCT</span>
+          <span className="text-[11px] tracking-widest font-vcr">{t("product")}</span>
         </div>
-        <span className={`absolute top-2 left-2 border rounded-sm px-1.5 py-0.5 text-[8px] font-bold tracking-wider ${typeBadge}`}>
+        <span className={`absolute top-2 left-2 border rounded-sm px-1.5 py-0.5 text-[10px] font-bold tracking-wider ${typeBadge}`}>
           {product.type === "physical" ? t("physical") : t("digital")}
         </span>
-        <span className="absolute top-2 right-2 bg-fear text-white px-1.5 py-0.5 rounded-sm text-[9px] font-bold">
-          {product.price === 0 ? "FREE" : `${product.price} CZK`}
+        <span className="absolute top-2 right-2 bg-fear text-white px-1.5 py-0.5 rounded-sm text-[11px] font-bold">
+          {product.price === 0 ? t("free") : `${product.price} CZK`}
         </span>
       </div>
 
       <div className="px-3 pt-2 pb-3 space-y-1.5">
         <div className={`font-bold text-[11px] tracking-wider truncate ${titleCls}`}>{product.name}</div>
-        <div className={`text-[9px] tracking-wide truncate ${mutedCls}`}>{product.artist.displayName}</div>
+        <div className={`text-[11px] tracking-wide truncate ${mutedCls}`}>{product.artist.displayName}</div>
         {(product.track ?? product.album) && (
-          <div className={`flex items-center gap-1 text-[9px] ${mutedCls}`}>
+          <div className={`flex items-center gap-1 text-[11px] ${mutedCls}`}>
             {product.track  ? <><Music size={9} /><span className="truncate">{product.track.title}</span></> : null}
             {product.album  ? <><Disc3 size={9} /><span className="truncate">{product.album.title}</span></> : null}
           </div>
@@ -77,8 +77,8 @@ const ProductCard = memo(function ProductCard({
           className="w-full mt-1"
           onClick={(e) => { e.stopPropagation(); onAdd(product); }}
         >
-          <ShoppingCart size={11} />
-          {inCart ? "✓ IN CART" : t("addToCart")}
+          {inCart ? <Check size={11} /> : <ShoppingCart size={11} />}
+          {inCart ? t("inCart") : t("addToCart")}
         </VHSButton>
       </div>
     </div>
@@ -111,18 +111,18 @@ const ProductModal = memo(function ProductModal({
           <X size={16} />
         </button>
 
-        <SectionLabel className="mb-1">PRODUCT DETAIL</SectionLabel>
+        <SectionLabel className="mb-1">{t("productDetail")}</SectionLabel>
         <h2 className="text-lg font-bold tracking-wider mb-1">{product.name}</h2>
-        <div className={`text-[10px] tracking-widest mb-4 ${mutedCls}`}>{product.artist.displayName}</div>
+        <div className={`text-xs tracking-widest mb-4 ${mutedCls}`}>{product.artist.displayName}</div>
 
         <div className="flex gap-2 mb-4">
-          <span className={`border rounded-sm px-2 py-1 text-[9px] font-bold tracking-wider ${
+          <span className={`border rounded-sm px-2 py-1 text-[11px] font-bold tracking-wider ${
             product.type === "physical" ? "border-fearyellow/40 text-fearyellow" : "border-vhs-cyan/40 text-vhs-cyan"
           }`}>
             {product.type === "physical" ? t("physical") : t("digital")}
           </span>
-          <span className="border border-fear/40 text-fear rounded-sm px-2 py-1 text-[9px] font-bold">
-            {product.price === 0 ? "FREE" : `${product.price} CZK`}
+          <span className="border border-fear/40 text-fear rounded-sm px-2 py-1 text-[11px] font-bold">
+            {product.price === 0 ? t("free") : `${product.price} CZK`}
           </span>
         </div>
 
@@ -130,21 +130,21 @@ const ProductModal = memo(function ProductModal({
           <p className={`text-[11px] leading-relaxed mb-4 ${mutedCls}`}>{product.description}</p>
         )}
         {product.track && (
-          <div className={`flex items-center gap-2 text-[10px] mb-2 ${mutedCls}`}>
+          <div className={`flex items-center gap-2 text-xs mb-2 ${mutedCls}`}>
             <Music size={12} />
             <span>{t("linkedTrack")}: <strong>{product.track.title}</strong></span>
           </div>
         )}
         {product.album && (
-          <div className={`flex items-center gap-2 text-[10px] mb-4 ${mutedCls}`}>
+          <div className={`flex items-center gap-2 text-xs mb-4 ${mutedCls}`}>
             <Disc3 size={12} />
             <span>{t("linkedAlbum")}: <strong>{product.album.title}</strong></span>
           </div>
         )}
 
         <VHSButton variant={inCart ? "success" : "primary"} className="w-full mt-2" onClick={() => onAdd(product)}>
-          <ShoppingCart size={12} />
-          {inCart ? null : t("addToCart")}
+          {inCart ? <Check size={12} /> : <ShoppingCart size={12} />}
+          {inCart ? t("inCart") : t("addToCart")}
         </VHSButton>
       </div>
     </div>
@@ -206,7 +206,7 @@ export default function MerchPage() {
     <button
       key={type}
       onClick={() => handleTypeFilter(type)}
-      className={`px-3 py-1 rounded-sm text-[9px] font-bold tracking-widest transition-all border cursor-pointer ${
+      className={`px-3 py-1 rounded-sm text-[11px] font-bold tracking-widest transition-all border cursor-pointer ${
         typeFilter === type
           ? isDark ? "bg-fear border-fear text-white" : "bg-[#c4234e] border-[#c4234e] text-white"
           : isDark ? "border-royalblue/30 text-vhs-muted hover:border-fear/40" : "border-[#c4b8a8]/40 text-[#8a8578] hover:border-[#c4234e]/30"
@@ -221,7 +221,7 @@ export default function MerchPage() {
       <PageHeader title={t("merchShop")} count={total} />
 
       <div className="flex items-center gap-2 mb-5 flex-wrap">
-        <span className={`text-[9px] tracking-widest ${mutedCls}`}>{t("filterByType")}:</span>
+        <span className={`text-[11px] tracking-widest ${mutedCls}`}>{t("filterByType")}:</span>
         {filterBtn("all",      t("allTypes"))}
         {filterBtn("physical", t("physical"))}
         {filterBtn("digital",  t("digital"))}
@@ -232,9 +232,9 @@ export default function MerchPage() {
           {Array.from({ length: 8 }).map((_, i) => <SkeletonCard key={i} isDark={isDark} />)}
         </CardGrid>
       ) : products.length === 0 ? (
-        <div className={`py-20 text-center text-[10px] tracking-widest ${mutedCls}`}>
+        <div className={`py-20 text-center text-xs tracking-widest ${mutedCls}`}>
           <Zap size={24} className="mx-auto mb-3 opacity-30" />
-          NO PRODUCTS FOUND
+          {t("noProductsFound")}
         </div>
       ) : (
         <CardGrid minWidth={180}>

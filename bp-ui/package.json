@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1019.0",
+    "@aws-sdk/s3-request-presigner": "^3.1019.0",
     "@gsap/react": "^2.1.2",
     "@hookform/resolvers": "^5.2.1",
     "@react-three/fiber": "^9.5.0",
@@ -32,6 +34,7 @@
     "react-flagkit": "^2.0.4",
     "react-hook-form": "^7.62.0",
     "react-icons": "^5.5.0",
+    "react-image-crop": "^11.0.10",
     "react-redux": "^9.2.0",
     "react-world-flags": "^1.6.0",
     "simple-icons": "^16.7.0",

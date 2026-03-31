@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Upload, CheckCircle, Loader } from "lucide-react";
+import { ImageCropModal } from "@/app/components/ui/ImageCropModal";
 import Link from "next/link";
 import PageShell from "@/app/components/layout/PageShell";
 import { Navbar } from "@/app/components/layout/Navbar";
@@ -24,15 +25,19 @@ function NewAlbumContent() {
   const { session }    = useAuth();
   const router         = useRouter();
 
-  const [myTracks, setMyTracks] = useState<TrackDto[]>([]);
-  const [saving, setSaving]     = useState(false);
-  const [error, setError]       = useState<string | null>(null);
+  const coverInputRef               = useRef<HTMLInputElement>(null);
+  const [myTracks, setMyTracks]     = useState<TrackDto[]>([]);
+  const [saving, setSaving]         = useState(false);
+  const [error, setError]           = useState<string | null>(null);
+  const [coverKey, setCoverKey]     = useState<string | null>(null);
+  const [coverFileName, setCoverFileName] = useState<string | null>(null);
+  const [coverUploading, setCoverUploading] = useState(false);
+  const [cropFile, setCropFile]     = useState<File | null>(null);
 
   const [form, setForm] = useState({
-    title:         "",
-    releaseDate:   "",
-    coverImageUrl: "",
-    price:         "",
+    title:       "",
+    releaseDate: "",
+    price:       "",
   });
   const [trackIds, setTrackIds] = useState<number[]>([]);
   const [artists, setArtists]   = useState<ArtistInput[]>([]);
@@ -58,6 +63,34 @@ function NewAlbumContent() {
       .catch(console.error);
   }, [session?.user?.id]);
 
+  const handleCoverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    e.target.value = "";
+    setCropFile(file);
+  };
+
+  const uploadCroppedCover = async (blob: Blob, filename: string) => {
+    setCropFile(null);
+    setCoverFileName(filename);
+    setCoverKey(null);
+    setError(null);
+    setCoverUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", new File([blob], filename, { type: blob.type }));
+      const res = await fetch("/api/covers/upload", { method: "POST", body: formData });
+      if (!res.ok) throw new Error("Upload failed");
+      const { key } = await res.json() as { key: string };
+      setCoverKey(key);
+    } catch {
+      setError("Cover image upload failed. Try again.");
+      setCoverFileName(null);
+    } finally {
+      setCoverUploading(false);
+    }
+  };
+
   const toggleTrack = (id: number) => {
     setTrackIds((prev) =>
       prev.includes(id) ? prev.filter((t) => t !== id) : [...prev, id],
@@ -66,13 +99,17 @@ function NewAlbumContent() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!coverKey) {
+      setError("Please upload a cover image first.");
+      return;
+    }
     setError(null);
     setSaving(true);
     try {
       await api.post(API_ENDPOINTS.albums.list, {
         title:         form.title.trim(),
         releaseDate:   form.releaseDate,
-        coverImageUrl: form.coverImageUrl.trim(),
+        coverImageUrl: coverKey,
         price:         Number(form.price),
         artists:       artists.map(({ artistId, role }) => ({ artistId, role })),
         trackIds:      trackIds.length > 0 ? trackIds : undefined,
@@ -90,15 +127,23 @@ function NewAlbumContent() {
       ? "bg-darkblue/60 border-royalblue/30 text-vhs-white placeholder:text-vhs-muted focus:border-fear"
       : "bg-[#ede7db]/80 border-[#c4b8a8]/40 text-[#2a2520] placeholder:text-[#8a8578] focus:border-[#c4234e]"
   }`;
-  const labelCls = `block text-[9px] tracking-[2px] mb-1.5 ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`;
+  const labelCls = `block text-[11px] tracking-[2px] mb-1.5 ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`;
 
   return (
     <>
+      {cropFile && (
+        <ImageCropModal
+          file={cropFile}
+          aspect={1}
+          onSave={(blob, filename) => void uploadCroppedCover(blob, filename)}
+          onClose={() => setCropFile(null)}
+        />
+      )}
       <Navbar />
       <main className="mx-auto max-w-2xl px-4 py-10 sm:px-6 sm:py-16">
         <Link
           href={`/${locale}/artist`}
-          className={`mb-6 inline-flex items-center gap-1.5 text-[10px] tracking-[2px] no-underline ${
+          className={`mb-6 inline-flex items-center gap-1.5 text-xs tracking-[2px] no-underline ${
             isDark ? "text-vhs-muted hover:text-fear" : "text-[#8a8578] hover:text-[#c4234e]"
           }`}
         >
@@ -151,17 +196,34 @@ function NewAlbumContent() {
               </div>
             </div>
 
-            {/* Cover image URL */}
+            {/* Cover image upload */}
             <div>
               <label className={labelCls}>{t("coverImageUrl")} *</label>
               <input
-                required
-                type="url"
-                className={inputCls}
-                placeholder="https://"
-                value={form.coverImageUrl}
-                onChange={(e) => setForm((p) => ({ ...p, coverImageUrl: e.target.value }))}
+                ref={coverInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleCoverChange}
               />
+              <button
+                type="button"
+                onClick={() => coverInputRef.current?.click()}
+                disabled={coverUploading}
+                className={`w-full rounded-sm border px-3 py-2.5 text-[11px] tracking-wider text-left transition-all flex items-center gap-2 ${
+                  isDark
+                    ? "bg-darkblue/60 border-royalblue/30 text-vhs-muted hover:border-fear/50 disabled:opacity-50"
+                    : "bg-[#ede7db]/80 border-[#c4b8a8]/40 text-[#8a8578] hover:border-[#c4234e]/50 disabled:opacity-50"
+                }`}
+              >
+                {coverUploading ? (
+                  <><Loader size={13} className="animate-spin shrink-0" /> {t("uploading")}</>
+                ) : coverKey ? (
+                  <><CheckCircle size={13} className={`shrink-0 ${isDark ? "text-fear" : "text-[#c4234e]"}`} /> {coverFileName}</>
+                ) : (
+                  <><Upload size={13} className="shrink-0" /> {t("chooseCoverImage")}</>
+                )}
+              </button>
             </div>
 
             {/* Collaborating artists */}
@@ -200,7 +262,7 @@ function NewAlbumContent() {
                         <span className={`text-[11px] tracking-wide ${isDark ? "text-vhs-light" : "text-[#4a4540]"}`}>
                           {track.title}
                         </span>
-                        <span className={`ml-auto text-[9px] ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
+                        <span className={`ml-auto text-[11px] ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
                           {track.artists.map((a) => a.displayName).join(", ")}
                         </span>
                       </label>
@@ -211,7 +273,7 @@ function NewAlbumContent() {
             )}
 
             {error && (
-              <div className="rounded border border-red-400/30 bg-red-400/10 p-2 text-[10px] tracking-wide text-red-400">
+              <div className="rounded border border-red-400/30 bg-red-400/10 p-2 text-xs tracking-wide text-red-400">
                 {error}
               </div>
             )}
@@ -229,7 +291,7 @@ function NewAlbumContent() {
               </Link>
               <button
                 type="submit"
-                disabled={saving}
+                disabled={saving || coverUploading}
                 className={`flex-1 rounded-sm py-2.5 text-[11px] font-bold tracking-[2px] text-white transition-all hover:brightness-110 disabled:opacity-50 ${
                   isDark ? "bg-fear" : "bg-[#c4234e]"
                 }`}

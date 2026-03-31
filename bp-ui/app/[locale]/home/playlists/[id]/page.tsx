@@ -52,7 +52,7 @@ export default function PlaylistDetailPage() {
     <div className="min-h-full">
       <Link
         href={`/${locale}/home/playlists`}
-        className={`mb-4 inline-flex items-center gap-1.5 text-[10px] tracking-widest transition-colors ${isDark ? "text-vhs-muted hover:text-vhs-white" : "text-[#8a8578] hover:text-[#2a2520]"}`}
+        className={`mb-4 inline-flex items-center gap-1.5 text-xs tracking-widest transition-colors ${isDark ? "text-vhs-muted hover:text-vhs-white" : "text-[#8a8578] hover:text-[#2a2520]"}`}
       >
         <ArrowLeft size={12} /> {t("playlists").toUpperCase()}
       </Link>
@@ -65,13 +65,13 @@ export default function PlaylistDetailPage() {
           </div>
 
           <div className="flex flex-col justify-end min-w-0">
-            <div className={`text-[10px] tracking-widest mb-1 ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
+            <div className={`text-xs tracking-widest mb-1 ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
               PLAYLIST
             </div>
             <h1 className={`text-xl sm:text-2xl font-bold tracking-wide truncate mb-1 ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}>
               {playlist.title.toUpperCase()}
             </h1>
-            <div className={`flex flex-wrap gap-4 text-[10px] tracking-widest ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
+            <div className={`flex flex-wrap gap-4 text-xs tracking-widest ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
               <span>{playlist.trackCount} {t("tracksCount")}</span>
               {playlist.isCollaborative && (
                 <span className={`${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`}>COLLAB</span>
@@ -93,7 +93,7 @@ export default function PlaylistDetailPage() {
 
       {tracks.length > 0 && (
         <div>
-          <div className={`mb-3 text-[9px] tracking-widest font-bold ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
+          <div className={`mb-3 text-[11px] tracking-widest font-bold ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
             {t("tracksSection")}
           </div>
           <div className="space-y-1">
@@ -110,7 +110,7 @@ export default function PlaylistDetailPage() {
                       : isDark ? "border-royalblue/20 bg-vhs-card hover:border-royalblue/40" : "border-[#c4b8a8]/30 bg-white/80 hover:border-[#c4b8a8]/60"
                   }`}
                 >
-                  <div className={`w-5 text-center text-[10px] tabular-nums shrink-0 ${active ? (isDark ? "text-vhs-cyan" : "text-[#c4234e]") : (isDark ? "text-vhs-muted" : "text-[#8a8578]")}`}>
+                  <div className={`w-5 text-center text-xs tabular-nums shrink-0 ${active ? (isDark ? "text-vhs-cyan" : "text-[#c4234e]") : (isDark ? "text-vhs-muted" : "text-[#8a8578]")}`}>
                     {active && isPlaying
                       ? <span className="flex gap-[2px] items-end justify-center h-3">{[3,5,4].map((h, j) => <span key={j} className="w-[2px] bg-current rounded-full animate-pulse" style={{ height: `${h * 2}px`, animationDelay: `${j * 0.15}s` }} />)}</span>
                       : i + 1}
@@ -126,18 +126,18 @@ export default function PlaylistDetailPage() {
                     <div className={`truncate text-[11px] font-bold tracking-wider ${active ? (isDark ? "text-fearyellow" : "text-[#c4234e]") : (isDark ? "text-vhs-white" : "text-[#2a2520]")}`}>
                       {track.title}
                     </div>
-                    <div className={`truncate text-[9px] tracking-wide ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
+                    <div className={`truncate text-[11px] tracking-wide ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
                       {track.artists.map((a) => a.displayName).join(", ")}
                     </div>
                   </div>
 
                   {track.price != null && (
-                    <div className={`text-[10px] font-semibold tracking-wider shrink-0 ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`}>
+                    <div className={`text-xs font-semibold tracking-wider shrink-0 ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`}>
                       {track.price} CZK
                     </div>
                   )}
 
-                  <div className={`flex items-center gap-1 text-[10px] tabular-nums shrink-0 ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
+                  <div className={`flex items-center gap-1 text-xs tabular-nums shrink-0 ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
                     <Clock size={10} />
                     {formatTime(track.durationSeconds)}
                   </div>

@@ -165,10 +165,10 @@ function GenreCard({
         >
           <Music2 size={32} strokeWidth={1.5} />
         </div>
-        <div className={`text-[10px] font-bold tracking-[2px] sm:text-[11px]`}>
+        <div className={`text-xs font-bold tracking-[2px] sm:text-[13px]`}>
           {genre}
         </div>
-        <div className={`mt-1 text-[8px] tracking-wider`}>
+        <div className={`mt-1 text-[10px] tracking-wider`}>
           {isClient ? trackCount : 400} TRACKS
         </div>
       </div>
@@ -312,14 +312,14 @@ function LandingContent() {
                 {t("nowTrending")}
               </h2>
               <p
-                className={`mt-2 text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+                className={`mt-2 text-xs tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
               >
                 {t("featuredDesc")}
               </p>
             </div>
             <Link
               href={`/${locale}/home`}
-              className={`hidden rounded-sm border px-4 py-2 text-[10px] font-bold tracking-[2px] no-underline transition-all sm:inline-block ${
+              className={`hidden rounded-sm border px-4 py-2 text-xs font-bold tracking-[2px] no-underline transition-all sm:inline-block ${
                 isDark
                   ? "border-fear/40 text-fear hover:bg-fear/10"
                   : "border-[#c4234e]/30 text-[#c4234e] hover:bg-[#c4234e]/5"
@@ -385,21 +385,21 @@ function LandingContent() {
                   <div className="mt-2 px-3 pb-3">
                     <div className="flex items-center justify-between">
                       <span
-                        className={`truncate text-[10px] font-bold tracking-wider ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}
+                        className={`truncate text-xs font-bold tracking-wider ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}
                       >
                         {album.title}
                       </span>
                       {i < 2 && (
                         <Badge
                           variant="fear"
-                          className="ml-1 shrink-0 text-[7px]"
+                          className="ml-1 shrink-0 text-[9px]"
                         >
                           {t("newRelease")}
                         </Badge>
                       )}
                     </div>
                     <div
-                      className={`text-[9px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+                      className={`text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
                     >
                       {album.artist}
                     </div>
@@ -487,7 +487,7 @@ function LandingContent() {
               {t("genresLabel")}
             </h2>
             <p
-              className={`mt-2 text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+              className={`mt-2 text-xs tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
             >
               {t("genresDesc")}
             </p>
@@ -561,7 +561,7 @@ function LandingContent() {
                 }`}
               >
                 <div
-                  className={`mb-2 text-[9px] tracking-[3px] ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+                  className={`mb-2 text-[11px] tracking-[3px] ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
                 >
                   {stat.label}
                 </div>
@@ -569,7 +569,7 @@ function LandingContent() {
                   <AnimCounter target={stat.value} />
                 </div>
                 <div
-                  className={`mt-2 text-[9px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+                  className={`mt-2 text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
                 >
                   {stat.desc}
                 </div>
@@ -726,7 +726,7 @@ function LandingContent() {
               {t("artistsLabel")}
             </h2>
             <p
-              className={`mt-2 text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+              className={`mt-2 text-xs tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
             >
               {t("artistsDesc")}
             </p>
@@ -760,12 +760,12 @@ function LandingContent() {
                   altText={artist.name}
                 />
                 <div
-                  className={`mt-1 text-[10px] font-bold tracking-[2px] sm:text-[11px] ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}
+                  className={`mt-1 text-xs font-bold tracking-[2px] sm:text-[13px] ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}
                 >
                   {artist.name}
                 </div>
                 <div
-                  className={`text-[9px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+                  className={`text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
                 >
                   {artist.tracks} TRACKS
                 </div>

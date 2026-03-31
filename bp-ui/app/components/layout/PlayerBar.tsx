@@ -28,10 +28,10 @@ function TrackInfo() {
           : <Music size={18} />}
       </div>
       <div className="min-w-0">
-        <div className={`text-[9px] sm:text-[11px] font-bold tracking-wider truncate ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}>
+        <div className={`text-[11px] sm:text-xs font-bold tracking-wider truncate ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}>
           <span className={isDark ? "text-fearyellow" : "text-[#c4234e]"}>{title}</span>
         </div>
-        <div className={`text-[8px] sm:text-[9px] tracking-wider truncate ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>{artist}</div>
+        <div className={`text-[10px] sm:text-[11px] tracking-wider truncate ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>{artist}</div>
       </div>
     </div>
   );
@@ -43,12 +43,12 @@ function PlaybackControls() {
   const { isDark } = useStoreTheme();
 
   const TimeLeft = () => (
-    <span className={`text-[9px] tracking-wider min-w-[28px] text-right tabular-nums ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
+    <span className={`text-[11px] tracking-wider min-w-[28px] text-right tabular-nums ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
       {formatTime(progress)}
     </span>
   );
   const TimeRight = () => (
-    <span className={`text-[9px] tracking-wider min-w-[28px] tabular-nums ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
+    <span className={`text-[11px] tracking-wider min-w-[28px] tabular-nums ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
       {formatTime(duration)}
     </span>
   );
@@ -143,14 +143,14 @@ function QueueTrack({ track, index }: { track: TrackDto; index: number }) {
           : "bg-transparent border-transparent hover:bg-royalblue/10"
       )}
     >
-      <span className={cn("text-[10px] min-w-[16px]", active ? "text-fear" : (isDark ? "text-vhs-muted" : "text-[#8a8578]"), active && isPlaying && "animate-pulse-vhs")}>
+      <span className={cn("text-xs min-w-[16px]", active ? "text-fear" : (isDark ? "text-vhs-muted" : "text-[#8a8578]"), active && isPlaying && "animate-pulse-vhs")}>
         {active && isPlaying ? <Play size={10} /> : `${index + 1}.`}
       </span>
       <div className="flex-1 min-w-0">
-        <div className={cn("text-[10px] tracking-wider truncate", active ? (isDark ? "text-fearyellow" : "text-[#c4234e]") : (isDark ? "text-vhs-white" : "text-[#2a2520]"))}>
+        <div className={cn("text-xs tracking-wider truncate", active ? (isDark ? "text-fearyellow" : "text-[#c4234e]") : (isDark ? "text-vhs-white" : "text-[#2a2520]"))}>
           {track.title}
         </div>
-        <div className={`text-[8px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
+        <div className={`text-[10px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
           {track.artists.map((a) => a.displayName).join(", ")}
         </div>
       </div>
@@ -175,7 +175,7 @@ export function QueuePanel() {
     }`}>
       <SectionLabel className="mb-3">{t("queue")} // {queue.length} {t("tracks")}</SectionLabel>
       {queue.length === 0
-        ? <div className={`py-4 text-center text-[10px] tracking-widest ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>—</div>
+        ? <div className={`py-4 text-center text-xs tracking-widest ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>—</div>
         : queue.map((tr, i) => <QueueTrack key={tr.id} track={tr} index={i} />)
       }
     </div>

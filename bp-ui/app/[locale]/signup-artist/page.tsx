@@ -72,9 +72,9 @@ function SignupArtistContent() {
       ? "bg-darkblue/60 border-royalblue/30 text-vhs-white placeholder:text-vhs-muted focus:border-fear"
       : "bg-[#ede7db]/80 border-[#c4b8a8]/40 text-[#2a2520] placeholder:text-[#8a8578] focus:border-[#c4234e]"
   }`;
-  const labelCls = `block text-[9px] tracking-[2px] mb-1.5 ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`;
-  const sectionHeadCls = `flex items-center gap-2 mb-4 text-[10px] font-bold tracking-[2px] ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`;
-  const dividerCls = `my-6 border-t ${isDark ? "border-royalblue/20" : "border-[#c4b8a8]/30"}`;
+  const labelCls        = `block text-[11px] tracking-[2px] mb-1.5 ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`;
+  const sectionHeadCls  = `flex items-center gap-2 mb-4 text-xs font-bold tracking-[2px] ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`;
+  const dividerCls      = `my-6 border-t ${isDark ? "border-royalblue/20" : "border-[#c4b8a8]/30"}`;
 
   return (
     <>
@@ -87,7 +87,7 @@ function SignupArtistContent() {
         >
           <Link
             href={`/${locale}`}
-            className={`mb-4 inline-flex items-center gap-1.5 text-[10px] tracking-[2px] no-underline ${
+            className={`mb-4 inline-flex items-center gap-1.5 text-xs tracking-[2px] no-underline ${
               isDark ? "text-vhs-muted hover:text-fear" : "text-[#8a8578] hover:text-[#c4234e]"
             }`}
           >
@@ -102,7 +102,7 @@ function SignupArtistContent() {
             {t("title")}
           </h1>
           <p
-            className={`mb-6 text-center text-[10px] tracking-wider ${
+            className={`mb-6 text-center text-xs tracking-wider ${
               isDark ? "text-vhs-muted" : "text-[#8a8578]"
             }`}
           >
@@ -199,7 +199,7 @@ function SignupArtistContent() {
 
             {/* ── Error & submit ── */}
             {error && (
-              <div className="text-fear bg-fear/10 border-fear/20 rounded border p-2 text-[10px] tracking-wider">
+              <div className="text-fear bg-fear/10 border-fear/20 rounded border p-2 text-xs tracking-wider">
                 {error}
               </div>
             )}
@@ -215,7 +215,7 @@ function SignupArtistContent() {
             </button>
 
             <p
-              className={`text-center text-[10px] tracking-wider ${
+              className={`text-center text-xs tracking-wider ${
                 isDark ? "text-vhs-muted" : "text-[#8a8578]"
               }`}
             >

@@ -50,8 +50,8 @@ export default function OrdersPage() {
       ) : orders.length === 0 ? (
         <div className={`py-20 text-center ${mutedCls}`}>
           <Package size={32} className="mx-auto mb-3 opacity-20" />
-          <div className="text-[10px] tracking-widest">{t("noOrders")}</div>
-          <div className="text-[9px] mt-1">{t("ordersHint")}</div>
+          <div className="text-xs tracking-widest">{t("noOrders")}</div>
+          <div className="text-[11px] mt-1">{t("ordersHint")}</div>
         </div>
       ) : (
         <div className={`rounded border divide-y ${cardCls} ${dividerCls}`}>
@@ -64,20 +64,20 @@ export default function OrdersPage() {
               >
                 <div className="flex-1 grid grid-cols-3 gap-2">
                   <div>
-                    <div className={`text-[8px] tracking-widest mb-0.5 ${mutedCls}`}>{t("orderDate")}</div>
-                    <div className={`text-[10px] font-bold ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}>
+                    <div className={`text-[10px] tracking-widest mb-0.5 ${mutedCls}`}>{t("orderDate")}</div>
+                    <div className={`text-xs font-bold ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}>
                       {new Date(order.purchaseDate).toLocaleDateString()}
                     </div>
                   </div>
                   <div>
-                    <div className={`text-[8px] tracking-widest mb-0.5 ${mutedCls}`}>{t("orderTotal")}</div>
-                    <div className="text-[10px] font-bold text-fear">
+                    <div className={`text-[10px] tracking-widest mb-0.5 ${mutedCls}`}>{t("orderTotal")}</div>
+                    <div className="text-xs font-bold text-fear">
                       {order.totalPrice} {order.currencyCode}
                     </div>
                   </div>
                   <div>
-                    <div className={`text-[8px] tracking-widest mb-0.5 ${mutedCls}`}>{t("orderItems")}</div>
-                    <div className={`text-[10px] font-bold ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}>
+                    <div className={`text-[10px] tracking-widest mb-0.5 ${mutedCls}`}>{t("orderItems")}</div>
+                    <div className={`text-xs font-bold ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}>
                       {order.items.length}
                     </div>
                   </div>
@@ -94,7 +94,7 @@ export default function OrdersPage() {
                     {order.items.map((item) => (
                       <div
                         key={item.productId}
-                        className={`flex items-center justify-between text-[10px] py-1.5 px-3 rounded ${
+                        className={`flex items-center justify-between text-xs py-1.5 px-3 rounded ${
                           isDark ? "bg-royalblue/10" : "bg-white/70"
                         }`}
                       >

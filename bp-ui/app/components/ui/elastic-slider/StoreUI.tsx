@@ -27,7 +27,7 @@ export function Badge({ children, variant = "fear", className }: {
   children: ReactNode; variant?: BadgeVariant; className?: string;
 }) {
   return (
-    <span className={cn("px-2.5 py-0.5 rounded-sm text-[10px] font-bold tracking-wider leading-none", badgeColors[variant], className)}>
+    <span className={cn("px-2.5 py-0.5 rounded-sm text-[11px] font-bold tracking-wider leading-none", badgeColors[variant], className)}>
       {children}
     </span>
   );
@@ -56,7 +56,7 @@ export function VHSButton({ variant = "primary", children, className, ...props }
   return (
     <button
       className={cn(
-        "flex items-center justify-center gap-1.5 rounded-sm cursor-pointer text-[9px] font-bold tracking-wider font-vcr transition-all hover:brightness-110 active:scale-[0.97]",
+        "flex items-center justify-center gap-1.5 rounded-sm cursor-pointer text-[11px] font-bold tracking-wider font-vcr transition-all hover:brightness-110 active:scale-[0.97]",
         btnVariants[variant], className
       )}
       {...props}
@@ -106,7 +106,7 @@ export function ProgressSlider({ value, max, onChange, showThumb = true, height 
 
 /* ── SectionLabel ── */
 export function SectionLabel({ children, className }: { children: ReactNode; className?: string }) {
-  return <div className={cn("text-[9px] tracking-[2px] font-bold italic text-fear", className)}>{children}</div>;
+  return <div className={cn("text-[11px] tracking-[2px] font-bold italic text-fear", className)}>{children}</div>;
 }
 
 /* ── PageHeader (with theme) ── */
@@ -119,7 +119,7 @@ export function PageHeader({ title, count }: { title: string; count: number }) {
       <div className={`inline-block px-5 py-1.5 vhs-skew-clip mb-2 ${isDark ? "bg-gradient-to-r from-fear to-fear/80" : "bg-gradient-to-r from-[#c4234e] to-[#a01d40]"}`}>
         <span className="font-bold text-xl sm:text-2xl tracking-[3px] italic text-white">{title}</span>
       </div>
-      <div className={`text-[10px] tracking-[2px] mt-1.5 ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
+      <div className={`text-xs tracking-[2px] mt-1.5 ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
         {t("showingRecords", { count })}
       </div>
     </div>

@@ -96,7 +96,7 @@ export function ArtistPicker({ value, onChange, featRole, isDark }: Props) {
             <span className={isDark ? "text-vhs-white" : "text-[#2a2520]"}>{a.displayName}</span>
             <div className="flex items-center gap-2">
               <span
-                className={`rounded border px-1.5 py-0.5 text-[9px] tracking-widest ${
+                className={`rounded border px-1.5 py-0.5 text-[11px] tracking-widest ${
                   a.role === "primary"
                     ? isDark ? "border-fear/30 text-fear" : "border-[#c4234e]/30 text-[#c4234e]"
                     : isDark ? "border-royalblue/30 text-vhs-muted" : "border-[#c4b8a8] text-[#8a8578]"
@@ -158,7 +158,7 @@ export function ArtistPicker({ value, onChange, featRole, isDark }: Props) {
                   }`}
                 >
                   <div
-                    className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[9px] font-bold ${
+                    className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[11px] font-bold ${
                       isDark ? "bg-royalblue/30 text-vhs-cyan" : "bg-[#f5f0e8] text-[#c4234e]"
                     }`}
                   >
@@ -173,7 +173,7 @@ export function ArtistPicker({ value, onChange, featRole, isDark }: Props) {
 
         {open && !searching && query.trim() && results.length === 0 && (
           <div
-            className={`absolute left-0 right-0 top-full z-50 mt-1 rounded border px-3 py-2.5 text-[10px] shadow-lg ${
+            className={`absolute left-0 right-0 top-full z-50 mt-1 rounded border px-3 py-2.5 text-xs shadow-lg ${
               isDark ? "bg-vhs-surface border-royalblue/30 text-vhs-muted" : "bg-white border-[#c4b8a8]/40 text-[#8a8578]"
             }`}
           >

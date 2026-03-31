@@ -34,6 +34,7 @@
     "login": "Log in",
     "logout": "Log out",
     "adminDashboard": "Admin",
+    "artistDashboard": "Artist",
     "application": "Application"
   },
   "Footer": {
@@ -419,6 +420,11 @@
     "physical": "PHYSICAL",
     "digital": "DIGITAL",
     "addedToCart": "Added to cart",
+    "inCart": "IN CART",
+    "by": "BY",
+    "noProductsFound": "NO PRODUCTS FOUND",
+    "productDetail": "PRODUCT DETAIL",
+    "product": "PRODUCT",
     "viewDetails": "View details",
     "linkedTrack": "Track",
     "linkedAlbum": "Album",
@@ -445,6 +451,7 @@
     "collapseOrder": "Hide items",
     "nav_cart": "CART",
     "nav_orders": "ORDERS",
+    "nav_artist": "ARTIST_STUDIO",
     "securitySection": "SECURITY",
     "mfaLabel": "Two-Factor Authentication (2FA)",
     "mfaManage": "MANAGE →"
@@ -514,6 +521,8 @@
     "noProducts": "No products yet",
     "addProduct": "Add product",
     "manageProducts": "Manage products",
+    "myTracks": "My tracks",
+    "myAlbums": "My albums",
     "createProduct": "Create product",
     "productName": "Product name",
     "productType": "Type",
@@ -528,7 +537,23 @@
     "digital": "Digital (download, stream...)",
     "productSaved": "Product saved",
     "productDeleted": "Product deleted",
-    "editProduct": "Edit product"
+    "editProduct": "Edit product",
+    "editTrack": "EDIT TRACK",
+    "editAlbum": "EDIT ALBUM",
+    "delete": "DELETE",
+    "deleting": "DELETING...",
+    "uploading": "UPLOADING...",
+    "chooseAudioFile": "CHOOSE AUDIO FILE",
+    "chooseImage": "CHOOSE IMAGE",
+    "chooseCoverImage": "CHOOSE COVER IMAGE",
+    "currentAudio": "current audio",
+    "currentCover": "current cover"
+  },
+  "Common": {
+    "cropImage": "CROP IMAGE",
+    "apply": "APPLY",
+    "processing": "PROCESSING...",
+    "cancel": "CANCEL"
   },
   "Home": {},
   "Mfa": {

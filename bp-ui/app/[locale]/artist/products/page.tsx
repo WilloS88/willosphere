@@ -72,7 +72,7 @@ function ProductsContent() {
           </div>
           <Link
             href={`/${locale}/artist/products/new`}
-            className={`flex items-center gap-2 rounded-sm border px-4 py-2 text-[10px] font-bold tracking-[2px] no-underline transition-all ${
+            className={`flex items-center gap-2 rounded-sm border px-4 py-2 text-xs font-bold tracking-[2px] no-underline transition-all ${
               isDark
                 ? "border-fear/40 bg-fear/10 text-fear hover:bg-fear/20"
                 : "border-[#c4234e]/40 bg-[#c4234e]/5 text-[#c4234e] hover:bg-[#c4234e]/10"
@@ -94,12 +94,12 @@ function ProductsContent() {
               size={32}
               className={`mx-auto mb-3 opacity-30 ${mutedCls}`}
             />
-            <div className={`text-[10px] tracking-widest ${mutedCls}`}>
+            <div className={`text-xs tracking-widest ${mutedCls}`}>
               {t("noProducts")}
             </div>
             <Link
               href={`/${locale}/artist/products/new`}
-              className={`mt-4 inline-flex items-center gap-2 rounded-sm border px-4 py-2 text-[10px] font-bold tracking-widest no-underline ${
+              className={`mt-4 inline-flex items-center gap-2 rounded-sm border px-4 py-2 text-xs font-bold tracking-widest no-underline ${
                 isDark
                   ? "border-royalblue/30 text-vhs-light hover:border-fear/40"
                   : "border-[#c4b8a8] text-[#6b6560]"
@@ -117,7 +117,7 @@ function ProductsContent() {
               >
                 {/* Type badge */}
                 <span
-                  className={`shrink-0 rounded-sm border px-2 py-0.5 text-[8px] font-bold tracking-wider ${
+                  className={`shrink-0 rounded-sm border px-2 py-0.5 text-[10px] font-bold tracking-wider ${
                     product.type === "physical"
                       ? isDark
                         ? "border-fearyellow/40 text-fearyellow"
@@ -138,7 +138,7 @@ function ProductsContent() {
                     {product.name}
                   </div>
                   <div
-                    className={`flex items-center gap-3 text-[9px] ${mutedCls}`}
+                    className={`flex items-center gap-3 text-[11px] ${mutedCls}`}
                   >
                     {product.track && (
                       <span className="flex items-center gap-1">

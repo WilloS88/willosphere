@@ -87,7 +87,7 @@ function CopyButton({ text, isDark, labelCopy, labelCopied }: { text: string; is
   return (
     <button
       onClick={handleCopy}
-      className={`inline-flex items-center gap-1 px-2 py-1 rounded text-[9px] tracking-[1px] cursor-pointer border transition-all ${
+      className={`inline-flex items-center gap-1 px-2 py-1 rounded text-[11px] tracking-[1px] cursor-pointer border transition-all ${
         isDark
           ? "border-royalblue/30 text-vhs-muted hover:text-fear hover:border-fear/40 bg-transparent"
           : "border-[#c4b8a8]/40 text-[#8a8578] hover:text-[#c4234e] hover:border-[#c4234e]/40 bg-transparent"
@@ -161,7 +161,7 @@ function MfaSetupContent() {
     isDark ? "bg-vhs-card/80 border-royalblue/20" : "border-[#c4b8a8]/30 bg-white/80"
   }`;
 
-  const btnPrimaryCls = `w-full cursor-pointer rounded-sm py-2.5 text-[11px] font-bold tracking-[2px] transition-all hover:brightness-110 disabled:opacity-50 ${
+  const btnPrimaryCls = `w-full cursor-pointer rounded-sm py-2.5 text-xs font-bold tracking-[2px] transition-all hover:brightness-110 disabled:opacity-50 ${
     isDark ? "bg-fear text-white" : "bg-[#c4234e] text-white"
   }`;
 
@@ -169,7 +169,7 @@ function MfaSetupContent() {
     isDark ? "text-fearyellow" : "text-[#c4234e]"
   }`;
 
-  const mutedCls = `text-[10px] tracking-[1.5px] ${
+  const mutedCls = `text-xs tracking-[1.5px] ${
     isDark ? "text-vhs-muted" : "text-[#8a8578]"
   }`;
 
@@ -177,7 +177,7 @@ function MfaSetupContent() {
     return (
       <div className="flex min-h-screen items-center justify-center px-4 py-8">
         <div className={`${cardCls} flex items-center justify-center`}>
-          <span className={`text-[11px] tracking-widest ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
+          <span className={`text-xs tracking-widest ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
             ...
           </span>
         </div>
@@ -191,7 +191,7 @@ function MfaSetupContent() {
         <div className={cardCls}>
           <Link
             href={`/${locale}/home/profile`}
-            className={`mb-6 inline-flex items-center gap-1.5 text-[10px] tracking-[2px] no-underline ${
+            className={`mb-6 inline-flex items-center gap-1.5 text-xs tracking-[2px] no-underline ${
               isDark ? "text-vhs-muted hover:text-fear" : "text-[#8a8578] hover:text-[#c4234e]"
             }`}
           >
@@ -228,7 +228,7 @@ function MfaSetupContent() {
         {/* Back link */}
         <Link
           href={`/${locale}/home/profile`}
-          className={`mb-6 inline-flex items-center gap-1.5 text-[10px] tracking-[2px] no-underline ${
+          className={`mb-6 inline-flex items-center gap-1.5 text-xs tracking-[2px] no-underline ${
             isDark ? "text-vhs-muted hover:text-fear" : "text-[#8a8578] hover:text-[#c4234e]"
           }`}
         >
@@ -254,7 +254,7 @@ function MfaSetupContent() {
             </p>
 
             {errorMessage && (
-              <div className="text-fear bg-fear/10 border-fear/20 rounded border p-2 text-[10px] tracking-wider mb-4 w-full text-center">
+              <div className="text-fear bg-fear/10 border-fear/20 rounded border p-2 text-xs tracking-wider mb-4 w-full text-center">
                 {errorMessage}
               </div>
             )}
@@ -306,7 +306,7 @@ function MfaSetupContent() {
                 }`}
               >
                 <code
-                  className={`text-[11px] font-mono tracking-widest break-all ${
+                  className={`text-xs font-mono tracking-widest break-all ${
                     isDark ? "text-fearyellow" : "text-[#2a2520]"
                   }`}
                 >
@@ -341,7 +341,7 @@ function MfaSetupContent() {
               <MfaCodeInput value={code} onChange={setCode} isDark={isDark} />
 
               {errorMessage && (
-                <div className="text-fear bg-fear/10 border-fear/20 rounded border p-2 text-[10px] tracking-wider text-center">
+                <div className="text-fear bg-fear/10 border-fear/20 rounded border p-2 text-xs tracking-wider text-center">
                   {errorMessage}
                 </div>
               )}
@@ -356,7 +356,7 @@ function MfaSetupContent() {
 
             <button
               onClick={() => { setStep("qr"); setErrorMessage(null); }}
-              className={`mt-3 text-[10px] tracking-[1.5px] cursor-pointer bg-transparent border-none ${
+              className={`mt-3 text-xs tracking-[1.5px] cursor-pointer bg-transparent border-none ${
                 isDark ? "text-vhs-muted hover:text-fear" : "text-[#8a8578] hover:text-[#c4234e]"
               }`}
             >

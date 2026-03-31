@@ -79,14 +79,14 @@ export default function ArtistsPage() {
                 </div>
 
                 <div
-                  className={`mb-1 truncate text-[10px] font-bold tracking-wider sm:text-[11px] ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}
+                  className={`mb-1 truncate text-xs font-bold tracking-wider sm:text-[11px] ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}
                 >
                   {artist.displayName.toUpperCase()}
                 </div>
 
                 {artist.bio && (
                   <div
-                    className={`mb-2 line-clamp-2 text-[9px] tracking-wide ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+                    className={`mb-2 line-clamp-2 text-[11px] tracking-wide ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
                   >
                     {artist.bio}
                   </div>
@@ -94,7 +94,7 @@ export default function ArtistsPage() {
 
                 {artist.artistSince && (
                   <div
-                    className={`mt-1 text-[9px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+                    className={`mt-1 text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
                   >
                     {t("since")} {new Date(artist.artistSince).getFullYear()}
                   </div>

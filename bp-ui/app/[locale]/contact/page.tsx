@@ -28,7 +28,7 @@ function ContactContent() {
       <Navbar />
       <main className="mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-16">
         <div
-          className={`mb-6 flex gap-2 text-[10px] tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+          className={`mb-6 flex gap-2 text-xs tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
         >
           <Link
             href={`/${locale}`}
@@ -95,7 +95,7 @@ function ContactContent() {
 
             <Link
               href={`/${locale}/about`}
-              className={`mt-4 inline-block rounded-sm border px-4 py-2 text-[10px] font-bold tracking-[2px] no-underline ${isDark ? "border-royalblue/40 text-vhs-light" : "border-[#c4b8a8] text-[#6b6560]"}`}
+              className={`mt-4 inline-block rounded-sm border px-4 py-2 text-xs font-bold tracking-[2px] no-underline ${isDark ? "border-royalblue/40 text-vhs-light" : "border-[#c4b8a8] text-[#6b6560]"}`}
             >
               {t("about")}
             </Link>
@@ -113,7 +113,7 @@ function ContactContent() {
             <form className="space-y-3">
               <div>
                 <label
-                  className={`mb-1 block text-[9px] tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+                  className={`mb-1 block text-[11px] tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
                 >
                   {t("name")}
                 </label>
@@ -125,7 +125,7 @@ function ContactContent() {
               </div>
               <div>
                 <label
-                  className={`mb-1 block text-[9px] tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+                  className={`mb-1 block text-[11px] tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
                 >
                   {t("email")}
                 </label>
@@ -137,7 +137,7 @@ function ContactContent() {
               </div>
               <div>
                 <label
-                  className={`mb-1 block text-[9px] tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+                  className={`mb-1 block text-[11px] tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
                 >
                   {t("message")}
                 </label>
@@ -153,7 +153,7 @@ function ContactContent() {
                 {t("send")}
               </button>
               <p
-                className={`text-[9px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+                className={`text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
               >
                 {t("note")}
               </p>

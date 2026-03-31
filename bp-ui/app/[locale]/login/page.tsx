@@ -139,7 +139,7 @@ function LoginContent() {
     setErrorMessage(null);
   };
 
-  const inputCls = `w-full rounded-sm px-3 py-2.5 border outline-none text-[11px] tracking-wider font-vcr transition-all ${
+  const inputCls = `w-full rounded-sm px-3 py-2.5 border outline-none text-sm tracking-wider font-vcr transition-all ${
     isDark
       ? "bg-darkblue/60 border-royalblue/30 text-vhs-white placeholder:text-vhs-muted focus:border-fear"
       : "bg-[#ede7db]/80 border-[#c4b8a8]/40 text-[#2a2520] placeholder:text-[#8a8578] focus:border-[#c4234e]"
@@ -153,7 +153,7 @@ function LoginContent() {
         >
           <button
             onClick={handleBackToLogin}
-            className={`mb-4 inline-flex items-center gap-1.5 text-[10px] tracking-[2px] cursor-pointer bg-transparent border-none ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#8a8578] hover:text-[#c4234e]"}`}
+            className={`mb-4 inline-flex items-center gap-1.5 text-xs tracking-[2px] cursor-pointer bg-transparent border-none ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#8a8578] hover:text-[#c4234e]"}`}
           >
             <ArrowLeft size={12} /> {t("home")}
           </button>
@@ -173,7 +173,7 @@ function LoginContent() {
               {t("mfaTitle")}
             </h1>
             <p
-              className={`mt-2 text-center text-[10px] tracking-[1.5px] ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+              className={`mt-2 text-center text-xs tracking-[1.5px] ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
             >
               {t("mfaDescription")}
             </p>
@@ -183,13 +183,13 @@ function LoginContent() {
             <MfaCodeInput value={mfaCode} onChange={setMfaCode} isDark={isDark} />
 
             {errorMessage && (
-              <div className="text-fear bg-fear/10 border-fear/20 rounded border p-2 text-[10px] tracking-wider text-center">
+              <div className="text-fear bg-fear/10 border-fear/20 rounded border p-2 text-xs tracking-wider text-center">
                 {errorMessage}
               </div>
             )}
 
             <button
-              className={`w-full cursor-pointer rounded-sm py-2.5 text-[11px] font-bold tracking-[2px] transition-all hover:brightness-110 disabled:opacity-50 ${isDark ? "bg-fear text-white" : "bg-[#c4234e] text-white"}`}
+              className={`w-full cursor-pointer rounded-sm py-2.5 text-xs font-bold tracking-[2px] transition-all hover:brightness-110 disabled:opacity-50 ${isDark ? "bg-fear text-white" : "bg-[#c4234e] text-white"}`}
               disabled={isSubmitting || mfaCode.length !== 6}
             >
               {isSubmitting ? "..." : t("mfaVerify")}
@@ -213,7 +213,7 @@ function LoginContent() {
       >
         <Link
           href={`/${locale}`}
-          className={`mb-4 inline-flex items-center gap-1.5 text-[10px] tracking-[2px] no-underline ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#8a8578] hover:text-[#c4234e]"}`}
+          className={`mb-4 inline-flex items-center gap-1.5 text-xs tracking-[2px] no-underline ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#8a8578] hover:text-[#c4234e]"}`}
         >
           <ArrowLeft size={12} /> {t("home")}
         </Link>
@@ -226,7 +226,7 @@ function LoginContent() {
         <form className="space-y-4" onSubmit={handleLoginSubmit}>
           <div>
             <label
-              className={`mb-1.5 block text-[9px] tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+              className={`mb-1.5 block text-xs tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
             >
               {t("email")}
             </label>
@@ -244,7 +244,7 @@ function LoginContent() {
           </div>
           <div>
             <label
-              className={`mb-1.5 block text-[9px] tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+              className={`mb-1.5 block text-xs tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
             >
               {t("password")}
             </label>
@@ -262,13 +262,13 @@ function LoginContent() {
           </div>
 
           {errorMessage && (
-            <div className="text-fear bg-fear/10 border-fear/20 rounded border p-2 text-[10px] tracking-wider">
+            <div className="text-fear bg-fear/10 border-fear/20 rounded border p-2 text-xs tracking-wider">
               {errorMessage}
             </div>
           )}
 
           <button
-            className={`w-full cursor-pointer rounded-sm py-2.5 text-[11px] font-bold tracking-[2px] transition-all hover:brightness-110 disabled:opacity-50 ${isDark ? "bg-fear text-white" : "bg-[#c4234e] text-white"}`}
+            className={`w-full cursor-pointer rounded-sm py-2.5 text-xs font-bold tracking-[2px] transition-all hover:brightness-110 disabled:opacity-50 ${isDark ? "bg-fear text-white" : "bg-[#c4234e] text-white"}`}
             disabled={isSubmitting}
           >
             {isSubmitting ? "..." : t("login")}
@@ -281,7 +281,7 @@ function LoginContent() {
           <div
             className={`h-px flex-1 ${isDark ? "bg-royalblue/30" : "bg-[#c4b8a8]/30"}`}
           />
-          <span className="text-[9px] tracking-[2px]">
+          <span className="text-xs tracking-[2px]">
             {t("or").toUpperCase()}
           </span>
           <div
@@ -289,7 +289,7 @@ function LoginContent() {
           />
         </div>
 
-        <div className="text-center text-[11px] tracking-wider">
+        <div className="text-center text-xs tracking-wider">
           <span className={isDark ? "text-vhs-muted" : "text-[#8a8578]"}>
             {t("dontHaveAnAccount")}{" "}
           </span>

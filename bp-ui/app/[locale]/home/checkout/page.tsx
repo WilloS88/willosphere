@@ -69,7 +69,7 @@ export default function CheckoutPage() {
               <div className={`text-[11px] font-bold tracking-wider ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}>
                 {item.name}
               </div>
-              <div className={`text-[9px] ${mutedCls}`}>
+              <div className={`text-[11px] ${mutedCls}`}>
                 {item.artistName}
                 {item.quantity > 1 && <span className="ml-2">× {item.quantity}</span>}
               </div>
@@ -84,7 +84,7 @@ export default function CheckoutPage() {
       {/* Total + button */}
       <div className={`rounded border px-4 py-4 ${cardCls}`}>
         <div className="flex items-center justify-between mb-4">
-          <div className={`text-[9px] tracking-widest ${mutedCls}`}>{t("total")}</div>
+          <div className={`text-[11px] tracking-widest ${mutedCls}`}>{t("total")}</div>
           <div className="text-2xl font-bold text-fear">{total.toFixed(2)} CZK</div>
         </div>
         <VHSButton

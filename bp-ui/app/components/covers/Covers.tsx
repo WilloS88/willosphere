@@ -64,7 +64,7 @@ function Scene_Spheres({ color }: { color: string }) {
 function Scene_Rain() {
   return <>
     {Array.from({ length: 12 }).map((_, i) => (
-      <div key={i} className="absolute font-mono text-[8px] tracking-widest" style={{ top: `${(i * 7) % 80}%`, left: `${i * 8 + 2}%`, color: `rgba(237,44,94,${0.12 + (i * 0.02) % 0.15})`, writingMode: "vertical-rl" }}>
+      <div key={i} className="absolute font-mono text-[10px] tracking-widest" style={{ top: `${(i * 7) % 80}%`, left: `${i * 8 + 2}%`, color: `rgba(237,44,94,${0.12 + (i * 0.02) % 0.15})`, writingMode: "vertical-rl" }}>
         {String.fromCharCode(0x30a0 + ((i * 13) % 96))}
       </div>
     ))}
@@ -119,7 +119,7 @@ export function MerchCover({ item, index }: { item: MerchItem; index: number }) 
   return (
     <div className="w-full aspect-square rounded overflow-hidden relative flex items-center justify-center bg-gradient-to-br from-darkblue to-royalblue" style={{ border: `1px solid ${c}22` }}>
       <div className="absolute opacity-[0.15]" style={{ color: c }}>{TAG_ICONS[item.tag] ?? <Package size={40} />}</div>
-      <div className="relative z-10 px-3 py-1.5 rounded-sm text-[10px] tracking-[2px] font-vcr uppercase" style={{ border: `1px solid ${c}44`, color: c }}>{item.tag}</div>
+      <div className="relative z-10 px-3 py-1.5 rounded-sm text-xs tracking-[2px] font-vcr uppercase" style={{ border: `1px solid ${c}44`, color: c }}>{item.tag}</div>
       <div className="absolute inset-0" style={{ background: `repeating-linear-gradient(0deg, transparent, transparent 3px, ${c}06 3px, ${c}06 4px)` }} />
     </div>
   );

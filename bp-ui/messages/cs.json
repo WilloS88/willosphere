@@ -34,6 +34,7 @@
     "login": "Přihlásit se",
     "logout": "Odhlásit se",
     "adminDashboard": "Admin",
+    "artistDashboard": "Studio",
     "application": "Aplikace"
   },
   "Footer": {
@@ -419,6 +420,11 @@
     "physical": "FYZICKÉ",
     "digital": "DIGITÁLNÍ",
     "addedToCart": "Přidáno do košíku",
+    "inCart": "V KOŠÍKU",
+    "by": "OD",
+    "noProductsFound": "ŽÁDNÉ PRODUKTY NENALEZENY",
+    "productDetail": "DETAIL PRODUKTU",
+    "product": "PRODUKT",
     "viewDetails": "Detail",
     "linkedTrack": "Skladba",
     "linkedAlbum": "Album",
@@ -445,6 +451,7 @@
     "collapseOrder": "Skrýt položky",
     "nav_cart": "KOŠÍK",
     "nav_orders": "OBJEDNÁVKY",
+    "nav_artist": "ARTIST_STUDIO",
     "securitySection": "ZABEZPEČENÍ",
     "mfaLabel": "Dvoufaktorové ověření (2FA)",
     "mfaManage": "NASTAVIT →"
@@ -514,6 +521,8 @@
     "noProducts": "Zatím žádné produkty",
     "addProduct": "Přidat produkt",
     "manageProducts": "Spravovat produkty",
+    "myTracks": "Moje tracky",
+    "myAlbums": "Moje alba",
     "createProduct": "Vytvořit produkt",
     "productName": "Název produktu",
     "productType": "Typ",
@@ -528,7 +537,23 @@
     "digital": "Digitální (stažení, stream...)",
     "productSaved": "Produkt uložen",
     "productDeleted": "Produkt smazán",
-    "editProduct": "Upravit produkt"
+    "editProduct": "Upravit produkt",
+    "editTrack": "UPRAVIT SKLADBU",
+    "editAlbum": "UPRAVIT ALBUM",
+    "delete": "SMAZAT",
+    "deleting": "MAZÁNÍ...",
+    "uploading": "NAHRÁVÁNÍ...",
+    "chooseAudioFile": "VYBRAT AUDIO SOUBOR",
+    "chooseImage": "VYBRAT OBRÁZEK",
+    "chooseCoverImage": "VYBRAT OBRÁZEK OBALU",
+    "currentAudio": "aktuální audio",
+    "currentCover": "aktuální obal"
+  },
+  "Common": {
+    "cropImage": "OŘÍZNOUT OBRÁZEK",
+    "apply": "POUŽÍT",
+    "processing": "ZPRACOVÁNÍ...",
+    "cancel": "ZRUŠIT"
   },
   "Mfa": {
     "activeTitle": "2FA JE AKTIVNÍ",

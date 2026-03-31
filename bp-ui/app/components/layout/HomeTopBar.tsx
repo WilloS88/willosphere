@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { Sun, Moon, ChevronDown, User, Shield, LogOut } from "lucide-react";
+import { Sun, Moon, ChevronDown, User, Shield, LogOut, Mic2, Search } from "lucide-react";
 import { useAuth } from "@/app/components/auth/AuthProvider";
 import { useStoreTheme } from "@/app/context/StoreThemeContext";
 import LocaleSwitcher from "@/app/components/locale/LocaleSwitcher";
@@ -31,7 +31,7 @@ function SearchBar() {
           isDark ? "text-vhs-white placeholder:text-vhs-muted" : "text-[#2a2520] placeholder:text-[#8a8578]"
         }`}
       />
-      <span className={isDark ? "text-vhs-muted text-sm" : "text-[#8a8578] text-sm"}>⌕</span>
+      <Search size={13} className={isDark ? "text-vhs-muted" : "text-[#8a8578]"} />
     </div>
   );
 }
@@ -41,7 +41,7 @@ function LiveIndicator() {
   return (
     <div className="hidden sm:flex items-center gap-1.5">
       <div className="w-1.5 h-1.5 rounded-full bg-fear animate-blink" />
-      <span className="text-fear text-[10px] tracking-wider">{t("live")}</span>
+      <span className="text-fear text-xs tracking-wider">{t("live")}</span>
     </div>
   );
 }
@@ -58,7 +58,7 @@ function Clock() {
 
   const { isDark } = useStoreTheme();
 
-  return <span className={`hidden lg:inline text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>{time}</span>;
+  return <span className={`hidden lg:inline text-xs tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>{time}</span>;
 }
 
 function ThemeToggle() {
@@ -90,6 +90,7 @@ function ProfileDropdown() {
   const ref                 = useRef<HTMLDivElement>(null);
   const name                = session?.user.displayName ?? "GUEST";
   const isAdmin             = hasRole(session?.user, "admin");
+  const isArtist            = hasRole(session?.user, "artist");
 
   useEffect(() => {
     if (!open)
@@ -111,7 +112,7 @@ function ProfileDropdown() {
   }, [open]);
 
   const itemCls = cn(
-    "font-vcr flex w-full items-center gap-2.5 px-3 h-8 text-left text-[11px] tracking-wider transition-colors no-underline",
+    "font-vcr flex w-full items-center gap-2.5 px-3 h-8 text-left text-xs tracking-wider transition-colors no-underline",
     isDark ? "text-vhs-light hover:bg-royalblue/15 hover:text-vhs-white" : "text-[#6b6560] hover:bg-[#c4234e]/5 hover:text-[#2a2520]",
   );
 
@@ -128,7 +129,7 @@ function ProfileDropdown() {
             : "border-[#c4b8a8] bg-white/60 hover:border-[#c4234e]/40",
         )}
       >
-        <div className="from-fear to-vhs-purple flex h-5 w-5 items-center justify-center rounded-full bg-gradient-to-br text-[9px] font-bold text-white">
+        <div className="from-fear to-vhs-purple flex h-5 w-5 items-center justify-center rounded-full bg-gradient-to-br text-[11px] font-bold text-white">
           {name[0]?.toUpperCase() ?? "U"}
         </div>
         <ChevronDown
@@ -151,7 +152,7 @@ function ProfileDropdown() {
         )}>
           {/* User info */}
           <div className={`border-b px-3 py-2.5 ${isDark ? "border-royalblue/20" : "border-[#c4b8a8]/20"}`}>
-            <div className={`text-[9px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>{tStore("user")}</div>
+            <div className={`text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>{tStore("user")}</div>
             <div className={`truncate text-[11px] font-bold tracking-wider ${isDark ? "text-fearyellow" : "text-[#c4234e]"}`}>{name}</div>
           </div>
 
@@ -160,6 +161,14 @@ function ProfileDropdown() {
             <User size={13} />
             {tStore("nav_profile")}
           </Link>
+
+          {/* Artist */}
+          {isArtist && (
+            <Link href={`/${locale}/artist`} onClick={() => setOpen(false)} className={itemCls}>
+              <Mic2 size={13} />
+              {t("artistDashboard")}
+            </Link>
+          )}
 
           {/* Admin */}
           {isAdmin && (
@@ -176,7 +185,7 @@ function ProfileDropdown() {
             type="button"
             onClick={() => { logout(); setOpen(false); }}
             className={cn(
-              "font-vcr flex w-full cursor-pointer items-center gap-2.5 border-none px-3 py-2.5 text-left text-[11px] tracking-wider transition-colors",
+              "font-vcr flex w-full cursor-pointer items-center gap-2.5 border-none px-3 py-2.5 text-left text-xs tracking-wider transition-colors",
               isDark ? "text-fear/80 hover:bg-fear/10 hover:text-fear" : "text-[#c4234e]/70 hover:bg-[#c4234e]/5 hover:text-[#c4234e]",
             )}
           >

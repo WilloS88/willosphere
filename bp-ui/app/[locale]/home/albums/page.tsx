@@ -119,14 +119,14 @@ export default function AlbumsPage() {
                 <div className={`truncate text-[11px] font-bold tracking-wider ${base.text}`}>
                   {album.title}
                 </div>
-                <div className={`truncate text-[9px] tracking-wide mt-0.5 ${base.muted}`}>
+                <div className={`truncate text-[11px] tracking-wide mt-0.5 ${base.muted}`}>
                   {album.artists.map((a) => a.displayName).join(", ")}
                 </div>
                 <div className={`flex items-center justify-between mt-1.5`}>
-                  <span className={`text-[9px] tracking-wide ${base.muted}`}>
+                  <span className={`text-[11px] tracking-wide ${base.muted}`}>
                     {new Date(album.releaseDate).getFullYear()}
                   </span>
-                  <span className={`text-[10px] font-semibold tracking-wider ${base.accent}`}>
+                  <span className={`text-xs font-semibold tracking-wider ${base.accent}`}>
                     {album.price} CZK
                   </span>
                 </div>
@@ -137,19 +137,19 @@ export default function AlbumsPage() {
           {totalPages > 1 && (
             <div className="mt-4 flex justify-center gap-1">
               <button
-                className={`rounded border px-2 py-1 text-[10px] transition-colors ${base.badge}`}
+                className={`rounded border px-2 py-1 text-xs transition-colors ${base.badge}`}
                 onClick={() => handlePageChange(page - 1)}
                 disabled={page <= 1}
               >‹</button>
               {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
                 <button
                   key={n}
-                  className={`rounded border px-2 py-1 text-[10px] transition-colors ${n === page ? base.activeBadge : base.badge}`}
+                  className={`rounded border px-2 py-1 text-xs transition-colors ${n === page ? base.activeBadge : base.badge}`}
                   onClick={() => handlePageChange(n)}
                 >{n}</button>
               ))}
               <button
-                className={`rounded border px-2 py-1 text-[10px] transition-colors ${base.badge}`}
+                className={`rounded border px-2 py-1 text-xs transition-colors ${base.badge}`}
                 onClick={() => handlePageChange(page + 1)}
                 disabled={page >= totalPages}
               >›</button>

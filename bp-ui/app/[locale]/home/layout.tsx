@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { PlayerProvider } from "@/app/context/PlayerContext";
 import { ToastProvider } from "@/app/context/ToastContext";
@@ -18,9 +18,20 @@ import {
 import { HOME_NAV_ITEMS } from "@/lib/home-data";
 import Noise from "@/app/components/ui/react-bits/noise/Noise";
 import { useAuth } from "@/app/components/auth/AuthProvider";
+import { hasRole } from "@/lib/auth";
+import { createElement } from "react";
+import { Mic2 } from "lucide-react";
 
 function HomeShell({ children }: { children: React.ReactNode }) {
   const { theme, isDark } = useStoreTheme();
+  const { session }       = useAuth();
+  const navItems          = useMemo(() => {
+    if (!hasRole(session?.user, "artist")) return HOME_NAV_ITEMS;
+    return [
+      ...HOME_NAV_ITEMS,
+      { id: "artist", icon: createElement(Mic2, { size: 15 }), label: "ARTIST_STUDIO", href: "/artist" },
+    ];
+  }, [session?.user]);
 
   return (
     <div
@@ -41,7 +52,7 @@ function HomeShell({ children }: { children: React.ReactNode }) {
       <VHSOverlay />
       <HomeTopBar />
       <div className="flex flex-1 overflow-hidden">
-        <Sidebar navItems={HOME_NAV_ITEMS} />
+        <Sidebar navItems={navItems} />
         <main
           className={`vhs-scrollbar flex-1 overflow-y-auto p-3 sm:p-5 ${
             isDark

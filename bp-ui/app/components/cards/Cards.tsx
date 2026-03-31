@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Play, Download, ShoppingCart } from "lucide-react";
+import { useTranslations } from "next-intl";
 import type { Album, MerchItem } from "@/lib/store-data";
 import { usePlayer } from "@/app/context/PlayerContext";
 import { useStoreTheme } from "@/app/context/StoreThemeContext";
@@ -10,9 +11,10 @@ import { PriceBadge, VHSButton, LikeButton, Badge } from "@/app/components/ui/el
 import TiltedCard from "@/app/components/ui/react-bits/TiltedCard";
 
 export function AlbumCard({ album, index }: { album: Album; index: number }) {
-  const [hovered, setHovered] = useState(false);
+  const t                                     = useTranslations("Store");
+  const [hovered, setHovered]                 = useState(false);
   const { playTrack, likedItems, toggleLike } = usePlayer();
-  const { isDark } = useStoreTheme();
+  const { isDark }                            = useStoreTheme();
 
   return (
     <div
@@ -76,18 +78,18 @@ export function AlbumCard({ album, index }: { album: Album; index: number }) {
       </div>
 
       <div className="px-3 pt-1 pb-3">
-        <div className={`text-[11px] font-bold tracking-wider mb-0.5 truncate ${
+        <div className={`text-xs font-bold tracking-wider mb-0.5 truncate ${
           isDark ? "text-vhs-white" : "text-[#2a2520]"
         }`}>
           {album.title}
         </div>
-        <div className={`text-[9px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
+        <div className={`text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
           {album.artist} // {album.year}
         </div>
         <div className="flex items-center gap-1.5 mt-2.5">
           <VHSButton variant={album.price === 0 ? "success" : "primary"}>
             {album.price === 0 ? <Download size={11} /> : <ShoppingCart size={11} />}
-            {album.price === 0 ? "DOWNLOAD" : "BUY_NOW"}
+            {album.price === 0 ? t("download") : t("buyNow")}
           </VHSButton>
           <LikeButton itemId={album.id} liked={likedItems.has(album.id)} onToggle={toggleLike} />
         </div>
@@ -97,9 +99,10 @@ export function AlbumCard({ album, index }: { album: Album; index: number }) {
 }
 
 export function MerchCard({ item, index }: { item: MerchItem; index: number }) {
-  const [hovered, setHovered] = useState(false);
-  const { likedItems, toggleLike } = usePlayer();
-  const { isDark } = useStoreTheme();
+  const t                           = useTranslations("Store");
+  const [hovered, setHovered]       = useState(false);
+  const { likedItems, toggleLike }  = usePlayer();
+  const { isDark }                  = useStoreTheme();
 
   return (
     <div
@@ -117,10 +120,10 @@ export function MerchCard({ item, index }: { item: MerchItem; index: number }) {
         </div>
       </div>
       <div className="px-3 pb-3">
-        <div className={`text-[11px] font-bold tracking-wider mb-0.5 ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}>{item.title}</div>
-        <div className={`text-[9px] tracking-wider mb-2.5 ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>BY {item.artist}</div>
+        <div className={`text-xs font-bold tracking-wider mb-0.5 ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}>{item.title}</div>
+        <div className={`text-[11px] tracking-wider mb-2.5 ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>{t("by")} {item.artist}</div>
         <div className="flex gap-1.5">
-          <VHSButton variant="yellow"><ShoppingCart size={11} /> ADD_TO_CART</VHSButton>
+          <VHSButton variant="yellow"><ShoppingCart size={11} /> {t("addToCart")}</VHSButton>
           <LikeButton itemId={item.id} liked={likedItems.has(item.id)} onToggle={toggleLike} />
         </div>
       </div>

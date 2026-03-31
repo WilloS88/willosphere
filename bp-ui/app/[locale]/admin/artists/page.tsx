@@ -267,7 +267,7 @@ export default function AdminArtistsPage() {
                 <div className="flex items-center gap-2 rounded-lg border bg-slate-50 p-3">
                   <CalendarDays size={14} className="shrink-0 text-info" />
                   <div>
-                    <div className="text-[10px] uppercase tracking-wide text-gray-400">{t("artistSince")}</div>
+                    <div className="text-xs uppercase tracking-wide text-gray-400">{t("artistSince")}</div>
                     <div className="text-xs font-semibold">
                       {selected.artistSince ? new Date(selected.artistSince).toLocaleDateString() : <span className="text-gray-400">—</span>}
                     </div>
@@ -276,14 +276,14 @@ export default function AdminArtistsPage() {
                 <div className="flex items-center gap-2 rounded-lg border bg-slate-50 p-3">
                   <UserCircle2 size={14} className="shrink-0 text-gray-400" />
                   <div>
-                    <div className="text-[10px] uppercase tracking-wide text-gray-400">{t("memberSince")}</div>
+                    <div className="text-xs uppercase tracking-wide text-gray-400">{t("memberSince")}</div>
                     <div className="text-xs font-semibold">{new Date(selected.memberSince).toLocaleDateString()}</div>
                   </div>
                 </div>
               </div>
 
               <div>
-                <div className="mb-1 text-[10px] uppercase tracking-wide text-gray-400 font-semibold">{t("bio")}</div>
+                <div className="mb-1 text-xs uppercase tracking-wide text-gray-400 font-semibold">{t("bio")}</div>
                 <div className="rounded-lg border bg-slate-50 p-3 text-xs leading-relaxed text-gray-700 min-h-[48px]">
                   {selected.bio || <span className="text-gray-400 italic">{t("noBio")}</span>}
                 </div>
@@ -308,7 +308,7 @@ export default function AdminArtistsPage() {
                 </div>
               )}
 
-              <div className="border-t pt-2 text-[10px] text-gray-400">ID: {selected.userId}</div>
+              <div className="border-t pt-2 text-xs text-gray-400">ID: {selected.userId}</div>
             </div>
           ) : (
             <div className="py-8 text-center text-xs text-gray-400">{t("noArtists")}</div>

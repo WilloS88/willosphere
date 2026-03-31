@@ -29,7 +29,7 @@ export default function NewDropsPage() {
             {t("freshUploads")}
           </div>
           <div
-            className={`mt-0.5 text-[9px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+            className={`mt-0.5 text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
           >
             {t("newRecordsAdded", { count: newest.length })}
           </div>

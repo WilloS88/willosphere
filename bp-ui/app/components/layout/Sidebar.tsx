@@ -10,7 +10,7 @@ import { useStoreTheme } from "@/app/context/StoreThemeContext";
 import { SectionLabel } from "@/app/components/ui/elastic-slider/StoreUI";
 import { type StoreNavItem } from "@/lib/store-data";
 import { cn } from "@/lib/utils";
-import { Menu } from "lucide-react";
+import { ChevronLeft, Menu } from "lucide-react";
 
 function NavItem({ item }: { item: StoreNavItem }) {
   const t                 = useTranslations("Store");
@@ -53,7 +53,7 @@ function NavItem({ item }: { item: StoreNavItem }) {
                   ? "text-vhs-light hover:text-vhs-white hover:bg-royalblue/10"
                   : "text-[#6b6560] hover:bg-[#c4234e]/5 hover:text-[#2a2520]",
               ),
-          "font-vcr text-[11px] tracking-wider",
+          "font-vcr text-xs tracking-wider",
         )}
       >
         <span
@@ -66,7 +66,7 @@ function NavItem({ item }: { item: StoreNavItem }) {
         </span>
         {!navCollapsed && <span>{t(`nav_${item.id}`)}</span>}
         {active && !navCollapsed && (
-          <span className="text-fear ml-auto text-[8px]">◄</span>
+          <ChevronLeft size={10} className="text-fear ml-auto" />
         )}
       </Link>
 
@@ -81,7 +81,7 @@ function NavItem({ item }: { item: StoreNavItem }) {
             style={{ position: "fixed", zIndex: 9999 }}
             className={cn(
               "pointer-events-none flex items-center rounded-sm border px-2.5 py-1.5",
-              "font-vcr text-[10px] tracking-wider whitespace-nowrap",
+              "font-vcr text-xs tracking-wider whitespace-nowrap",
               isDark
                 ? "bg-darkblue border-royalblue/40 text-vhs-white shadow-[0_2px_12px_rgba(0,0,0,0.6)]"
                 : "border-[#c4b8a8]/50 bg-white text-[#2a2520] shadow-md",
@@ -124,7 +124,7 @@ function CategoryItem({ name }: { name: string }) {
     <button
       onClick={() => setActiveCategory(active ? null : name)}
       className={cn(
-        "font-vcr w-full cursor-pointer border-none px-4 py-[7px] text-left text-[10px] tracking-wider transition-all",
+        "font-vcr w-full cursor-pointer border-none px-4 py-[7px] text-left text-xs tracking-wider transition-all",
         active
           ? isDark
             ? "bg-royalblue/20 text-vhs-white"
@@ -158,7 +158,7 @@ function SystemStatus() {
         <>
           <SectionLabel className="mb-1.5">{t("systemStatus")}</SectionLabel>
           <div
-            className={`text-[9px] leading-relaxed tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+            className={`text-[11px] leading-relaxed tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
           >
             {t("cacheLabel")}: <span className="text-vhs-green">OK</span>
             <br />
@@ -211,7 +211,7 @@ export function Sidebar({ navItems }: { navItems: StoreNavItem[] }) {
         </span>
         {!navCollapsed && (
           <span
-            className={`text-[9px] tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+            className={`text-[11px] tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
           >
             {t("collapse")}
           </span>

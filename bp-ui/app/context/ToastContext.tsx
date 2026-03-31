@@ -56,7 +56,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     info:    "border-vhs-cyan    text-vhs-cyan",
   };
 
-  const BG = "bg-[#0b0f2d]/95 backdrop-blur-sm border font-vcr text-[10px] tracking-wider";
+  const BG = "bg-[#0b0f2d]/95 backdrop-blur-sm border font-vcr text-xs tracking-wider";
 
   return (
     <ToastContext.Provider value={api}>

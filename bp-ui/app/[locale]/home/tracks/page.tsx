@@ -119,7 +119,7 @@ export default function TracksPage() {
       {genres.length > 0 && (
         <div className="mb-4 flex flex-wrap gap-2">
           <button
-            className={`rounded border px-3 py-1 text-[10px] tracking-widest transition-colors ${activeGenre === null ? base.activeBadge : base.badge}`}
+            className={`rounded border px-3 py-1 text-xs tracking-widest transition-colors ${activeGenre === null ? base.activeBadge : base.badge}`}
             onClick={() => handleGenreClick(null)}
           >
             {t("allGenres")}
@@ -127,7 +127,7 @@ export default function TracksPage() {
           {genres.map((g) => (
             <button
               key={g.id}
-              className={`rounded border px-3 py-1 text-[10px] tracking-widest transition-colors ${activeGenre === g.id ? base.activeBadge : base.badge}`}
+              className={`rounded border px-3 py-1 text-xs tracking-widest transition-colors ${activeGenre === g.id ? base.activeBadge : base.badge}`}
               onClick={() => handleGenreClick(g.id)}
             >
               {g.name.toUpperCase()}
@@ -180,7 +180,7 @@ export default function TracksPage() {
                   <div className={`truncate text-[11px] font-bold tracking-wider ${base.text}`}>
                     {track.title}
                   </div>
-                  <div className={`truncate text-[9px] tracking-wide ${base.muted}`}>
+                  <div className={`truncate text-[11px] tracking-wide ${base.muted}`}>
                     {track.artists.map((a) => a.displayName).join(", ")}
                   </div>
                 </div>
@@ -188,21 +188,21 @@ export default function TracksPage() {
                 {/* Genres */}
                 <div className="hidden sm:flex flex-wrap gap-1">
                   {track.genres.slice(0, 2).map((g) => (
-                    <span key={g.id} className={`rounded border px-1.5 py-0.5 text-[9px] tracking-wider ${base.badge}`}>
+                    <span key={g.id} className={`rounded border px-1.5 py-0.5 text-[11px] tracking-wider ${base.badge}`}>
                       {g.name}
                     </span>
                   ))}
                 </div>
 
                 {/* Duration */}
-                <div className={`flex items-center gap-1 tabular-nums text-[10px] ${base.muted}`}>
+                <div className={`flex items-center gap-1 tabular-nums text-xs ${base.muted}`}>
                   <Clock size={11} />
                   {formatDuration(track.durationSeconds)}
                 </div>
 
                 {/* Price */}
                 {track.price != null && (
-                  <div className={`text-[10px] font-semibold tracking-wider ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`}>
+                  <div className={`text-xs font-semibold tracking-wider ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`}>
                     {track.price} CZK
                   </div>
                 )}
@@ -216,7 +216,7 @@ export default function TracksPage() {
           {totalPages > 1 && (
             <div className="mt-4 flex justify-center gap-1">
               <button
-                className={`rounded border px-2 py-1 text-[10px] transition-colors ${base.badge}`}
+                className={`rounded border px-2 py-1 text-xs transition-colors ${base.badge}`}
                 onClick={() => handlePageChange(page - 1)}
                 disabled={page <= 1}
               >
@@ -225,14 +225,14 @@ export default function TracksPage() {
               {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
                 <button
                   key={n}
-                  className={`rounded border px-2 py-1 text-[10px] transition-colors ${n === page ? base.activeBadge : base.badge}`}
+                  className={`rounded border px-2 py-1 text-xs transition-colors ${n === page ? base.activeBadge : base.badge}`}
                   onClick={() => handlePageChange(n)}
                 >
                   {n}
                 </button>
               ))}
               <button
-                className={`rounded border px-2 py-1 text-[10px] transition-colors ${base.badge}`}
+                className={`rounded border px-2 py-1 text-xs transition-colors ${base.badge}`}
                 onClick={() => handlePageChange(page + 1)}
                 disabled={page >= totalPages}
               >

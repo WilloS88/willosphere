@@ -57,7 +57,7 @@ export default function ChartsPage() {
             {sorted[0].artist} // {sorted[0].year}
           </p>
           <div
-            className={`mt-3 flex gap-2 text-[9px] tracking-wider ${isDark ? "text-vhs-light" : "text-[#6b6560]"}`}
+            className={`mt-3 flex gap-2 text-[11px] tracking-wider ${isDark ? "text-vhs-light" : "text-[#6b6560]"}`}
           >
             <span className="flex items-center gap-1"><Play size={9} />12,847 {t("plays")}</span>
             <span>•</span>
@@ -95,17 +95,17 @@ export default function ChartsPage() {
                 {album.title}
               </div>
               <div
-                className={`text-[9px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+                className={`text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
               >
                 {album.artist} // {album.year}
               </div>
             </div>
             <div
-              className={`hidden text-[10px] tracking-wider sm:block ${isDark ? "text-vhs-light" : "text-[#6b6560]"}`}
+              className={`hidden text-xs tracking-wider sm:block ${isDark ? "text-vhs-light" : "text-[#6b6560]"}`}
             >
               {Math.floor(1000 + i * 1200)} {t("plays")}
             </div>
-            <span className="text-[10px] text-orange-400">{i < 3 ? <Flame size={12} /> : null}</span>
+            <span className="text-xs text-orange-400">{i < 3 ? <Flame size={12} /> : null}</span>
           </div>
         ))}
       </div>

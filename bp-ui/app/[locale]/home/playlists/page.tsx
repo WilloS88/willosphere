@@ -156,7 +156,7 @@ export default function PlaylistsPage() {
           {(["public", "mine"] as Tab[]).map((tab) => (
             <button
               key={tab}
-              className={`rounded border px-3 py-1 text-[10px] tracking-widest transition-colors ${activeTab === tab ? base.activeBadge : base.badge}`}
+              className={`rounded border px-3 py-1 text-xs tracking-widest transition-colors ${activeTab === tab ? base.activeBadge : base.badge}`}
               onClick={() => handleTabChange(tab)}
             >
               {tab === "public" ? t("allPublic") : t("myPlaylists")}
@@ -179,7 +179,7 @@ export default function PlaylistsPage() {
         {userId && activeTab === "mine" && (
           <button
             onClick={openModal}
-            className={`flex items-center gap-1.5 rounded border px-3 py-2 text-[10px] tracking-widest transition-colors whitespace-nowrap ${base.activeBadge}`}
+            className={`flex items-center gap-1.5 rounded border px-3 py-2 text-xs tracking-widest transition-colors whitespace-nowrap ${base.activeBadge}`}
           >
             <Plus size={13} /> {t("createPlaylist")}
           </button>
@@ -198,7 +198,7 @@ export default function PlaylistsPage() {
             <div className="mt-3">
               <button
                 onClick={openModal}
-                className={`inline-flex items-center gap-1.5 rounded border px-3 py-1.5 text-[10px] tracking-widest transition-colors ${base.activeBadge}`}
+                className={`inline-flex items-center gap-1.5 rounded border px-3 py-1.5 text-xs tracking-widest transition-colors ${base.activeBadge}`}
               >
                 <Plus size={12} /> {t("createPlaylist")}
               </button>
@@ -224,19 +224,19 @@ export default function PlaylistsPage() {
                     <div className={`truncate text-[11px] font-bold tracking-wider ${base.text}`}>
                       {playlist.title}
                     </div>
-                    <div className={`text-[9px] tracking-wide ${base.muted}`}>
+                    <div className={`text-[11px] tracking-wide ${base.muted}`}>
                       {playlist.trackCount} {t("tracksCount")}
                     </div>
                   </div>
 
                   <div className="flex gap-1 shrink-0">
                     {playlist.isCollaborative && (
-                      <span className={`rounded border px-1.5 py-0.5 text-[9px] tracking-wider ${base.badge}`}>
+                      <span className={`rounded border px-1.5 py-0.5 text-[11px] tracking-wider ${base.badge}`}>
                         COLLAB
                       </span>
                     )}
                     {!playlist.isPublic && isOwn && (
-                      <span className={`rounded border px-1.5 py-0.5 text-[9px] tracking-wider ${base.badge}`}>
+                      <span className={`rounded border px-1.5 py-0.5 text-[11px] tracking-wider ${base.badge}`}>
                         PRIVATE
                       </span>
                     )}
@@ -260,19 +260,19 @@ export default function PlaylistsPage() {
           {totalPages > 1 && (
             <div className="mt-4 flex justify-center gap-1">
               <button
-                className={`rounded border px-2 py-1 text-[10px] transition-colors ${base.badge}`}
+                className={`rounded border px-2 py-1 text-xs transition-colors ${base.badge}`}
                 onClick={() => handlePageChange(page - 1)}
                 disabled={page <= 1}
               >‹</button>
               {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
                 <button
                   key={n}
-                  className={`rounded border px-2 py-1 text-[10px] transition-colors ${n === page ? base.activeBadge : base.badge}`}
+                  className={`rounded border px-2 py-1 text-xs transition-colors ${n === page ? base.activeBadge : base.badge}`}
                   onClick={() => handlePageChange(n)}
                 >{n}</button>
               ))}
               <button
-                className={`rounded border px-2 py-1 text-[10px] transition-colors ${base.badge}`}
+                className={`rounded border px-2 py-1 text-xs transition-colors ${base.badge}`}
                 onClick={() => handlePageChange(page + 1)}
                 disabled={page >= totalPages}
               >›</button>
@@ -304,7 +304,7 @@ export default function PlaylistsPage() {
 
             {/* Title input */}
             <div className="mb-4">
-              <label className={`block text-[9px] tracking-[2px] mb-1.5 ${base.muted}`}>
+              <label className={`block text-[11px] tracking-[2px] mb-1.5 ${base.muted}`}>
                 {t("playlistTitle")} *
               </label>
               <input
@@ -326,7 +326,7 @@ export default function PlaylistsPage() {
                   checked={form.isPublic}
                   onChange={(e) => setForm((f) => ({ ...f, isPublic: e.target.checked }))}
                 />
-                <span className={`text-[10px] tracking-wider ${base.text}`}>{t("isPublic")}</span>
+                <span className={`text-xs tracking-wider ${base.text}`}>{t("isPublic")}</span>
               </label>
               <label className="flex items-center gap-2.5 cursor-pointer">
                 <input
@@ -335,19 +335,19 @@ export default function PlaylistsPage() {
                   checked={form.isCollaborative}
                   onChange={(e) => setForm((f) => ({ ...f, isCollaborative: e.target.checked }))}
                 />
-                <span className={`text-[10px] tracking-wider ${base.text}`}>{t("isCollaborative")}</span>
+                <span className={`text-xs tracking-wider ${base.text}`}>{t("isCollaborative")}</span>
               </label>
             </div>
 
             {createError && (
-              <div className="mb-3 text-[10px] tracking-wide text-red-400">{createError}</div>
+              <div className="mb-3 text-xs tracking-wide text-red-400">{createError}</div>
             )}
 
             {/* Buttons */}
             <div className="flex gap-2 justify-end">
               <button
                 onClick={() => setModalOpen(false)}
-                className={`rounded border px-4 py-1.5 text-[10px] tracking-widest transition-colors ${base.badge}`}
+                className={`rounded border px-4 py-1.5 text-xs tracking-widest transition-colors ${base.badge}`}
                 disabled={creating}
               >
                 {t("collapse")}
@@ -355,7 +355,7 @@ export default function PlaylistsPage() {
               <button
                 onClick={() => void handleCreate()}
                 disabled={creating}
-                className={`rounded border px-4 py-1.5 text-[10px] tracking-widest transition-colors ${base.activeBadge} disabled:opacity-50`}
+                className={`rounded border px-4 py-1.5 text-xs tracking-widest transition-colors ${base.activeBadge} disabled:opacity-50`}
               >
                 {creating ? t("creating") : t("createPlaylist")}
               </button>

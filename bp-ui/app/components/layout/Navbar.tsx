@@ -13,6 +13,7 @@ import {
   Sun,
   Search,
   ShoppingCart,
+  Mic2,
 } from "lucide-react";
 import { useAuth } from "@/app/components/auth/AuthProvider";
 import { useStoreTheme } from "@/app/context/StoreThemeContext";
@@ -26,10 +27,11 @@ export function Navbar() {
   const { locale }          = useParams<{ locale: string }>();
   const { session, logout } = useAuth();
   const { isDark, toggle }  = useStoreTheme();
-  const isAdmin    = hasRole(session?.user, "admin");
-  const cartCount  = useAppSelector((s) => s.cart.items.reduce((n, i) => n + i.quantity, 0));
+  const isAdmin             = hasRole(session?.user, "admin");
+  const isArtist            = hasRole(session?.user, "artist");
+  const cartCount           = useAppSelector((s) => s.cart.items.reduce((n, i) => n + i.quantity, 0));
 
-  const linkClass = `text-[11px] tracking-wider px-3 py-1.5 rounded-sm transition-all no-underline border ${
+  const linkClass = `text-xs tracking-wider px-3 py-1.5 rounded-sm transition-all no-underline border ${
     isDark
       ? "border-royalblue/30 text-vhs-light hover:text-fearyellow hover:border-fear/40 hover:bg-fear/10"
       : "border-[#c4b8a8]/40 text-[#6b6560] hover:text-[#c4234e] hover:border-[#c4234e]/30 hover:bg-[#c4234e]/5"
@@ -70,7 +72,7 @@ export function Navbar() {
           <input
             type="text"
             placeholder={`${t("search")} . . .`}
-            className={`font-vcr w-full border-none bg-transparent text-[11px] tracking-wider outline-none ${
+            className={`font-vcr w-full border-none bg-transparent text-xs tracking-wider outline-none ${
               isDark
                 ? "text-vhs-white placeholder:text-vhs-muted"
                 : "text-[#2a2520] placeholder:text-[#8a8578]"
@@ -101,10 +103,20 @@ export function Navbar() {
             <span className="flex items-center gap-1.5">
               <ShoppingCart size={14} />
               {cartCount > 0 && (
-                <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-fear text-[8px] font-bold text-white leading-none">
+                <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-fear text-[10px] font-bold text-white leading-none">
                   {cartCount > 9 ? "9+" : cartCount}
                 </span>
               )}
+            </span>
+          </Link>
+        )}
+
+        {/* Artist link */}
+        {isArtist && (
+          <Link href={`/${locale}/artist`} className={linkClass}>
+            <span className="flex items-center gap-1.5">
+              <Mic2 size={14} />
+              <span className="hidden sm:inline">{t("artistDashboard")}</span>
             </span>
           </Link>
         )}
