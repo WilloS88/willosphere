@@ -175,7 +175,7 @@ export default function AdminGenresPage() {
           {genres.map((genre) => (
             <tr
               key={genre.id}
-              className="hover:bg-stone-200 transition-colors cursor-pointer"
+              className="hover:bg-base-200 transition-colors cursor-pointer"
               onClick={() => openView(genre)}
             >
               <td>{genre.id}</td>

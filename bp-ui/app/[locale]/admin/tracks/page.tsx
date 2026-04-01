@@ -167,6 +167,7 @@ export default function AdminTracksPage() {
       return;
 
     setDialogMode("edit");
+    setDialogOpen(true);
     if(!selected || selected.id !== base.id) {
       setDetailLoading(true);
       try {
@@ -286,7 +287,7 @@ export default function AdminTracksPage() {
           {tracks.map((track) => (
             <tr
               key={track.id}
-              className="hover:bg-stone-200 transition-colors cursor-pointer"
+              className="hover:bg-base-200 transition-colors cursor-pointer"
               onClick={() => void openView(track)}
             >
               <td>{track.id}</td>

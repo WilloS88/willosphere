@@ -205,13 +205,19 @@
     "editUser": "Editace uživatele",
     "quickActions": "Rychlé akce",
     "quickActionsHint": "Správa obsahu a uživatelů",
+    "totalOrders": "Celkem objednávek",
+    "totalRevenue": "celkový příjem",
+    "noActivity": "Žádná nedávná aktivita",
+    "activityListen": "{user} si poslechl/a {track}",
+    "activitySignup": "{user} se zaregistroval/a",
+    "activityPurchase": "{user} vytvořil/a objednávku #{orderId} ({amount})",
     "kpi": {
-      "activeUsers": "Aktivní uživatelé",
-      "activeUsersHint": "placeholder (napojíš na API)",
+      "activeUsers": "Celkem uživatelů",
+      "activeUsersHint": "Registrované účty",
       "streamsToday": "Přehrání dnes",
-      "streamsTodayHint": "placeholder (napojíš na statistiky)",
+      "streamsTodayHint": "Z historie poslechů",
       "pendingOrders": "Nezpracované objednávky",
-      "pendingOrdersHint": "placeholder (napojíš na e-shop)"
+      "pendingOrdersHint": "Čekající na zpracování"
     },
     "nav": {
       "users": "Uživatelé",

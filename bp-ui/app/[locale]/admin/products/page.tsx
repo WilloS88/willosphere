@@ -143,6 +143,7 @@ export default function AdminProductsPage() {
 
     setSaveError(null);
     setDialogMode("edit");
+    setDialogOpen(true);
 
     if(!selected || selected.id !== base.id) {
       setDetailLoading(true);
@@ -255,7 +256,7 @@ export default function AdminProductsPage() {
           {products.map((product) => (
             <tr
               key={product.id}
-              className="hover:bg-stone-200 transition-colors cursor-pointer"
+              className="hover:bg-base-200 transition-colors cursor-pointer"
               onClick={() => void openView(product)}
             >
               <td>{product.id}</td>

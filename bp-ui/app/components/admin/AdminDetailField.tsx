@@ -11,9 +11,9 @@ export function AdminDetailField({ label, value, block = false, className }: Pro
   if (block) {
     return (
       <div className={className}>
-        <div className="mb-1 text-xs font-semibold text-gray-600">{label}:</div>
-        <div className="rounded border bg-slate-50 p-2 text-xs leading-relaxed text-gray-700">
-          {value ?? <span className="text-gray-400">—</span>}
+        <div className="mb-1 text-xs font-semibold text-base-content/70">{label}:</div>
+        <div className="rounded border border-base-300 bg-base-200 p-2 text-xs leading-relaxed text-base-content">
+          {value ?? <span className="text-base-content/40">—</span>}
         </div>
       </div>
     );
@@ -21,8 +21,8 @@ export function AdminDetailField({ label, value, block = false, className }: Pro
 
   return (
     <div className={className}>
-      <span className="font-semibold text-gray-600">{label}: </span>
-      <span>{value ?? <span className="text-gray-400">—</span>}</span>
+      <span className="font-semibold text-base-content/70">{label}: </span>
+      <span>{value ?? <span className="text-base-content/40">—</span>}</span>
     </div>
   );
 }

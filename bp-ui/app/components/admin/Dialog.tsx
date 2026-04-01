@@ -1,6 +1,6 @@
 "use client";
 
-import { X } from "lucide-react";
+import { X, Pencil } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useTranslations } from "use-intl";
 
@@ -78,49 +78,44 @@ export function Dialog({
     }
   };
 
+  /* Footer: action button (edit/save) LEFT, close RIGHT — always */
   const defaultActions = (
     <>
-      {isView && onEdit ? (
-        <>
-          <button type="button" className="btn btn-primary" onClick={onEdit}>
-            {t("edit")}
-          </button>
-          <button type="button" className="btn btn-ghost" onClick={onCloseAction}>
-            {t("close")}
-          </button>
-        </>
-      ) : (
-        <>
-          {shouldRenderSave && (
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={handleSave}
-              disabled={!canSave}
-            >
-              {saving ? <span className="loading loading-spinner loading-sm" /> : null}
-              {t("save")}
-            </button>
-          )}
-          <button type="button" className="btn btn-ghost" onClick={onCloseAction}>
-            {t("close")}
-          </button>
-        </>
+      {isView && onEdit && (
+        <button type="button" className="btn btn-warning btn-sm" onClick={onEdit}>
+          <Pencil size={14} />
+          {t("edit")}
+        </button>
       )}
+      {shouldRenderSave && (
+        <button
+          type="button"
+          className="btn btn-primary btn-sm"
+          onClick={handleSave}
+          disabled={!canSave}
+        >
+          {saving && <span className="loading loading-spinner loading-xs" />}
+          {t("save")}
+        </button>
+      )}
+      <button type="button" className="btn btn-ghost btn-sm" onClick={onCloseAction}>
+        {t("close")}
+      </button>
     </>
   );
 
   return (
     <dialog className="modal modal-open">
-      <div className={`modal-box bg-slate-200 ${maxWidthClass}`}>
+      <div className={`modal-box bg-base-200 ${maxWidthClass} p-0`}>
+        {/* Header — title only + close X */}
         {(title || showCloseButton) && (
-          <div className="flex items-start justify-between gap-4 mb-4">
-            {title ? <h3 className="font-bold text-lg">{title}</h3> : <div />}
+          <div className="flex items-center justify-between gap-3 px-5 py-3 bg-base-300 border-b border-base-content/10">
+            {title && <h3 className="font-bold text-base">{title}</h3>}
 
             {showCloseButton && (
               <button
                 type="button"
-                className="cursor-pointer"
+                className="btn btn-ghost btn-circle btn-xs"
                 aria-label="Close dialog"
                 onClick={onCloseAction}
               >
@@ -130,9 +125,13 @@ export function Dialog({
           </div>
         )}
 
-        <div>{children}</div>
+        {/* Content */}
+        <div className="px-5 py-4">{children}</div>
 
-        <div className="modal-action">{actions ?? defaultActions}</div>
+        {/* Footer */}
+        <div className="flex items-center justify-end gap-2 px-5 py-3 border-t border-base-content/10 bg-base-300/50">
+          {actions ?? defaultActions}
+        </div>
       </div>
 
       <form

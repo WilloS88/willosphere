@@ -5,6 +5,8 @@ import {
   type ReactNode, type Dispatch, type SetStateAction,
 } from "react";
 import type { TrackDto } from "@/app/types/track";
+import api from "@/lib/axios";
+import { API_ENDPOINTS } from "@/app/api/enpoints";
 
 interface PlayerContextValue {
   navCollapsed:      boolean;
@@ -55,19 +57,47 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const queueIdxRef  = useRef<number>(-1);
   const repeatRef    = useRef(repeat);
 
+  // Listen history tracking: stores track ID that was already logged in current playback session
+  const loggedTrackRef = useRef<number | null>(null);
+
   // Keep refs in sync
   useEffect(() => { queueRef.current = queue; }, [queue]);
   useEffect(() => { repeatRef.current = repeat; }, [repeat]);
+
+  // Record listen history when threshold is reached
+  const recordListen = useCallback((trackId: number, secondsPlayed: number) => {
+    api.post(API_ENDPOINTS.listenHistory.record, { trackId, secondsPlayed }).catch(() => {
+      // Silently ignore — listen history is non-critical
+    });
+  }, []);
 
   // Init audio element (client-only)
   useEffect(() => {
     const audio = new Audio();
     audioRef.current = audio;
 
-    audio.ontimeupdate     = () => setProgress(Math.floor(audio.currentTime));
+    audio.ontimeupdate = () => {
+      const currentTime = Math.floor(audio.currentTime);
+      setProgress(currentTime);
+
+      // Listen history threshold check
+      const dur = audio.duration;
+      if (dur > 0 && loggedTrackRef.current === null) {
+        const trackObj = queueRef.current[queueIdxRef.current];
+        if (trackObj) {
+          // Threshold: 75% of track, but at least 30s and cap at 240s for long tracks
+          const threshold = Math.min(dur * 0.75, 240);
+          if (currentTime >= threshold && currentTime >= 30) {
+            loggedTrackRef.current = trackObj.id;
+            recordListen(trackObj.id, currentTime);
+          }
+        }
+      }
+    };
     audio.ondurationchange = () => setDuration(Math.floor(audio.duration) || 0);
     audio.onended          = () => {
       if(repeatRef.current) {
+        loggedTrackRef.current = null;
         audio.currentTime = 0;
         void audio.play();
         return;
@@ -76,6 +106,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       const idx = queueIdxRef.current;
 
       if(q.length > 0 && idx < q.length - 1) {
+        loggedTrackRef.current = null;
         const next = q[idx + 1];
         queueIdxRef.current = idx + 1;
         setTrack(next);
@@ -115,12 +146,12 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   }, [volume]);
 
   const playTrack = useCallback((newTrack: TrackDto, newQueue?: TrackDto[]) => {
-    console.log('Playing URL:', newTrack.audioUrl); // ← přidej toto
     const q   = newQueue ?? [newTrack];
     const idx = q.findIndex((t) => t.id === newTrack.id);
 
 
 
+    loggedTrackRef.current = null;
     queueRef.current    = q;
     queueIdxRef.current = idx >= 0 ? idx : 0;
     setQueue(q);
@@ -148,6 +179,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     if(!nextTrackItem)
       return;
 
+    loggedTrackRef.current = null;
     queueIdxRef.current = next;
     setTrack(nextTrackItem);
     setProgress(0);
@@ -179,6 +211,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     if (!prevTrackItem)
       return;
 
+    loggedTrackRef.current = null;
     queueIdxRef.current = prev;
     setTrack(prevTrackItem);
     setProgress(0);

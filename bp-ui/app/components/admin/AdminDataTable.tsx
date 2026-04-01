@@ -106,10 +106,10 @@ export function AdminDataTable({
   };
 
   return (
-    <div className="bg-white border rounded shadow-sm overflow-x-auto">
-      <table className="table table-zebra table-sm w-full">
-        <thead className="bg-slate-100 text-xs uppercase">
-          <tr className="text-black">
+    <div className="bg-base-100 border border-base-300 rounded shadow-sm overflow-x-auto">
+      <table className="table table-zebra table-sm table-fixed w-full">
+        <thead className="bg-base-200 text-xs uppercase">
+          <tr>
             {columns.map((col, i) => (
               <th
                 key={i}
@@ -129,7 +129,7 @@ export function AdminDataTable({
                   <div className="mt-1" onClick={(e) => e.stopPropagation()}>
                     {col.filter.type === "text" ? (
                       <input
-                        className="input input-xs w-full border border-slate-300 bg-white font-normal normal-case"
+                        className="input input-xs w-full border border-base-300 bg-base-100 font-normal normal-case"
                         placeholder={(col.filter as { type: "text"; placeholder?: string }).placeholder ?? t("filterPlaceholder")}
                         value={filters[col.filterKey ?? col.sortKey ?? col.label] ?? ""}
                         onChange={(e) =>
@@ -138,7 +138,7 @@ export function AdminDataTable({
                       />
                     ) : (
                       <select
-                        className="select select-xs w-full border border-slate-300 bg-white font-normal normal-case"
+                        className="select select-xs w-full border border-base-300 bg-base-100 font-normal normal-case"
                         value={filters[col.filterKey ?? col.sortKey ?? col.label] ?? ""}
                         onChange={(e) =>
                           onFilterChange(col.filterKey ?? col.sortKey ?? col.label, e.target.value)
@@ -166,7 +166,7 @@ export function AdminDataTable({
             </tr>
           ) : empty ? (
             <tr>
-              <td colSpan={colSpan} className="py-8 text-center text-sm text-gray-400">
+              <td colSpan={colSpan} className="py-8 text-center text-sm text-base-content/40">
                 {emptyText}
               </td>
             </tr>
@@ -177,11 +177,11 @@ export function AdminDataTable({
       </table>
 
       {/* Footer: info + pagination */}
-      <div className="flex flex-wrap items-center justify-between gap-2 border-t p-3 text-xs text-gray-500">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-t border-base-300 p-3 text-xs text-base-content/60">
         <div>
           {footer}
           {total !== undefined && (
-            <span className="ml-2 text-gray-400">
+            <span className="ml-2 text-base-content/40">
               ({t("pageInfo", { from, to, total })})
             </span>
           )}

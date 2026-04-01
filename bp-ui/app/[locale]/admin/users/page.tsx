@@ -209,7 +209,7 @@ export default function UsersPage() {
           {users.map((user) => (
             <tr
               key={user.id}
-              className="hover:bg-stone-200 transition-colors cursor-pointer"
+              className="hover:bg-base-200 transition-colors cursor-pointer"
               onClick={() => openView(user)}
             >
               <td>{user.id}</td>

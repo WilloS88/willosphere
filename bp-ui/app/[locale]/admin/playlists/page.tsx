@@ -114,6 +114,7 @@ export default function AdminPlaylistsPage() {
       return;
 
     setDialogMode("edit");
+    setDialogOpen(true);
 
     if(!selected || selected.id !== base.id) {
       setDetailLoading(true);
@@ -198,7 +199,7 @@ export default function AdminPlaylistsPage() {
           {playlists.map((playlist) => (
             <tr
               key={playlist.id}
-              className="hover:bg-stone-200 transition-colors cursor-pointer"
+              className="hover:bg-base-200 transition-colors cursor-pointer"
               onClick={() => void openView(playlist)}
             >
               <td>{playlist.id}</td>

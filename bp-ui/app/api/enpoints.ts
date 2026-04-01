@@ -86,4 +86,13 @@ export const API_ENDPOINTS = {
     detail: (id: number) => `/purchases/${id}`,
     create: "/purchases",
   },
+
+  adminStats: {
+    stats: "/admin/stats",
+  },
+
+  listenHistory: {
+    record: "/listen-history",
+    list:   "/listen-history",
+  },
 } as const;

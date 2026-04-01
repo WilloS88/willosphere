@@ -134,7 +134,7 @@ export default function AdminOrdersPage() {
           {orders.map((order) => (
             <tr
               key={order.id}
-              className="hover:bg-stone-200 transition-colors cursor-pointer"
+              className="hover:bg-base-200 transition-colors cursor-pointer"
               onClick={() => void openView(order)}
             >
               <td>{order.id}</td>

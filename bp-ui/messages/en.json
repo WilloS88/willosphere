@@ -205,13 +205,19 @@
     "editUser": "Edit user",
     "quickActions": "Quick actions",
     "quickActionsHint": "Manage content and users",
+    "totalOrders": "Total orders",
+    "totalRevenue": "total revenue",
+    "noActivity": "No recent activity",
+    "activityListen": "{user} listened to {track}",
+    "activitySignup": "{user} joined",
+    "activityPurchase": "{user} placed order #{orderId} ({amount})",
     "kpi": {
-      "activeUsers": "Active users",
-      "activeUsersHint": "placeholder (connect to API)",
+      "activeUsers": "Total users",
+      "activeUsersHint": "Registered accounts",
       "streamsToday": "Streams today",
-      "streamsTodayHint": "placeholder (connect to analytics)",
+      "streamsTodayHint": "From listen history",
       "pendingOrders": "Pending orders",
-      "pendingOrdersHint": "placeholder (connect to store)"
+      "pendingOrdersHint": "Awaiting processing"
     },
     "nav": {
       "users": "Users",

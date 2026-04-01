@@ -8,7 +8,7 @@ type Props = {
 
 export function AdminPageHeader({ icon, title, children }: Props) {
   return (
-    <header className="h-14 bg-white border-b flex items-center justify-between px-4 rounded-sm shrink-0">
+    <header className="h-14 bg-base-100 border-b border-base-300 flex items-center justify-between px-4 rounded-sm shrink-0">
       <div className="font-semibold flex items-center gap-2">
         {icon}
         {title}
