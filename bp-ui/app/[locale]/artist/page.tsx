@@ -8,7 +8,7 @@ import { ArrowRight, Clock, Disc2, Music, Package, Pencil, Play, Settings, Trash
 import PageShell from "@/app/components/layout/PageShell";
 import { Navbar } from "@/app/components/layout/Navbar";
 import { Footer } from "@/app/components/layout/Footer";
-import { useStoreTheme } from "@/app/context/StoreThemeContext";
+import { useTheme } from "@/lib/hooks";
 import { useAuth } from "@/app/components/auth/AuthProvider";
 import { SectionLabel } from "@/app/components/ui/elastic-slider/StoreUI";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
@@ -25,7 +25,7 @@ function formatDuration(s: number) {
 
 function ArtistContent() {
   const { locale }  = useParams<{ locale: string }>();
-  const { isDark }  = useStoreTheme();
+  const { isDark }  = useTheme();
   const { session } = useAuth();
   const t           = useTranslations("Artist");
   const userId      = session?.user?.id ?? null;
@@ -81,9 +81,9 @@ function ArtistContent() {
       .finally(() => setLoading(false));
   }, [userId]);
 
-  const statCls   = `text-center p-4 rounded border ${isDark ? "bg-darkblue/60 border-royalblue/20" : "bg-[#ede7db]/60 border-[#c4b8a8]/20"}`;
-  const cardCls   = `rounded border p-5 sm:p-6 ${isDark ? "bg-vhs-card/60 border-royalblue/20" : "border-[#c4b8a8]/30 bg-white/70"}`;
-  const mutedCls  = isDark ? "text-vhs-muted" : "text-[#8a8578]";
+  const statCls   = `text-center p-4 rounded border ${isDark ? "bg-darkblue/60 border-royalblue/20" : "bg-[#ede7db]/60 border-[#a89888]/20"}`;
+  const cardCls   = `rounded border p-5 sm:p-6 ${isDark ? "bg-vhs-card/60 border-royalblue/20" : "border-[#a89888]/30 bg-white/70"}`;
+  const mutedCls  = isDark ? "text-vhs-muted" : "text-[#635b53]";
 
   return (
     <>
@@ -102,7 +102,7 @@ function ArtistContent() {
             className={`flex items-center gap-2 rounded-sm border px-4 py-2 text-xs font-bold tracking-[2px] no-underline transition-all ${
               isDark
                 ? "border-royalblue/40 text-vhs-light hover:border-fear"
-                : "border-[#c4b8a8] text-[#6b6560] hover:border-[#c4234e]"
+                : "border-[#a89888] text-[#524a44] hover:border-[#c4234e]"
             }`}
           >
             <Settings size={12} /> {t("editProfile")}
@@ -139,7 +139,7 @@ function ArtistContent() {
                 className={`flex items-center gap-3 rounded border p-3 no-underline transition-all hover:-translate-y-0.5 ${
                   isDark
                     ? "border-royalblue/20 bg-royalblue/10 text-vhs-light hover:border-fear/30"
-                    : "border-[#c4b8a8]/30 bg-[#ede7db]/40 text-[#6b6560] hover:border-[#c4234e]/20"
+                    : "border-[#a89888]/30 bg-[#ede7db]/40 text-[#524a44] hover:border-[#c4234e]/20"
                 }`}
               >
                 <span>{a.icon}</span>
@@ -160,7 +160,7 @@ function ArtistContent() {
             <div className={cardCls}>
               <div className="mb-3 flex items-center justify-between">
                 <SectionLabel>{t("recentTracks")}</SectionLabel>
-                <Link href={`/${locale}/artist/tracks`} className={`text-[11px] tracking-widest no-underline ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#8a8578] hover:text-[#c4234e]"}`}>
+                <Link href={`/${locale}/artist/tracks`} className={`text-[11px] tracking-widest no-underline ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#635b53] hover:text-[#c4234e]"}`}>
                   {t("viewAll")} <ArrowRight size={11} />
                 </Link>
               </div>
@@ -169,11 +169,11 @@ function ArtistContent() {
               ) : (
                 <div className="space-y-1">
                   {recentTracks.map((track) => (
-                    <div key={track.id} className={`flex items-center gap-3 rounded border px-3 py-2 ${isDark ? "border-royalblue/20 bg-royalblue/5" : "border-[#c4b8a8]/20 bg-[#faf8f5]"}`}>
+                    <div key={track.id} className={`flex items-center gap-3 rounded border px-3 py-2 ${isDark ? "border-royalblue/20 bg-royalblue/5" : "border-[#a89888]/20 bg-[#faf8f5]"}`}>
                       {track.coverImageUrl ? (
                         <img src={track.coverImageUrl} alt={track.title} className="h-8 w-8 shrink-0 rounded object-cover" />
                       ) : (
-                        <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded border ${isDark ? "border-royalblue/20 bg-royalblue/10" : "border-[#c4b8a8]/30 bg-[#f5f0e8]"}`}>
+                        <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded border ${isDark ? "border-royalblue/20 bg-royalblue/10" : "border-[#a89888]/30 bg-[#f5f0e8]"}`}>
                           <Play size={11} className={mutedCls} />
                         </div>
                       )}
@@ -185,10 +185,10 @@ function ArtistContent() {
                         <Clock size={9} />{formatDuration(track.durationSeconds)}
                       </div>
                       <div className="flex shrink-0 items-center gap-1">
-                        <Link href={`/${locale}/artist/tracks/${track.id}/edit`} className={`flex h-6 w-6 items-center justify-center rounded-sm border transition-opacity hover:opacity-70 ${isDark ? "border-royalblue/30 text-vhs-muted" : "border-[#c4b8a8]/40 text-[#8a8578]"}`}>
+                        <Link href={`/${locale}/artist/tracks/${track.id}/edit`} className={`flex h-6 w-6 items-center justify-center rounded-sm border transition-opacity hover:opacity-70 ${isDark ? "border-royalblue/30 text-vhs-muted" : "border-[#a89888]/40 text-[#635b53]"}`}>
                           <Pencil size={10} />
                         </Link>
-                        <button onClick={() => void deleteTrack(track.id, track.title)} className={`hover:text-fear flex h-6 w-6 cursor-pointer items-center justify-center rounded-sm border transition-all ${isDark ? "border-royalblue/30 text-vhs-muted" : "border-[#c4b8a8]/40 text-[#8a8578]"}`}>
+                        <button onClick={() => void deleteTrack(track.id, track.title)} className={`hover:text-fear flex h-6 w-6 cursor-pointer items-center justify-center rounded-sm border transition-all ${isDark ? "border-royalblue/30 text-vhs-muted" : "border-[#a89888]/40 text-[#635b53]"}`}>
                           <Trash2 size={10} />
                         </button>
                       </div>
@@ -202,7 +202,7 @@ function ArtistContent() {
             <div className={cardCls}>
               <div className="mb-3 flex items-center justify-between">
                 <SectionLabel>{t("recentAlbums")}</SectionLabel>
-                <Link href={`/${locale}/artist/albums`} className={`text-[11px] tracking-widest no-underline ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#8a8578] hover:text-[#c4234e]"}`}>
+                <Link href={`/${locale}/artist/albums`} className={`text-[11px] tracking-widest no-underline ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#635b53] hover:text-[#c4234e]"}`}>
                   {t("viewAll")} <ArrowRight size={11} />
                 </Link>
               </div>
@@ -211,7 +211,7 @@ function ArtistContent() {
               ) : (
                 <div className="space-y-1">
                   {recentAlbums.map((album) => (
-                    <div key={album.id} className={`flex items-center gap-3 rounded border px-3 py-2 ${isDark ? "border-royalblue/20 bg-royalblue/5" : "border-[#c4b8a8]/20 bg-[#faf8f5]"}`}>
+                    <div key={album.id} className={`flex items-center gap-3 rounded border px-3 py-2 ${isDark ? "border-royalblue/20 bg-royalblue/5" : "border-[#a89888]/20 bg-[#faf8f5]"}`}>
                       <img
                         src={album.coverImageUrl}
                         alt={album.title}
@@ -226,10 +226,10 @@ function ArtistContent() {
                         {album.price} CZK
                       </div>
                       <div className="flex shrink-0 items-center gap-1">
-                        <Link href={`/${locale}/artist/albums/${album.id}/edit`} className={`flex h-6 w-6 items-center justify-center rounded-sm border transition-opacity hover:opacity-70 ${isDark ? "border-royalblue/30 text-vhs-muted" : "border-[#c4b8a8]/40 text-[#8a8578]"}`}>
+                        <Link href={`/${locale}/artist/albums/${album.id}/edit`} className={`flex h-6 w-6 items-center justify-center rounded-sm border transition-opacity hover:opacity-70 ${isDark ? "border-royalblue/30 text-vhs-muted" : "border-[#a89888]/40 text-[#635b53]"}`}>
                           <Pencil size={10} />
                         </Link>
-                        <button onClick={() => void deleteAlbum(album.id, album.title)} className={`hover:text-fear flex h-6 w-6 cursor-pointer items-center justify-center rounded-sm border transition-all ${isDark ? "border-royalblue/30 text-vhs-muted" : "border-[#c4b8a8]/40 text-[#8a8578]"}`}>
+                        <button onClick={() => void deleteAlbum(album.id, album.title)} className={`hover:text-fear flex h-6 w-6 cursor-pointer items-center justify-center rounded-sm border transition-all ${isDark ? "border-royalblue/30 text-vhs-muted" : "border-[#a89888]/40 text-[#635b53]"}`}>
                           <Trash2 size={10} />
                         </button>
                       </div>

@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { usePlayer } from "@/app/context/PlayerContext";
-import { useStoreTheme } from "@/app/context/StoreThemeContext";
+import { useTheme } from "@/lib/hooks";
 import { SectionLabel } from "@/app/components/ui/elastic-slider/StoreUI";
 import { type StoreNavItem } from "@/lib/store-data";
 import { cn } from "@/lib/utils";
@@ -15,7 +15,7 @@ import { ChevronLeft, Menu } from "lucide-react";
 function NavItem({ item }: { item: StoreNavItem }) {
   const t                 = useTranslations("Store");
   const { navCollapsed }  = usePlayer();
-  const { isDark }        = useStoreTheme();
+  const { isDark }        = useTheme();
   const pathname          = usePathname();
   const { locale }        = useParams<{ locale: string }>();
   const fullHref          = `/${locale}${item.href}`;
@@ -51,7 +51,7 @@ function NavItem({ item }: { item: StoreNavItem }) {
                 "border-l-transparent",
                 isDark
                   ? "text-vhs-light hover:text-vhs-white hover:bg-royalblue/10"
-                  : "text-[#6b6560] hover:bg-[#c4234e]/5 hover:text-[#2a2520]",
+                  : "text-[#524a44] hover:bg-[#c4234e]/5 hover:text-[#2a2520]",
               ),
           "font-vcr text-xs tracking-wider",
         )}
@@ -84,7 +84,7 @@ function NavItem({ item }: { item: StoreNavItem }) {
               "font-vcr text-xs tracking-wider whitespace-nowrap",
               isDark
                 ? "bg-darkblue border-royalblue/40 text-vhs-white shadow-[0_2px_12px_rgba(0,0,0,0.6)]"
-                : "border-[#c4b8a8]/50 bg-white text-[#2a2520] shadow-md",
+                : "border-[#a89888]/50 bg-white text-[#2a2520] shadow-md",
             )}
             // Pozici vypočítáme přes ref na wrapper
             ref={(el) => {
@@ -104,7 +104,7 @@ function NavItem({ item }: { item: StoreNavItem }) {
             <span
               className={cn(
                 "absolute top-1/2 right-full -translate-y-1/2 border-y-4 border-r-4 border-y-transparent",
-                isDark ? "border-r-royalblue/40" : "border-r-[#c4b8a8]/50",
+                isDark ? "border-r-royalblue/40" : "border-r-[#a89888]/50",
               )}
             />
             {t(`nav_${item.id}`)}
@@ -117,7 +117,7 @@ function NavItem({ item }: { item: StoreNavItem }) {
 
 function CategoryItem({ name }: { name: string }) {
   const { activeCategory, setActiveCategory } = usePlayer();
-  const { isDark }                            = useStoreTheme();
+  const { isDark }                            = useTheme();
   const active                                = activeCategory === name;
 
   return (
@@ -131,7 +131,7 @@ function CategoryItem({ name }: { name: string }) {
             : "bg-[#c4234e]/10 text-[#2a2520]"
           : isDark
             ? "text-vhs-muted hover:text-vhs-light bg-transparent"
-            : "bg-transparent text-[#8a8578] hover:text-[#2a2520]",
+            : "bg-transparent text-[#635b53] hover:text-[#2a2520]",
       )}
     >
       {name}
@@ -140,9 +140,9 @@ function CategoryItem({ name }: { name: string }) {
 }
 
 function SystemStatus() {
-  const t = useTranslations("Store");
-  const { navCollapsed } = usePlayer();
-  const { isDark } = useStoreTheme();
+  const t                 = useTranslations("Store");
+  const { navCollapsed }  = usePlayer();
+  const { isDark }        = useTheme();
 
   return (
     <div
@@ -150,7 +150,7 @@ function SystemStatus() {
         "rounded-sm border",
         isDark
           ? "bg-royalblue/15 border-royalblue/20"
-          : "border-[#c4b8a8]/30 bg-[#c4234e]/5",
+          : "border-[#a89888]/30 bg-[#c4234e]/5",
         navCollapsed ? "mx-1 my-2 p-2" : "mx-3 my-2 p-2.5",
       )}
     >
@@ -158,7 +158,7 @@ function SystemStatus() {
         <>
           <SectionLabel className="mb-1.5">{t("systemStatus")}</SectionLabel>
           <div
-            className={`text-[11px] leading-relaxed tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+            className={`text-[11px] leading-relaxed tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
           >
             {t("cacheLabel")}: <span className="text-vhs-green">OK</span>
             <br />
@@ -178,7 +178,7 @@ function SystemStatus() {
 export function Sidebar({ navItems }: { navItems: StoreNavItem[] }) {
   const t                                   = useTranslations("Store");
   const { navCollapsed, setNavCollapsed }   = usePlayer();
-  const { isDark }                          = useStoreTheme();
+  const { isDark }                          = useTheme();
 
   return (
     <aside
@@ -189,7 +189,7 @@ export function Sidebar({ navItems }: { navItems: StoreNavItem[] }) {
         navCollapsed ? "overflow-visible" : "overflow-hidden",
         isDark
           ? "from-vhs-surface to-darkblue border-royalblue/25 bg-gradient-to-b"
-          : "border-[#c4b8a8]/30 bg-gradient-to-b from-[#ede7db] to-[#e5dfd3]",
+          : "border-[#a89888]/30 bg-gradient-to-b from-[#ede7db] to-[#e5dfd3]",
         "max-md:fixed max-md:top-11 max-md:bottom-[72px] max-md:left-0 max-md:z-40",
       )}
     >
@@ -199,7 +199,7 @@ export function Sidebar({ navItems }: { navItems: StoreNavItem[] }) {
           "flex cursor-pointer items-center gap-2 border-b border-none bg-transparent py-3 text-sm transition-all",
           isDark
             ? "text-vhs-muted border-royalblue/15"
-            : "border-[#c4b8a8]/20 text-[#8a8578]",
+            : "border-[#a89888]/20 text-[#635b53]",
           navCollapsed ? "justify-center px-0" : "justify-start px-4",
         )}
       >
@@ -211,7 +211,7 @@ export function Sidebar({ navItems }: { navItems: StoreNavItem[] }) {
         </span>
         {!navCollapsed && (
           <span
-            className={`text-[11px] tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+            className={`text-[11px] tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
           >
             {t("collapse")}
           </span>
@@ -227,7 +227,7 @@ export function Sidebar({ navItems }: { navItems: StoreNavItem[] }) {
       >
         {!navCollapsed && (
           <SectionLabel
-            className={`mb-1 border-b px-4 py-2 ${isDark ? "border-royalblue/10" : "border-[#c4b8a8]/15"}`}
+            className={`mb-1 border-b px-4 py-2 ${isDark ? "border-royalblue/10" : "border-[#a89888]/15"}`}
           >
             {t("navigation")}
           </SectionLabel>

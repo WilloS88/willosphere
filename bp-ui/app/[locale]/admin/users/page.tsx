@@ -286,7 +286,7 @@ export default function UsersPage() {
             <div className="form-control">
               <fieldset className="fieldset">
                 <span className="text-base">{t("role")}</span>
-                <select className="select select-bordered w-full" value={form.role} onChange={(e) => setForm((p) => ({ ...p, role: e.target.value as Role }))} disabled={isReadOnly} data-theme="light">
+                <select className="select select-bordered w-full" value={form.role} onChange={(e) => setForm((p) => ({ ...p, role: e.target.value as Role }))} disabled={isReadOnly}>
                   <option value="listener">{t("listener")}</option>
                   <option value="artist">{t("artist")}</option>
                   <option value="admin">{t("admin")}</option>
@@ -296,25 +296,25 @@ export default function UsersPage() {
             <div className="form-control">
               <fieldset className="fieldset">
                 <span className="text-base">{dialogMode === "create" ? t("password") : t("newPassword")}</span>
-                <input type="password" autoComplete="current-password" className="input input-bordered w-full" value={form.password} onChange={(e) => setForm((p) => ({ ...p, password: e.target.value }))} data-theme="light" />
+                <input type="password" autoComplete="current-password" className="input input-bordered w-full" value={form.password} onChange={(e) => setForm((p) => ({ ...p, password: e.target.value }))} />
               </fieldset>
             </div>
             <div className="form-control">
               <fieldset className="fieldset">
                 <span className="text-base">{t("timezone")}</span>
-                <input className="input input-bordered w-full" value={form.timezone} onChange={(e) => setForm((p) => ({ ...p, timezone: e.target.value }))} data-theme="light" />
+                <input className="input input-bordered w-full" value={form.timezone} onChange={(e) => setForm((p) => ({ ...p, timezone: e.target.value }))} />
               </fieldset>
             </div>
             <div className="form-control">
               <fieldset className="fieldset">
                 <span className="text-base">{t("language")}</span>
-                <input className="input input-bordered w-full" value={form.language} onChange={(e) => setForm((p) => ({ ...p, language: e.target.value }))} data-theme="light" />
+                <input className="input input-bordered w-full" value={form.language} onChange={(e) => setForm((p) => ({ ...p, language: e.target.value }))} />
               </fieldset>
             </div>
             <div className="form-control">
               <fieldset className="fieldset">
                 <span className="text-base">{t("profileImageUrl")}</span>
-                <input className="input input-bordered w-full" value={form.profileImageUrl} onChange={(e) => setForm((p) => ({ ...p, profileImageUrl: e.target.value }))} data-theme="light" />
+                <input className="input input-bordered w-full" value={form.profileImageUrl} onChange={(e) => setForm((p) => ({ ...p, profileImageUrl: e.target.value }))} />
               </fieldset>
             </div>
           </form>

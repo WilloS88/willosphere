@@ -5,7 +5,7 @@ import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { ArrowLeft, Clock, Disc3, Music, Play } from "lucide-react";
 import Link from "next/link";
-import { useStoreTheme } from "@/app/context/StoreThemeContext";
+import { useTheme } from "@/lib/hooks";
 import { usePlayer } from "@/app/context/PlayerContext";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
 import type { AlbumDto } from "@/app/types/album";
@@ -16,7 +16,7 @@ import api from "@/lib/axios";
 export default function AlbumDetailPage() {
   const t              = useTranslations("Store");
   const { id, locale } = useParams<{ id: string; locale: string }>();
-  const { isDark }     = useStoreTheme();
+  const { isDark }     = useTheme();
 
   const [album, setAlbum]     = useState<AlbumDto | null>(null);
   const [loading, setLoading] = useState(true);
@@ -44,7 +44,7 @@ export default function AlbumDetailPage() {
   if (!album) {
     return (
       <div
-        className={`py-32 text-center text-[11px] tracking-widest ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+        className={`py-32 text-center text-[11px] tracking-widest ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
       >
         {t("albumNotFound")}
       </div>
@@ -57,24 +57,24 @@ export default function AlbumDetailPage() {
     <div className="min-h-full">
       <Link
         href={`/${locale}/home/albums`}
-        className={`mb-4 inline-flex items-center gap-1.5 text-xs tracking-widest transition-colors ${isDark ? "text-vhs-muted hover:text-vhs-white" : "text-[#8a8578] hover:text-[#2a2520]"}`}
+        className={`mb-4 inline-flex items-center gap-1.5 text-xs tracking-widest transition-colors ${isDark ? "text-vhs-muted hover:text-vhs-white" : "text-[#635b53] hover:text-[#2a2520]"}`}
       >
         <ArrowLeft size={12} /> {t("albums").toUpperCase()}
       </Link>
 
       {/* Hero */}
-      <div className={`relative mb-6 overflow-hidden rounded-lg ${isDark ? "bg-vhs-card border-royalblue/20" : "bg-white/80 border-[#c4b8a8]/30"} border`}>
+      <div className={`relative mb-6 overflow-hidden rounded-lg ${isDark ? "bg-vhs-card border-royalblue/20" : "bg-white/80 border-[#a89888]/30"} border`}>
         <div className="flex gap-5 p-5">
-          <div className={`shrink-0 h-36 w-36 sm:h-44 sm:w-44 rounded-lg border overflow-hidden flex items-center justify-center ${isDark ? "border-royalblue/20 bg-royalblue/10" : "border-[#c4b8a8]/40 bg-[#f5f0e8]"}`}>
+          <div className={`shrink-0 h-36 w-36 sm:h-44 sm:w-44 rounded-lg border overflow-hidden flex items-center justify-center ${isDark ? "border-royalblue/20 bg-royalblue/10" : "border-[#a89888]/40 bg-[#f5f0e8]"}`}>
             {album.coverImageUrl ? (
               <img src={album.coverImageUrl} alt={album.title} className="h-full w-full object-cover" />
             ) : (
-              <Disc3 size={40} className={isDark ? "text-vhs-muted" : "text-[#8a8578]"} />
+              <Disc3 size={40} className={isDark ? "text-vhs-muted" : "text-[#635b53]"} />
             )}
           </div>
 
           <div className="flex flex-col justify-end min-w-0">
-            <div className={`text-xs tracking-widest mb-1 ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
+            <div className={`text-xs tracking-widest mb-1 ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
               ALBUM
             </div>
             <h1 className={`text-xl sm:text-3xl font-bold tracking-wide truncate mb-1 ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}>
@@ -83,7 +83,7 @@ export default function AlbumDetailPage() {
             <div className={`text-[11px] tracking-wide mb-2 ${isDark ? "text-vhs-light" : "text-[#4a4540]"}`}>
               {album.artists.map((a) => a.displayName).join(", ")}
             </div>
-            <div className={`flex flex-wrap gap-4 text-xs tracking-widest ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
+            <div className={`flex flex-wrap gap-4 text-xs tracking-widest ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
               <span>{new Date(album.releaseDate).getFullYear()}</span>
               {tracks.length > 0 && <span>{tracks.length} {t("tracksCount")}</span>}
               <span className={`font-semibold ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`}>
@@ -106,7 +106,7 @@ export default function AlbumDetailPage() {
 
       {tracks.length > 0 && (
         <div>
-          <div className={`mb-3 text-[11px] tracking-widest font-bold ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
+          <div className={`mb-3 text-[11px] tracking-widest font-bold ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
             {t("tracksSection")}
           </div>
           <div className="space-y-1">
@@ -119,26 +119,26 @@ export default function AlbumDetailPage() {
                   className={`flex items-center gap-3 rounded border px-3 py-2.5 cursor-pointer transition-all hover:-translate-y-px ${
                     active
                       ? isDark ? "border-royalblue/60 bg-royalblue/10" : "border-[#c4234e]/40 bg-[#c4234e]/5"
-                      : isDark ? "border-royalblue/20 bg-vhs-card hover:border-royalblue/40" : "border-[#c4b8a8]/30 bg-white/80 hover:border-[#c4b8a8]/60"
+                      : isDark ? "border-royalblue/20 bg-vhs-card hover:border-royalblue/40" : "border-[#a89888]/30 bg-white/80 hover:border-[#a89888]/60"
                   }`}
                 >
-                  <div className={`w-5 text-center text-xs tabular-nums shrink-0 ${active ? (isDark ? "text-vhs-cyan" : "text-[#c4234e]") : (isDark ? "text-vhs-muted" : "text-[#8a8578]")}`}>
+                  <div className={`w-5 text-center text-xs tabular-nums shrink-0 ${active ? (isDark ? "text-vhs-cyan" : "text-[#c4234e]") : (isDark ? "text-vhs-muted" : "text-[#635b53]")}`}>
                     {active && isPlaying
                       ? <span className="flex gap-[2px] items-end justify-center h-3">{[3,5,4].map((h, j) => <span key={j} className="w-[2px] bg-current rounded-full animate-pulse" style={{ height: `${h * 2}px`, animationDelay: `${j * 0.15}s` }} />)}</span>
                       : i + 1}
                   </div>
 
-                  <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded border overflow-hidden ${isDark ? "border-royalblue/20 bg-royalblue/10" : "border-[#c4b8a8]/40 bg-[#f5f0e8]"}`}>
+                  <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded border overflow-hidden ${isDark ? "border-royalblue/20 bg-royalblue/10" : "border-[#a89888]/40 bg-[#f5f0e8]"}`}>
                     {track.coverImageUrl
                       ? <img src={track.coverImageUrl} alt={track.title} className="h-full w-full object-cover" />
-                      : <Music size={14} className={isDark ? "text-vhs-muted" : "text-[#8a8578]"} />}
+                      : <Music size={14} className={isDark ? "text-vhs-muted" : "text-[#635b53]"} />}
                   </div>
 
                   <div className="flex-1 min-w-0">
                     <div className={`truncate text-[11px] font-bold tracking-wider ${active ? (isDark ? "text-fearyellow" : "text-[#c4234e]") : (isDark ? "text-vhs-white" : "text-[#2a2520]")}`}>
                       {track.title}
                     </div>
-                    <div className={`truncate text-[11px] tracking-wide ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
+                    <div className={`truncate text-[11px] tracking-wide ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
                       {track.genres.map((g) => g.name).join(" · ")}
                     </div>
                   </div>
@@ -149,7 +149,7 @@ export default function AlbumDetailPage() {
                     </div>
                   )}
 
-                  <div className={`flex items-center gap-1 text-xs tabular-nums shrink-0 ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
+                  <div className={`flex items-center gap-1 text-xs tabular-nums shrink-0 ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
                     <Clock size={10} />
                     {formatTime(track.durationSeconds)}
                   </div>
@@ -161,7 +161,7 @@ export default function AlbumDetailPage() {
       )}
 
       {tracks.length === 0 && (
-        <div className={`py-8 text-center text-[11px] tracking-widest ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
+        <div className={`py-8 text-center text-[11px] tracking-widest ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
           {t("noTracksYet")}
         </div>
       )}

@@ -7,6 +7,16 @@ import {
 import type { TrackDto } from "@/app/types/track";
 import api from "@/lib/axios";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
+import { store } from "@/lib/store";
+import {
+  setVolume as setReduxVolume,
+  setCurrentTrack,
+  setQueue as setReduxQueue,
+  setQueueIdx,
+  setPlayerShuffle,
+  setPlayerRepeat,
+  setProgress as setReduxProgress,
+} from "@/lib/features/player/playerSlice";
 
 interface PlayerContextValue {
   navCollapsed:      boolean;
@@ -37,24 +47,31 @@ interface PlayerContextValue {
 
 const PlayerContext = createContext<PlayerContextValue | null>(null);
 
+function getPersistedPlayer() {
+  const s = store.getState().player;
+  return s;
+}
+
 export function PlayerProvider({ children }: { children: ReactNode }) {
+  const persisted = getPersistedPlayer();
+
   const [navCollapsed, setNavCollapsed]     = useState(false);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [likedItems, setLikedItems]         = useState<Set<number>>(new Set());
 
   const [isPlaying, setIsPlaying] = useState(false);
-  const [track, setTrack]         = useState<TrackDto | null>(null);
-  const [progress, setProgress]   = useState(0);
+  const [track, setTrack]         = useState<TrackDto | null>(persisted.currentTrack);
+  const [progress, setProgress]   = useState(persisted.progress);
   const [duration, setDuration]   = useState(0);
-  const [volume, setVolume]       = useState(75);
-  const [shuffle, setShuffle]     = useState(false);
-  const [repeat, setRepeat]       = useState(false);
+  const [volume, setVolume]       = useState(persisted.volume);
+  const [shuffle, setShuffle]     = useState(persisted.shuffle);
+  const [repeat, setRepeat]       = useState(persisted.repeat);
   const [showQueue, setShowQueue] = useState(false);
-  const [queue, setQueue]         = useState<TrackDto[]>([]);
+  const [queue, setQueue]         = useState<TrackDto[]>(persisted.queue);
 
   const audioRef     = useRef<HTMLAudioElement | null>(null);
-  const queueRef     = useRef<TrackDto[]>([]);
-  const queueIdxRef  = useRef<number>(-1);
+  const queueRef     = useRef<TrackDto[]>(persisted.queue);
+  const queueIdxRef  = useRef<number>(persisted.queueIdx);
   const repeatRef    = useRef(repeat);
 
   // Listen history tracking: stores track ID that was already logged in current playback session
@@ -63,6 +80,29 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   // Keep refs in sync
   useEffect(() => { queueRef.current = queue; }, [queue]);
   useEffect(() => { repeatRef.current = repeat; }, [repeat]);
+
+  // Sync local state → Redux
+  useEffect(() => { store.dispatch(setReduxVolume(volume)); }, [volume]);
+  useEffect(() => { store.dispatch(setCurrentTrack(track)); }, [track]);
+  useEffect(() => { store.dispatch(setReduxQueue(queue)); }, [queue]);
+  useEffect(() => { store.dispatch(setPlayerShuffle(shuffle)); }, [shuffle]);
+  useEffect(() => { store.dispatch(setPlayerRepeat(repeat)); }, [repeat]);
+
+  // Persist progress on pause or unmount
+  useEffect(() => {
+    if(!isPlaying) {
+      store.dispatch(setReduxProgress(progress));
+    }
+  }, [isPlaying, progress]);
+
+  useEffect(() => {
+    return () => {
+      const audio = audioRef.current;
+      if (audio) {
+        store.dispatch(setReduxProgress(Math.floor(audio.currentTime)));
+      }
+    };
+  }, []);
 
   // Record listen history when threshold is reached
   const recordListen = useCallback((trackId: number, secondsPlayed: number) => {
@@ -75,6 +115,13 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const audio = new Audio();
     audioRef.current = audio;
+
+    // If we have a persisted track, set it up (paused) so user can resume
+    if (persisted.currentTrack) {
+      audio.src = persisted.currentTrack.audioUrl;
+      audio.currentTime = persisted.progress;
+      audio.volume = persisted.volume / 100;
+    }
 
     audio.ontimeupdate = () => {
       const currentTime = Math.floor(audio.currentTime);
@@ -109,6 +156,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         loggedTrackRef.current = null;
         const next = q[idx + 1];
         queueIdxRef.current = idx + 1;
+        store.dispatch(setQueueIdx(idx + 1));
         setTrack(next);
         setProgress(0);
         audio.src = next.audioUrl;
@@ -146,14 +194,14 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   }, [volume]);
 
   const playTrack = useCallback((newTrack: TrackDto, newQueue?: TrackDto[]) => {
-    const q   = newQueue ?? [newTrack];
-    const idx = q.findIndex((t) => t.id === newTrack.id);
+    const q           = newQueue ?? [newTrack];
+    const idx         = q.findIndex((t) => t.id === newTrack.id);
+    const resolvedIdx = idx >= 0 ? idx : 0;
 
-
-
-    loggedTrackRef.current = null;
-    queueRef.current    = q;
-    queueIdxRef.current = idx >= 0 ? idx : 0;
+    loggedTrackRef.current  = null;
+    queueRef.current        = q;
+    queueIdxRef.current     = resolvedIdx;
+    store.dispatch(setQueueIdx(resolvedIdx));
     setQueue(q);
     setTrack(newTrack);
     setProgress(0);
@@ -181,6 +229,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
 
     loggedTrackRef.current = null;
     queueIdxRef.current = next;
+    store.dispatch(setQueueIdx(next));
     setTrack(nextTrackItem);
     setProgress(0);
     const audio = audioRef.current;
@@ -213,6 +262,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
 
     loggedTrackRef.current = null;
     queueIdxRef.current = prev;
+    store.dispatch(setQueueIdx(prev));
     setTrack(prevTrackItem);
     setProgress(0);
 

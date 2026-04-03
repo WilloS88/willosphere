@@ -6,7 +6,7 @@ import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Camera, ShieldCheck } from "lucide-react";
 import { useAuth } from "@/app/components/auth/AuthProvider";
-import { useStoreTheme } from "@/app/context/StoreThemeContext";
+import { useTheme } from "@/lib/hooks";
 import {
   PageHeader,
   Badge,
@@ -20,7 +20,7 @@ export default function ProfilePage() {
   const t                         = useTranslations("Store");
   const { locale }                = useParams<{ locale: string }>();
   const { session, refreshSession } = useAuth();
-  const { isDark }                = useStoreTheme();
+  const { isDark }                = useTheme();
   const user                      = session?.user;
   const avatarInputRef            = useRef<HTMLInputElement>(null);
   const [cropFile, setCropFile]   = useState<File | null>(null);
@@ -67,7 +67,7 @@ export default function ProfilePage() {
         className={`max-w-2xl rounded border p-5 sm:p-8 ${
           isDark
             ? "bg-vhs-card border-royalblue/20"
-            : "border-[#c4b8a8]/40 bg-white/80"
+            : "border-[#a89888]/40 bg-white/80"
         }`}
       >
         {/* Avatar + name */}
@@ -101,7 +101,7 @@ export default function ProfilePage() {
               {user?.displayName ?? t("guestUser")}
             </div>
             <div
-              className={`text-xs tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+              className={`text-xs tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
             >
               {user?.email ?? "not@logged.in"}
             </div>
@@ -118,7 +118,7 @@ export default function ProfilePage() {
         </div>
 
         <div
-          className={`space-y-3 border-t pt-4 ${isDark ? "border-royalblue/20" : "border-[#c4b8a8]/20"}`}
+          className={`space-y-3 border-t pt-4 ${isDark ? "border-royalblue/20" : "border-[#a89888]/20"}`}
         >
           <SectionLabel>{t("accountInfo")}</SectionLabel>
 
@@ -133,7 +133,7 @@ export default function ProfilePage() {
                 isDark ? "bg-royalblue/10" : "bg-[#ede7db]/60"
               }`}
             >
-              <span className={isDark ? "text-vhs-muted" : "text-[#8a8578]"}>
+              <span className={isDark ? "text-vhs-muted" : "text-[#635b53]"}>
                 {label}
               </span>
               <span className={isDark ? "text-vhs-white" : "text-[#2a2520]"}>
@@ -144,7 +144,7 @@ export default function ProfilePage() {
         </div>
 
         <div
-          className={`mt-4 space-y-3 border-t pt-4 ${isDark ? "border-royalblue/20" : "border-[#c4b8a8]/20"}`}
+          className={`mt-4 space-y-3 border-t pt-4 ${isDark ? "border-royalblue/20" : "border-[#a89888]/20"}`}
         >
           <SectionLabel>{t("securitySection")}</SectionLabel>
 
@@ -160,7 +160,7 @@ export default function ProfilePage() {
               <ShieldCheck size={14} className={isDark ? "text-fear" : "text-[#c4234e]"} />
               <span className="tracking-wider">{t("mfaLabel")}</span>
             </div>
-            <span className={`text-[11px] tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
+            <span className={`text-[11px] tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
               {t("mfaManage")}
             </span>
           </Link>

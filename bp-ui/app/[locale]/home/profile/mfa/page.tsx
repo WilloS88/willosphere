@@ -7,7 +7,7 @@ import { useTranslations } from "next-intl";
 import { ArrowLeft, ShieldCheck, ShieldAlert, Copy, Check } from "lucide-react";
 import PageShell from "@/app/components/layout/PageShell";
 import { useAuth } from "@/app/components/auth/AuthProvider";
-import { useStoreTheme } from "@/app/context/StoreThemeContext";
+import { useTheme } from "@/lib/hooks";
 import api from "@/lib/axios";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
 
@@ -67,7 +67,7 @@ function MfaCodeInput({
           className={`w-10 h-12 text-center text-lg font-bold rounded-sm border outline-none transition-all font-vcr tracking-widest ${
             isDark
               ? "bg-darkblue/60 border-royalblue/30 text-vhs-white focus:border-fear"
-              : "bg-[#ede7db]/80 border-[#c4b8a8]/40 text-[#2a2520] focus:border-[#c4234e]"
+              : "bg-[#ede7db]/80 border-[#a89888]/40 text-[#2a2520] focus:border-[#c4234e]"
           }`}
         />
       ))}
@@ -90,7 +90,7 @@ function CopyButton({ text, isDark, labelCopy, labelCopied }: { text: string; is
       className={`inline-flex items-center gap-1 px-2 py-1 rounded text-[11px] tracking-[1px] cursor-pointer border transition-all ${
         isDark
           ? "border-royalblue/30 text-vhs-muted hover:text-fear hover:border-fear/40 bg-transparent"
-          : "border-[#c4b8a8]/40 text-[#8a8578] hover:text-[#c4234e] hover:border-[#c4234e]/40 bg-transparent"
+          : "border-[#a89888]/40 text-[#635b53] hover:text-[#c4234e] hover:border-[#c4234e]/40 bg-transparent"
       }`}
     >
       {copied ? <Check size={10} /> : <Copy size={10} />}
@@ -104,7 +104,7 @@ function MfaSetupContent() {
   const { locale }  = useParams<{ locale: string }>();
   const router      = useRouter();
   const { mfaEnroll, mfaConfirm, session } = useAuth();
-  const { isDark }  = useStoreTheme();
+  const { isDark }  = useTheme();
 
   const [step, setStep]                 = useState<EnrollmentStep>("idle");
   const [otpauthUrl, setOtpauthUrl]     = useState("");
@@ -158,7 +158,7 @@ function MfaSetupContent() {
     : "";
 
   const cardCls = `w-full max-w-lg rounded border p-6 sm:p-8 ${
-    isDark ? "bg-vhs-card/80 border-royalblue/20" : "border-[#c4b8a8]/30 bg-white/80"
+    isDark ? "bg-vhs-card/80 border-royalblue/20" : "border-[#a89888]/30 bg-white/80"
   }`;
 
   const btnPrimaryCls = `w-full cursor-pointer rounded-sm py-2.5 text-xs font-bold tracking-[2px] transition-all hover:brightness-110 disabled:opacity-50 ${
@@ -170,14 +170,14 @@ function MfaSetupContent() {
   }`;
 
   const mutedCls = `text-xs tracking-[1.5px] ${
-    isDark ? "text-vhs-muted" : "text-[#8a8578]"
+    isDark ? "text-vhs-muted" : "text-[#635b53]"
   }`;
 
   if (mfaEnabled === null) {
     return (
       <div className="flex min-h-screen items-center justify-center px-4 py-8">
         <div className={`${cardCls} flex items-center justify-center`}>
-          <span className={`text-xs tracking-widest ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
+          <span className={`text-xs tracking-widest ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
             ...
           </span>
         </div>
@@ -192,7 +192,7 @@ function MfaSetupContent() {
           <Link
             href={`/${locale}/home/profile`}
             className={`mb-6 inline-flex items-center gap-1.5 text-xs tracking-[2px] no-underline ${
-              isDark ? "text-vhs-muted hover:text-fear" : "text-[#8a8578] hover:text-[#c4234e]"
+              isDark ? "text-vhs-muted hover:text-fear" : "text-[#635b53] hover:text-[#c4234e]"
             }`}
           >
             <ArrowLeft size={12} /> PROFILE
@@ -229,7 +229,7 @@ function MfaSetupContent() {
         <Link
           href={`/${locale}/home/profile`}
           className={`mb-6 inline-flex items-center gap-1.5 text-xs tracking-[2px] no-underline ${
-            isDark ? "text-vhs-muted hover:text-fear" : "text-[#8a8578] hover:text-[#c4234e]"
+            isDark ? "text-vhs-muted hover:text-fear" : "text-[#635b53] hover:text-[#c4234e]"
           }`}
         >
           <ArrowLeft size={12} /> PROFILE
@@ -280,7 +280,7 @@ function MfaSetupContent() {
             {/* QR Code */}
             <div
               className={`mb-4 rounded-lg p-4 ${
-                isDark ? "bg-white" : "bg-white border border-[#c4b8a8]/30"
+                isDark ? "bg-white" : "bg-white border border-[#a89888]/30"
               }`}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -302,7 +302,7 @@ function MfaSetupContent() {
                 className={`flex items-center justify-between gap-2 rounded px-3 py-2 ${
                   isDark
                     ? "bg-darkblue/60 border border-royalblue/20"
-                    : "bg-[#ede7db]/80 border border-[#c4b8a8]/30"
+                    : "bg-[#ede7db]/80 border border-[#a89888]/30"
                 }`}
               >
                 <code
@@ -357,7 +357,7 @@ function MfaSetupContent() {
             <button
               onClick={() => { setStep("qr"); setErrorMessage(null); }}
               className={`mt-3 text-xs tracking-[1.5px] cursor-pointer bg-transparent border-none ${
-                isDark ? "text-vhs-muted hover:text-fear" : "text-[#8a8578] hover:text-[#c4234e]"
+                isDark ? "text-vhs-muted hover:text-fear" : "text-[#635b53] hover:text-[#c4234e]"
               }`}
             >
               {t("backToQr")}

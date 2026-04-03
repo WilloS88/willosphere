@@ -5,23 +5,23 @@ import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Minus, Plus, ShoppingCart, Trash2, Zap } from "lucide-react";
 import { SectionLabel, VHSButton } from "@/app/components/ui/elastic-slider/StoreUI";
-import { useStoreTheme } from "@/app/context/StoreThemeContext";
+import { useTheme } from "@/lib/hooks";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { removeItem, updateQuantity, clearCart } from "@/lib/features/cart/cartSlice";
 
 export default function CartPage() {
   const t          = useTranslations("Store");
-  const { isDark } = useStoreTheme();
+  const { isDark } = useTheme();
   const { locale } = useParams<{ locale: string }>();
   const dispatch   = useAppDispatch();
   const items      = useAppSelector((s) => s.cart.items);
 
   const total     = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
-  const mutedCls  = isDark ? "text-vhs-muted" : "text-[#8a8578]";
+  const mutedCls  = isDark ? "text-vhs-muted" : "text-[#635b53]";
   const cardCls   = isDark
     ? "bg-vhs-card border-royalblue/20"
-    : "bg-white/80 border-[#c4b8a8]/40";
-  const dividerCls = isDark ? "border-royalblue/20" : "border-[#c4b8a8]/30";
+    : "bg-white/80 border-[#a89888]/40";
+  const dividerCls = isDark ? "border-royalblue/20" : "border-[#a89888]/30";
 
   if(items.length === 0)
   {
@@ -34,7 +34,7 @@ export default function CartPage() {
         <Link
           href={`/${locale}/home/merch`}
           className={`mt-2 border rounded-sm px-4 py-2 text-[11px] font-bold tracking-widest transition-all no-underline ${
-            isDark ? "border-royalblue/40 text-vhs-light hover:border-fear/40" : "border-[#c4b8a8] text-[#6b6560] hover:border-[#c4234e]"
+            isDark ? "border-royalblue/40 text-vhs-light hover:border-fear/40" : "border-[#a89888] text-[#524a44] hover:border-[#c4234e]"
           }`}
         >
           {t("goToShop")}
@@ -57,7 +57,7 @@ export default function CartPage() {
           className={`cursor-pointer rounded-sm border px-3 py-1.5 text-[11px] tracking-wider transition-opacity hover:opacity-70 ${
             isDark
               ? "border-royalblue/30 text-vhs-muted"
-              : "border-[#c4b8a8]/40 text-[#8a8578]"
+              : "border-[#a89888]/40 text-[#635b53]"
           }`}
         >
           {t("clearAll")}
@@ -109,7 +109,7 @@ export default function CartPage() {
                 className={`flex h-5 w-5 cursor-pointer items-center justify-center rounded-sm border hover:opacity-70 ${
                   isDark
                     ? "border-royalblue/30 text-vhs-muted"
-                    : "border-[#c4b8a8]/40 text-[#8a8578]"
+                    : "border-[#a89888]/40 text-[#635b53]"
                 }`}
               >
                 <Minus size={10} />
@@ -131,7 +131,7 @@ export default function CartPage() {
                 className={`flex h-5 w-5 cursor-pointer items-center justify-center rounded-sm border hover:opacity-70 ${
                   isDark
                     ? "border-royalblue/30 text-vhs-muted"
-                    : "border-[#c4b8a8]/40 text-[#8a8578]"
+                    : "border-[#a89888]/40 text-[#635b53]"
                 }`}
               >
                 <Plus size={10} />

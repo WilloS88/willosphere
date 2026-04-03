@@ -4,7 +4,7 @@ import { memo, useCallback, useEffect, useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
 import { ShoppingCart, X, Music, Disc3, Package, Zap, Check } from "lucide-react";
 import { CardGrid, PageHeader, SectionLabel, VHSButton } from "@/app/components/ui/elastic-slider/StoreUI";
-import { useStoreTheme } from "@/app/context/StoreThemeContext";
+import { useTheme } from "@/lib/hooks";
 import { useToast } from "@/app/context/ToastContext";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { addItem } from "@/lib/features/cart/cartSlice";
@@ -15,9 +15,9 @@ import api from "@/lib/axios";
 
 // ── Skeleton card
 const SkeletonCard = memo(function SkeletonCard({ isDark }: { isDark: boolean }) {
-  const bg = isDark ? "bg-royalblue/10" : "bg-[#c4b8a8]/20";
+  const bg = isDark ? "bg-royalblue/10" : "bg-[#a89888]/20";
   return (
-    <div className={`rounded border animate-pulse ${isDark ? "bg-vhs-card border-royalblue/20" : "bg-white/80 border-[#c4b8a8]/40"}`}>
+    <div className={`rounded border animate-pulse ${isDark ? "bg-vhs-card border-royalblue/20" : "bg-white/80 border-[#a89888]/40"}`}>
       <div className={`h-36 w-full ${bg} rounded-t`} />
       <div className="p-3 space-y-2">
         <div className={`h-3 w-2/3 rounded ${bg}`} />
@@ -38,8 +38,8 @@ const ProductCard = memo(function ProductCard({
   const t         = useTranslations("Store");
   const borderCls = isDark
     ? "bg-vhs-card border-royalblue/20 hover:border-fear/40"
-    : "bg-white/80 border-[#c4b8a8]/40 hover:border-[#c4234e]/30";
-  const mutedCls  = isDark ? "text-vhs-muted" : "text-[#8a8578]";
+    : "bg-white/80 border-[#a89888]/40 hover:border-[#c4234e]/30";
+  const mutedCls  = isDark ? "text-vhs-muted" : "text-[#635b53]";
   const titleCls  = isDark ? "text-vhs-white" : "text-[#2a2520]";
   const typeBadge = product.type === "physical"
     ? "bg-fearyellow/20 text-fearyellow border-fearyellow/30"
@@ -93,10 +93,10 @@ const ProductModal = memo(function ProductModal({
   onAdd: (p: ProductDto) => void; onClose: () => void;
 }) {
   const t        = useTranslations("Store");
-  const mutedCls = isDark ? "text-vhs-muted" : "text-[#8a8578]";
+  const mutedCls = isDark ? "text-vhs-muted" : "text-[#635b53]";
   const cardCls  = isDark
     ? "bg-vhs-card/95 border-royalblue/30 text-vhs-white"
-    : "bg-white border-[#c4b8a8]/60 text-[#2a2520]";
+    : "bg-white border-[#a89888]/60 text-[#2a2520]";
 
   return (
     <div
@@ -154,7 +154,7 @@ const ProductModal = memo(function ProductModal({
 // ── Page
 export default function MerchPage() {
   const t          = useTranslations("Store");
-  const { isDark } = useStoreTheme();
+  const { isDark } = useTheme();
   const toast      = useToast();
   const dispatch   = useAppDispatch();
   const cartItems  = useAppSelector((s) => s.cart.items);
@@ -200,7 +200,7 @@ export default function MerchPage() {
     setDetailProduct(null);
   }, [dispatch, toast, t]);
 
-  const mutedCls = isDark ? "text-vhs-muted" : "text-[#8a8578]";
+  const mutedCls = isDark ? "text-vhs-muted" : "text-[#635b53]";
 
   const filterBtn = (type: "all" | "physical" | "digital", label: string) => (
     <button
@@ -209,7 +209,7 @@ export default function MerchPage() {
       className={`px-3 py-1 rounded-sm text-[11px] font-bold tracking-widest transition-all border cursor-pointer ${
         typeFilter === type
           ? isDark ? "bg-fear border-fear text-white" : "bg-[#c4234e] border-[#c4234e] text-white"
-          : isDark ? "border-royalblue/30 text-vhs-muted hover:border-fear/40" : "border-[#c4b8a8]/40 text-[#8a8578] hover:border-[#c4234e]/30"
+          : isDark ? "border-royalblue/30 text-vhs-muted hover:border-fear/40" : "border-[#a89888]/40 text-[#635b53] hover:border-[#c4234e]/30"
       }`}
     >
       {label}

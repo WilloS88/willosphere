@@ -7,7 +7,7 @@ import { ArrowLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import PageShell from "@/app/components/layout/PageShell";
 import { Navbar } from "@/app/components/layout/Navbar";
-import { useStoreTheme } from "@/app/context/StoreThemeContext";
+import { useTheme } from "@/lib/hooks";
 import { useAuth } from "@/app/components/auth/AuthProvider";
 import { SectionLabel, Badge } from "@/app/components/ui/elastic-slider/StoreUI";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
@@ -18,7 +18,7 @@ import api from "@/lib/axios";
 function ProfileContent() {
   const t             = useTranslations("Artist");
   const { locale }    = useParams<{ locale: string }>();
-  const { isDark }    = useStoreTheme();
+  const { isDark }    = useTheme();
   const { session }   = useAuth();
   const user          = session?.user;
 
@@ -74,9 +74,9 @@ function ProfileContent() {
   const inputCls = `w-full rounded-sm px-3 py-2.5 border outline-none text-[11px] tracking-wider font-vcr transition-all ${
     isDark
       ? "bg-darkblue/60 border-royalblue/30 text-vhs-white placeholder:text-vhs-muted focus:border-fear"
-      : "bg-[#ede7db]/80 border-[#c4b8a8]/40 text-[#2a2520] placeholder:text-[#8a8578] focus:border-[#c4234e]"
+      : "bg-[#ede7db]/80 border-[#a89888]/40 text-[#2a2520] placeholder:text-[#635b53] focus:border-[#c4234e]"
   }`;
-  const labelCls = `block text-[11px] tracking-[2px] mb-1.5 ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`;
+  const labelCls = `block text-[11px] tracking-[2px] mb-1.5 ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`;
 
   return (
     <>
@@ -84,13 +84,13 @@ function ProfileContent() {
       <main className="mx-auto max-w-2xl px-4 py-10 sm:px-6 sm:py-16">
         <Link
           href={`/${locale}/artist`}
-          className={`mb-6 inline-flex items-center gap-1.5 text-xs tracking-[2px] no-underline ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#8a8578] hover:text-[#c4234e]"}`}
+          className={`mb-6 inline-flex items-center gap-1.5 text-xs tracking-[2px] no-underline ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#635b53] hover:text-[#c4234e]"}`}
         >
           <ArrowLeft size={12} /> {t("backToDashboard")}
         </Link>
 
         <div
-          className={`rounded border p-6 sm:p-8 ${isDark ? "bg-vhs-card/80 border-royalblue/20" : "border-[#c4b8a8]/30 bg-white/80"}`}
+          className={`rounded border p-6 sm:p-8 ${isDark ? "bg-vhs-card/80 border-royalblue/20" : "border-[#a89888]/30 bg-white/80"}`}
         >
           {/* Header */}
           <div className="mb-6 flex items-center gap-4">
@@ -114,7 +114,7 @@ function ProfileContent() {
           </div>
 
           <div
-            className={`border-t pt-5 ${isDark ? "border-royalblue/20" : "border-[#c4b8a8]/20"}`}
+            className={`border-t pt-5 ${isDark ? "border-royalblue/20" : "border-[#a89888]/20"}`}
           >
             <SectionLabel className="mb-4">{t("editProfile")}</SectionLabel>
 
@@ -188,7 +188,7 @@ function ProfileContent() {
 
                 {profile && (
                   <div
-                    className={`mt-4 border-t pt-4 text-[11px] tracking-wider ${isDark ? "border-royalblue/20 text-vhs-muted" : "border-[#c4b8a8]/20 text-[#8a8578]"}`}
+                    className={`mt-4 border-t pt-4 text-[11px] tracking-wider ${isDark ? "border-royalblue/20 text-vhs-muted" : "border-[#a89888]/20 text-[#635b53]"}`}
                   >
                     {t("memberSince")}: {new Date(profile.memberSince).toLocaleDateString()}
                   </div>

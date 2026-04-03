@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { ChevronDown, ChevronUp, Package } from "lucide-react";
 import { SectionLabel } from "@/app/components/ui/elastic-slider/StoreUI";
-import { useStoreTheme } from "@/app/context/StoreThemeContext";
+import { useTheme } from "@/lib/hooks";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
 import type { PurchaseDto } from "@/app/types/order";
 import type { PaginatedResponse } from "@/app/types/pagination";
@@ -12,7 +12,7 @@ import api from "@/lib/axios";
 
 export default function OrdersPage() {
   const t          = useTranslations("Store");
-  const { isDark } = useStoreTheme();
+  const { isDark } = useTheme();
 
   const [orders, setOrders]     = useState<PurchaseDto[]>([]);
   const [loading, setLoading]   = useState(true);
@@ -32,9 +32,9 @@ export default function OrdersPage() {
       return next;
     });
 
-  const mutedCls   = isDark ? "text-vhs-muted" : "text-[#8a8578]";
-  const cardCls    = isDark ? "bg-vhs-card border-royalblue/20" : "bg-white/80 border-[#c4b8a8]/40";
-  const dividerCls = isDark ? "divide-royalblue/20" : "divide-[#c4b8a8]/30";
+  const mutedCls   = isDark ? "text-vhs-muted" : "text-[#635b53]";
+  const cardCls    = isDark ? "bg-vhs-card border-royalblue/20" : "bg-white/80 border-[#a89888]/40";
+  const dividerCls = isDark ? "divide-royalblue/20" : "divide-[#a89888]/30";
 
   return (
     <div className="max-w-2xl mx-auto">

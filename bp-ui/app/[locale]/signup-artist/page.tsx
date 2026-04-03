@@ -7,7 +7,7 @@ import { ArrowLeft, Mic2, User } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import PageShell from "@/app/components/layout/PageShell";
 import { Navbar } from "@/app/components/layout/Navbar";
-import { useStoreTheme } from "@/app/context/StoreThemeContext";
+import { useTheme } from "@/lib/hooks";
 import { useAuth } from "@/app/components/auth/AuthProvider";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
 import { parseAxiosError } from "@/lib/axios";
@@ -19,7 +19,7 @@ function SignupArtistContent() {
   const tA                = useTranslations("Artist");
   const { locale }        = useParams<{ locale: string }>();
   const router            = useRouter();
-  const { isDark }        = useStoreTheme();
+  const { isDark }        = useTheme();
   const { login }         = useAuth();
 
   const [form, setForm] = useState({
@@ -70,11 +70,11 @@ function SignupArtistContent() {
   const inputCls = `w-full rounded-sm px-3 py-2.5 border outline-none text-[11px] tracking-wider font-vcr transition-all ${
     isDark
       ? "bg-darkblue/60 border-royalblue/30 text-vhs-white placeholder:text-vhs-muted focus:border-fear"
-      : "bg-[#ede7db]/80 border-[#c4b8a8]/40 text-[#2a2520] placeholder:text-[#8a8578] focus:border-[#c4234e]"
+      : "bg-[#ede7db]/80 border-[#a89888]/40 text-[#2a2520] placeholder:text-[#635b53] focus:border-[#c4234e]"
   }`;
-  const labelCls        = `block text-[11px] tracking-[2px] mb-1.5 ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`;
+  const labelCls        = `block text-[11px] tracking-[2px] mb-1.5 ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`;
   const sectionHeadCls  = `flex items-center gap-2 mb-4 text-xs font-bold tracking-[2px] ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`;
-  const dividerCls      = `my-6 border-t ${isDark ? "border-royalblue/20" : "border-[#c4b8a8]/30"}`;
+  const dividerCls      = `my-6 border-t ${isDark ? "border-royalblue/20" : "border-[#a89888]/30"}`;
 
   return (
     <>
@@ -82,13 +82,13 @@ function SignupArtistContent() {
       <div className="flex min-h-[calc(100vh-44px)] items-center justify-center px-4 py-10">
         <div
           className={`w-full max-w-lg rounded border p-6 sm:p-8 ${
-            isDark ? "bg-vhs-card/80 border-royalblue/20" : "border-[#c4b8a8]/30 bg-white/80"
+            isDark ? "bg-vhs-card/80 border-royalblue/20" : "border-[#a89888]/30 bg-white/80"
           }`}
         >
           <Link
             href={`/${locale}`}
             className={`mb-4 inline-flex items-center gap-1.5 text-xs tracking-[2px] no-underline ${
-              isDark ? "text-vhs-muted hover:text-fear" : "text-[#8a8578] hover:text-[#c4234e]"
+              isDark ? "text-vhs-muted hover:text-fear" : "text-[#635b53] hover:text-[#c4234e]"
             }`}
           >
             <ArrowLeft size={12} /> {tA("back")}
@@ -103,7 +103,7 @@ function SignupArtistContent() {
           </h1>
           <p
             className={`mb-6 text-center text-xs tracking-wider ${
-              isDark ? "text-vhs-muted" : "text-[#8a8578]"
+              isDark ? "text-vhs-muted" : "text-[#635b53]"
             }`}
           >
             {t("subtitle")}
@@ -216,7 +216,7 @@ function SignupArtistContent() {
 
             <p
               className={`text-center text-xs tracking-wider ${
-                isDark ? "text-vhs-muted" : "text-[#8a8578]"
+                isDark ? "text-vhs-muted" : "text-[#635b53]"
               }`}
             >
               {t("alreadyHaveAccount")}{" "}

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { ListPlus, Check, Loader } from "lucide-react";
 import { useAuth } from "@/app/components/auth/AuthProvider";
-import { useStoreTheme } from "@/app/context/StoreThemeContext";
+import { useTheme } from "@/lib/hooks";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
 import type { PlaylistDto } from "@/app/types/playlist";
 import type { PaginatedResponse } from "@/app/types/pagination";
@@ -17,7 +17,7 @@ interface Props {
 export function PlaylistPicker({ trackId }: Props) {
   const t              = useTranslations("Store");
   const { session }    = useAuth();
-  const { isDark }     = useStoreTheme();
+  const { isDark }     = useTheme();
 
   const [open, setOpen]           = useState(false);
   const [playlists, setPlaylists] = useState<PlaylistDto[]>([]);
@@ -85,11 +85,11 @@ export function PlaylistPicker({ trackId }: Props) {
 
   const btn = isDark
     ? "text-vhs-muted hover:text-vhs-cyan"
-    : "text-[#8a8578] hover:text-[#c4234e]";
+    : "text-[#635b53] hover:text-[#c4234e]";
 
   const dropdown = isDark
     ? "bg-vhs-surface border-royalblue/30 text-vhs-white"
-    : "bg-white border-[#c4b8a8]/40 text-[#2a2520]";
+    : "bg-white border-[#a89888]/40 text-[#2a2520]";
 
   const item = isDark
     ? "hover:bg-royalblue/20 text-vhs-light"
@@ -107,16 +107,16 @@ export function PlaylistPicker({ trackId }: Props) {
 
       {open && (
         <div className={`absolute right-0 bottom-full mb-1 z-50 min-w-[160px] rounded border shadow-lg text-xs tracking-wider ${dropdown}`}>
-          <div className={`px-3 py-1.5 text-[11px] font-bold border-b ${isDark ? "border-royalblue/20 text-vhs-muted" : "border-[#e8e0d4] text-[#8a8578]"}`}>
+          <div className={`px-3 py-1.5 text-[11px] font-bold border-b ${isDark ? "border-royalblue/20 text-vhs-muted" : "border-[#e8e0d4] text-[#635b53]"}`}>
             {t("selectPlaylist")}
           </div>
 
           {loading ? (
             <div className="flex justify-center py-3">
-              <Loader size={14} className={`animate-spin ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`} />
+              <Loader size={14} className={`animate-spin ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`} />
             </div>
           ) : playlists.length === 0 ? (
-            <div className={`px-3 py-2 text-[11px] ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
+            <div className={`px-3 py-2 text-[11px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
               {t("noPlaylists")}
             </div>
           ) : (

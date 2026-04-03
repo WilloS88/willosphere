@@ -6,7 +6,7 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { Disc3, Search } from "lucide-react";
 import { PageHeader } from "@/app/components/ui/elastic-slider/StoreUI";
-import { useStoreTheme } from "@/app/context/StoreThemeContext";
+import { useTheme } from "@/lib/hooks";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
 import type { AlbumDto } from "@/app/types/album";
 import type { PaginatedResponse } from "@/app/types/pagination";
@@ -16,7 +16,7 @@ const PAGE_SIZE = 20;
 
 export default function AlbumsPage() {
   const t              = useTranslations("Store");
-  const { isDark }     = useStoreTheme();
+  const { isDark }     = useTheme();
   const { locale }     = useParams<{ locale: string }>();
 
   const [albums, setAlbums]   = useState<AlbumDto[]>([]);
@@ -67,12 +67,12 @@ export default function AlbumsPage() {
       accent:      "text-vhs-cyan",
     }
     : {
-      card:        "border-[#c4b8a8]/30 bg-white/80 hover:border-[#c4b8a8]/60",
+      card:        "border-[#a89888]/30 bg-white/80 hover:border-[#a89888]/60",
       text:        "text-[#2a2520]",
-      muted:       "text-[#8a8578]",
+      muted:       "text-[#635b53]",
       badge:       "bg-[#f5f0e8] text-[#6b5f4e] border-[#d4c8b0]",
       activeBadge: "bg-[#c4234e] text-white border-[#c4234e]",
-      input:       "bg-white border-[#c4b8a8] text-[#2a2520] placeholder:text-[#8a8578]",
+      input:       "bg-white border-[#a89888] text-[#2a2520] placeholder:text-[#635b53]",
       accent:      "text-[#c4234e]",
     };
 
@@ -107,7 +107,7 @@ export default function AlbumsPage() {
                 href={`/${locale}/home/albums/${album.id}`}
                 className={`rounded border p-3 transition-all hover:-translate-y-px cursor-pointer ${base.card}`}
               >
-                <div className={`relative mb-3 aspect-square w-full overflow-hidden rounded border ${isDark ? "border-royalblue/20 bg-royalblue/10" : "border-[#c4b8a8]/40 bg-[#f5f0e8]"}`}>
+                <div className={`relative mb-3 aspect-square w-full overflow-hidden rounded border ${isDark ? "border-royalblue/20 bg-royalblue/10" : "border-[#a89888]/40 bg-[#f5f0e8]"}`}>
                   {album.coverImageUrl ? (
                     <img src={album.coverImageUrl} alt={album.title} className="h-full w-full object-cover" />
                   ) : (

@@ -7,7 +7,7 @@ import { ArrowLeft } from "lucide-react";
 import { useState, useRef, type FormEvent } from "react";
 import PageShell from "@/app/components/layout/PageShell";
 import { useAuth } from "@/app/components/auth/AuthProvider";
-import { useStoreTheme } from "@/app/context/StoreThemeContext";
+import { useTheme } from "@/lib/hooks";
 import { getRoleRedirect } from "@/lib/auth";
 
 function SignupContent() {
@@ -15,7 +15,7 @@ function SignupContent() {
   const { locale }  = useParams<{ locale: string }>();
   const router      = useRouter();
   const { signup }  = useAuth();
-  const { isDark }  = useStoreTheme();
+  const { isDark }  = useTheme();
 
   const [formState, setFormState] = useState({
     displayName:      "",
@@ -54,18 +54,18 @@ function SignupContent() {
   const inputCls = `w-full rounded-sm px-3 py-2.5 border outline-none text-sm tracking-wider font-vcr transition-all ${
     isDark
       ? "bg-darkblue/60 border-royalblue/30 text-vhs-white placeholder:text-vhs-muted focus:border-fear"
-      : "bg-[#ede7db]/80 border-[#c4b8a8]/40 text-[#2a2520] placeholder:text-[#8a8578] focus:border-[#c4234e]"
+      : "bg-[#ede7db]/80 border-[#a89888]/40 text-[#2a2520] placeholder:text-[#635b53] focus:border-[#c4234e]"
   }`;
-  const labelCls = `block text-[11px] tracking-[2px] mb-1.5 ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`;
+  const labelCls = `block text-[11px] tracking-[2px] mb-1.5 ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`;
 
   return (
     <div className="flex min-h-screen items-center justify-center px-4 py-8">
       <div
-        className={`w-full max-w-md rounded border p-6 sm:p-8 ${isDark ? "bg-vhs-card/80 border-royalblue/20" : "border-[#c4b8a8]/30 bg-white/80"}`}
+        className={`w-full max-w-md rounded border p-6 sm:p-8 ${isDark ? "bg-vhs-card/80 border-royalblue/20" : "border-[#a89888]/30 bg-white/80"}`}
       >
         <Link
           href={`/${locale}`}
-          className={`mb-4 inline-flex items-center gap-1.5 text-xs tracking-[2px] no-underline ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#8a8578] hover:text-[#c4234e]"}`}
+          className={`mb-4 inline-flex items-center gap-1.5 text-xs tracking-[2px] no-underline ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#635b53] hover:text-[#c4234e]"}`}
         >
           <ArrowLeft size={12} /> {t("home")}
         </Link>
@@ -148,21 +148,21 @@ function SignupContent() {
         </form>
 
         <div
-          className={`my-5 flex items-center gap-3 ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+          className={`my-5 flex items-center gap-3 ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
         >
           <div
-            className={`h-px flex-1 ${isDark ? "bg-royalblue/30" : "bg-[#c4b8a8]/30"}`}
+            className={`h-px flex-1 ${isDark ? "bg-royalblue/30" : "bg-[#a89888]/30"}`}
           />
           <span className="text-[11px] tracking-[2px]">
             {t("or").toUpperCase()}
           </span>
           <div
-            className={`h-px flex-1 ${isDark ? "bg-royalblue/30" : "bg-[#c4b8a8]/30"}`}
+            className={`h-px flex-1 ${isDark ? "bg-royalblue/30" : "bg-[#a89888]/30"}`}
           />
         </div>
 
         <div className="text-center text-sm tracking-wider">
-          <span className={isDark ? "text-vhs-muted" : "text-[#8a8578]"}>
+          <span className={isDark ? "text-vhs-muted" : "text-[#635b53]"}>
             {t("alreadyHaveAnAccount")}{" "}
           </span>
           <Link

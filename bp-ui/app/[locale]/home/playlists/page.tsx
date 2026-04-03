@@ -6,7 +6,7 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { ListMusic, Music, Plus, Search, Trash2, X } from "lucide-react";
 import { PageHeader } from "@/app/components/ui/elastic-slider/StoreUI";
-import { useStoreTheme } from "@/app/context/StoreThemeContext";
+import { useTheme } from "@/lib/hooks";
 import { useAuth } from "@/app/components/auth/AuthProvider";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
 import type { PlaylistDto } from "@/app/types/playlist";
@@ -19,7 +19,7 @@ type Tab = "public" | "mine";
 
 export default function PlaylistsPage() {
   const t              = useTranslations("Store");
-  const { isDark }     = useStoreTheme();
+  const { isDark }     = useTheme();
   const { locale }     = useParams<{ locale: string }>();
   const { session }    = useAuth();
   const userId         = session?.user?.id ?? null;
@@ -135,15 +135,15 @@ export default function PlaylistsPage() {
       modalInput:  "bg-vhs-card border-royalblue/30 text-vhs-white placeholder:text-vhs-muted",
     }
     : {
-      card:        "border-[#c4b8a8]/30 bg-white/80 hover:border-[#c4b8a8]/60",
+      card:        "border-[#a89888]/30 bg-white/80 hover:border-[#a89888]/60",
       text:        "text-[#2a2520]",
-      muted:       "text-[#8a8578]",
+      muted:       "text-[#635b53]",
       badge:       "bg-[#f5f0e8] text-[#6b5f4e] border-[#d4c8b0]",
       activeBadge: "bg-[#c4234e] text-white border-[#c4234e]",
-      input:       "bg-white border-[#c4b8a8] text-[#2a2520] placeholder:text-[#8a8578]",
+      input:       "bg-white border-[#a89888] text-[#2a2520] placeholder:text-[#635b53]",
       accent:      "text-[#c4234e]",
-      modal:       "bg-white border-[#c4b8a8]/40",
-      modalInput:  "bg-[#f5f0e8] border-[#c4b8a8]/60 text-[#2a2520] placeholder:text-[#8a8578]",
+      modal:       "bg-white border-[#a89888]/40",
+      modalInput:  "bg-[#f5f0e8] border-[#a89888]/60 text-[#2a2520] placeholder:text-[#635b53]",
     };
 
   return (
@@ -216,7 +216,7 @@ export default function PlaylistsPage() {
                   href={`/${locale}/home/playlists/${playlist.id}`}
                   className={`flex items-center gap-3 rounded border px-3 py-2.5 transition-all hover:-translate-y-px cursor-pointer ${base.card}`}
                 >
-                  <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded border ${isDark ? "border-royalblue/20 bg-royalblue/10" : "border-[#c4b8a8]/40 bg-[#f5f0e8]"}`}>
+                  <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded border ${isDark ? "border-royalblue/20 bg-royalblue/10" : "border-[#a89888]/40 bg-[#f5f0e8]"}`}>
                     <ListMusic size={16} className={base.muted} />
                   </div>
 
@@ -247,7 +247,7 @@ export default function PlaylistsPage() {
                   {isOwn && (
                     <button
                       onClick={(e) => void handleDelete(e, playlist)}
-                      className={`shrink-0 transition-colors ${isDark ? "text-vhs-muted hover:text-red-400" : "text-[#8a8578] hover:text-red-500"}`}
+                      className={`shrink-0 transition-colors ${isDark ? "text-vhs-muted hover:text-red-400" : "text-[#635b53] hover:text-red-500"}`}
                     >
                       <Trash2 size={13} />
                     </button>

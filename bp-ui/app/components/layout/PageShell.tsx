@@ -1,12 +1,12 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { StoreThemeProvider, useStoreTheme } from "@/app/context/StoreThemeContext";
+import { useTheme } from "@/lib/hooks";
 import Noise from "@/app/components/ui/react-bits/noise/Noise";
 import { VHSOverlay } from "@/app/components/effects/VHSOverlay";
 
-function Shell({ children }: { children: ReactNode }) {
-  const { isDark } = useStoreTheme();
+export default function PageShell({ children }: { children: ReactNode }) {
+  const { isDark } = useTheme();
 
   return (
     <div
@@ -21,13 +21,5 @@ function Shell({ children }: { children: ReactNode }) {
       <VHSOverlay />
       <div className="relative z-10">{children}</div>
     </div>
-  );
-}
-
-export default function PageShell({ children }: { children: ReactNode }) {
-  return (
-    <StoreThemeProvider>
-      <Shell>{children}</Shell>
-    </StoreThemeProvider>
   );
 }

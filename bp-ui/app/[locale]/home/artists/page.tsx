@@ -6,7 +6,7 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { Music } from "lucide-react";
 import { PageHeader } from "@/app/components/ui/elastic-slider/StoreUI";
-import { useStoreTheme } from "@/app/context/StoreThemeContext";
+import { useTheme } from "@/lib/hooks";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
 import type { ArtistDto } from "@/app/types/user";
 import type { PaginatedResponse } from "@/app/types/pagination";
@@ -16,7 +16,7 @@ const AVATAR_COLORS = ["#00e5ff", "#9b59ff", "#ed2c5e", "#f4e526", "#00ff88"];
 
 export default function ArtistsPage() {
   const t                           = useTranslations("Store");
-  const { isDark }                  = useStoreTheme();
+  const { isDark }                  = useTheme();
   const { locale }                  = useParams<{ locale: string }>();
   const [artists, setArtists]       = useState<ArtistDto[]>([]);
   const [loading, setLoading]       = useState(true);
@@ -40,7 +40,7 @@ export default function ArtistsPage() {
         </div>
       ) : artists.length === 0 ? (
         <div
-          className={`py-16 text-center text-[11px] tracking-widest ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+          className={`py-16 text-center text-[11px] tracking-widest ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
         >
           {t("noArtists")}
         </div>
@@ -55,7 +55,7 @@ export default function ArtistsPage() {
                 className={`animate-slide-up cursor-pointer rounded border p-4 text-center transition-all hover:-translate-y-0.5 block ${
                   isDark
                     ? "border-royalblue/20 bg-vhs-card hover:border-royalblue/40"
-                    : "border-[#c4b8a8]/30 bg-white/80 hover:border-[#c4b8a8]/50"
+                    : "border-[#a89888]/30 bg-white/80 hover:border-[#a89888]/50"
                 }`}
                 style={{ animationDelay: `${i * 0.05}s` }}
               >
@@ -86,7 +86,7 @@ export default function ArtistsPage() {
 
                 {artist.bio && (
                   <div
-                    className={`mb-2 line-clamp-2 text-[11px] tracking-wide ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+                    className={`mb-2 line-clamp-2 text-[11px] tracking-wide ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
                   >
                     {artist.bio}
                   </div>
@@ -94,7 +94,7 @@ export default function ArtistsPage() {
 
                 {artist.artistSince && (
                   <div
-                    className={`mt-1 text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+                    className={`mt-1 text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
                   >
                     {t("since")} {new Date(artist.artistSince).getFullYear()}
                   </div>

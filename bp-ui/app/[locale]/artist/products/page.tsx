@@ -9,7 +9,7 @@ import PageShell from "@/app/components/layout/PageShell";
 import { Navbar } from "@/app/components/layout/Navbar";
 import { Footer } from "@/app/components/layout/Footer";
 import { SectionLabel } from "@/app/components/ui/elastic-slider/StoreUI";
-import { useStoreTheme } from "@/app/context/StoreThemeContext";
+import { useTheme } from "@/lib/hooks";
 import { useAuth } from "@/app/components/auth/AuthProvider";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
 import type { ProductDto } from "@/app/types/product";
@@ -19,7 +19,7 @@ import api from "@/lib/axios";
 function ProductsContent() {
   const t           = useTranslations("Artist");
   const { locale }  = useParams<{ locale: string }>();
-  const { isDark }  = useStoreTheme();
+  const { isDark }  = useTheme();
   const { session } = useAuth();
   const userId      = session?.user?.id ?? null;
 
@@ -52,10 +52,10 @@ function ProductsContent() {
     }
   };
 
-  const mutedCls = isDark ? "text-vhs-muted" : "text-[#8a8578]";
+  const mutedCls = isDark ? "text-vhs-muted" : "text-[#635b53]";
   const cardCls  = isDark
     ? "bg-vhs-card/60 border-royalblue/20"
-    : "border-[#c4b8a8]/30 bg-white/70";
+    : "border-[#a89888]/30 bg-white/70";
 
   return (
     <>
@@ -102,7 +102,7 @@ function ProductsContent() {
               className={`mt-4 inline-flex items-center gap-2 rounded-sm border px-4 py-2 text-xs font-bold tracking-widest no-underline ${
                 isDark
                   ? "border-royalblue/30 text-vhs-light hover:border-fear/40"
-                  : "border-[#c4b8a8] text-[#6b6560]"
+                  : "border-[#a89888] text-[#524a44]"
               }`}
             >
               <Plus size={11} /> {t("createProduct")}
@@ -170,7 +170,7 @@ function ProductsContent() {
                     className={`flex h-7 w-7 items-center justify-center rounded-sm border transition-opacity hover:opacity-70 ${
                       isDark
                         ? "border-royalblue/30 text-vhs-muted"
-                        : "border-[#c4b8a8]/40 text-[#8a8578]"
+                        : "border-[#a89888]/40 text-[#635b53]"
                     }`}
                   >
                     <Pencil size={12} />
@@ -180,7 +180,7 @@ function ProductsContent() {
                     className={`hover:border-fear/40 hover:text-fear flex h-7 w-7 cursor-pointer items-center justify-center rounded-sm border transition-all ${
                       isDark
                         ? "border-royalblue/30 text-vhs-muted"
-                        : "border-[#c4b8a8]/40 text-[#8a8578]"
+                        : "border-[#a89888]/40 text-[#635b53]"
                     }`}
                   >
                     <Trash2 size={12} />

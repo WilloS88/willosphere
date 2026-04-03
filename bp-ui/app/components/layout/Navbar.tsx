@@ -16,7 +16,7 @@ import {
   Mic2,
 } from "lucide-react";
 import { useAuth } from "@/app/components/auth/AuthProvider";
-import { useStoreTheme } from "@/app/context/StoreThemeContext";
+import { useTheme } from "@/lib/hooks";
 import LocaleSwitcher from "@/app/components/locale/LocaleSwitcher";
 import { hasRole } from "@/lib/auth";
 import { GlitchText } from "@/app/components/ui/elastic-slider/StoreUI";
@@ -26,7 +26,7 @@ export function Navbar() {
   const t                   = useTranslations("Navbar");
   const { locale }          = useParams<{ locale: string }>();
   const { session, logout } = useAuth();
-  const { isDark, toggle }  = useStoreTheme();
+  const { isDark, toggle }  = useTheme();
   const isAdmin             = hasRole(session?.user, "admin");
   const isArtist            = hasRole(session?.user, "artist");
   const cartCount           = useAppSelector((s) => s.cart.items.reduce((n, i) => n + i.quantity, 0));
@@ -34,7 +34,7 @@ export function Navbar() {
   const linkClass = `text-xs tracking-wider px-3 py-1.5 rounded-sm transition-all no-underline border ${
     isDark
       ? "border-royalblue/30 text-vhs-light hover:text-fearyellow hover:border-fear/40 hover:bg-fear/10"
-      : "border-[#c4b8a8]/40 text-[#6b6560] hover:text-[#c4234e] hover:border-[#c4234e]/30 hover:bg-[#c4234e]/5"
+      : "border-[#a89888]/40 text-[#524a44] hover:text-[#c4234e] hover:border-[#c4234e]/30 hover:bg-[#c4234e]/5"
   }`;
 
   return (
@@ -42,7 +42,7 @@ export function Navbar() {
       className={`relative z-50 flex items-center justify-between border-b px-4 py-3 sm:px-6 ${
         isDark
           ? "bg-darkblue border-royalblue/40"
-          : "border-[#c4b8a8]/40 bg-[#ede7db]"
+          : "border-[#a89888]/40 bg-[#ede7db]"
       }`}
     >
       {/* Logo */}
@@ -66,7 +66,7 @@ export function Navbar() {
           className={`mx-6 hidden h-[30px] max-w-[350px] flex-1 items-center rounded-sm border px-3 transition-all md:flex ${
             isDark
               ? "bg-royalblue/20 border-royalblue/40"
-              : "border-[#c4b8a8] bg-[#ede7db]"
+              : "border-[#a89888] bg-[#ede7db]"
           }`}
         >
           <input
@@ -75,12 +75,12 @@ export function Navbar() {
             className={`font-vcr w-full border-none bg-transparent text-xs tracking-wider outline-none ${
               isDark
                 ? "text-vhs-white placeholder:text-vhs-muted"
-                : "text-[#2a2520] placeholder:text-[#8a8578]"
+                : "text-[#2a2520] placeholder:text-[#635b53]"
             }`}
           />
           <Search
             size={14}
-            className={isDark ? "text-vhs-muted" : "text-[#8a8578]"}
+            className={isDark ? "text-vhs-muted" : "text-[#635b53]"}
           />
         </div>
       }
@@ -162,7 +162,7 @@ export function Navbar() {
           className={`flex h-7 w-7 cursor-pointer items-center justify-center rounded-sm border text-sm transition-all hover:scale-105 ${
             isDark
               ? "border-royalblue/40 bg-royalblue/20 text-vhs-muted hover:text-fearyellow"
-              : "border-[#c4b8a8] bg-white/60 text-[#8a8578] hover:text-[#c4234e]"
+              : "border-[#a89888] bg-white/60 text-[#635b53] hover:text-[#c4234e]"
           }`}
         >
           {isDark ? <Sun size={16} /> : <Moon size={16} />}

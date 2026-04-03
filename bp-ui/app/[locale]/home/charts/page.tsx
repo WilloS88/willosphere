@@ -4,13 +4,13 @@ import { useTranslations } from "next-intl";
 import { Play, Heart, Music, Flame } from "lucide-react";
 import { ALBUMS } from "@/lib/store-data";
 import { PageHeader, Badge } from "@/app/components/ui/elastic-slider/StoreUI";
-import { useStoreTheme } from "@/app/context/StoreThemeContext";
+import { useTheme } from "@/lib/hooks";
 import TiltedCard from "@/app/components/ui/react-bits/TiltedCard";
 import { cn } from "@/lib/utils";
 
 export default function ChartsPage() {
   const t           = useTranslations("Store");
-  const { isDark }  = useStoreTheme();
+  const { isDark }  = useTheme();
   const sorted      = [...ALBUMS].sort((a, b) => b.price - a.price);
 
   return (
@@ -52,12 +52,12 @@ export default function ChartsPage() {
             {sorted[0].title}
           </h2>
           <p
-            className={`mt-1 text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+            className={`mt-1 text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
           >
             {sorted[0].artist} // {sorted[0].year}
           </p>
           <div
-            className={`mt-3 flex gap-2 text-[11px] tracking-wider ${isDark ? "text-vhs-light" : "text-[#6b6560]"}`}
+            className={`mt-3 flex gap-2 text-[11px] tracking-wider ${isDark ? "text-vhs-light" : "text-[#524a44]"}`}
           >
             <span className="flex items-center gap-1"><Play size={9} />12,847 {t("plays")}</span>
             <span>•</span>
@@ -75,7 +75,7 @@ export default function ChartsPage() {
               "animate-slide-up flex items-center gap-3 rounded border border-transparent p-2.5 transition-all sm:gap-4 sm:p-3",
               isDark
                 ? "hover:bg-royalblue/10 hover:border-royalblue/20"
-                : "hover:border-[#c4b8a8]/30 hover:bg-[#c4234e]/5",
+                : "hover:border-[#a89888]/30 hover:bg-[#c4234e]/5",
             )}
             style={{ animationDelay: `${i * 0.05}s` }}
           >
@@ -83,7 +83,7 @@ export default function ChartsPage() {
               {String(i + 1).padStart(2, "0")}
             </span>
             <div
-              className={`flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded sm:h-12 sm:w-12 ${isDark ? "bg-royalblue/30" : "bg-[#c4b8a8]/20"}`}
+              className={`flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded sm:h-12 sm:w-12 ${isDark ? "bg-royalblue/30" : "bg-[#a89888]/20"}`}
               style={{ color: album.color }}
             >
               <Music size={18} />
@@ -95,13 +95,13 @@ export default function ChartsPage() {
                 {album.title}
               </div>
               <div
-                className={`text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+                className={`text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
               >
                 {album.artist} // {album.year}
               </div>
             </div>
             <div
-              className={`hidden text-xs tracking-wider sm:block ${isDark ? "text-vhs-light" : "text-[#6b6560]"}`}
+              className={`hidden text-xs tracking-wider sm:block ${isDark ? "text-vhs-light" : "text-[#524a44]"}`}
             >
               {Math.floor(1000 + i * 1200)} {t("plays")}
             </div>

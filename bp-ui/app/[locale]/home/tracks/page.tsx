@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { Music, Clock, Search, Play } from "lucide-react";
 import { PageHeader } from "@/app/components/ui/elastic-slider/StoreUI";
-import { useStoreTheme } from "@/app/context/StoreThemeContext";
+import { useTheme } from "@/lib/hooks";
 import { usePlayer } from "@/app/context/PlayerContext";
 import { PlaylistPicker } from "@/app/components/home/PlaylistPicker";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
@@ -22,7 +22,7 @@ function formatDuration(seconds: number): string {
 
 export default function TracksPage() {
   const t              = useTranslations("Store");
-  const { isDark }     = useStoreTheme();
+  const { isDark }     = useTheme();
   const { playTrack, track: currentTrack, isPlaying } = usePlayer();
 
   const [tracks, setTracks]     = useState<TrackDto[]>([]);
@@ -92,12 +92,12 @@ export default function TracksPage() {
       input: "bg-vhs-card border-royalblue/30 text-vhs-white placeholder:text-vhs-muted"
     }
     : {
-      card: "border-[#c4b8a8]/30 bg-white/80 hover:border-[#c4b8a8]/60",
+      card: "border-[#a89888]/30 bg-white/80 hover:border-[#a89888]/60",
       text: "text-[#2a2520]",
-      muted: "text-[#8a8578]",
+      muted: "text-[#635b53]",
       badge: "bg-[#f5f0e8] text-[#6b5f4e] border-[#d4c8b0]",
       activeBadge: "bg-[#c4234e] text-white border-[#c4234e]",
-      input: "bg-white border-[#c4b8a8] text-[#2a2520] placeholder:text-[#8a8578]"
+      input: "bg-white border-[#a89888] text-[#2a2520] placeholder:text-[#635b53]"
     };
 
   return (
@@ -159,7 +159,7 @@ export default function TracksPage() {
               >
                 {/* Cover / play indicator */}
                 <div
-                  className={`relative flex h-10 w-10 shrink-0 items-center justify-center rounded border overflow-hidden ${isDark ? "border-royalblue/20 bg-royalblue/10" : "border-[#c4b8a8]/40 bg-[#f5f0e8]"}`}
+                  className={`relative flex h-10 w-10 shrink-0 items-center justify-center rounded border overflow-hidden ${isDark ? "border-royalblue/20 bg-royalblue/10" : "border-[#a89888]/40 bg-[#f5f0e8]"}`}
                 >
                   {track.coverImageUrl ? (
                     <img src={track.coverImageUrl} alt={track.title} className="h-full w-full object-cover" />

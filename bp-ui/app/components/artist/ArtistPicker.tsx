@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Loader, Lock, Search, X } from "lucide-react";
-import { useStoreTheme } from "@/app/context/StoreThemeContext";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
 import type { ArtistDto } from "@/app/types/user";
 import type { PaginatedResponse } from "@/app/types/pagination";
@@ -84,7 +83,7 @@ export function ArtistPicker({ value, onChange, featRole, isDark }: Props) {
 
   const rowCls = `flex items-center justify-between gap-2 rounded border px-3 py-2 text-[11px] ${
     isDark ? "border-royalblue/20 bg-royalblue/10" 
-            : "border-[#c4b8a8]/30 bg-[#ede7db]/40"
+            : "border-[#a89888]/30 bg-[#ede7db]/40"
   }`;
 
   return (
@@ -99,19 +98,19 @@ export function ArtistPicker({ value, onChange, featRole, isDark }: Props) {
                 className={`rounded border px-1.5 py-0.5 text-[11px] tracking-widest ${
                   a.role === "primary"
                     ? isDark ? "border-fear/30 text-fear" : "border-[#c4234e]/30 text-[#c4234e]"
-                    : isDark ? "border-royalblue/30 text-vhs-muted" : "border-[#c4b8a8] text-[#8a8578]"
+                    : isDark ? "border-royalblue/30 text-vhs-muted" : "border-[#a89888] text-[#635b53]"
                 }`}
               >
                 {a.role === "primary" ? t("primaryArtist") : featLabel}
               </span>
               {a.role === "primary"
                 ? (
-                <Lock size={11} className={isDark ? "text-vhs-muted" : "text-[#8a8578]"} />
+                <Lock size={11} className={isDark ? "text-vhs-muted" : "text-[#635b53]"} />
               ) : (
                 <button
                   type="button"
                   onClick={() => remove(a.artistId)}
-                  className={isDark ? "text-vhs-muted hover:text-red-400" : "text-[#8a8578] hover:text-red-500"}
+                  className={isDark ? "text-vhs-muted hover:text-red-400" : "text-[#635b53] hover:text-red-500"}
                 >
                   <X size={13} />
                 </button>
@@ -126,12 +125,12 @@ export function ArtistPicker({ value, onChange, featRole, isDark }: Props) {
       <div ref={containerRef} className="relative">
         <div
           className={`flex items-center gap-2 rounded border px-3 py-2 ${
-            isDark ? "bg-darkblue/60 border-royalblue/30" : "bg-[#ede7db]/80 border-[#c4b8a8]/40"
+            isDark ? "bg-darkblue/60 border-royalblue/30" : "bg-[#ede7db]/80 border-[#a89888]/40"
           }`}
         >
           {searching
-            ? <Loader size={13} className={`animate-spin shrink-0 ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`} />
-            : <Search size={13} className={isDark ? "text-vhs-muted" : "text-[#8a8578]"} />
+            ? <Loader size={13} className={`animate-spin shrink-0 ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`} />
+            : <Search size={13} className={isDark ? "text-vhs-muted" : "text-[#635b53]"} />
           }
           <input
             type="text"
@@ -145,7 +144,7 @@ export function ArtistPicker({ value, onChange, featRole, isDark }: Props) {
         {open && results.length > 0 && (
           <ul
             className={`absolute left-0 right-0 top-full z-50 mt-1 max-h-48 overflow-y-auto rounded border shadow-lg ${
-              isDark ? "bg-vhs-surface border-royalblue/30" : "bg-white border-[#c4b8a8]/40"
+              isDark ? "bg-vhs-surface border-royalblue/30" : "bg-white border-[#a89888]/40"
             }`}
           >
             {results.map((artist) => (
@@ -174,7 +173,7 @@ export function ArtistPicker({ value, onChange, featRole, isDark }: Props) {
         {open && !searching && query.trim() && results.length === 0 && (
           <div
             className={`absolute left-0 right-0 top-full z-50 mt-1 rounded border px-3 py-2.5 text-xs shadow-lg ${
-              isDark ? "bg-vhs-surface border-royalblue/30 text-vhs-muted" : "bg-white border-[#c4b8a8]/40 text-[#8a8578]"
+              isDark ? "bg-vhs-surface border-royalblue/30 text-vhs-muted" : "bg-white border-[#a89888]/40 text-[#635b53]"
             }`}
           >
             {t("noArtistsFound")}

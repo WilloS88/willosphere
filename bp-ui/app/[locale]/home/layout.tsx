@@ -4,10 +4,7 @@ import React, { useEffect, useMemo } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { PlayerProvider } from "@/app/context/PlayerContext";
 import { ToastProvider } from "@/app/context/ToastContext";
-import {
-  StoreThemeProvider,
-  useStoreTheme,
-} from "@/app/context/StoreThemeContext";
+import { useTheme } from "@/lib/hooks";
 import { VHSOverlay } from "@/app/components/effects/VHSOverlay";
 import { HomeTopBar } from "@/app/components/layout/HomeTopBar";
 import { Sidebar } from "@/app/components/layout/Sidebar";
@@ -23,7 +20,7 @@ import { createElement } from "react";
 import { Mic2 } from "lucide-react";
 
 function HomeShell({ children }: { children: React.ReactNode }) {
-  const { theme, isDark } = useStoreTheme();
+  const { theme, isDark } = useTheme();
   const { session }       = useAuth();
   const navItems          = useMemo(() => {
     if (!hasRole(session?.user, "artist")) return HOME_NAV_ITEMS;
@@ -92,14 +89,12 @@ export default function HomeLayout({
   children: React.ReactNode;
 }) {
   return (
-    <StoreThemeProvider>
-      <ToastProvider>
+    <ToastProvider>
       <PlayerProvider>
         <HomeGuard>
           <HomeShell>{children}</HomeShell>
         </HomeGuard>
       </PlayerProvider>
-      </ToastProvider>
-    </StoreThemeProvider>
+    </ToastProvider>
   );
 }

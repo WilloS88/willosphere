@@ -7,7 +7,7 @@ import { ArrowLeft, ShieldCheck } from "lucide-react";
 import React, { useState, useRef, type FormEvent } from "react";
 import PageShell from "@/app/components/layout/PageShell";
 import { useAuth } from "@/app/components/auth/AuthProvider";
-import { useStoreTheme } from "@/app/context/StoreThemeContext";
+import { useTheme } from "@/lib/hooks";
 import { getRoleRedirect } from "@/lib/auth";
 
 function MfaCodeInput({
@@ -70,7 +70,7 @@ function MfaCodeInput({
           className={`font-vcr h-12 w-10 rounded-sm border text-center text-lg font-bold tracking-widest transition-all outline-none ${
             isDark
               ? "bg-darkblue/60 border-royalblue/30 text-vhs-white focus:border-fear"
-              : "border-[#c4b8a8]/40 bg-[#ede7db]/80 text-[#2a2520] focus:border-[#c4234e]"
+              : "border-[#a89888]/40 bg-[#ede7db]/80 text-[#2a2520] focus:border-[#c4234e]"
           }`}
         />
       ))}
@@ -83,7 +83,7 @@ function LoginContent() {
   const { locale }              = useParams<{ locale: string }>();
   const router                  = useRouter();
   const { login, verifyLogin }  = useAuth();
-  const { isDark }              = useStoreTheme();
+  const { isDark }              = useTheme();
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -142,18 +142,18 @@ function LoginContent() {
   const inputCls = `w-full rounded-sm px-3 py-2.5 border outline-none text-sm tracking-wider font-vcr transition-all ${
     isDark
       ? "bg-darkblue/60 border-royalblue/30 text-vhs-white placeholder:text-vhs-muted focus:border-fear"
-      : "bg-[#ede7db]/80 border-[#c4b8a8]/40 text-[#2a2520] placeholder:text-[#8a8578] focus:border-[#c4234e]"
+      : "bg-[#ede7db]/80 border-[#a89888]/40 text-[#2a2520] placeholder:text-[#635b53] focus:border-[#c4234e]"
   }`;
 
   if(mfaChallengeId) {
     return (
       <div className="flex min-h-screen items-center justify-center px-4">
         <div
-          className={`w-full max-w-md rounded border p-6 sm:p-8 ${isDark ? "bg-vhs-card/80 border-royalblue/20" : "border-[#c4b8a8]/30 bg-white/80"}`}
+          className={`w-full max-w-md rounded border p-6 sm:p-8 ${isDark ? "bg-vhs-card/80 border-royalblue/20" : "border-[#a89888]/30 bg-white/80"}`}
         >
           <button
             onClick={handleBackToLogin}
-            className={`mb-4 inline-flex items-center gap-1.5 text-xs tracking-[2px] cursor-pointer bg-transparent border-none ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#8a8578] hover:text-[#c4234e]"}`}
+            className={`mb-4 inline-flex items-center gap-1.5 text-xs tracking-[2px] cursor-pointer bg-transparent border-none ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#635b53] hover:text-[#c4234e]"}`}
           >
             <ArrowLeft size={12} /> {t("home")}
           </button>
@@ -173,7 +173,7 @@ function LoginContent() {
               {t("mfaTitle")}
             </h1>
             <p
-              className={`mt-2 text-center text-xs tracking-[1.5px] ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+              className={`mt-2 text-center text-xs tracking-[1.5px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
             >
               {t("mfaDescription")}
             </p>
@@ -197,7 +197,7 @@ function LoginContent() {
           </form>
 
           <p
-            className={`mt-4 text-center text-[9px] tracking-[1.5px] ${isDark ? "text-vhs-muted/60" : "text-[#8a8578]/60"}`}
+            className={`mt-4 text-center text-[9px] tracking-[1.5px] ${isDark ? "text-vhs-muted/60" : "text-[#635b53]/60"}`}
           >
             {t("mfaExpiry")}
           </p>
@@ -209,11 +209,11 @@ function LoginContent() {
   return (
     <div className="flex min-h-screen items-center justify-center px-4">
       <div
-        className={`w-full max-w-md rounded border p-6 sm:p-8 ${isDark ? "bg-vhs-card/80 border-royalblue/20" : "border-[#c4b8a8]/30 bg-white/80"}`}
+        className={`w-full max-w-md rounded border p-6 sm:p-8 ${isDark ? "bg-vhs-card/80 border-royalblue/20" : "border-[#a89888]/30 bg-white/80"}`}
       >
         <Link
           href={`/${locale}`}
-          className={`mb-4 inline-flex items-center gap-1.5 text-xs tracking-[2px] no-underline ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#8a8578] hover:text-[#c4234e]"}`}
+          className={`mb-4 inline-flex items-center gap-1.5 text-xs tracking-[2px] no-underline ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#635b53] hover:text-[#c4234e]"}`}
         >
           <ArrowLeft size={12} /> {t("home")}
         </Link>
@@ -226,7 +226,7 @@ function LoginContent() {
         <form className="space-y-4" onSubmit={handleLoginSubmit}>
           <div>
             <label
-              className={`mb-1.5 block text-xs tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+              className={`mb-1.5 block text-xs tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
             >
               {t("email")}
             </label>
@@ -244,7 +244,7 @@ function LoginContent() {
           </div>
           <div>
             <label
-              className={`mb-1.5 block text-xs tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+              className={`mb-1.5 block text-xs tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
             >
               {t("password")}
             </label>
@@ -276,21 +276,21 @@ function LoginContent() {
         </form>
 
         <div
-          className={`my-5 flex items-center gap-3 ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+          className={`my-5 flex items-center gap-3 ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
         >
           <div
-            className={`h-px flex-1 ${isDark ? "bg-royalblue/30" : "bg-[#c4b8a8]/30"}`}
+            className={`h-px flex-1 ${isDark ? "bg-royalblue/30" : "bg-[#a89888]/30"}`}
           />
           <span className="text-xs tracking-[2px]">
             {t("or").toUpperCase()}
           </span>
           <div
-            className={`h-px flex-1 ${isDark ? "bg-royalblue/30" : "bg-[#c4b8a8]/30"}`}
+            className={`h-px flex-1 ${isDark ? "bg-royalblue/30" : "bg-[#a89888]/30"}`}
           />
         </div>
 
         <div className="text-center text-xs tracking-wider">
-          <span className={isDark ? "text-vhs-muted" : "text-[#8a8578]"}>
+          <span className={isDark ? "text-vhs-muted" : "text-[#635b53]"}>
             {t("dontHaveAnAccount")}{" "}
           </span>
           <Link

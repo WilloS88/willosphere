@@ -4,7 +4,7 @@ import { useRef, type ReactNode, type ButtonHTMLAttributes } from "react";
 import { Heart } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
-import { useStoreTheme } from "@/app/context/StoreThemeContext";
+import { useTheme } from "@/lib/hooks";
 
 /* ── GlitchText ── */
 export function GlitchText({ children, className, as: Tag = "span" }: {
@@ -42,14 +42,14 @@ export function PriceBadge({ price }: { price: number }) {
 type BtnVariant = "primary" | "success" | "yellow" | "ghost";
 
 export function VHSButton({ variant = "primary", children, className, ...props }: ButtonHTMLAttributes<HTMLButtonElement> & { variant?: BtnVariant }) {
-  const { isDark } = useStoreTheme();
+  const { isDark } = useTheme();
 
   const btnVariants: Record<BtnVariant, string> = {
     primary: "flex-1 py-[7px] bg-gradient-to-r from-fear to-fear/80 text-white border-none",
     success: "flex-1 py-[7px] bg-gradient-to-r from-vhs-green/60 to-vhs-green/40 text-darkblue border-none",
     yellow:  "flex-1 py-[7px] bg-gradient-to-r from-fearyellow to-fearyellow/80 text-darkblue border-none",
     ghost:   cn("w-[30px] h-[30px] flex-none border",
-      isDark ? "bg-royalblue/25 border-royalblue/40 text-vhs-muted" : "bg-[#c4b8a8]/20 border-[#c4b8a8]/40 text-[#8a8578]"
+      isDark ? "bg-royalblue/25 border-royalblue/40 text-vhs-muted" : "bg-[#a89888]/20 border-[#a89888]/40 text-[#635b53]"
     ),
   };
 
@@ -81,7 +81,7 @@ export function ProgressSlider({ value, max, onChange, showThumb = true, height 
   showThumb?: boolean; height?: "sm" | "md"; colorClass?: string; className?: string;
 }) {
   const ref         = useRef<HTMLDivElement>(null);
-  const { isDark }  = useStoreTheme();
+  const { isDark }  = useTheme();
   const pct         = max > 0 ? (value / max) * 100 : 0;
 
   const handleClick = (e: React.MouseEvent) => {
@@ -95,7 +95,7 @@ export function ProgressSlider({ value, max, onChange, showThumb = true, height 
   const h = height === "sm" ? "h-[3px]" : "h-1";
 
   return (
-    <div ref={ref} onClick={handleClick} className={cn("flex-1 rounded-full cursor-pointer relative", isDark ? "bg-royalblue/40" : "bg-[#c4b8a8]/30", h, className)}>
+    <div ref={ref} onClick={handleClick} className={cn("flex-1 rounded-full cursor-pointer relative", isDark ? "bg-royalblue/40" : "bg-[#a89888]/30", h, className)}>
       <div className={cn("h-full rounded-full transition-[width] duration-300 linear shadow-[0_0_8px_rgba(237,44,94,0.25)]", colorClass)} style={{ width: `${pct}%` }} />
       {showThumb && (
         <div className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-vhs-white border-2 border-fear shadow-[0_0_6px_var(--color-fear)] transition-[left] duration-300" style={{ left: `${pct}%` }} />
@@ -112,14 +112,14 @@ export function SectionLabel({ children, className }: { children: ReactNode; cla
 /* ── PageHeader (with theme) ── */
 export function PageHeader({ title, count }: { title: string; count: number }) {
   const t           = useTranslations("Store");
-  const { isDark }  = useStoreTheme();
+  const { isDark }  = useTheme();
 
   return (
     <div className="mb-5">
       <div className={`inline-block px-5 py-1.5 vhs-skew-clip mb-2 ${isDark ? "bg-gradient-to-r from-fear to-fear/80" : "bg-gradient-to-r from-[#c4234e] to-[#a01d40]"}`}>
         <span className="font-bold text-xl sm:text-2xl tracking-[3px] italic text-white">{title}</span>
       </div>
-      <div className={`text-xs tracking-[2px] mt-1.5 ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
+      <div className={`text-xs tracking-[2px] mt-1.5 ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
         {t("showingRecords", { count })}
       </div>
     </div>

@@ -4,11 +4,11 @@ import { useTranslations } from "next-intl";
 import { ALBUMS } from "@/lib/store-data";
 import { PageHeader, CardGrid, Badge } from "@/app/components/ui/elastic-slider/StoreUI";
 import { AlbumCard } from "@/app/components/cards/Cards";
-import { useStoreTheme } from "@/app/context/StoreThemeContext";
+import { useTheme } from "@/lib/hooks";
 
 export default function NewDropsPage() {
   const t           = useTranslations("Store");
-  const { isDark }  = useStoreTheme();
+  const { isDark }  = useTheme();
   const newest      = [...ALBUMS].reverse();
 
   return (
@@ -29,7 +29,7 @@ export default function NewDropsPage() {
             {t("freshUploads")}
           </div>
           <div
-            className={`mt-0.5 text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+            className={`mt-0.5 text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
           >
             {t("newRecordsAdded", { count: newest.length })}
           </div>

@@ -8,7 +8,7 @@ import { ImageCropModal } from "@/app/components/ui/ImageCropModal";
 import Link from "next/link";
 import PageShell from "@/app/components/layout/PageShell";
 import { Navbar } from "@/app/components/layout/Navbar";
-import { useStoreTheme } from "@/app/context/StoreThemeContext";
+import { useTheme } from "@/lib/hooks";
 import { useAuth } from "@/app/components/auth/AuthProvider";
 import { SectionLabel } from "@/app/components/ui/elastic-slider/StoreUI";
 import { ArtistPicker, type ArtistInput } from "@/app/components/artist/ArtistPicker";
@@ -21,7 +21,7 @@ import api from "@/lib/axios";
 function NewAlbumContent() {
   const t              = useTranslations("Artist");
   const { locale }     = useParams<{ locale: string }>();
-  const { isDark }     = useStoreTheme();
+  const { isDark }     = useTheme();
   const { session }    = useAuth();
   const router         = useRouter();
 
@@ -125,9 +125,9 @@ function NewAlbumContent() {
   const inputCls = `w-full rounded-sm border px-3 py-2.5 outline-none text-[11px] tracking-wider transition-all ${
     isDark
       ? "bg-darkblue/60 border-royalblue/30 text-vhs-white placeholder:text-vhs-muted focus:border-fear"
-      : "bg-[#ede7db]/80 border-[#c4b8a8]/40 text-[#2a2520] placeholder:text-[#8a8578] focus:border-[#c4234e]"
+      : "bg-[#ede7db]/80 border-[#a89888]/40 text-[#2a2520] placeholder:text-[#635b53] focus:border-[#c4234e]"
   }`;
-  const labelCls = `block text-[11px] tracking-[2px] mb-1.5 ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`;
+  const labelCls = `block text-[11px] tracking-[2px] mb-1.5 ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`;
 
   return (
     <>
@@ -144,7 +144,7 @@ function NewAlbumContent() {
         <Link
           href={`/${locale}/artist`}
           className={`mb-6 inline-flex items-center gap-1.5 text-xs tracking-[2px] no-underline ${
-            isDark ? "text-vhs-muted hover:text-fear" : "text-[#8a8578] hover:text-[#c4234e]"
+            isDark ? "text-vhs-muted hover:text-fear" : "text-[#635b53] hover:text-[#c4234e]"
           }`}
         >
           <ArrowLeft size={12} /> {t("backToDashboard")}
@@ -152,7 +152,7 @@ function NewAlbumContent() {
 
         <div
           className={`rounded border p-6 sm:p-8 ${
-            isDark ? "bg-vhs-card/80 border-royalblue/20" : "border-[#c4b8a8]/30 bg-white/80"
+            isDark ? "bg-vhs-card/80 border-royalblue/20" : "border-[#a89888]/30 bg-white/80"
           }`}
         >
           <SectionLabel className="mb-6">{t("newAlbum")}</SectionLabel>
@@ -213,7 +213,7 @@ function NewAlbumContent() {
                 className={`w-full rounded-sm border px-3 py-2.5 text-[11px] tracking-wider text-left transition-all flex items-center gap-2 ${
                   isDark
                     ? "bg-darkblue/60 border-royalblue/30 text-vhs-muted hover:border-fear/50 disabled:opacity-50"
-                    : "bg-[#ede7db]/80 border-[#c4b8a8]/40 text-[#8a8578] hover:border-[#c4234e]/50 disabled:opacity-50"
+                    : "bg-[#ede7db]/80 border-[#a89888]/40 text-[#635b53] hover:border-[#c4234e]/50 disabled:opacity-50"
                 }`}
               >
                 {coverUploading ? (
@@ -250,7 +250,7 @@ function NewAlbumContent() {
                         className={`flex cursor-pointer items-center gap-3 rounded border px-3 py-2 transition-colors ${
                           selected
                             ? isDark ? "border-fear/40 bg-fear/10" : "border-[#c4234e]/30 bg-[#c4234e]/5"
-                            : isDark ? "border-royalblue/20 hover:border-royalblue/40" : "border-[#c4b8a8]/30 hover:border-[#c4b8a8]/60"
+                            : isDark ? "border-royalblue/20 hover:border-royalblue/40" : "border-[#a89888]/30 hover:border-[#a89888]/60"
                         }`}
                       >
                         <input
@@ -262,7 +262,7 @@ function NewAlbumContent() {
                         <span className={`text-[11px] tracking-wide ${isDark ? "text-vhs-light" : "text-[#4a4540]"}`}>
                           {track.title}
                         </span>
-                        <span className={`ml-auto text-[11px] ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}>
+                        <span className={`ml-auto text-[11px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
                           {track.artists.map((a) => a.displayName).join(", ")}
                         </span>
                       </label>
@@ -284,7 +284,7 @@ function NewAlbumContent() {
                 className={`flex-1 rounded-sm border py-2.5 text-center text-[11px] font-bold tracking-[2px] transition-all ${
                   isDark
                     ? "border-royalblue/30 text-vhs-muted hover:text-vhs-white"
-                    : "border-[#c4b8a8] text-[#8a8578] hover:text-[#2a2520]"
+                    : "border-[#a89888] text-[#635b53] hover:text-[#2a2520]"
                 }`}
               >
                 {t("cancel")}

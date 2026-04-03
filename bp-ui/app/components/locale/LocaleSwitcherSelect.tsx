@@ -1,7 +1,7 @@
 "use client";
 
 import { Locale } from "next-intl";
-import {
+import React, {
   ReactNode,
   useMemo,
   useState,
@@ -77,7 +77,7 @@ export default function LocaleSwitcherSelect({
 
   // Close on outside click
   useEffect(() => {
-    if(!open) 
+    if(!open)
       return;
 
     const handler = (e: MouseEvent) => {
@@ -134,7 +134,7 @@ export default function LocaleSwitcherSelect({
           "font-vcr flex cursor-pointer items-center gap-1.5 rounded-sm border px-2.5 h-8 text-[11px] tracking-wider transition-all",
           isDark
             ? "border-royalblue/40 bg-royalblue/20 text-vhs-light hover:border-fear/40 hover:text-fearyellow"
-            : "border-[#c4b8a8] bg-white/60 text-[#6b6560] hover:border-[#c4234e]/40 hover:text-[#c4234e]",
+            : "border-[#a89888] bg-white/60 text-[#524a44] hover:border-[#c4234e]/40 hover:text-[#c4234e]",
         )}
       >
         {current?.icon}
@@ -156,7 +156,7 @@ export default function LocaleSwitcherSelect({
             "animate-slide-up",
             isDark
               ? "bg-vhs-surface border-royalblue/30 shadow-[0_4px_20px_rgba(11,15,45,0.8)]"
-              : "border-[#c4b8a8]/40 bg-[#f5f0e8] shadow-[0_4px_16px_rgba(0,0,0,0.12)]",
+              : "border-[#a89888]/40 bg-[#f5f0e8] shadow-[0_4px_16px_rgba(0,0,0,0.12)]",
           )}
         >
           {items.map((it) => {
@@ -176,7 +176,7 @@ export default function LocaleSwitcherSelect({
                       : "bg-[#c4234e]/10 text-[#c4234e]"
                     : isDark
                       ? "text-vhs-light hover:bg-royalblue/15 hover:text-vhs-white"
-                      : "text-[#6b6560] hover:bg-[#c4234e]/5 hover:text-[#2a2520]",
+                      : "text-[#524a44] hover:bg-[#c4234e]/5 hover:text-[#2a2520]",
                 )}
               >
                 {it.icon}

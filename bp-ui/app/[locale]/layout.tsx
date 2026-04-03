@@ -28,7 +28,7 @@ export default async function LocaleLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
 
   const { locale } = await params;
@@ -46,7 +46,6 @@ export default async function LocaleLayout({
   return (
     <div
       lang={locale}
-      data-theme="light"
       className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col antialiased`}
     >
       <NextIntlClientProvider locale={locale} messages={messages}>

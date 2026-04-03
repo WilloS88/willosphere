@@ -20,7 +20,7 @@ import {
 import PageShell from "@/app/components/layout/PageShell";
 import { Navbar } from "@/app/components/layout/Navbar";
 import { Footer } from "@/app/components/layout/Footer";
-import { useStoreTheme } from "@/app/context/StoreThemeContext";
+import { useTheme } from "@/lib/hooks";
 import {
   SectionLabel,
   Badge,
@@ -180,7 +180,7 @@ function GenreCard({
 function LandingContent() {
   const t           = useTranslations("Landing");
   const { locale }  = useParams<{ locale: string }>();
-  const { isDark }  = useStoreTheme();
+  const { isDark }  = useTheme();
 
   const featuredAlbums = ALBUMS.slice(0, 6);
 
@@ -287,7 +287,7 @@ function LandingContent() {
         {/* Scroll indicator */}
         <div className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2 animate-bounce">
           <div
-            className={`text-[20px] tracking-[3px] ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+            className={`text-[20px] tracking-[3px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
           >
             <div className="flex items-center gap-2">
               <ArrowBigDown fill="currentColor" />
@@ -312,7 +312,7 @@ function LandingContent() {
                 {t("nowTrending")}
               </h2>
               <p
-                className={`mt-2 text-xs tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+                className={`mt-2 text-xs tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
               >
                 {t("featuredDesc")}
               </p>
@@ -343,7 +343,7 @@ function LandingContent() {
                   className={`overflow-hidden rounded-lg border transition-all hover:-translate-y-1 ${
                     isDark
                       ? "bg-vhs-card border-royalblue/20 hover:border-fear/30"
-                      : "border-[#c4b8a8]/30 bg-white/80 hover:border-[#c4234e]/20"
+                      : "border-[#a89888]/30 bg-white/80 hover:border-[#c4234e]/20"
                   }`}
                 >
                   <TiltedCard
@@ -399,7 +399,7 @@ function LandingContent() {
                       )}
                     </div>
                     <div
-                      className={`text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+                      className={`text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
                     >
                       {album.artist}
                     </div>
@@ -458,7 +458,7 @@ function LandingContent() {
                       {card.title}
                     </h3>
                     <p
-                      className={`text-[11px] leading-relaxed tracking-wider sm:text-xs ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+                      className={`text-[11px] leading-relaxed tracking-wider sm:text-xs ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
                     >
                       {card.desc}
                     </p>
@@ -487,7 +487,7 @@ function LandingContent() {
               {t("genresLabel")}
             </h2>
             <p
-              className={`mt-2 text-xs tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+              className={`mt-2 text-xs tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
             >
               {t("genresDesc")}
             </p>
@@ -557,11 +557,11 @@ function LandingContent() {
                 className={`rounded-lg border p-5 text-center transition-all hover:scale-[1.02] sm:p-6 ${
                   isDark
                     ? "bg-vhs-card/60 border-royalblue/20"
-                    : "border-[#c4b8a8]/20 bg-white/60"
+                    : "border-[#a89888]/20 bg-white/60"
                 }`}
               >
                 <div
-                  className={`mb-2 text-[11px] tracking-[3px] ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+                  className={`mb-2 text-[11px] tracking-[3px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
                 >
                   {stat.label}
                 </div>
@@ -569,7 +569,7 @@ function LandingContent() {
                   <AnimCounter target={stat.value} />
                 </div>
                 <div
-                  className={`mt-2 text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+                  className={`mt-2 text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
                 >
                   {stat.desc}
                 </div>
@@ -596,7 +596,7 @@ function LandingContent() {
               {t("becomeArtistTitle")}
             </h2>
             <p
-              className={`mx-auto mt-2 mb-5 max-w-xl text-base leading-relaxed tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+              className={`mx-auto mt-2 mb-5 max-w-xl text-base leading-relaxed tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
             >
               {t("becomeArtistDesc")}
             </p>
@@ -631,7 +631,7 @@ function LandingContent() {
                   className={`rounded-lg border p-6 transition-all hover:-translate-y-0.5 ${
                     isDark
                       ? "bg-vhs-card border-royalblue/20 hover:border-royalblue/40"
-                      : "border-[#c4b8a8]/30 bg-white/80 hover:border-[#c4b8a8]/60"
+                      : "border-[#a89888]/30 bg-white/80 hover:border-[#a89888]/60"
                   }`}
                 >
                   <div
@@ -649,7 +649,7 @@ function LandingContent() {
                     {item.title}
                   </h3>
                   <p
-                    className={`text-[13px] leading-relaxed tracking-wide ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+                    className={`text-[13px] leading-relaxed tracking-wide ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
                   >
                     {item.desc}
                   </p>
@@ -682,7 +682,7 @@ function LandingContent() {
                   {t("becomeArtistNote")}
                 </div>
                 <div
-                  className={`mt-0.5 text-[10px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+                  className={`mt-0.5 text-[10px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
                 >
                   {t("becomeArtistAlreadyArtist")}{" "}
                   <Link
@@ -726,7 +726,7 @@ function LandingContent() {
               {t("artistsLabel")}
             </h2>
             <p
-              className={`mt-2 text-xs tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+              className={`mt-2 text-xs tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
             >
               {t("artistsDesc")}
             </p>
@@ -739,7 +739,7 @@ function LandingContent() {
                 className={`rounded-lg border p-4 text-center transition-all hover:-translate-y-1 ${
                   isDark
                     ? "bg-vhs-card border-royalblue/20 hover:border-royalblue/40"
-                    : "border-[#c4b8a8]/30 bg-white/80 hover:border-[#c4b8a8]/50"
+                    : "border-[#a89888]/30 bg-white/80 hover:border-[#a89888]/50"
                 }`}
               >
                 <TiltedCard
@@ -765,7 +765,7 @@ function LandingContent() {
                   {artist.name}
                 </div>
                 <div
-                  className={`text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+                  className={`text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
                 >
                   {artist.tracks} TRACKS
                 </div>
@@ -798,7 +798,7 @@ function LandingContent() {
                 {t("ctaTitle")}
               </h2>
               <p
-                className={`mx-auto mb-8 max-w-md text-[11px] leading-relaxed tracking-wider sm:text-xs ${isDark ? "text-vhs-muted" : "text-[#8a8578]"}`}
+                className={`mx-auto mb-8 max-w-md text-[11px] leading-relaxed tracking-wider sm:text-xs ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
               >
                 {t("ctaDesc")}
               </p>
@@ -818,7 +818,7 @@ function LandingContent() {
                   className={`rounded-sm border px-8 py-3.5 text-sm font-bold tracking-[2px] no-underline transition-all hover:scale-105 ${
                     isDark
                       ? "border-royalblue/40 text-vhs-light hover:border-fear/40"
-                      : "border-[#c4b8a8] text-[#6b6560] hover:border-[#c4234e]/30"
+                      : "border-[#a89888] text-[#524a44] hover:border-[#c4234e]/30"
                   }`}
                 >
                   {t("ctaSecondary")}

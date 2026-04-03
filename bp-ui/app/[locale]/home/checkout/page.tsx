@@ -5,7 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { CheckCircle, Zap } from "lucide-react";
 import { SectionLabel, VHSButton } from "@/app/components/ui/elastic-slider/StoreUI";
-import { useStoreTheme } from "@/app/context/StoreThemeContext";
+import { useTheme } from "@/lib/hooks";
 import { useToast } from "@/app/context/ToastContext";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { clearCart } from "@/lib/features/cart/cartSlice";
@@ -14,7 +14,7 @@ import api from "@/lib/axios";
 
 export default function CheckoutPage() {
   const t          = useTranslations("Store");
-  const { isDark } = useStoreTheme();
+  const { isDark } = useTheme();
   const { locale } = useParams<{ locale: string }>();
   const router     = useRouter();
   const toast      = useToast();
@@ -24,8 +24,8 @@ export default function CheckoutPage() {
   const [loading, setLoading] = useState(false);
 
   const total    = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
-  const mutedCls = isDark ? "text-vhs-muted" : "text-[#8a8578]";
-  const cardCls  = isDark ? "bg-vhs-card border-royalblue/20" : "bg-white/80 border-[#c4b8a8]/40";
+  const mutedCls = isDark ? "text-vhs-muted" : "text-[#635b53]";
+  const cardCls  = isDark ? "bg-vhs-card border-royalblue/20" : "bg-white/80 border-[#a89888]/40";
 
   // Expand items with quantity (one productId entry per unit)
   const orderItems = items.flatMap((i) =>
@@ -62,7 +62,7 @@ export default function CheckoutPage() {
       </h1>
 
       {/* Items list */}
-      <div className={`rounded border mb-4 divide-y ${cardCls} ${isDark ? "divide-royalblue/20" : "divide-[#c4b8a8]/30"}`}>
+      <div className={`rounded border mb-4 divide-y ${cardCls} ${isDark ? "divide-royalblue/20" : "divide-[#a89888]/30"}`}>
         {items.map((item) => (
           <div key={item.productId} className="flex items-center justify-between px-4 py-3">
             <div>
