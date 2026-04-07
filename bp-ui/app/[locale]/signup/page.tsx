@@ -4,11 +4,15 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { ArrowLeft } from "lucide-react";
-import { useState, useRef, type FormEvent } from "react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import PageShell from "@/app/components/layout/PageShell";
 import { useAuth } from "@/app/components/auth/AuthProvider";
 import { useTheme } from "@/lib/hooks";
 import { getRoleRedirect } from "@/lib/auth";
+import { parseAxiosError } from "@/lib/axios";
 
 function SignupContent() {
   const t           = useTranslations("Registration");
@@ -17,37 +21,58 @@ function SignupContent() {
   const { signup }  = useAuth();
   const { isDark }  = useTheme();
 
-  const [formState, setFormState] = useState({
-    displayName:      "",
-    email:            "",
-    password:         "",
-    confirmPassword:  "",
+  const schema = z.object({
+    displayName: z
+      .string()
+      .min(3, t("displayNameValidation"))
+      .max(30, t("displayNameValidation"))
+      .regex(/^[a-zA-Z0-9-]+$/, t("displayNameValidation")),
+    email: z.string().email(t("emailValidation")),
+    password: z
+      .string()
+      .min(8, t("passwordValidation"))
+      .regex(/[0-9]/, t("passwordValidation"))
+      .regex(/[a-z]/, t("passwordValidation"))
+      .regex(/[A-Z]/, t("passwordValidation")),
+    confirmPassword: z.string(),
+  }).refine((data) => data.password === data.confirmPassword, {
+    message: t("passwordsMustMatch"),
+    path: ["confirmPassword"],
   });
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const confirmRef                      = useRef<HTMLInputElement | null>(null);
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setErrorMessage(null);
-    if (formState.password !== formState.confirmPassword) {
-      setErrorMessage(t("passwordsMustMatch"));
-      return;
-    }
-    setIsSubmitting(true);
+  type FormValues = z.infer<typeof schema>;
+
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors, isSubmitting },
+  } = useForm<FormValues>({
+    resolver: zodResolver(schema),
+    defaultValues: { displayName: "", email: "", password: "", confirmPassword: "" },
+  });
+
+  const [serverError, setServerError] = useState<string | null>(null);
+
+  const onSubmit = async (data: FormValues) => {
+    setServerError(null);
     try {
       const user = await signup({
-        email: formState.email,
-        password: formState.password,
-        displayName: formState.displayName,
+        email: data.email,
+        password: data.password,
+        displayName: data.displayName,
       });
       router.push(getRoleRedirect(user, locale));
     } catch (error) {
-      setErrorMessage(
-        error instanceof Error ? error.message : "Signup failed.",
-      );
-    } finally {
-      setIsSubmitting(false);
+      const msg = parseAxiosError(error);
+      // Try to map backend field errors
+      if (msg.toLowerCase().includes("email")) {
+        setError("email", { message: msg });
+      } else if (msg.toLowerCase().includes("password")) {
+        setError("password", { message: msg });
+      } else {
+        setServerError(msg);
+      }
     }
   };
 
@@ -56,7 +81,9 @@ function SignupContent() {
       ? "bg-darkblue/60 border-royalblue/30 text-vhs-white placeholder:text-vhs-muted focus:border-fear"
       : "bg-[#ede7db]/80 border-[#a89888]/40 text-[#2a2520] placeholder:text-[#635b53] focus:border-[#c4234e]"
   }`;
+  const inputErrCls = `${inputCls} ${isDark ? "!border-fear" : "!border-[#c4234e]"}`;
   const labelCls = `block text-[11px] tracking-[2px] mb-1.5 ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`;
+  const fieldErrCls = `mt-1 text-[11px] tracking-wider ${isDark ? "text-fear" : "text-[#c4234e]"}`;
 
   return (
     <div className="flex min-h-screen items-center justify-center px-4 py-8">
@@ -75,67 +102,62 @@ function SignupContent() {
           {t("createAnAccount")}
         </h1>
 
-        <form className="space-y-3" onSubmit={handleSubmit}>
+        <form className="space-y-3" onSubmit={handleSubmit(onSubmit)}>
           <div>
             <label className={labelCls}>{t("displayedName")}</label>
             <input
               type="text"
-              className={inputCls}
+              className={errors.displayName ? inputErrCls : inputCls}
               placeholder={t("typeDisplayedName")}
-              value={formState.displayName}
-              required
-              onChange={(e) =>
-                setFormState((p) => ({ ...p, displayName: e.target.value }))
-              }
+              {...register("displayName")}
             />
+            {errors.displayName && (
+              <p className={fieldErrCls}>{errors.displayName.message}</p>
+            )}
           </div>
           <div>
             <label className={labelCls}>{t("email")}</label>
             <input
               type="email"
-              className={inputCls}
+              className={errors.email ? inputErrCls : inputCls}
               placeholder={t("typeEmail")}
               autoComplete="username"
-              value={formState.email}
-              required
-              onChange={(e) =>
-                setFormState((p) => ({ ...p, email: e.target.value }))
-              }
+              {...register("email")}
             />
+            {errors.email && (
+              <p className={fieldErrCls}>{errors.email.message}</p>
+            )}
           </div>
           <div>
             <label className={labelCls}>{t("password")}</label>
             <input
               type="password"
-              className={inputCls}
+              className={errors.password ? inputErrCls : inputCls}
               placeholder={t("typePassword")}
               autoComplete="new-password"
-              value={formState.password}
-              required
-              onChange={(e) =>
-                setFormState((p) => ({ ...p, password: e.target.value }))
-              }
+              {...register("password")}
             />
+            {errors.password && (
+              <p className={fieldErrCls}>{errors.password.message}</p>
+            )}
           </div>
           <div>
             <label className={labelCls}>{t("confirmPassword")}</label>
             <input
-              ref={confirmRef}
               type="password"
-              className={inputCls}
+              className={errors.confirmPassword ? inputErrCls : inputCls}
               placeholder={t("typeConfirmPassword")}
               autoComplete="new-password"
-              value={formState.confirmPassword}
-              required
-              onChange={(e) =>
-                setFormState((p) => ({ ...p, confirmPassword: e.target.value }))
-              }
+              {...register("confirmPassword")}
             />
+            {errors.confirmPassword && (
+              <p className={fieldErrCls}>{errors.confirmPassword.message}</p>
+            )}
           </div>
 
-          {errorMessage && (
+          {serverError && (
             <div className="text-fear bg-fear/10 border-fear/20 rounded border p-2 text-xs tracking-wider">
-              {errorMessage}
+              {serverError}
             </div>
           )}
 

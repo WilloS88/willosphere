@@ -5,10 +5,14 @@ import { useParams, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { ArrowLeft, ShieldCheck } from "lucide-react";
 import React, { useState, useRef, type FormEvent } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import PageShell from "@/app/components/layout/PageShell";
 import { useAuth } from "@/app/components/auth/AuthProvider";
 import { useTheme } from "@/lib/hooks";
 import { getRoleRedirect } from "@/lib/auth";
+import { parseAxiosError } from "@/lib/axios";
 
 function MfaCodeInput({
   value,
@@ -85,20 +89,33 @@ function LoginContent() {
   const { login, verifyLogin }  = useAuth();
   const { isDark }              = useTheme();
 
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formState, setFormState]       = useState({ email: "", password: "" });
+  const schema = z.object({
+    email: z.string().min(1, t("emailRequired")).email(t("emailInvalid")),
+    password: z.string().min(1, t("passwordRequired")),
+  });
 
- // MFA challenge state
+  type FormValues = z.infer<typeof schema>;
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<FormValues>({
+    resolver: zodResolver(schema),
+    defaultValues: { email: "", password: "" },
+  });
+
+  const [serverError, setServerError] = useState<string | null>(null);
+
+  // MFA challenge state
   const [mfaChallengeId, setMfaChallengeId] = useState<string | null>(null);
   const [mfaCode, setMfaCode]               = useState("");
+  const [mfaSubmitting, setMfaSubmitting]    = useState(false);
 
-  const handleLoginSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setErrorMessage(null);
-    setIsSubmitting(true);
+  const onSubmit = async (data: FormValues) => {
+    setServerError(null);
     try {
-      const result = await login(formState);
+      const result = await login(data);
 
       if (result.mfaRequired) {
         setMfaChallengeId(result.challengeId);
@@ -107,9 +124,7 @@ function LoginContent() {
         router.push(getRoleRedirect(result.user, locale));
       }
     } catch (error) {
-      setErrorMessage(error instanceof Error ? error.message : "Login failed.");
-    } finally {
-      setIsSubmitting(false);
+      setServerError(parseAxiosError(error));
     }
   };
 
@@ -117,8 +132,8 @@ function LoginContent() {
     event.preventDefault();
     if (mfaCode.length !== 6 || !mfaChallengeId) return;
 
-    setErrorMessage(null);
-    setIsSubmitting(true);
+    setServerError(null);
+    setMfaSubmitting(true);
     try {
       const user = await verifyLogin({
         challengeId: mfaChallengeId,
@@ -126,17 +141,17 @@ function LoginContent() {
       });
       router.push(getRoleRedirect(user, locale));
     } catch (error) {
-      setErrorMessage(error instanceof Error ? error.message : "Verification failed.");
+      setServerError(parseAxiosError(error));
       setMfaCode("");
     } finally {
-      setIsSubmitting(false);
+      setMfaSubmitting(false);
     }
   };
 
   const handleBackToLogin = () => {
     setMfaChallengeId(null);
     setMfaCode("");
-    setErrorMessage(null);
+    setServerError(null);
   };
 
   const inputCls = `w-full rounded-sm px-3 py-2.5 border outline-none text-sm tracking-wider font-vcr transition-all ${
@@ -144,6 +159,8 @@ function LoginContent() {
       ? "bg-darkblue/60 border-royalblue/30 text-vhs-white placeholder:text-vhs-muted focus:border-fear"
       : "bg-[#ede7db]/80 border-[#a89888]/40 text-[#2a2520] placeholder:text-[#635b53] focus:border-[#c4234e]"
   }`;
+  const inputErrCls = `${inputCls} ${isDark ? "!border-fear" : "!border-[#c4234e]"}`;
+  const fieldErrCls = `mt-1 text-[11px] tracking-wider ${isDark ? "text-fear" : "text-[#c4234e]"}`;
 
   if(mfaChallengeId) {
     return (
@@ -182,17 +199,17 @@ function LoginContent() {
           <form className="space-y-5" onSubmit={handleMfaSubmit}>
             <MfaCodeInput value={mfaCode} onChange={setMfaCode} isDark={isDark} />
 
-            {errorMessage && (
+            {serverError && (
               <div className="text-fear bg-fear/10 border-fear/20 rounded border p-2 text-xs tracking-wider text-center">
-                {errorMessage}
+                {serverError}
               </div>
             )}
 
             <button
               className={`w-full cursor-pointer rounded-sm py-2.5 text-xs font-bold tracking-[2px] transition-all hover:brightness-110 disabled:opacity-50 ${isDark ? "bg-fear text-white" : "bg-[#c4234e] text-white"}`}
-              disabled={isSubmitting || mfaCode.length !== 6}
+              disabled={mfaSubmitting || mfaCode.length !== 6}
             >
-              {isSubmitting ? "..." : t("mfaVerify")}
+              {mfaSubmitting ? "..." : t("mfaVerify")}
             </button>
           </form>
 
@@ -223,7 +240,7 @@ function LoginContent() {
           {t("header")}
         </h1>
 
-        <form className="space-y-4" onSubmit={handleLoginSubmit}>
+        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
           <div>
             <label
               className={`mb-1.5 block text-xs tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
@@ -232,15 +249,14 @@ function LoginContent() {
             </label>
             <input
               type="email"
-              className={inputCls}
+              className={errors.email ? inputErrCls : inputCls}
               placeholder={t("emailExample")}
               autoComplete="username"
-              value={formState.email}
-              required
-              onChange={(e) =>
-                setFormState((p) => ({ ...p, email: e.target.value }))
-              }
+              {...register("email")}
             />
+            {errors.email && (
+              <p className={fieldErrCls}>{errors.email.message}</p>
+            )}
           </div>
           <div>
             <label
@@ -250,20 +266,19 @@ function LoginContent() {
             </label>
             <input
               type="password"
-              className={inputCls}
+              className={errors.password ? inputErrCls : inputCls}
               placeholder="••••••••"
               autoComplete="current-password"
-              value={formState.password}
-              required
-              onChange={(e) =>
-                setFormState((p) => ({ ...p, password: e.target.value }))
-              }
+              {...register("password")}
             />
+            {errors.password && (
+              <p className={fieldErrCls}>{errors.password.message}</p>
+            )}
           </div>
 
-          {errorMessage && (
+          {serverError && (
             <div className="text-fear bg-fear/10 border-fear/20 rounded border p-2 text-xs tracking-wider">
-              {errorMessage}
+              {serverError}
             </div>
           )}
 

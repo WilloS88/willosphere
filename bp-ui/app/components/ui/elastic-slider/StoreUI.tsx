@@ -111,7 +111,7 @@ export function SectionLabel({ children, className }: { children: ReactNode; cla
 }
 
 /* ── PageHeader (with theme + TextType) ── */
-export function PageHeader({ title, count }: { title: string; count: number }) {
+export function PageHeader({ title, count }: { title: string; count?: number }) {
   const t           = useTranslations("Store");
   const { isDark }  = useTheme();
 
@@ -120,16 +120,18 @@ export function PageHeader({ title, count }: { title: string; count: number }) {
       <div className={`inline-block px-5 py-1.5 vhs-skew-clip mb-2 ${isDark ? "bg-gradient-to-r from-fear to-fear/80" : "bg-gradient-to-r from-[#c4234e] to-[#a01d40]"}`}>
         <span className="font-bold text-xl sm:text-2xl tracking-[3px] italic text-white">{title}</span>
       </div>
-      <div className={`font-vcr text-[11px] mt-1.5 ${isDark ? "text-vhs-cyan" : "text-[#0094a8]"}`}>
-        <TextType
-          text={`// ${t("showingRecords", { count })}`}
-          typingSpeed={30}
-          loop={false}
-          showCursor
-          cursorCharacter="█"
-          cursorBlinkDuration={0.5}
-        />
-      </div>
+      {count !== undefined && (
+        <div className={`font-vcr text-[11px] mt-1.5 ${isDark ? "text-vhs-cyan" : "text-[#0094a8]"}`}>
+          <TextType
+            text={`// ${t("showingRecords", { count })}`}
+            typingSpeed={30}
+            loop={false}
+            showCursor
+            cursorCharacter="█"
+            cursorBlinkDuration={0.5}
+          />
+        </div>
+      )}
     </div>
   );
 }

@@ -12,12 +12,14 @@ import {
   AdminDataTable,
   AdminDetailField,
 } from "@/app/components/admin";
-import api from "@/lib/axios";
+import api, { parseAxiosError } from "@/lib/axios";
+import { useToast } from "@/app/context/ToastContext";
 
 const PAGE_SIZE = 20;
 
 export default function UsersPage() {
-  const t = useTranslations("Admin");
+  const t     = useTranslations("Admin");
+  const toast = useToast();
 
   const [users,      setUsers]      = useState<UserDTO[]>([]);
   const [total,      setTotal]      = useState(0);
@@ -135,28 +137,40 @@ export default function UsersPage() {
   };
 
   const saveUser = async () => {
-    if (dialogMode === "create") {
-      const { data: created } = await api.post<UserDetailDTO>(API_ENDPOINTS.admin.users, {
-        displayName: form.displayName.trim(), password: form.password, role: form.role,
-        timezone: form.timezone, language: form.language, profileImageUrl: form.profileImageUrl || null,
-      });
-      await reload(); setDialogUser(created); return;
-    }
-    if (dialogMode === "edit" && dialogUser) {
-      const { data: updated } = await api.put<UserDetailDTO>(API_ENDPOINTS.admin.userDetail(dialogUser.id), {
-        displayName: form.displayName.trim(), role: form.role, timezone: form.timezone,
-        language: form.language, profileImageUrl: form.profileImageUrl || null,
-        password: form.password || undefined,
-      });
-      await reload(); setDialogUser(updated);
+    try {
+      if (dialogMode === "create") {
+        const { data: created } = await api.post<UserDetailDTO>(API_ENDPOINTS.admin.users, {
+          displayName: form.displayName.trim(), password: form.password, role: form.role,
+          timezone: form.timezone, language: form.language, profileImageUrl: form.profileImageUrl || null,
+        });
+        await reload(); setDialogUser(created);
+        toast.success(t("toastSaved"));
+        return;
+      }
+      if (dialogMode === "edit" && dialogUser) {
+        const { data: updated } = await api.put<UserDetailDTO>(API_ENDPOINTS.admin.userDetail(dialogUser.id), {
+          displayName: form.displayName.trim(), role: form.role, timezone: form.timezone,
+          language: form.language, profileImageUrl: form.profileImageUrl || null,
+          password: form.password || undefined,
+        });
+        await reload(); setDialogUser(updated);
+        toast.success(t("toastSaved"));
+      }
+    } catch (err) {
+      toast.error(parseAxiosError(err));
     }
   };
 
   const deleteUser = async (u: UserDTO) => {
     if (!confirm(`${t("deleteUserQuestion")} #${u.id} (${u.email})?`)) return;
-    await api.delete(API_ENDPOINTS.admin.userDetail(u.id));
-    await reload();
-    if (dialogUser?.id === u.id) { setDialogOpen(false); setDialogUser(null); }
+    try {
+      await api.delete(API_ENDPOINTS.admin.userDetail(u.id));
+      await reload();
+      if (dialogUser?.id === u.id) { setDialogOpen(false); setDialogUser(null); }
+      toast.success(t("toastDeleted"));
+    } catch (err) {
+      toast.error(parseAxiosError(err));
+    }
   };
 
   // ── Columns ───────────────────────────────────────────────────────────────

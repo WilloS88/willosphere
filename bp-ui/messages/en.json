@@ -128,7 +128,14 @@
     "message": "Message",
     "messagePlaceholder": "How can we help?",
     "send": "Send",
-    "note": "This form is currently a demo (no backend sending yet)."
+    "note": "This form is currently a demo (no backend sending yet).",
+    "nameRequired": "Name is required",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Enter a valid email address",
+    "messageRequired": "Message is required",
+    "messageMinLength": "Message must be at least 10 characters",
+    "sent": "Message sent!",
+    "sentDesc": "We'll get back to you soon."
   },
   "Registration": {
     "home": "Home",
@@ -140,7 +147,6 @@
     "typePassword": "Type password",
     "displayedName": "Nickname",
     "typeDisplayedName": "Type nickname",
-    "alreadyHaveAccount": "Already have an account?",
     "or": "Or",
     "login": "Login",
     "signup": "Sign up",
@@ -167,7 +173,10 @@
     "mfaTitle": "2FA VERIFICATION",
     "mfaDescription": "Enter the 6-digit code from your authenticator app",
     "mfaVerify": "VERIFY",
-    "mfaExpiry": "Code expires in 2 minutes. Max 5 attempts."
+    "mfaExpiry": "Code expires in 2 minutes. Max 5 attempts.",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Enter a valid email address",
+    "passwordRequired": "Password is required"
   },
   "Admin": {
     "welcome": "Welcome",
@@ -331,7 +340,10 @@
     "totalPrice": "Total price",
     "currency": "Currency",
     "itemCount": "Items",
-    "orderItems": "Order items"
+    "orderItems": "Order items",
+    "toastSaved": "Saved successfully",
+    "toastDeleted": "Deleted successfully",
+    "toastError": "Operation failed"
   },
   "Store": {
     "clearAll": "Clear All",
@@ -460,7 +472,10 @@
     "nav_artist": "ARTIST_STUDIO",
     "securitySection": "SECURITY",
     "mfaLabel": "Two-Factor Authentication (2FA)",
-    "mfaManage": "MANAGE →"
+    "mfaManage": "MANAGE",
+    "toastItemRemoved": "Item removed from cart",
+    "toastCartCleared": "Cart cleared",
+    "toastAddedToCart": "Added to cart"
   },
   "Artist": {
     "back": "Back",

@@ -8,6 +8,8 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { X } from "lucide-react";
+import { useTheme } from "@/lib/hooks";
 
 export type ToastType = "success" | "error" | "info";
 
@@ -30,6 +32,7 @@ let _nextId = 0;
 export function ToastProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([]);
   const timers              = useRef<Map<number, ReturnType<typeof setTimeout>>>(new Map());
+  const { isDark }          = useTheme();
 
   const dismiss = useCallback((id: number) => {
     setToasts((prev) => prev.filter((t) => t.id !== id));
@@ -50,13 +53,23 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     info:    (msg) => push(msg, "info"),
   };
 
-  const COLOR: Record<ToastType, string> = {
+  const DARK_COLOR: Record<ToastType, string> = {
     success: "border-vhs-green   text-vhs-green",
     error:   "border-fear        text-fear",
     info:    "border-vhs-cyan    text-vhs-cyan",
   };
 
-  const BG = "bg-[#0b0f2d]/95 backdrop-blur-sm border font-vcr text-xs tracking-wider";
+  const LIGHT_COLOR: Record<ToastType, string> = {
+    success: "border-emerald-600 text-emerald-700",
+    error:   "border-[#c4234e]   text-[#c4234e]",
+    info:    "border-[#0094a8]   text-[#0094a8]",
+  };
+
+  const COLOR = isDark ? DARK_COLOR : LIGHT_COLOR;
+
+  const BG = isDark
+    ? "bg-[#0b0f2d]/95 backdrop-blur-sm border font-vcr text-xs tracking-wider"
+    : "bg-white/95 backdrop-blur-sm border font-vcr text-xs tracking-wider shadow-md";
 
   return (
     <ToastContext.Provider value={api}>
@@ -76,7 +89,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
               onClick={() => dismiss(t.id)}
               className="shrink-0 opacity-50 hover:opacity-100 transition-opacity cursor-pointer"
             >
-              X
+              <X size={14} />
             </button>
           </div>
         ))}

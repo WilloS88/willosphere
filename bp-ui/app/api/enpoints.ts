@@ -91,6 +91,10 @@ export const API_ENDPOINTS = {
     stats: "/admin/stats",
   },
 
+  landing: {
+    data: "/landing",
+  },
+
   listenHistory: {
     record: "/listen-history",
     list:   "/listen-history",

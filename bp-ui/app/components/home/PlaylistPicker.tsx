@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { ListPlus, Check, Loader } from "lucide-react";
+import { ListPlus, Check, Loader, AlertCircle } from "lucide-react";
 import { useAuth } from "@/app/components/auth/AuthProvider";
 import { useTheme } from "@/lib/hooks";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
@@ -136,7 +136,7 @@ export function PlaylistPicker({ trackId }: Props) {
                       {isAdding && <Loader size={10} className="animate-spin shrink-0" />}
                       {isAdded && !isAdding && <Check size={10} className={`shrink-0 ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`} />}
                       {isError && !isAdding && (
-                        <span className="shrink-0 text-red-400">!</span>
+                        <AlertCircle size={10} className="shrink-0 text-red-400" />
                       )}
                     </button>
                   </li>

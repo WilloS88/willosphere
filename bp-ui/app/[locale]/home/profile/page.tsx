@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { Camera, ShieldCheck } from "lucide-react";
+import { Camera, ShieldCheck, ArrowRight } from "lucide-react";
 import { useAuth } from "@/app/components/auth/AuthProvider";
 import { useTheme } from "@/lib/hooks";
 import {
@@ -40,7 +40,9 @@ export default function ProfilePage() {
       const formData = new FormData();
       formData.append("file", new File([blob], filename, { type: blob.type }));
       const res = await fetch("/api/avatars/upload", { method: "POST", body: formData });
-      if (!res.ok) throw new Error("Upload failed");
+      if(!res.ok)
+        throw new Error("Upload failed");
+
       const { key } = await res.json() as { key: string };
       await api.patch(API_ENDPOINTS.auth.me, { profileImageUrl: key });
       await refreshSession();
@@ -61,7 +63,7 @@ export default function ProfilePage() {
           onClose={() => setCropFile(null)}
         />
       )}
-      <PageHeader title={t("nav_profile")} count={1} />
+      <PageHeader title={t("nav_profile")} />
 
       <div
         className={`max-w-2xl rounded border p-5 sm:p-8 ${
@@ -160,8 +162,9 @@ export default function ProfilePage() {
               <ShieldCheck size={14} className={isDark ? "text-fear" : "text-[#c4234e]"} />
               <span className="tracking-wider">{t("mfaLabel")}</span>
             </div>
-            <span className={`text-[11px] tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+            <span className={`flex items-center gap-1 text-[11px] tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
               {t("mfaManage")}
+              <ArrowRight size={12} />
             </span>
           </Link>
         </div>

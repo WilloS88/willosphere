@@ -1,34 +1,10 @@
 import { animate, motion, useMotionValue, useMotionValueEvent, useTransform } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
+import { Volume1, Volume2, SkipBack, SkipForward } from 'lucide-react';
 
 import './StoreElasticSlider.css';
 
 const MAX_OVERFLOW = 50;
-
-// Simple SVG icon components (no Chakra dependency)
-const VolumeDown = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>
-  </svg>
-);
-
-const VolumeUp = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-  </svg>
-);
-
-const SkipBack = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
-  </svg>
-);
-
-const SkipForward = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
-  </svg>
-);
 
 export default function StoreElasticSlider({
   defaultValue = 50,
@@ -37,8 +13,8 @@ export default function StoreElasticSlider({
   className = '',
   isStepped = false,
   stepSize = 1,
-  leftIcon = <VolumeDown />,
-  rightIcon = <VolumeUp />,
+  leftIcon = <Volume1 size={18} />,
+  rightIcon = <Volume2 size={18} />,
   onChange,
   showValue = false,
   trackColor = 'var(--color-fear)',
@@ -172,5 +148,3 @@ function decay(value, max) {
   return 2 * (1 / (1 + Math.exp(-entry)) - 0.5) * max;
 }
 
-// Export icon components for reuse
-export { VolumeDown, VolumeUp, SkipBack, SkipForward };

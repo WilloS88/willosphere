@@ -8,6 +8,8 @@ import { SectionLabel, VHSButton } from "@/app/components/ui/elastic-slider/Stor
 import { useTheme } from "@/lib/hooks";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { removeItem, updateQuantity, clearCart } from "@/lib/features/cart/cartSlice";
+import { useToast } from "@/app/context/ToastContext";
+import { useConfirm } from "@/app/hooks/useConfirm";
 
 export default function CartPage() {
   const t          = useTranslations("Store");
@@ -15,6 +17,21 @@ export default function CartPage() {
   const { locale } = useParams<{ locale: string }>();
   const dispatch   = useAppDispatch();
   const items      = useAppSelector((s) => s.cart.items);
+  const toast      = useToast();
+  const { confirm, dialog: confirmDialog } = useConfirm();
+
+  const handleClear = async () => {
+    const ok = await confirm({
+      title:        t("clearAll"),
+      message:      t("cartEmpty"),
+      confirmLabel: t("clearAll"),
+      variant:      "danger",
+    });
+    if (ok) {
+      dispatch(clearCart());
+      toast.info(t("toastCartCleared"));
+    }
+  };
 
   const total     = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
   const mutedCls  = isDark ? "text-vhs-muted" : "text-[#635b53]";
@@ -53,7 +70,7 @@ export default function CartPage() {
           </div>
         </div>
         <button
-          onClick={() => dispatch(clearCart())}
+          onClick={handleClear}
           className={`cursor-pointer rounded-sm border px-3 py-1.5 text-[11px] tracking-wider transition-opacity hover:opacity-70 ${
             isDark
               ? "border-royalblue/30 text-vhs-muted"
@@ -145,7 +162,7 @@ export default function CartPage() {
 
             {/* Remove */}
             <button
-              onClick={() => dispatch(removeItem(item.productId))}
+              onClick={() => { dispatch(removeItem(item.productId)); toast.info(t("toastItemRemoved")); }}
               className={`hover:text-fear shrink-0 cursor-pointer transition-colors ${mutedCls}`}
             >
               <Trash2 size={14} />
@@ -173,6 +190,7 @@ export default function CartPage() {
           </VHSButton>
         </Link>
       </div>
+      {confirmDialog}
     </div>
   );
 }

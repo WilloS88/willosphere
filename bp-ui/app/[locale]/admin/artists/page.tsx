@@ -11,12 +11,14 @@ import {
   AdminPageHeader,
   AdminDataTable,
 } from "@/app/components/admin";
-import api from "@/lib/axios";
+import api, { parseAxiosError } from "@/lib/axios";
+import { useToast } from "@/app/context/ToastContext";
 
 const PAGE_SIZE = 20;
 
 export default function AdminArtistsPage() {
-  const t = useTranslations("Admin");
+  const t     = useTranslations("Admin");
+  const toast = useToast();
 
   const [artists,    setArtists]    = useState<ArtistDto[]>([]);
   const [total,      setTotal]      = useState(0);
@@ -121,24 +123,34 @@ export default function AdminArtistsPage() {
     if(!selected)
       return;
 
-    const { data: updated } = await api.patch<ArtistDto>(API_ENDPOINTS.admin.artistDetail(selected.userId), {
-      bio:            form.bio || null,
-      bannerImageUrl: form.bannerImageUrl || null,
-      artistSince:    form.artistSince || null,
-    });
-    await reload();
-    setSelected(updated);
+    try {
+      const { data: updated } = await api.patch<ArtistDto>(API_ENDPOINTS.admin.artistDetail(selected.userId), {
+        bio:            form.bio || null,
+        bannerImageUrl: form.bannerImageUrl || null,
+        artistSince:    form.artistSince || null,
+      });
+      await reload();
+      setSelected(updated);
+      toast.success(t("toastSaved"));
+    } catch (err) {
+      toast.error(parseAxiosError(err));
+    }
   };
 
   const deleteArtist = async (artist: ArtistDto) => {
     if (!confirm(`${t("deleteArtistQuestion")} #${artist.userId} (${artist.displayName})?`))
       return;
 
-    await api.delete(API_ENDPOINTS.admin.artistDetail(artist.userId));
-    await reload();
-    if(selected?.userId === artist.userId) {
-      setDialogOpen(false);
-      setSelected(null);
+    try {
+      await api.delete(API_ENDPOINTS.admin.artistDetail(artist.userId));
+      await reload();
+      if(selected?.userId === artist.userId) {
+        setDialogOpen(false);
+        setSelected(null);
+      }
+      toast.success(t("toastDeleted"));
+    } catch (err) {
+      toast.error(parseAxiosError(err));
     }
   };
 

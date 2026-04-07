@@ -3,6 +3,10 @@
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import PageShell from "@/app/components/layout/PageShell";
 import { Navbar } from "@/app/components/layout/Navbar";
 import { Footer } from "@/app/components/layout/Footer";
@@ -13,11 +17,40 @@ function ContactContent() {
   const { locale }  = useParams<{ locale: string }>();
   const { isDark }  = useTheme();
 
+  const schema = z.object({
+    name:    z.string().min(1, t("nameRequired")),
+    email:   z.string().min(1, t("emailRequired")).email(t("emailInvalid")),
+    message: z.string().min(10, t("messageMinLength")),
+  });
+
+  type FormValues = z.infer<typeof schema>;
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<FormValues>({
+    resolver: zodResolver(schema),
+    defaultValues: { name: "", email: "", message: "" },
+  });
+
+  const [sent, setSent] = useState(false);
+
+  const onSubmit = async (_data: FormValues) => {
+    // Demo — no backend endpoint yet. Simulate a short delay.
+    await new Promise((r) => setTimeout(r, 600));
+    setSent(true);
+    reset();
+  };
+
   const inputCls = `w-full rounded-sm px-3 py-2 border outline-none text-[11px] tracking-wider font-vcr transition-all ${
     isDark
       ? "bg-darkblue/60 border-royalblue/30 text-vhs-white placeholder:text-vhs-muted focus:border-fear"
       : "bg-[#ede7db]/80 border-[#a89888]/40 text-[#2a2520] placeholder:text-[#635b53] focus:border-[#c4234e]"
   }`;
+  const inputErrCls = `${inputCls} ${isDark ? "!border-fear" : "!border-[#c4234e]"}`;
+  const fieldErrCls = `mt-1 text-[11px] tracking-wider ${isDark ? "text-fear" : "text-[#c4234e]"}`;
 
   const infoCls = `flex items-center justify-between px-4 py-3 rounded text-[11px] tracking-wider ${
     isDark ? "bg-royalblue/10" : "bg-[#ede7db]/60"
@@ -110,54 +143,86 @@ function ContactContent() {
             >
               {t("title")}
             </h2>
-            <form className="space-y-3">
-              <div>
-                <label
-                  className={`mb-1 block text-[11px] tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
+
+            {sent ? (
+              <div className="py-8 text-center">
+                <div className={`mb-2 text-lg font-bold tracking-[2px] ${isDark ? "text-vhs-green" : "text-emerald-600"}`}>
+                  {t("sent")}
+                </div>
+                <p className={`text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+                  {t("sentDesc")}
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setSent(false)}
+                  className={`mt-4 cursor-pointer rounded-sm border px-4 py-2 text-[11px] font-bold tracking-[2px] transition-all ${isDark ? "border-royalblue/40 text-vhs-light hover:border-fear/40" : "border-[#a89888] text-[#524a44] hover:border-[#c4234e]"}`}
                 >
-                  {t("name")}
-                </label>
-                <input
-                  type="text"
-                  className={inputCls}
-                  placeholder={t("namePlaceholder")}
-                />
+                  {t("send")}
+                </button>
               </div>
-              <div>
-                <label
-                  className={`mb-1 block text-[11px] tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
+            ) : (
+              <form className="space-y-3" onSubmit={handleSubmit(onSubmit)}>
+                <div>
+                  <label
+                    className={`mb-1 block text-[11px] tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
+                  >
+                    {t("name")}
+                  </label>
+                  <input
+                    type="text"
+                    className={errors.name ? inputErrCls : inputCls}
+                    placeholder={t("namePlaceholder")}
+                    {...register("name")}
+                  />
+                  {errors.name && (
+                    <p className={fieldErrCls}>{errors.name.message}</p>
+                  )}
+                </div>
+                <div>
+                  <label
+                    className={`mb-1 block text-[11px] tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
+                  >
+                    {t("email")}
+                  </label>
+                  <input
+                    type="email"
+                    className={errors.email ? inputErrCls : inputCls}
+                    placeholder={t("emailPlaceholder")}
+                    {...register("email")}
+                  />
+                  {errors.email && (
+                    <p className={fieldErrCls}>{errors.email.message}</p>
+                  )}
+                </div>
+                <div>
+                  <label
+                    className={`mb-1 block text-[11px] tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
+                  >
+                    {t("message")}
+                  </label>
+                  <textarea
+                    className={`${errors.message ? inputErrCls : inputCls} min-h-[120px] resize-y`}
+                    placeholder={t("messagePlaceholder")}
+                    {...register("message")}
+                  />
+                  {errors.message && (
+                    <p className={fieldErrCls}>{errors.message.message}</p>
+                  )}
+                </div>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className={`w-full cursor-pointer rounded-sm py-2.5 text-[11px] font-bold tracking-[2px] transition-all hover:brightness-110 disabled:opacity-50 ${isDark ? "bg-fear text-white" : "bg-[#c4234e] text-white"}`}
                 >
-                  {t("email")}
-                </label>
-                <input
-                  type="email"
-                  className={inputCls}
-                  placeholder={t("emailPlaceholder")}
-                />
-              </div>
-              <div>
-                <label
-                  className={`mb-1 block text-[11px] tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
+                  {isSubmitting ? "..." : t("send")}
+                </button>
+                <p
+                  className={`text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
                 >
-                  {t("message")}
-                </label>
-                <textarea
-                  className={`${inputCls} min-h-[120px] resize-y`}
-                  placeholder={t("messagePlaceholder")}
-                />
-              </div>
-              <button
-                type="button"
-                className={`w-full cursor-pointer rounded-sm py-2.5 text-[11px] font-bold tracking-[2px] transition-all hover:brightness-110 ${isDark ? "bg-fear text-white" : "bg-[#c4234e] text-white"}`}
-              >
-                {t("send")}
-              </button>
-              <p
-                className={`text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
-              >
-                {t("note")}
-              </p>
-            </form>
+                  {t("note")}
+                </p>
+              </form>
+            )}
           </div>
         </div>
       </main>

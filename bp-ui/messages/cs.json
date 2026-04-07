@@ -87,7 +87,7 @@
     "ctaSecondary": "DOZVĚDĚT SE VÍC",
     "becomeArtistLabel": "PRO UMĚLCE",
     "becomeArtistTitle": "Sdílej Svou Hudbu Se Světem",
-    "becomeArtistDesc": "Přidej se k tisícům nezávislých umělců, kteří already na WilloSphere publikují, vydělávají a rostou.",
+    "becomeArtistDesc": "Přidej se k tisícům nezávislých umělců, kteří již na WilloSphere publikují, vydělávají a rostou.",
     "becomeArtistBenefit1Title": "Nahraj Své Skladby",
     "becomeArtistBenefit1Desc": "Jednoduchý upload bez omezení formátů. Tvoje hudba bude dostupná okamžitě po schválení.",
     "becomeArtistBenefit2Title": "Vydělávej Ze Streamů",
@@ -128,7 +128,14 @@
     "message": "Zpráva",
     "messagePlaceholder": "S čím ti můžeme pomoct?",
     "send": "Odeslat",
-    "note": "Formulář je zatím demo (bez odesílání do backendu)."
+    "note": "Formulář je zatím demo (bez odesílání do backendu).",
+    "nameRequired": "Jméno je povinné",
+    "emailRequired": "Email je povinný",
+    "emailInvalid": "Zadejte platnou emailovou adresu",
+    "messageRequired": "Zpráva je povinná",
+    "messageMinLength": "Zpráva musí mít alespoň 10 znaků",
+    "sent": "Zpráva odeslána!",
+    "sentDesc": "Ozveme se co nejdřív."
   },
   "Registration": {
     "home": "Domů",
@@ -140,7 +147,6 @@
     "typePassword": "Napsat heslo",
     "displayedName": "Přezdívka",
     "typeDisplayedName": "Napsat přezdívku",
-    "alreadyHaveAccount": "Už máš účet?",
     "or": "Nebo",
     "login": "Přihlásit se",
     "signup": "Zaregistrovat se",
@@ -167,7 +173,10 @@
     "mfaTitle": "OVĚŘENÍ 2FA",
     "mfaDescription": "Zadej 6místný kód z vaší authenticator aplikace",
     "mfaVerify": "OVĚŘIT",
-    "mfaExpiry": "Kód vyprší za 2 minuty. Max 5 pokusů."
+    "mfaExpiry": "Kód vyprší za 2 minuty. Max 5 pokusů.",
+    "emailRequired": "Email je povinný",
+    "emailInvalid": "Zadejte platnou emailovou adresu",
+    "passwordRequired": "Heslo je povinné"
   },
   "Admin": {
     "welcome": "Víteje",
@@ -225,7 +234,7 @@
       "tracks": "Tracky",
       "tracksHint": "Nahrávání, editace metadat",
       "albums": "Alba",
-      "albumsHint": "Release management",
+      "albumsHint": "Správa vydání",
       "playlists": "Playlisty",
       "playlistsHint": "Kurátorování a obsah",
       "products": "Produkty",
@@ -331,7 +340,10 @@
     "totalPrice": "Celková cena",
     "currency": "Měna",
     "itemCount": "Položek",
-    "orderItems": "Položky objednávky"
+    "orderItems": "Položky objednávky",
+    "toastSaved": "Úspěšně uloženo",
+    "toastDeleted": "Úspěšně smazáno",
+    "toastError": "Operace se nezdařila"
   },
   "Store": {
     "clearAll": "Vyloučit vše",
@@ -460,7 +472,10 @@
     "nav_artist": "ARTIST_STUDIO",
     "securitySection": "ZABEZPEČENÍ",
     "mfaLabel": "Dvoufaktorové ověření (2FA)",
-    "mfaManage": "NASTAVIT →"
+    "mfaManage": "NASTAVIT",
+    "toastItemRemoved": "Položka odebrána z košíku",
+    "toastCartCleared": "Košík vyprázdněn",
+    "toastAddedToCart": "Přidáno do košíku"
   },
   "Artist": {
     "back": "Zpět",
@@ -503,7 +518,7 @@
     "priceLabel": "CENA (CZK)",
     "coverImageUrl": "URL OBRÁZKU OBALU",
     "genresLabel": "ŽÁNRY",
-    "featuredArtists": "FEATURED UMĚLCI",
+    "featuredArtists": "SPOLUPRACUJÍCÍ UMĚLCI",
     "searchArtists": "HLEDAT UMĚLCE...",
     "primaryArtist": "PRIMÁRNÍ",
     "featArtist": "FEAT",

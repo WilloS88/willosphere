@@ -12,7 +12,8 @@ import {
   AdminDetailField,
   Dialog,
 } from "@/app/components/admin";
-import api from "@/lib/axios";
+import api, { parseAxiosError } from "@/lib/axios";
+import { useToast } from "@/app/context/ToastContext";
 
 const PAGE_SIZE = 20;
 
@@ -50,6 +51,7 @@ function formFromProduct(p: ProductDto): ProductForm {
 
 export default function AdminProductsPage() {
   const t                           = useTranslations("Admin");
+  const toast                       = useToast();
 
   const [products, setProducts]     = useState<ProductDto[]>([]);
   const [total, setTotal]           = useState(0);
@@ -179,8 +181,11 @@ export default function AdminProductsPage() {
       }
       await reload();
       setDialogOpen(false);
-    } catch (e: any) {
-      setSaveError(e?.response?.data?.message ?? "An error occurred");
+      toast.success(t("toastSaved"));
+    } catch (err) {
+      const msg = parseAxiosError(err);
+      setSaveError(msg);
+      toast.error(msg);
     }
   };
 
@@ -192,8 +197,9 @@ export default function AdminProductsPage() {
       await api.delete(API_ENDPOINTS.adminProducts.detail(product.id));
       await reload();
       if (selected?.id === product.id) { setDialogOpen(false); setSelected(null); }
-    } catch (e: any) {
-      alert(e?.response?.data?.message ?? "Cannot delete product");
+      toast.success(t("toastDeleted"));
+    } catch (err) {
+      toast.error(parseAxiosError(err));
     }
   };
 

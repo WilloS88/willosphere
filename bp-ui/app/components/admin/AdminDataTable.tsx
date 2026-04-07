@@ -2,7 +2,7 @@
 
 import { type ReactNode } from "react";
 import { useTranslations } from "use-intl";
-import { ChevronUp, ChevronDown, ChevronsUpDown } from "lucide-react";
+import { ChevronUp, ChevronDown, ChevronsUpDown, ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react";
 
 export type FilterConfig =
   | { type: "text"; placeholder?: string }
@@ -195,12 +195,12 @@ export function AdminDataTable({
               disabled={page <= 1}
               aria-label={t("prevPage")}
             >
-              ‹
+              <ChevronLeft size={16} />
             </button>
 
             {pageNumbers.map((n, i) =>
               n === "…" ? (
-                <span key={`ellipsis-${i}`} className="px-1">…</span>
+                <span key={`ellipsis-${i}`} className="px-1"><MoreHorizontal size={14} /></span>
               ) : (
                 <button
                   key={n}
@@ -218,7 +218,7 @@ export function AdminDataTable({
               disabled={page >= totalPages}
               aria-label={t("nextPage")}
             >
-              ›
+              <ChevronRight size={16} />
             </button>
           </div>
         )}

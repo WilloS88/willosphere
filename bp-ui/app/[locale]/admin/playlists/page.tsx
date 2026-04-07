@@ -12,7 +12,8 @@ import {
   AdminDetailField,
   Dialog,
 } from "@/app/components/admin";
-import api from "@/lib/axios";
+import api, { parseAxiosError } from "@/lib/axios";
+import { useToast } from "@/app/context/ToastContext";
 
 const PAGE_SIZE = 20;
 
@@ -27,7 +28,8 @@ function formFromPlaylist(p: PlaylistDto): PlaylistForm {
 }
 
 export default function AdminPlaylistsPage() {
-  const t = useTranslations("Admin");
+  const t     = useTranslations("Admin");
+  const toast = useToast();
 
   const [playlists, setPlaylists]   = useState<PlaylistDto[]>([]);
   const [total, setTotal]           = useState(0);
@@ -131,27 +133,36 @@ export default function AdminPlaylistsPage() {
   };
 
   const save = async () => {
-    if(dialogMode === "edit" && selected) {
-      await api.patch(API_ENDPOINTS.adminPlaylists.detail(selected.id), {
-        title:           form.title,
-        isPublic:        form.isPublic,
-        isCollaborative: form.isCollaborative,
-      });
+    try {
+      if(dialogMode === "edit" && selected) {
+        await api.patch(API_ENDPOINTS.adminPlaylists.detail(selected.id), {
+          title:           form.title,
+          isPublic:        form.isPublic,
+          isCollaborative: form.isCollaborative,
+        });
+      }
+      await reload();
+      setDialogOpen(false);
+      toast.success(t("toastSaved"));
+    } catch (err) {
+      toast.error(parseAxiosError(err));
     }
-    await reload();
-    setDialogOpen(false);
   };
 
   const remove = async (playlist: PlaylistDto) => {
     if(!confirm(`${t("deletePlaylistQuestion")} "${playlist.title}"?`))
       return;
 
-    await api.delete(API_ENDPOINTS.adminPlaylists.detail(playlist.id));
-    await reload();
-
-    if(selected?.id === playlist.id) {
-      setDialogOpen(false);
-      setSelected(null);
+    try {
+      await api.delete(API_ENDPOINTS.adminPlaylists.detail(playlist.id));
+      await reload();
+      if(selected?.id === playlist.id) {
+        setDialogOpen(false);
+        setSelected(null);
+      }
+      toast.success(t("toastDeleted"));
+    } catch (err) {
+      toast.error(parseAxiosError(err));
     }
   };
 

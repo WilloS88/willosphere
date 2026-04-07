@@ -12,7 +12,8 @@ import {
   AdminDetailField,
   Dialog,
 } from "@/app/components/admin";
-import api from "@/lib/axios";
+import api, { parseAxiosError } from "@/lib/axios";
+import { useToast } from "@/app/context/ToastContext";
 
 const PAGE_SIZE = 20;
 
@@ -64,7 +65,8 @@ function formatDuration(seconds: number): string {
 }
 
 export default function AdminTracksPage() {
-  const t = useTranslations("Admin");
+  const t     = useTranslations("Admin");
+  const toast = useToast();
 
   const [tracks, setTracks]         = useState<TrackDto[]>([]);
   const [total, setTotal]           = useState(0);
@@ -197,24 +199,34 @@ export default function AdminTracksPage() {
   });
 
   const save = async () => {
-    if(dialogMode === "create") {
-      await api.post(API_ENDPOINTS.adminTracks.list, buildPayload());
-    } else if (dialogMode === "edit" && selected) {
-      await api.patch(API_ENDPOINTS.adminTracks.detail(selected.id), buildPayload());
+    try {
+      if(dialogMode === "create") {
+        await api.post(API_ENDPOINTS.adminTracks.list, buildPayload());
+      } else if (dialogMode === "edit" && selected) {
+        await api.patch(API_ENDPOINTS.adminTracks.detail(selected.id), buildPayload());
+      }
+      await reload();
+      setDialogOpen(false);
+      toast.success(t("toastSaved"));
+    } catch (err) {
+      toast.error(parseAxiosError(err));
     }
-    await reload();
-    setDialogOpen(false);
   };
 
   const remove = async (track: TrackDto) => {
     if(!confirm(`${t("deleteTrackQuestion")} "${track.title}"?`))
       return;
 
-    await api.delete(API_ENDPOINTS.adminTracks.detail(track.id));
-    await reload();
-    if(selected?.id === track.id) {
-      setDialogOpen(false);
-      setSelected(null);
+    try {
+      await api.delete(API_ENDPOINTS.adminTracks.detail(track.id));
+      await reload();
+      if(selected?.id === track.id) {
+        setDialogOpen(false);
+        setSelected(null);
+      }
+      toast.success(t("toastDeleted"));
+    } catch (err) {
+      toast.error(parseAxiosError(err));
     }
   };
 

@@ -8,6 +8,7 @@ import { getRoleRedirect } from "@/lib/auth";
 import { useAuth } from "@/app/components/auth/AuthProvider";
 import { ArrowBigLeft, Users, AudioLines, Disc3, Barcode, Package, ListMusic, Mic2, Sun, Moon } from "lucide-react";
 import { useTheme } from "@/lib/hooks";
+import { ToastProvider } from "@/app/context/ToastContext";
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
   const t                       = useTranslations("Admin");
@@ -31,8 +32,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     return null;
 
   return (
-
-
+    <ToastProvider>
     <div className="drawer lg:drawer-open min-h-screen bg-base-100">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content bg-base-100">
@@ -141,7 +141,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
         </div>
       </div>
     </div>
-
+    </ToastProvider>
   );
 }
 

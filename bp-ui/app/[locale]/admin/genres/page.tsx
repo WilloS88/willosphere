@@ -11,12 +11,14 @@ import {
   AdminPageHeader,
   Dialog,
 } from "@/app/components/admin";
-import api from "@/lib/axios";
+import api, { parseAxiosError } from "@/lib/axios";
+import { useToast } from "@/app/context/ToastContext";
 
 const PAGE_SIZE = 20;
 
 export default function AdminGenresPage() {
-  const t = useTranslations("Admin");
+  const t     = useTranslations("Admin");
+  const toast = useToast();
 
   const [genres, setGenres]       = useState<GenreDto[]>([]);
   const [total, setTotal]         = useState(0);
@@ -105,24 +107,34 @@ export default function AdminGenresPage() {
   };
 
   const save = async () => {
-    if (dialogMode === "create") {
-      await api.post(API_ENDPOINTS.adminGenres.list, { name: form.name });
-    } else if (dialogMode === "edit" && selected) {
-      await api.patch(API_ENDPOINTS.adminGenres.detail(selected.id), { name: form.name });
+    try {
+      if (dialogMode === "create") {
+        await api.post(API_ENDPOINTS.adminGenres.list, { name: form.name });
+      } else if (dialogMode === "edit" && selected) {
+        await api.patch(API_ENDPOINTS.adminGenres.detail(selected.id), { name: form.name });
+      }
+      await reload();
+      setDialogOpen(false);
+      toast.success(t("toastSaved"));
+    } catch (err) {
+      toast.error(parseAxiosError(err));
     }
-    await reload();
-    setDialogOpen(false);
   };
 
   const remove = async (genre: GenreDto) => {
     if (!confirm(`${t("deleteGenreQuestion")} "${genre.name}"?`))
       return;
 
-    await api.delete(API_ENDPOINTS.adminGenres.detail(genre.id));
-    await reload();
-    if(selected?.id === genre.id) {
-      setDialogOpen(false);
-      setSelected(null);
+    try {
+      await api.delete(API_ENDPOINTS.adminGenres.detail(genre.id));
+      await reload();
+      if(selected?.id === genre.id) {
+        setDialogOpen(false);
+        setSelected(null);
+      }
+      toast.success(t("toastDeleted"));
+    } catch (err) {
+      toast.error(parseAxiosError(err));
     }
   };
 
