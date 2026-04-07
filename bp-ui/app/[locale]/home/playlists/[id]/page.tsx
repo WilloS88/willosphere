@@ -3,14 +3,16 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { ArrowLeft, Clock, ListMusic, Music, Play } from "lucide-react";
+import { ArrowLeft, Clock, ListMusic, Music, Play, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useTheme } from "@/lib/hooks";
 import { usePlayer } from "@/app/context/PlayerContext";
+import { useAuth } from "@/app/components/auth/AuthProvider";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
 import type { PlaylistDto } from "@/app/types/playlist";
 import type { TrackDto } from "@/app/types/track";
 import { formatTime } from "@/lib/store-data";
+import { hasRole } from "@/lib/auth";
 import api from "@/lib/axios";
 
 export default function PlaylistDetailPage() {
@@ -18,9 +20,11 @@ export default function PlaylistDetailPage() {
   const { id, locale } = useParams<{ id: string; locale: string }>();
   const { isDark }     = useTheme();
   const { playTrack, track: currentTrack, isPlaying } = usePlayer();
+  const { session } = useAuth();
 
   const [playlist, setPlaylist] = useState<PlaylistDto | null>(null);
   const [loading, setLoading]   = useState(true);
+  const [removing, setRemoving] = useState<number | null>(null);
 
   useEffect(() => {
     if (!id) return;
@@ -47,6 +51,22 @@ export default function PlaylistDetailPage() {
   }
 
   const tracks: TrackDto[] = playlist.tracks?.map((pt) => pt.track) ?? [];
+  const isOwner = session?.user?.id === playlist.userId;
+  const canManageTracks = isOwner || hasRole(session?.user, "admin");
+
+  const handleRemoveTrack = async (trackId: number) => {
+    setRemoving(trackId);
+    try {
+      const { data } = await api.delete<PlaylistDto>(
+        API_ENDPOINTS.playlists.removeTrack(Number(id), trackId),
+      );
+      setPlaylist(data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setRemoving(null);
+    }
+  };
 
   return (
     <div className="min-h-full">
@@ -141,6 +161,23 @@ export default function PlaylistDetailPage() {
                     <Clock size={10} />
                     {formatTime(track.durationSeconds)}
                   </div>
+
+                  {canManageTracks && (
+                    <button
+                      onClick={(e) => { e.stopPropagation(); handleRemoveTrack(track.id); }}
+                      disabled={removing === track.id}
+                      className={`shrink-0 rounded p-1.5 transition-all ${
+                        removing === track.id
+                          ? "opacity-40 cursor-not-allowed"
+                          : isDark
+                            ? "text-vhs-muted hover:text-fear hover:bg-fear/10"
+                            : "text-[#635b53] hover:text-[#c4234e] hover:bg-[#c4234e]/10"
+                      }`}
+                      title="Remove from playlist"
+                    >
+                      <Trash2 size={13} />
+                    </button>
+                  )}
                 </div>
               );
             })}

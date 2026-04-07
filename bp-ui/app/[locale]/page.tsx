@@ -31,6 +31,59 @@ import SplitText from "@/app/components/ui/react-bits/split-text/SplitText";
 import TiltedCard from "@/app/components/ui/react-bits/TiltedCard";
 import ElectricBorder from "@/app/components/ui/react-bits/electric-border/ElectricBorder";
 import { ALBUMS, CATEGORIES } from "@/lib/store-data";
+import api from "@/lib/axios";
+import { formatCompact } from "@/lib/format-number";
+
+/* ── Landing data types ── */
+interface LandingStats {
+  totalArtists:   number;
+  totalTracks:    number;
+  totalListeners: number;
+  totalPlays:     number;
+}
+
+interface SpotlightArtist {
+  userId:          number;
+  displayName:     string;
+  profileImageUrl: string | null;
+  trackCount:      number;
+}
+
+interface TrackArtistInfo {
+  artistId:        number;
+  displayName:     string;
+  profileImageUrl: string | null;
+  role:            string;
+}
+
+interface TrackGenreInfo {
+  id:   number;
+  name: string;
+}
+
+interface LandingTrack {
+  id:              number;
+  title:           string;
+  durationSeconds: number;
+  audioUrl:        string;
+  coverImageUrl:   string | null;
+  artists:         TrackArtistInfo[];
+  genres:          TrackGenreInfo[];
+  createdAt:       string;
+}
+
+interface LandingGenre {
+  id:         number;
+  name:       string;
+  trackCount: number;
+}
+
+interface LandingData {
+  stats:            LandingStats;
+  spotlightArtists: SpotlightArtist[];
+  trendingTracks:   LandingTrack[];
+  genres:           LandingGenre[];
+}
 
 /* ── Animated equalizer bars ── */
 function Equalizer({ bars = 24, isDark }: { bars?: number; isDark: boolean }) {
@@ -122,25 +175,17 @@ function AnimCounter({
   return <>{val}</>;
 }
 
-/* ── Genre card s randomními tracky ── */
+/* ── Genre card ── */
 function GenreCard({
   genre,
   color,
-  colorIndex,
+  trackCount,
 }: {
   genre:      string;
   color:      string;
-  colorIndex: number;
+  trackCount: number;
 }) {
-  const [trackCount, setTrackCount] = useState(400);
-  const [isClient, setIsClient]     = useState(false);
-  const { locale }                  = useParams<{ locale: string }>();
-
-  useEffect(() => {
-    setIsClient(true);
-    // Generuj počet tracků pouze na klientu
-    setTrackCount(Math.floor(200 + Math.random() * 800));
-  }, []);
+  const { locale } = useParams<{ locale: string }>();
 
   return (
     <Link
@@ -169,7 +214,7 @@ function GenreCard({
           {genre}
         </div>
         <div className={`mt-1 text-[10px] tracking-wider`}>
-          {isClient ? trackCount : 400} TRACKS
+          {trackCount} TRACKS
         </div>
       </div>
     </Link>
@@ -177,19 +222,35 @@ function GenreCard({
 }
 
 /* ── Landing page content ── */
+/* ── Color palette for cards ── */
+const CARD_COLORS = ["#00e5ff", "#9b59ff", "#ed2c5e", "#f4e526", "#00ff88", "#ed2c5e"];
+
+/* ── Fallback static data ── */
+const FALLBACK_ARTISTS = [
+  { userId: 0, displayName: "AESTHETIC_VOX",   profileImageUrl: null, trackCount: 47 },
+  { userId: 0, displayName: "SYNTH_WIZARD",    profileImageUrl: null, trackCount: 32 },
+  { userId: 0, displayName: "GHOST_DATA",      profileImageUrl: null, trackCount: 41 },
+  { userId: 0, displayName: "MACINTOSH_PLUS_X", profileImageUrl: null, trackCount: 15 },
+];
+
 function LandingContent() {
   const t           = useTranslations("Landing");
   const { locale }  = useParams<{ locale: string }>();
   const { isDark }  = useTheme();
 
-  const featuredAlbums = ALBUMS.slice(0, 6);
+  const [landing, setLanding] = useState<LandingData | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const spotlightArtists = [
-    { name: "AESTHETIC_VOX", tracks: 47, color: "#00e5ff" },
-    { name: "SYNTH_WIZARD", tracks: 32, color: "#9b59ff" },
-    { name: "GHOST_DATA", tracks: 41, color: "#ed2c5e" },
-    { name: "MACINTOSH_PLUS_X", tracks: 15, color: "#f4e526" },
-  ];
+  useEffect(() => {
+    api.get("/landing")
+      .then((res) => setLanding(res.data))
+      .catch(() => setLanding(null))
+      .finally(() => setLoading(false));
+  }, []);
+
+  const trendingTracks   = landing?.trendingTracks   ?? [];
+  const spotlightArtists = landing?.spotlightArtists ?? FALLBACK_ARTISTS;
+  const featuredAlbums   = ALBUMS.slice(0, 6);
 
   return (
     <>
@@ -301,7 +362,7 @@ function LandingContent() {
         className={`overflow-hidden px-4 py-16 sm:px-6 sm:py-24 ${isDark ? "bg-vhs-surface/60" : "bg-[#ede7db]/60"}`}
       >
         <div className="mx-auto max-w-7xl">
-          <div className="mb-8 flex items-end justify-between sm:mb-12">
+          <div className="mb-8 flex items-end justify-between">
             <div>
               <SectionLabel className="mb-2 text-lg">
                 {t("featuredLabel")}
@@ -332,81 +393,186 @@ function LandingContent() {
             </Link>
           </div>
 
-          {/* Horizontal scrolling album cards */}
-          <div className="scrollbar-hide vhs-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 sm:gap-6">
-            {featuredAlbums.map((album, i) => (
-              <div
-                key={album.id}
-                className="w-[200px] shrink-0 snap-start sm:w-[240px]"
-              >
-                <div
-                  className={`overflow-hidden rounded-lg border transition-all hover:-translate-y-1 ${
-                    isDark
-                      ? "bg-vhs-card border-royalblue/20 hover:border-fear/30"
-                      : "border-[#a89888]/30 bg-white/80 hover:border-[#c4234e]/20"
-                  }`}
-                >
-                  <TiltedCard
-                    containerHeight="200px"
-                    containerWidth="100%"
-                    imageHeight="180px"
-                    imageWidth="180px"
-                    rotateAmplitude={8}
-                    scaleOnHover={1.04}
-                    showMobileWarning={false}
-                    showTooltip={true}
-                    captionText={album.artist}
-                    imageSrc={`data:image/svg+xml,${encodeURIComponent(
-                      `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300">
-                        <defs>
-                          <linearGradient id="g${i}" x1="0" y1="0" x2="1" y2="1">
-                            <stop offset="0%" stop-color="${album.color}" stop-opacity="0.7"/>
-                            <stop offset="60%" stop-color="#253078" stop-opacity="0.8"/>
-                            <stop offset="100%" stop-color="#0b0f2d"/>
-                          </linearGradient>
-                        </defs>
-                        <rect width="300" height="300" fill="url(#g${i})" rx="8"/>
-                        <circle cx="150" cy="120" r="45" fill="none" stroke="${album.color}" stroke-opacity="0.4" stroke-width="1"/>
-                        <circle cx="150" cy="120" r="25" fill="none" stroke="${album.color}" stroke-opacity="0.25" stroke-width="0.5"/>
-                        <circle cx="150" cy="120" r="8" fill="${album.color}" fill-opacity="0.3"/>
-                        <text x="150" y="200" text-anchor="middle" fill="white" font-size="12" font-family="monospace" opacity="0.9">
-                          ${album.title.slice(0, 18)}
-                        </text>
-                        <text x="150" y="220" text-anchor="middle" fill="${album.color}" font-size="9" font-family="monospace" opacity="0.6">
-                          ${album.artist}
-                        </text>
-                        <text x="150" y="245" text-anchor="middle" fill="white" font-size="8" font-family="monospace" opacity="0.3">
-                          ${album.year}
-                        </text>
-                      </svg>`,
-                    )}`}
-                    altText={album.title}
-                  />
-                  <div className="mt-2 px-3 pb-3">
-                    <div className="flex items-center justify-between">
-                      <span
-                        className={`truncate text-xs font-bold tracking-wider ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}
-                      >
-                        {album.title}
-                      </span>
-                      {i < 2 && (
-                        <Badge
-                          variant="fear"
-                          className="ml-1 shrink-0 text-[9px]"
-                        >
-                          {t("newRelease")}
-                        </Badge>
-                      )}
-                    </div>
-                    <div
-                      className={`text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
-                    >
-                      {album.artist}
+          {/* Horizontal scrolling track/album cards */}
+          <div className="scrollbar-hide vhs-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto py-4 sm:gap-6">
+            {loading ? (
+              /* Skeleton placeholders */
+              Array.from({ length: 6 }).map((_, i) => (
+                <div key={i} className="w-[200px] shrink-0 snap-start sm:w-[240px]">
+                  <div
+                    className={`overflow-hidden rounded-lg border ${
+                      isDark ? "bg-vhs-card/40 border-royalblue/10" : "border-[#a89888]/20 bg-[#d5cfc5]/30"
+                    }`}
+                  >
+                    <div className={`h-[200px] animate-pulse ${isDark ? "bg-royalblue/10" : "bg-[#c5bfb3]/30"}`} />
+                    <div className="mt-2 space-y-2 px-3 pb-3">
+                      <div className={`h-3 w-3/4 animate-pulse rounded ${isDark ? "bg-royalblue/15" : "bg-[#c5bfb3]/40"}`} />
+                      <div className={`h-2.5 w-1/2 animate-pulse rounded ${isDark ? "bg-royalblue/10" : "bg-[#c5bfb3]/30"}`} />
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))
+            ) : trendingTracks.length > 0 ? (
+              /* Real tracks from DB */
+              trendingTracks.map((track, i) => {
+                const color       = CARD_COLORS[i % CARD_COLORS.length];
+                const artistName  = track.artists[0]?.displayName ?? "Unknown";
+                const year        = new Date(track.createdAt).getFullYear();
+
+                return (
+                  <div
+                    key={track.id}
+                    className="w-[200px] shrink-0 snap-start sm:w-[240px]"
+                  >
+                    <div
+                      className={`overflow-hidden rounded-lg border transition-all hover:-translate-y-1 ${
+                        isDark
+                          ? "bg-vhs-card border-royalblue/20 hover:border-fear/30"
+                          : "border-[#a89888]/30 bg-white/80 hover:border-[#c4234e]/20"
+                      }`}
+                    >
+                      <TiltedCard
+                        containerHeight="200px"
+                        containerWidth="100%"
+                        imageHeight="180px"
+                        imageWidth="180px"
+                        rotateAmplitude={8}
+                        scaleOnHover={1.04}
+                        showMobileWarning={false}
+                        showTooltip={true}
+                        captionText={artistName}
+                        imageSrc={
+                          track.coverImageUrl
+                            ? track.coverImageUrl
+                            : `data:image/svg+xml,${encodeURIComponent(
+                                `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300">
+                                  <defs>
+                                    <linearGradient id="g${i}" x1="0" y1="0" x2="1" y2="1">
+                                      <stop offset="0%" stop-color="${color}" stop-opacity="0.7"/>
+                                      <stop offset="60%" stop-color="#253078" stop-opacity="0.8"/>
+                                      <stop offset="100%" stop-color="#0b0f2d"/>
+                                    </linearGradient>
+                                  </defs>
+                                  <rect width="300" height="300" fill="url(#g${i})" rx="8"/>
+                                  <circle cx="150" cy="120" r="45" fill="none" stroke="${color}" stroke-opacity="0.4" stroke-width="1"/>
+                                  <circle cx="150" cy="120" r="25" fill="none" stroke="${color}" stroke-opacity="0.25" stroke-width="0.5"/>
+                                  <circle cx="150" cy="120" r="8" fill="${color}" fill-opacity="0.3"/>
+                                  <text x="150" y="200" text-anchor="middle" fill="white" font-size="12" font-family="monospace" opacity="0.9">
+                                    ${track.title.slice(0, 18)}
+                                  </text>
+                                  <text x="150" y="220" text-anchor="middle" fill="${color}" font-size="9" font-family="monospace" opacity="0.6">
+                                    ${artistName}
+                                  </text>
+                                  <text x="150" y="245" text-anchor="middle" fill="white" font-size="8" font-family="monospace" opacity="0.3">
+                                    ${year}
+                                  </text>
+                                </svg>`,
+                              )}`
+                        }
+                        altText={track.title}
+                      />
+                      <div className="mt-2 px-3 pb-3">
+                        <div className="flex items-center justify-between">
+                          <span
+                            className={`truncate text-xs font-bold tracking-wider ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}
+                          >
+                            {track.title}
+                          </span>
+                          {i < 2 && (
+                            <Badge
+                              variant="fear"
+                              className="ml-1 shrink-0 text-[9px]"
+                            >
+                              {t("newRelease")}
+                            </Badge>
+                          )}
+                        </div>
+                        <div
+                          className={`text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
+                        >
+                          {artistName}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })
+            ) : (
+              /* Fallback to static albums */
+              featuredAlbums.map((album, i) => (
+                <div
+                  key={album.id}
+                  className="w-[200px] shrink-0 snap-start sm:w-[240px]"
+                >
+                  <div
+                    className={`overflow-hidden rounded-lg border transition-all hover:-translate-y-1 ${
+                      isDark
+                        ? "bg-vhs-card border-royalblue/20 hover:border-fear/30"
+                        : "border-[#a89888]/30 bg-white/80 hover:border-[#c4234e]/20"
+                    }`}
+                  >
+                    <TiltedCard
+                      containerHeight="200px"
+                      containerWidth="100%"
+                      imageHeight="180px"
+                      imageWidth="180px"
+                      rotateAmplitude={8}
+                      scaleOnHover={1.04}
+                      showMobileWarning={false}
+                      showTooltip={true}
+                      captionText={album.artist}
+                      imageSrc={`data:image/svg+xml,${encodeURIComponent(
+                        `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300">
+                          <defs>
+                            <linearGradient id="g${i}" x1="0" y1="0" x2="1" y2="1">
+                              <stop offset="0%" stop-color="${album.color}" stop-opacity="0.7"/>
+                              <stop offset="60%" stop-color="#253078" stop-opacity="0.8"/>
+                              <stop offset="100%" stop-color="#0b0f2d"/>
+                            </linearGradient>
+                          </defs>
+                          <rect width="300" height="300" fill="url(#g${i})" rx="8"/>
+                          <circle cx="150" cy="120" r="45" fill="none" stroke="${album.color}" stroke-opacity="0.4" stroke-width="1"/>
+                          <circle cx="150" cy="120" r="25" fill="none" stroke="${album.color}" stroke-opacity="0.25" stroke-width="0.5"/>
+                          <circle cx="150" cy="120" r="8" fill="${album.color}" fill-opacity="0.3"/>
+                          <text x="150" y="200" text-anchor="middle" fill="white" font-size="12" font-family="monospace" opacity="0.9">
+                            ${album.title.slice(0, 18)}
+                          </text>
+                          <text x="150" y="220" text-anchor="middle" fill="${album.color}" font-size="9" font-family="monospace" opacity="0.6">
+                            ${album.artist}
+                          </text>
+                          <text x="150" y="245" text-anchor="middle" fill="white" font-size="8" font-family="monospace" opacity="0.3">
+                            ${album.year}
+                          </text>
+                        </svg>`,
+                      )}`}
+                      altText={album.title}
+                    />
+                    <div className="mt-2 px-3 pb-3">
+                      <div className="flex items-center justify-between">
+                        <span
+                          className={`truncate text-xs font-bold tracking-wider ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}
+                        >
+                          {album.title}
+                        </span>
+                        {i < 2 && (
+                          <Badge
+                            variant="fear"
+                            className="ml-1 shrink-0 text-[9px]"
+                          >
+                            {t("newRelease")}
+                          </Badge>
+                        )}
+                      </div>
+                      <div
+                        className={`text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
+                      >
+                        {album.artist}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </section>
@@ -494,22 +660,36 @@ function LandingContent() {
           </div>
 
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
-            {CATEGORIES.map((genre, i) => {
-              const colors = [
-                "#ed2c5e",
-                "#00e5ff",
-                "#9b59ff",
-                "#f4e526",
-                "#00ff88",
-                "#ed2c5e",
-                "#9b59ff",
-                "#00e5ff",
-              ];
-              const c = colors[i % colors.length];
-              return (
-                <GenreCard key={genre} genre={genre} color={c} colorIndex={i} />
-              );
-            })}
+            {loading ? (
+              Array.from({ length: 8 }).map((_, i) => (
+                <div
+                  key={i}
+                  className={`rounded-lg border p-4 sm:p-5 ${
+                    isDark ? "bg-vhs-card/40 border-royalblue/10" : "border-[#a89888]/20 bg-[#d5cfc5]/30"
+                  }`}
+                >
+                  <div className={`mb-2 h-8 w-8 animate-pulse rounded ${isDark ? "bg-royalblue/10" : "bg-[#c5bfb3]/30"}`} />
+                  <div className={`h-3 w-2/3 animate-pulse rounded ${isDark ? "bg-royalblue/15" : "bg-[#c5bfb3]/40"}`} />
+                  <div className={`mt-1.5 h-2.5 w-1/3 animate-pulse rounded ${isDark ? "bg-royalblue/10" : "bg-[#c5bfb3]/30"}`} />
+                </div>
+              ))
+            ) : (landing?.genres ?? []).length > 0 ? (
+              landing!.genres.map((genre, i) => {
+                const colors = ["#ed2c5e", "#00e5ff", "#9b59ff", "#f4e526", "#00ff88", "#ed2c5e", "#9b59ff", "#00e5ff"];
+                const c = colors[i % colors.length];
+                return (
+                  <GenreCard key={genre.id} genre={genre.name} color={c} trackCount={genre.trackCount} />
+                );
+              })
+            ) : (
+              CATEGORIES.map((genre, i) => {
+                const colors = ["#ed2c5e", "#00e5ff", "#9b59ff", "#f4e526", "#00ff88", "#ed2c5e", "#9b59ff", "#00e5ff"];
+                const c = colors[i % colors.length];
+                return (
+                  <GenreCard key={genre} genre={genre} color={c} trackCount={0} />
+                );
+              })
+            )}
           </div>
         </div>
       </section>
@@ -529,25 +709,25 @@ function LandingContent() {
             {[
               {
                 label: t("statsArtists"),
-                value: t("statsArtistsValue"),
+                value: landing ? formatCompact(landing.stats.totalArtists) : t("statsArtistsValue"),
                 desc: t("statsArtistsDesc"),
                 color: "text-fear",
               },
               {
                 label: t("statsTracks"),
-                value: t("statsTracksValue"),
+                value: landing ? formatCompact(landing.stats.totalTracks) : t("statsTracksValue"),
                 desc: t("statsTracksDesc"),
                 color: "text-vhs-cyan",
               },
               {
                 label: t("statsListeners"),
-                value: t("statsListenersValue"),
+                value: landing ? formatCompact(landing.stats.totalListeners) : t("statsListenersValue"),
                 desc: t("statsListenersDesc"),
                 color: "text-vhs-purple",
               },
               {
                 label: t("statsPlays"),
-                value: t("statsPlaysValue"),
+                value: landing ? formatCompact(landing.stats.totalPlays) : t("statsPlaysValue"),
                 desc: t("statsPlaysDesc"),
                 color: "text-vhs-green",
               },
@@ -566,7 +746,11 @@ function LandingContent() {
                   {stat.label}
                 </div>
                 <div className={`text-2xl font-bold sm:text-3xl ${stat.color}`}>
-                  <AnimCounter target={stat.value} />
+                  {loading ? (
+                    <div className={`mx-auto h-8 w-16 animate-pulse rounded ${isDark ? "bg-royalblue/15" : "bg-[#c5bfb3]/40"}`} />
+                  ) : (
+                    <AnimCounter target={stat.value} />
+                  )}
                 </div>
                 <div
                   className={`mt-2 text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
@@ -733,44 +917,67 @@ function LandingContent() {
           </div>
 
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-6">
-            {spotlightArtists.map((artist, i) => (
-              <div
-                key={artist.name}
-                className={`rounded-lg border p-4 text-center transition-all hover:-translate-y-1 ${
-                  isDark
-                    ? "bg-vhs-card border-royalblue/20 hover:border-royalblue/40"
-                    : "border-[#a89888]/30 bg-white/80 hover:border-[#a89888]/50"
-                }`}
-              >
-                <TiltedCard
-                  containerHeight="120px"
-                  containerWidth="100%"
-                  imageHeight="100px"
-                  imageWidth="100px"
-                  rotateAmplitude={14}
-                  scaleOnHover={1.08}
-                  showMobileWarning={false}
-                  showTooltip={false}
-                  imageSrc={`data:image/svg+xml,${encodeURIComponent(
-                    `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">
-                      <defs><radialGradient id="a${i}"><stop offset="0%" stop-color="${artist.color}" stop-opacity="0.5"/><stop offset="100%" stop-color="#0b0f2d"/></radialGradient></defs>
-                      <rect width="200" height="200" fill="url(#a${i})" rx="100"/>
-                    </svg>`,
-                  )}`}
-                  altText={artist.name}
-                />
+            {loading ? (
+              /* Skeleton placeholders */
+              Array.from({ length: 4 }).map((_, i) => (
                 <div
-                  className={`mt-1 text-xs font-bold tracking-[2px] sm:text-[13px] ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}
+                  key={i}
+                  className={`rounded-lg border p-4 text-center ${
+                    isDark ? "bg-vhs-card/40 border-royalblue/10" : "border-[#a89888]/20 bg-[#d5cfc5]/30"
+                  }`}
                 >
-                  {artist.name}
+                  <div className={`mx-auto h-[100px] w-[100px] animate-pulse rounded-full ${isDark ? "bg-royalblue/10" : "bg-[#c5bfb3]/30"}`} />
+                  <div className={`mx-auto mt-2 h-3 w-2/3 animate-pulse rounded ${isDark ? "bg-royalblue/15" : "bg-[#c5bfb3]/40"}`} />
+                  <div className={`mx-auto mt-1.5 h-2.5 w-1/3 animate-pulse rounded ${isDark ? "bg-royalblue/10" : "bg-[#c5bfb3]/30"}`} />
                 </div>
-                <div
-                  className={`text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
-                >
-                  {artist.tracks} TRACKS
-                </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              spotlightArtists.map((artist, i) => {
+                const color = CARD_COLORS[i % CARD_COLORS.length];
+                return (
+                  <div
+                    key={artist.userId || artist.displayName}
+                    className={`rounded-lg border p-4 text-center transition-all hover:-translate-y-1 ${
+                      isDark
+                        ? "bg-vhs-card border-royalblue/20 hover:border-royalblue/40"
+                        : "border-[#a89888]/30 bg-white/80 hover:border-[#a89888]/50"
+                    }`}
+                  >
+                    <TiltedCard
+                      containerHeight="120px"
+                      containerWidth="100%"
+                      imageHeight="100px"
+                      imageWidth="100px"
+                      rotateAmplitude={14}
+                      scaleOnHover={1.08}
+                      showMobileWarning={false}
+                      showTooltip={false}
+                      imageSrc={
+                        artist.profileImageUrl
+                          ? artist.profileImageUrl
+                          : `data:image/svg+xml,${encodeURIComponent(
+                              `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">
+                                <defs><radialGradient id="a${i}"><stop offset="0%" stop-color="${color}" stop-opacity="0.5"/><stop offset="100%" stop-color="#0b0f2d"/></radialGradient></defs>
+                                <rect width="200" height="200" fill="url(#a${i})" rx="100"/>
+                              </svg>`,
+                            )}`
+                      }
+                      altText={artist.displayName}
+                    />
+                    <div
+                      className={`mt-1 text-xs font-bold tracking-[2px] sm:text-[13px] ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}
+                    >
+                      {artist.displayName}
+                    </div>
+                    <div
+                      className={`text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
+                    >
+                      {artist.trackCount} TRACKS
+                    </div>
+                  </div>
+                );
+              })
+            )}
           </div>
         </div>
       </section>

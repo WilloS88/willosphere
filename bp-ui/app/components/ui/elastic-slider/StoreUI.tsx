@@ -5,6 +5,7 @@ import { Heart } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/lib/hooks";
+import TextType from "@/app/components/ui/react-bits/text-type/TextType";
 
 /* ── GlitchText ── */
 export function GlitchText({ children, className, as: Tag = "span" }: {
@@ -109,7 +110,7 @@ export function SectionLabel({ children, className }: { children: ReactNode; cla
   return <div className={cn("text-[11px] tracking-[2px] font-bold italic text-fear", className)}>{children}</div>;
 }
 
-/* ── PageHeader (with theme) ── */
+/* ── PageHeader (with theme + TextType) ── */
 export function PageHeader({ title, count }: { title: string; count: number }) {
   const t           = useTranslations("Store");
   const { isDark }  = useTheme();
@@ -119,8 +120,15 @@ export function PageHeader({ title, count }: { title: string; count: number }) {
       <div className={`inline-block px-5 py-1.5 vhs-skew-clip mb-2 ${isDark ? "bg-gradient-to-r from-fear to-fear/80" : "bg-gradient-to-r from-[#c4234e] to-[#a01d40]"}`}>
         <span className="font-bold text-xl sm:text-2xl tracking-[3px] italic text-white">{title}</span>
       </div>
-      <div className={`text-xs tracking-[2px] mt-1.5 ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
-        {t("showingRecords", { count })}
+      <div className={`font-vcr text-[11px] mt-1.5 ${isDark ? "text-vhs-cyan" : "text-[#0094a8]"}`}>
+        <TextType
+          text={`// ${t("showingRecords", { count })}`}
+          typingSpeed={30}
+          loop={false}
+          showCursor
+          cursorCharacter="█"
+          cursorBlinkDuration={0.5}
+        />
       </div>
     </div>
   );
