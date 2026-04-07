@@ -14,6 +14,7 @@ import { ProductsModule } from "./products/products.module";
 import { PurchasesModule } from "./purchases/purchases.module";
 import { ListenHistoryModule } from "./listen-history/listen-history.module";
 import { AdminStatsModule } from "./admin/admin-stats.module";
+import { LandingModule } from "./landing/landing.module";
 import { CryptoModule } from "./auth/crypto/crypto.module";
 
 @Module({
@@ -48,6 +49,7 @@ import { CryptoModule } from "./auth/crypto/crypto.module";
     PurchasesModule,
     ListenHistoryModule,
     AdminStatsModule,
+    LandingModule,
   ],
   controllers: [AppController],
   providers: [AppService],
