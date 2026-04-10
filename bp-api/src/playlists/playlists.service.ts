@@ -9,12 +9,15 @@ import { Repository } from "typeorm";
 import { Playlist } from "../entities/playlist.entity";
 import { PlaylistTrack } from "../entities/playlist-track.entity";
 import { Track } from "../entities/track.entity";
+import { TrackArtist } from "../entities/track-artist.entity";
 import { PlaylistDto } from "./dto/playlist.dto";
 import { CreatePlaylistDto } from "./dto/create-playlist.dto";
 import { UpdatePlaylistDto } from "./dto/update-playlist.dto";
 import { ListPlaylistsQueryDto } from "./dto/list-playlists-query.dto";
 import { PaginatedResult } from "../common/dto/paginated-result";
 import { Role } from "../entities/role.enum";
+import { EngagementActionService } from "../royalty/engagement-action.service";
+import { EngagementActionType } from "../entities/engagement-action.entity";
 
 @Injectable()
 export class PlaylistsService {
@@ -25,6 +28,9 @@ export class PlaylistsService {
     private readonly playlistTrackRepo: Repository<PlaylistTrack>,
     @InjectRepository(Track)
     private readonly trackRepo: Repository<Track>,
+    @InjectRepository(TrackArtist)
+    private readonly trackArtistRepo: Repository<TrackArtist>,
+    private readonly engagementService: EngagementActionService,
   ) {}
 
   async findAll(dto: ListPlaylistsQueryDto): Promise<PaginatedResult<PlaylistDto>> {
@@ -155,6 +161,22 @@ export class PlaylistsService {
     const nextPosition = (maxResult?.max ?? 0) + 1;
 
     await this.playlistTrackRepo.save({ playlistId: id, trackId, position: nextPosition });
+
+    // Record engagement action for the royalty algorithm
+    const primaryArtist = await this.trackArtistRepo.findOne({
+      where: { trackId, role: "primary" },
+      select: ["artistId"],
+    });
+    if(primaryArtist) {
+      this.engagementService
+        .record(requestingUserId, {
+          actionType: EngagementActionType.ADD_TO_PLAYLIST,
+          artistId: primaryArtist.artistId,
+          trackId,
+        })
+        .catch(() => {});
+    }
+
     return this.findOne(id);
   }
 

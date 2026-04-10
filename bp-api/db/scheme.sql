@@ -271,4 +271,71 @@ CREATE TABLE Audit_Log (
   INDEX idx_audit_changed_by (changed_by_user)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE stream_events (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  track_id INT NOT NULL,
+  artist_id INT NOT NULL,
+  source ENUM('search','artist_page','direct_link','user_playlist','browse','editorial','algorithm','radio') NOT NULL,
+  listen_duration_sec INT NOT NULL,
+  track_duration_sec INT NOT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_stream_artist_month (artist_id, created_at),
+  INDEX idx_stream_user_month (user_id, created_at),
+  INDEX idx_stream_user_track_day (user_id, track_id, created_at),
+  CONSTRAINT fk_stream_user FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE,
+  CONSTRAINT fk_stream_track FOREIGN KEY (track_id) REFERENCES Track(id) ON DELETE CASCADE,
+  CONSTRAINT fk_stream_artist FOREIGN KEY (artist_id) REFERENCES User(id) ON DELETE CASCADE
+);
+
+-- Engagement actions (likes, follows, shares, etc.)
+CREATE TABLE engagement_actions (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  artist_id INT NOT NULL,
+  track_id INT NULL,
+  action_type ENUM('like_track','save_to_library','add_to_playlist','share_track','follow_artist','purchase_merch') NOT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_engage_user_artist_month (user_id, artist_id, created_at),
+  INDEX idx_engage_user_action (user_id, action_type, created_at),
+  CONSTRAINT fk_engage_user FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE,
+  CONSTRAINT fk_engage_artist FOREIGN KEY (artist_id) REFERENCES User(id) ON DELETE CASCADE
+);
+
+-- Monthly royalties (materialized computation results)
+CREATE TABLE monthly_royalties (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  artist_id INT NOT NULL,
+  month DATE NOT NULL,
+  base_payout DECIMAL(12,2) NOT NULL,
+  discovery_bonus DECIMAL(12,2) DEFAULT 0,
+  total_payout DECIMAL(12,2) NOT NULL,
+  total_weighted_streams DECIMAL(12,4) NOT NULL,
+  unique_listeners INT NOT NULL,
+  tier ENUM('none','new','growing','emerging') DEFAULT 'none',
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uk_artist_month (artist_id, month),
+  CONSTRAINT fk_royalty_artist FOREIGN KEY (artist_id) REFERENCES User(id) ON DELETE CASCADE
+);
+
+-- Algorithm configuration (admin-editable parameters)
+CREATE TABLE algorithm_config (
+  param_key VARCHAR(50) PRIMARY KEY,
+  param_value DECIMAL(10,4) NOT NULL,
+  description VARCHAR(255),
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Seed default config values
+INSERT INTO algorithm_config (param_key, param_value, description) VALUES
+  ('F_platform',      0.2500, 'Platform fee (25%)'),
+  ('D_fund_rate',     0.0500, 'Discovery fund rate (5% of total revenue)'),
+  ('T_discovery',     1000.0000, 'Stream threshold for discovery bonus qualification'),
+  ('T_min_listen',    30.0000, 'Minimum listen duration in seconds for valid stream'),
+  ('M_action_cap',    1.5000, 'Maximum action multiplier cap'),
+  ('T_min_listeners', 10.0000, 'Minimum unique listeners for discovery bonus'),
+  ('T_account_age',   24.0000, 'Maximum artist account age in months for discovery bonus'),
+
+
 SET FOREIGN_KEY_CHECKS = 1;

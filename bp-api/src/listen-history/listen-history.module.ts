@@ -5,9 +5,13 @@ import { Track } from "../entities/track.entity";
 import { ListenHistoryController } from "./listen-history.controller";
 import { ListenHistoryService } from "./listen-history.service";
 import { CloudFrontService } from "../common/cloudfront.service";
+import { RoyaltyModule } from "../royalty/royalty.module";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ListenHistory, Track])],
+  imports: [
+    TypeOrmModule.forFeature([ListenHistory, Track]),
+    RoyaltyModule,
+  ],
   controllers: [ListenHistoryController],
   providers: [ListenHistoryService, CloudFrontService],
   exports: [ListenHistoryService],

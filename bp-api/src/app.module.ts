@@ -16,6 +16,9 @@ import { ListenHistoryModule } from "./listen-history/listen-history.module";
 import { AdminStatsModule } from "./admin/admin-stats.module";
 import { LandingModule } from "./landing/landing.module";
 import { CryptoModule } from "./auth/crypto/crypto.module";
+import { ScheduleModule } from "@nestjs/schedule";
+import { RoyaltyModule } from "./royalty/royalty.module";
+import { DonationsModule } from "./donations/donations.module";
 
 @Module({
   imports: [
@@ -37,6 +40,7 @@ import { CryptoModule } from "./auth/crypto/crypto.module";
         timezone: "Z",
       }),
     }),
+    ScheduleModule.forRoot(),
     UsersModule,
     CryptoModule,
     AuthModule,
@@ -50,6 +54,8 @@ import { CryptoModule } from "./auth/crypto/crypto.module";
     ListenHistoryModule,
     AdminStatsModule,
     LandingModule,
+    RoyaltyModule,
+    DonationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

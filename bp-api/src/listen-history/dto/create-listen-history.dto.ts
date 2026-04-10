@@ -1,4 +1,5 @@
-import { IsInt, IsOptional, IsString, Min } from "class-validator";
+import { IsEnum, IsInt, IsOptional, IsString, Min } from "class-validator";
+import { StreamSource } from "../../entities/stream-event.entity";
 
 export class CreateListenHistoryDto {
   @IsInt()
@@ -12,4 +13,13 @@ export class CreateListenHistoryDto {
   @IsOptional()
   @IsString()
   deviceInfo?: string;
+
+  @IsOptional()
+  @IsEnum(StreamSource)
+  source?: StreamSource;
+
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  trackDurationSec?: number;
 }

@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from "@nestjs/common";
 import { InjectDataSource, InjectRepository } from "@nestjs/typeorm";
-import { DataSource, Repository } from "typeorm";
+import { DataSource, In, Repository } from "typeorm";
 import { Track } from "../entities/track.entity";
 import { TrackArtist } from "../entities/track-artist.entity";
 import { TrackGenre } from "../entities/track-genre.entity";
@@ -42,6 +42,7 @@ export class TracksService {
       price:     "t.price",
       createdAt: "t.createdAt",
     };
+
     const sortCol = (dto.sortBy && ALLOWED_SORT[dto.sortBy]) ? ALLOWED_SORT[dto.sortBy] : "t.createdAt";
     const sortDir = dto.sortDir ?? "DESC";
 
@@ -203,9 +204,9 @@ export class TracksService {
 
   private async validateArtistIds(artistIds: number[]): Promise<void> {
     const unique = [...new Set(artistIds)];
-    const found  = await this.artistRepo.findByIds(unique);
+    const found  = await this.artistRepo.findBy({ userId: In(unique) });
 
-    if (found.length !== unique.length) {
+    if(found.length !== unique.length) {
       const foundIds  = found.map((a) => a.userId);
       const missing   = unique.filter((id) => !foundIds.includes(id));
       throw new BadRequestException(`Artist profiles not found for ids: ${missing.join(", ")}`);
@@ -217,9 +218,9 @@ export class TracksService {
       return;
 
     const unique = [...new Set(genreIds)];
-    const found  = await this.genreRepo.findByIds(unique);
+    const found  = await this.genreRepo.findBy({ id: In(unique) });
 
-    if (found.length !== unique.length) {
+    if(found.length !== unique.length) {
       const foundIds = found.map((g) => g.id);
       const missing  = unique.filter((id) => !foundIds.includes(id));
       throw new BadRequestException(`Genres not found for ids: ${missing.join(", ")}`);
@@ -230,6 +231,11 @@ export class TracksService {
     dto.audioUrl = this.cf.signUrl(dto.audioUrl);
     if (dto.coverImageUrl) {
       dto.coverImageUrl = this.cf.signUrl(dto.coverImageUrl);
+    }
+    for (const a of dto.artists ?? []) {
+      if(a.profileImageUrl) {
+        a.profileImageUrl = this.cf.signUrl(a.profileImageUrl);
+      }
     }
     return dto;
   }

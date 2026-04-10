@@ -11,13 +11,15 @@ export class AdminStatsService {
   ) {}
 
   async getStats(): Promise<AdminStatsDto> {
-    const [counts, streamsToday, recentActivity] = await Promise.all([
-      this.getCounts(),
-      this.getStreamsToday(),
-      this.getRecentActivity(),
-    ]);
+    const [counts, streamsToday, donationStats, recentActivity] =
+      await Promise.all([
+        this.getCounts(),
+        this.getStreamsToday(),
+        this.getDonationStats(),
+        this.getRecentActivity(),
+      ]);
 
-    return { ...counts, streamsToday, recentActivity };
+    return { ...counts, streamsToday, ...donationStats, recentActivity };
   }
 
   private async getCounts() {
@@ -58,6 +60,28 @@ export class AdminStatsService {
     `);
 
     return Number(row.cnt);
+  }
+
+  private async getDonationStats(): Promise<{
+    donationPoolThisMonth: number;
+    donationCountThisMonth: number;
+    totalDonorsThisMonth: number;
+  }> {
+    const [row]: [{ pool: string; cnt: string; donors: string }] =
+      await this.ds.query(`
+        SELECT
+          COALESCE(SUM(total_price), 0)    AS pool,
+          COUNT(*)                          AS cnt,
+          COUNT(DISTINCT user_id)           AS donors
+        FROM Purchase
+        WHERE purchase_date >= DATE_FORMAT(CURDATE(), '%Y-%m-01')
+      `);
+
+    return {
+      donationPoolThisMonth:  Number(row.pool),
+      donationCountThisMonth: Number(row.cnt),
+      totalDonorsThisMonth:   Number(row.donors),
+    };
   }
 
   private async getRecentActivity(): Promise<RecentActivityItem[]> {

@@ -14,6 +14,7 @@ import { BecomeArtistDto } from "./dto/become-artist.dto";
 import { UpdateArtistProfileDto } from "./dto/update-artist-profile.dto";
 import { ListArtistsQueryDto } from "./dto/list-artists-query.dto";
 import { PaginatedResult } from "../common/dto/paginated-result";
+import { CloudFrontService } from "../common/cloudfront.service";
 
 @Injectable()
 export class ArtistsService {
@@ -24,7 +25,15 @@ export class ArtistsService {
     private readonly profileRepo: Repository<ArtistProfile>,
     @InjectDataSource()
     private readonly ds: DataSource,
+    private readonly cf: CloudFrontService,
   ) {}
+
+  private signProfileImage(dto: ArtistDto): ArtistDto {
+    if(dto.profileImageUrl) {
+      dto.profileImageUrl = this.cf.signUrl(dto.profileImageUrl);
+    }
+    return dto;
+  }
 
   async findAll(dto: ListArtistsQueryDto): Promise<PaginatedResult<ArtistDto>> {
     const page  = dto.page  ?? 1;
@@ -57,7 +66,7 @@ export class ArtistsService {
     const [profiles, total] = await qb.getManyAndCount();
 
     return {
-      data: profiles.map((p) => ArtistDto.fromEntities(p.user, p)),
+      data: profiles.map((p) => this.signProfileImage(ArtistDto.fromEntities(p.user, p))),
       total,
       page,
       limit,
@@ -73,7 +82,7 @@ export class ArtistsService {
     if(!profile)
       throw new NotFoundException("Artist not found");
 
-    return ArtistDto.fromEntities(profile.user, profile);
+    return this.signProfileImage(ArtistDto.fromEntities(profile.user, profile));
   }
 
   async becomeArtist(userId: number, dto: BecomeArtistDto): Promise<ArtistDto> {
@@ -101,7 +110,7 @@ export class ArtistsService {
       });
       const savedProfile = await trx.getRepository(ArtistProfile).save(profile);
 
-      return ArtistDto.fromEntities(user, savedProfile);
+      return this.signProfileImage(ArtistDto.fromEntities(user, savedProfile));
     });
   }
 
@@ -123,7 +132,7 @@ export class ArtistsService {
 
     const saved = await this.profileRepo.save(profile);
 
-    return ArtistDto.fromEntities(profile.user, saved);
+    return this.signProfileImage(ArtistDto.fromEntities(profile.user, saved));
   }
 
   async resign(userId: number): Promise<void> {

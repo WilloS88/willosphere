@@ -17,6 +17,7 @@ import { sha256Base64Url, createRefreshRaw } from "./crypto/hash.util";
 import { SignupDto } from "./dto/signup.dto";
 import { SignupAsArtistDto } from "./dto/signup-artist.dto";
 import { AuthUserDto } from "./dto/auth-user.dto";
+import { CloudFrontService } from "../common/cloudfront.service";
 
 @Injectable()
 export class AuthService {
@@ -29,6 +30,8 @@ export class AuthService {
     private readonly mfaService: MfaService,
     private readonly configService: ConfigService,
     private readonly rsaKeys: RsaKeyProvider,
+
+    private readonly cf: CloudFrontService,
 
     @InjectRepository(RefreshToken)
     private readonly refreshRepo: Repository<RefreshToken>,
@@ -47,14 +50,14 @@ export class AuthService {
     const user    = await this.usersService.create(dto);
     const tokens  = await this.issueTokenPair(user.id, user.email);
 
-    return { user: AuthUserDto.fromEntity(user), ...tokens };
+    return { user: this.signProfileImage(AuthUserDto.fromEntity(user)), ...tokens };
   }
 
   async signupAsArtist(dto: SignupAsArtistDto) {
     const user    = await this.usersService.createWithArtistProfile(dto);
     const tokens  = await this.issueTokenPair(user.id, user.email);
 
-    return { user: AuthUserDto.fromEntity(user), ...tokens };
+    return { user: this.signProfileImage(AuthUserDto.fromEntity(user)), ...tokens };
   }
 
   async login(email: string, password: string, deviceId: string) {
@@ -91,7 +94,7 @@ export class AuthService {
     return {
       mfaRequired:  false,
       challengeId:  null,
-      user:         AuthUserDto.fromEntity(user),
+      user:         this.signProfileImage(AuthUserDto.fromEntity(user)),
       ...tokens,
     };
   }
@@ -105,7 +108,7 @@ export class AuthService {
 
     const tokens = await this.issueTokenPair(user.id, user.email, deviceId);
 
-    return { user: AuthUserDto.fromEntity(user), ...tokens };
+    return { user: this.signProfileImage(AuthUserDto.fromEntity(user)), ...tokens };
   }
 
   async refresh(rawRefreshToken: string, deviceId: string) {
@@ -169,7 +172,7 @@ export class AuthService {
     const accessToken = this.signAccessToken(user.id, user.email, roles);
 
     return {
-      user: AuthUserDto.fromEntity(user),
+      user: this.signProfileImage(AuthUserDto.fromEntity(user)),
       accessToken,
       refreshToken: newRaw,
     };
@@ -195,7 +198,14 @@ export class AuthService {
     if(!user)
       throw new UnauthorizedException("User not found");
 
-    return AuthUserDto.fromEntity(user);
+    return this.signProfileImage(AuthUserDto.fromEntity(user));
+  }
+
+  private signProfileImage(dto: AuthUserDto): AuthUserDto {
+    if(dto.profileImageUrl) {
+      dto.profileImageUrl = this.cf.signUrl(dto.profileImageUrl);
+    }
+    return dto;
   }
 
   private signAccessToken(

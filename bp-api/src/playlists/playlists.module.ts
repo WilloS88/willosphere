@@ -7,10 +7,12 @@ import { TrackArtist } from "../entities/track-artist.entity";
 import { TrackGenre } from "../entities/track-genre.entity";
 import { PlaylistsController } from "./playlists.controller";
 import { PlaylistsService } from "./playlists.service";
+import { RoyaltyModule } from "../royalty/royalty.module";
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Playlist, PlaylistTrack, Track, TrackArtist, TrackGenre]),
+    RoyaltyModule,
   ],
   controllers: [PlaylistsController],
   providers: [PlaylistsService],

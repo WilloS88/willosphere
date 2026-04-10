@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectDataSource } from "@nestjs/typeorm";
 import { DataSource } from "typeorm";
 import { TracksService } from "../tracks/tracks.service";
+import { CloudFrontService } from "../common/cloudfront.service";
 import { TrackDto } from "../tracks/dto/track.dto";
 import {
   LandingDto,
@@ -16,6 +17,7 @@ export class LandingService {
     @InjectDataSource()
     private readonly ds: DataSource,
     private readonly tracksService: TracksService,
+    private readonly cf: CloudFrontService,
   ) {}
 
   async getLanding(): Promise<LandingDto> {
@@ -73,7 +75,7 @@ export class LandingService {
     return rows.map((r) => ({
       userId:          r.user_id,
       displayName:     r.display_name,
-      profileImageUrl: r.profile_image_url ?? null,
+      profileImageUrl: r.profile_image_url ? this.cf.signUrl(r.profile_image_url) : null,
       trackCount:      Number(r.track_count),
     }));
   }

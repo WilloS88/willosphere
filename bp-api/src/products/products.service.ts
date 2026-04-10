@@ -12,6 +12,7 @@ import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
 import { ListProductsQueryDto } from "./dto/list-products-query.dto";
 import { PaginatedResult } from "../common/dto/paginated-result";
+import { CloudFrontService } from "../common/cloudfront.service";
 
 @Injectable()
 export class ProductsService {
@@ -20,7 +21,15 @@ export class ProductsService {
     private readonly productRepo: Repository<Product>,
     @InjectRepository(ArtistProfile)
     private readonly artistRepo: Repository<ArtistProfile>,
+    private readonly cf: CloudFrontService,
   ) {}
+
+  private signProductUrls(dto: ProductDto): ProductDto {
+    if(dto.artist?.profileImageUrl) {
+      dto.artist.profileImageUrl = this.cf.signUrl(dto.artist.profileImageUrl);
+    }
+    return dto;
+  }
 
   private baseQuery() {
     return this.productRepo
@@ -62,7 +71,7 @@ export class ProductsService {
     const [products, total] = await qb.getManyAndCount();
 
     return {
-      data: products.map(ProductDto.fromEntity),
+      data: products.map((p) => this.signProductUrls(ProductDto.fromEntity(p))),
       total,
       page,
       limit,
@@ -77,7 +86,7 @@ export class ProductsService {
     if(!product)
       throw new NotFoundException("Product not found");
 
-    return ProductDto.fromEntity(product);
+    return this.signProductUrls(ProductDto.fromEntity(product));
   }
 
   async create(dto: CreateProductDto): Promise<ProductDto> {

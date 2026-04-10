@@ -9,13 +9,16 @@ export class RecentActivityItem {
 }
 
 export class AdminStatsDto {
-  totalUsers!: number;
-  totalArtists!: number;
-  totalTracks!: number;
-  totalAlbums!: number;
-  totalPlaylists!: number;
-  totalOrders!: number;
-  totalRevenue!: number;
-  streamsToday!: number;
+  totalUsers!:              number;
+  totalArtists!:            number;
+  totalTracks!:             number;
+  totalAlbums!:             number;
+  totalPlaylists!:          number;
+  totalOrders!:             number;
+  totalRevenue!:            number;
+  streamsToday!:            number;
+  donationPoolThisMonth!:   number;
+  donationCountThisMonth!:  number;
+  totalDonorsThisMonth!:    number;
   recentActivity!: RecentActivityItem[];
 }

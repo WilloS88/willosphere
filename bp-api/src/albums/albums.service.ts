@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from "@nestjs/common";
 import { InjectDataSource, InjectRepository } from "@nestjs/typeorm";
-import { DataSource, Repository } from "typeorm";
+import { DataSource, In, Repository } from "typeorm";
 import { Album } from "../entities/album.entity";
 import { AlbumArtist } from "../entities/album-artist.entity";
 import { ArtistProfile } from "../entities/artist-profile.entity";
@@ -15,6 +15,7 @@ import { UpdateAlbumDto } from "./dto/update-album.dto";
 import { ListAlbumsQueryDto } from "./dto/list-albums-query.dto";
 import { TrackDto } from "../tracks/dto/track.dto";
 import { PaginatedResult } from "../common/dto/paginated-result";
+import { CloudFrontService } from "../common/cloudfront.service";
 
 @Injectable()
 export class AlbumsService {
@@ -27,7 +28,31 @@ export class AlbumsService {
     private readonly trackRepo: Repository<Track>,
     @InjectDataSource()
     private readonly ds: DataSource,
+    private readonly cf: CloudFrontService,
   ) {}
+
+  private signAlbumUrls(dto: AlbumDto): AlbumDto {
+    if(dto.coverImageUrl) {
+      dto.coverImageUrl = this.cf.signUrl(dto.coverImageUrl);
+    }
+    for (const a of dto.artists ?? []) {
+      if(a.profileImageUrl) {
+        a.profileImageUrl = this.cf.signUrl(a.profileImageUrl);
+      }
+    }
+    for (const t of dto.tracks ?? []) {
+      t.audioUrl = this.cf.signUrl(t.audioUrl);
+      if(t.coverImageUrl) {
+        t.coverImageUrl = this.cf.signUrl(t.coverImageUrl);
+      }
+      for (const a of t.artists ?? []) {
+        if(a.profileImageUrl) {
+          a.profileImageUrl = this.cf.signUrl(a.profileImageUrl);
+        }
+      }
+    }
+    return dto;
+  }
 
   async findAll(dto: ListAlbumsQueryDto): Promise<PaginatedResult<AlbumDto>> {
     const page  = dto.page  ?? 1;
@@ -61,7 +86,7 @@ export class AlbumsService {
     const [albums, total] = await qb.getManyAndCount();
 
     return {
-      data: albums.map((a) => AlbumDto.fromEntity(a)),
+      data: albums.map((a) => this.signAlbumUrls(AlbumDto.fromEntity(a))),
       total,
       page,
       limit,
@@ -88,7 +113,7 @@ export class AlbumsService {
       throw new NotFoundException("Album not found");
 
     const tracks = album.tracks.map(TrackDto.fromEntity);
-    return AlbumDto.fromEntity(album, tracks);
+    return this.signAlbumUrls(AlbumDto.fromEntity(album, tracks));
   }
 
   async create(dto: CreateAlbumDto): Promise<AlbumDto> {
@@ -199,7 +224,7 @@ export class AlbumsService {
 
   private async validateArtistIds(artistIds: number[]): Promise<void> {
     const unique = [...new Set(artistIds)];
-    const found  = await this.artistRepo.findByIds(unique);
+    const found  = await this.artistRepo.findBy({ userId: In(unique) });
 
     if (found.length !== unique.length) {
       const foundIds = found.map((a) => a.userId);
@@ -210,7 +235,7 @@ export class AlbumsService {
 
   private async validateTrackIds(trackIds: number[]): Promise<void> {
     const unique = [...new Set(trackIds)];
-    const found  = await this.trackRepo.findByIds(unique);
+    const found  = await this.trackRepo.findBy({ id: In(unique) });
 
     if (found.length !== unique.length) {
       const foundIds = found.map((t) => t.id);
