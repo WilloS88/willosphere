@@ -2,36 +2,238 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { Sun, Moon, ChevronDown, User, Shield, LogOut, Mic2, Search, Heart } from "lucide-react";
+import { Sun, Moon, ChevronDown, User, Shield, LogOut, Mic2, Search, Heart, Music, Disc3, Users } from "lucide-react";
 import { useAuth } from "@/app/components/auth/AuthProvider";
-import { useTheme } from "@/lib/hooks";
+import { useTheme, useDebounce } from "@/lib/hooks";
 import LocaleSwitcher from "@/app/components/locale/LocaleSwitcher";
 import { GlitchText } from "@/app/components/ui/elastic-slider/StoreUI";
 import { hasRole } from "@/lib/auth";
 import { cn } from "@/lib/utils";
+import { useOptionalPlayer } from "@/app/context/PlayerContext";
+import api from "@/lib/axios";
+import type { SearchResultDto } from "@/app/types/search";
 
-function SearchBar() {
-  const t                       = useTranslations("Store");
-  const [focused, setFocused]   = useState(false);
-  const [text, setText]         = useState("");
-  const { isDark }              = useTheme();
+export function SearchBar() {
+  const t                         = useTranslations("Store");
+  const { isDark }                = useTheme();
+  const { locale }                = useParams<{ locale: string }>();
+  const router                    = useRouter();
+  const player                    = useOptionalPlayer();
+  const [text, setText]           = useState("");
+  const [open, setOpen]           = useState(false);
+  const [results, setResults]     = useState<SearchResultDto | null>(null);
+  const [loading, setLoading]     = useState(false);
+  const debouncedText             = useDebounce(text, 300);
+  const wrapperRef                = useRef<HTMLDivElement>(null);
+  const inputRef                  = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if !open)
+      return;
+
+    const controller = new AbortController();
+    setLoading(true);
+
+    const params = debouncedText.trim() ? `?q=${encodeURIComponent(debouncedText.trim())}` : "";
+    api.get<SearchResultDto>(`/search${params}`, { signal: controller.signal })
+      .then(({ data }) => setResults(data))
+      .catch(() => {})
+      .finally(() => setLoading(false));
+
+    return () => controller.abort();
+  }, [debouncedText, open]);
+
+
+  useEffect(() => {
+    if(!open)
+      return;
+
+    const handler = (e: MouseEvent) => {
+      if(wrapperRef.current && !wrapperRef.current.contains(e.target as Node))
+        setOpen(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [open]);
+
+  // Escape
+  useEffect(() => {
+    if(!open)
+      return;
+
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") { setOpen(false); inputRef.current?.blur(); } };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [open]);
+
+  const close = () => { setOpen(false); setText(""); };
+
+  const hasResults = results && (results.tracks.length > 0 || results.artists.length > 0 || results.albums.length > 0);
+
+  const sectionHeadingCls = cn(
+    "px-3 py-2 text-[11px] font-bold tracking-[2px]",
+    isDark ? "text-vhs-cyan/70" : "text-[#c4234e]/70",
+  );
+
+  const itemCls = cn(
+    "flex items-center gap-2.5 px-3 py-2 cursor-pointer transition-colors",
+    isDark ? "hover:bg-royalblue/20" : "hover:bg-[#c4234e]/5",
+  );
 
   return (
-    <div className={`flex-1 max-w-[400px] h-[30px] flex items-center rounded-sm px-2.5 ml-2 sm:ml-5 transition-all border ${
-      focused
-        ? (isDark ? "bg-royalblue/50 border-vhs-cyan" : "bg-white border-[#c4234e]/40")
-        : (isDark ? "bg-royalblue/25 border-royalblue" : "bg-[#ede7db] border-[#a89888]")
-    }`}>
-      <input value={text} onChange={(e) => setText(e.target.value)}
-        onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
-        placeholder={`${t("searchPlaceholder")} . . .`}
-        className={`bg-transparent border-none outline-none text-[11px] font-vcr w-full tracking-wider ${
-          isDark ? "text-vhs-white placeholder:text-vhs-muted" : "text-[#2a2520] placeholder:text-[#635b53]"
-        }`}
-      />
-      <Search size={13} className={isDark ? "text-vhs-muted" : "text-[#635b53]"} />
+    <div ref={wrapperRef} className="relative flex-1 max-w-[400px] mx-auto">
+      {/* Input */}
+      <div className={`h-[30px] flex items-center rounded-sm px-2.5 transition-all border ${
+        open
+          ? (isDark ? "bg-royalblue/50 border-vhs-cyan" : "bg-white border-[#c4234e]/40")
+          : (isDark ? "bg-royalblue/25 border-royalblue" : "bg-[#ede7db] border-[#a89888]")
+      }`}>
+        <input
+          ref={inputRef}
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          onFocus={() => setOpen(true)}
+          placeholder={`${t("searchPlaceholder")} . . .`}
+          className={`bg-transparent border-none outline-none text-[11px] font-vcr w-full tracking-wider ${
+            isDark ? "text-vhs-white placeholder:text-vhs-muted" : "text-[#2a2520] placeholder:text-[#635b53]"
+          }`}
+        />
+        {loading ? (
+          <span className={`inline-block h-3 w-3 animate-spin rounded-full border border-current border-t-transparent ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`} />
+        ) : (
+          <Search size={13} className={isDark ? "text-vhs-muted" : "text-[#635b53]"} />
+        )}
+      </div>
+
+      {/* Dropdown */}
+      {open && (
+        <div className={cn(
+          "absolute left-1/2 -translate-x-1/2 top-full z-[300] mt-1 w-[550px] max-h-[70vh] overflow-y-auto rounded-sm border animate-slide-up",
+          isDark
+            ? "bg-vhs-surface border-royalblue/30 shadow-[0_4px_20px_rgba(11,15,45,0.8)]"
+            : "border-[#a89888]/40 bg-[#f5f0e8] shadow-[0_4px_16px_rgba(0,0,0,0.12)]",
+        )}>
+          {!hasResults && !loading && (
+            <div className={`px-3 py-4 text-center text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+              {debouncedText.trim() ? t("searchNoResults") : t("searchSuggestions")}
+            </div>
+          )}
+
+          {results && results.artists.length > 0 && (
+            <div>
+              <div className={sectionHeadingCls}>
+                <Users size={10} className="inline mr-1.5 -mt-0.5" />
+                {t("searchArtists")}
+              </div>
+              {results.artists.map((artist) => (
+                <div
+                  key={artist.userId}
+                  className={itemCls}
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => { router.push(`/${locale}/home/artists/${artist.userId}`); close(); }}
+                >
+                  <div className={cn(
+                    "h-9 w-9 rounded-full flex items-center justify-center text-xs font-bold overflow-hidden shrink-0",
+                    isDark ? "bg-royalblue/30 text-vhs-cyan" : "bg-[#c4234e]/10 text-[#c4234e]",
+                  )}>
+                    {artist.profileImageUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={artist.profileImageUrl} alt="" className="h-full w-full object-cover" />
+                    ) : (
+                      artist.displayName[0]?.toUpperCase()
+                    )}
+                  </div>
+                  <span className={`text-xs tracking-wider truncate ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}>
+                    {artist.displayName}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {results && results.tracks.length > 0 && (
+            <div>
+              <div className={sectionHeadingCls}>
+                <Music size={10} className="inline mr-1.5 -mt-0.5" />
+                {t("searchTracks")}
+              </div>
+              {results.tracks.map((track) => (
+                <div
+                  key={track.id}
+                  className={itemCls}
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={async () => {
+                    close();
+                    try {
+                      const { data: full } = await api.get<import("@/app/types/track").TrackDto>(`/tracks/${track.id}`);
+                      player?.playTrack(full, [full], "search");
+                    } catch {}
+                  }}
+                >
+                  <div className={cn(
+                    "h-9 w-9 rounded-sm flex items-center justify-center overflow-hidden shrink-0",
+                    isDark ? "bg-royalblue/30" : "bg-[#c4234e]/10",
+                  )}>
+                    {track.coverImageUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={track.coverImageUrl} alt="" className="h-full w-full object-cover" />
+                    ) : (
+                      <Music size={12} className={isDark ? "text-vhs-muted" : "text-[#635b53]"} />
+                    )}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className={`text-xs tracking-wider truncate ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}>
+                      {track.title}
+                    </div>
+                    <div className={`text-[11px] tracking-wider truncate ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+                      {track.artists.map((a) => a.displayName).join(", ")}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {results && results.albums.length > 0 && (
+            <div>
+              <div className={sectionHeadingCls}>
+                <Disc3 size={10} className="inline mr-1.5 -mt-0.5" />
+                {t("searchAlbums")}
+              </div>
+              {results.albums.map((album) => (
+                <div
+                  key={album.id}
+                  className={itemCls}
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => { router.push(`/${locale}/home/albums/${album.id}`); close(); }}
+                >
+                  <div className={cn(
+                    "h-9 w-9 rounded-sm flex items-center justify-center overflow-hidden shrink-0",
+                    isDark ? "bg-royalblue/30" : "bg-[#c4234e]/10",
+                  )}>
+                    {album.coverImageUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={album.coverImageUrl} alt="" className="h-full w-full object-cover" />
+                    ) : (
+                      <Disc3 size={12} className={isDark ? "text-vhs-muted" : "text-[#635b53]"} />
+                    )}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className={`text-xs tracking-wider truncate ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}>
+                      {album.title}
+                    </div>
+                    <div className={`text-[11px] tracking-wider truncate ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+                      {album.artists.map((a) => a.displayName).join(", ")}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

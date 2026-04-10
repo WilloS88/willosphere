@@ -373,3 +373,7 @@ export function usePlayer() {
     throw new Error("usePlayer must be inside PlayerProvider");
   return ctx;
 }
+
+export function useOptionalPlayer() {
+  return useContext(PlayerContext);
+}

@@ -121,4 +121,7 @@ export const API_ENDPOINTS = {
     list:   "/admin/algorithm-config",
     update: (key: string) => `/admin/algorithm-config/${key}`,
   },
+  search: {
+    query: "/search",
+  },
 } as const;

@@ -257,7 +257,7 @@ function LandingContent() {
       <style>{`@keyframes equalize { 0% { transform: scaleY(0.3); } 100% { transform: scaleY(1); } }`}</style>
 
       <Navbar />
-      <section className="relative h-[100dvh] min-h-[600px] w-full overflow-hidden">
+      <section className="relative h-[94dvh] min-h-[600px] w-full overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Dither
             waveColor={isDark ? [1, 1, 0.7] : [0.85, 0.25, 0.35]}
@@ -346,13 +346,13 @@ function LandingContent() {
         </div>
 
         {/* Scroll indicator */}
-        <div className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2 animate-bounce">
+        <div className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 animate-bounce">
           <div
-            className={`text-[20px] tracking-[3px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
+            className={`text-[24px] tracking-[3px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
           >
             <div className="flex items-center gap-2">
               <ArrowBigDown fill="currentColor" />
-              SCROLL
+              {t("scrollDown")}
             </div>
           </div>
         </div>

@@ -11,7 +11,6 @@ import {
   Headphones,
   Moon,
   Sun,
-  Search,
   ShoppingCart,
   Mic2,
 } from "lucide-react";
@@ -21,6 +20,7 @@ import LocaleSwitcher from "@/app/components/locale/LocaleSwitcher";
 import { hasRole } from "@/lib/auth";
 import { GlitchText } from "@/app/components/ui/elastic-slider/StoreUI";
 import { useAppSelector } from "@/lib/hooks";
+import { SearchBar } from "@/app/components/layout/HomeTopBar";
 
 export function Navbar() {
   const t                   = useTranslations("Navbar");
@@ -61,29 +61,7 @@ export function Navbar() {
       </Link>
 
       {/* Center — search */}
-      {session &&
-        <div
-          className={`mx-6 hidden h-[30px] max-w-[350px] flex-1 items-center rounded-sm border px-3 transition-all md:flex ${
-            isDark
-              ? "bg-royalblue/20 border-royalblue/40"
-              : "border-[#a89888] bg-[#ede7db]"
-          }`}
-        >
-          <input
-            type="text"
-            placeholder={`${t("search")} . . .`}
-            className={`font-vcr w-full border-none bg-transparent text-xs tracking-wider outline-none ${
-              isDark
-                ? "text-vhs-white placeholder:text-vhs-muted"
-                : "text-[#2a2520] placeholder:text-[#635b53]"
-            }`}
-          />
-          <Search
-            size={14}
-            className={isDark ? "text-vhs-muted" : "text-[#635b53]"}
-          />
-        </div>
-      }
+      {session && <SearchBar />}
 
       {/* Right */}
       <div className="flex items-center gap-2 sm:gap-3">
