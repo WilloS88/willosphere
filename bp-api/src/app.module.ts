@@ -19,6 +19,7 @@ import { CryptoModule } from "./auth/crypto/crypto.module";
 import { ScheduleModule } from "@nestjs/schedule";
 import { RoyaltyModule } from "./royalty/royalty.module";
 import { DonationsModule } from "./donations/donations.module";
+import { SearchModule } from "./search/search.module";
 
 @Module({
   imports: [
@@ -56,6 +57,7 @@ import { DonationsModule } from "./donations/donations.module";
     LandingModule,
     RoyaltyModule,
     DonationsModule,
+    SearchModule,
   ],
   controllers: [AppController],
   providers: [AppService],
