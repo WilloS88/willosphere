@@ -155,7 +155,7 @@ export default function TracksPage() {
                 key={track.id}
                 className={`animate-slide-up flex items-center gap-3 rounded border px-3 py-2.5 transition-all hover:-translate-y-px cursor-pointer ${base.card} ${currentTrack?.id === track.id ? (isDark ? "border-royalblue/60" : "border-[#c4234e]/40") : ""}`}
                 style={{ animationDelay: `${i * 0.03}s` }}
-                onClick={() => playTrack(track, tracks)}
+                onClick={() => playTrack(track, tracks, "browse")}
               >
                 {/* Cover / play indicator */}
                 <div

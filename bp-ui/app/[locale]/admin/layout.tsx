@@ -6,7 +6,7 @@ import { ReactNode, useEffect } from "react";
 import { useTranslations } from "use-intl";
 import { getRoleRedirect } from "@/lib/auth";
 import { useAuth } from "@/app/components/auth/AuthProvider";
-import { ArrowBigLeft, Users, AudioLines, Disc3, Barcode, Package, ListMusic, Mic2, Sun, Moon } from "lucide-react";
+import { ArrowBigLeft, Users, AudioLines, Disc3, Barcode, Package, ListMusic, Mic2, Sun, Moon, Settings, TrendingUp } from "lucide-react";
 import { useTheme } from "@/lib/hooks";
 import { ToastProvider } from "@/app/context/ToastContext";
 
@@ -135,6 +135,20 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                 href={`/${locale}/admin/orders`}>
                 <Package  size={20} />
                 {t("orders")}
+              </Link>
+            </li>
+
+            <li className="border-t-1 pt-1 mt-1">
+              <Link href={`/${locale}/admin/royalties`}>
+                <TrendingUp size={20} />
+                {t("royalties")}
+              </Link>
+            </li>
+
+            <li>
+              <Link href={`/${locale}/admin/algorithm`}>
+                <Settings size={20} />
+                {t("algorithmConfig")}
               </Link>
             </li>
           </ul>

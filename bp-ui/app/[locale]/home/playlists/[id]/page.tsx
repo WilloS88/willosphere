@@ -103,7 +103,7 @@ export default function PlaylistDetailPage() {
 
       {tracks.length > 0 && (
         <button
-          onClick={() => playTrack(tracks[0], tracks)}
+          onClick={() => playTrack(tracks[0], tracks, "user_playlist")}
           className="mb-5 flex items-center gap-2 rounded-full px-5 py-2 text-[11px] font-bold tracking-widest text-white transition-all hover:scale-105 active:scale-95 shadow-lg"
           style={{ background: isDark ? "var(--color-fear)" : "#c4234e" }}
         >
@@ -123,7 +123,7 @@ export default function PlaylistDetailPage() {
               return (
                 <div
                   key={track.id}
-                  onClick={() => playTrack(track, tracks)}
+                  onClick={() => playTrack(track, tracks, "user_playlist")}
                   className={`flex items-center gap-3 rounded border px-3 py-2.5 cursor-pointer transition-all hover:-translate-y-px ${
                     active
                       ? isDark ? "border-royalblue/60 bg-royalblue/10" : "border-[#c4234e]/40 bg-[#c4234e]/5"

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { Sun, Moon, ChevronDown, User, Shield, LogOut, Mic2, Search } from "lucide-react";
+import { Sun, Moon, ChevronDown, User, Shield, LogOut, Mic2, Search, Heart } from "lucide-react";
 import { useAuth } from "@/app/components/auth/AuthProvider";
 import { useTheme } from "@/lib/hooks";
 import LocaleSwitcher from "@/app/components/locale/LocaleSwitcher";
@@ -222,6 +222,17 @@ export function HomeTopBar() {
       <div className="ml-auto flex items-center gap-1.5 sm:gap-3 shrink-0">
         <LiveIndicator />
         <Clock />
+        <Link
+          href={`/${locale}/home/donate`}
+          title={t("nav_donate")}
+          className={`w-7 h-7 sm:w-8 sm:h-8 rounded-sm flex items-center justify-center text-sm border transition-all hover:scale-105 no-underline ${
+            isDark
+              ? "border-royalblue/40 bg-royalblue/20 text-fear hover:border-fear hover:text-fearyellow"
+              : "border-[#a89888] bg-white/60 text-[#c4234e] hover:border-[#c4234e] hover:text-[#c4234e]"
+          }`}
+        >
+          <Heart size={14} />
+        </Link>
         <ThemeToggle />
         <LocaleSwitcher />
         <ProfileDropdown />

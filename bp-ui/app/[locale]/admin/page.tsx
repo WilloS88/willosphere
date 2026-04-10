@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -16,6 +16,7 @@ import {
   ChevronRight,
   Headphones,
   DollarSign,
+  Heart,
   UserPlus,
   ShoppingCart,
   Clock,
@@ -32,31 +33,41 @@ type RecentActivityItem = {
 };
 
 type AdminStats = {
-  totalUsers: number;
-  totalArtists: number;
-  totalTracks: number;
-  totalAlbums: number;
-  totalPlaylists: number;
-  totalOrders: number;
-  totalRevenue: number;
-  streamsToday: number;
+  totalUsers:             number;
+  totalArtists:           number;
+  totalTracks:            number;
+  totalAlbums:            number;
+  totalPlaylists:         number;
+  totalOrders:            number;
+  totalRevenue:           number;
+  streamsToday:           number;
+  donationPoolThisMonth:  number;
+  donationCountThisMonth: number;
+  totalDonorsThisMonth:   number;
   recentActivity: RecentActivityItem[];
 };
 
 type QuickCard = {
-  key: string;
-  href: (locale: string) => string;
-  icon: React.ReactNode;
-  color: string;
+  key:    string;
+  href:   (locale: string) => string;
+  icon:   React.ReactNode;
+  color:  string;
 };
 
 function relativeTime(timestamp: string): string {
   const diff = Date.now() - new Date(timestamp).getTime();
   const mins = Math.floor(diff / 60000);
-  if (mins < 1) return "just now";
-  if (mins < 60) return `${mins}m ago`;
+
+  if(mins < 1)
+    return "just now";
+  if(mins < 60)
+    return `${mins}m ago`;
+
   const hours = Math.floor(mins / 60);
-  if (hours < 24) return `${hours}h ago`;
+
+  if(hours < 24)
+    return `${hours}h ago`;
+
   const days = Math.floor(hours / 24);
   return `${days}d ago`;
 }
@@ -84,10 +95,10 @@ const activityBadgeClass = (type: RecentActivityItem["type"]) => {
 };
 
 export default function AdminPage() {
-  const t = useTranslations("Admin");
-  const { locale } = useParams<{ locale: string }>();
+  const t           = useTranslations("Admin");
+  const { locale }  = useParams<{ locale: string }>();
 
-  const [stats, setStats] = useState<AdminStats | null>(null);
+  const [stats, setStats]     = useState<AdminStats | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -126,6 +137,18 @@ export default function AdminPage() {
           value: stats.totalOrders,
           icon: <Package size={22} className="text-warning" />,
           desc: `${stats.totalRevenue.toLocaleString()} CZK ${t("totalRevenue")}`,
+        },
+        {
+          label: t("kpi.donationPool"),
+          value: `${stats.donationPoolThisMonth.toLocaleString()} CZK`,
+          icon: <Heart size={22} className="text-error" />,
+          desc: t("kpi.donationPoolHint"),
+        },
+        {
+          label: t("kpi.totalDonors"),
+          value: stats.totalDonorsThisMonth,
+          icon: <DollarSign size={22} className="text-accent" />,
+          desc: `${stats.donationCountThisMonth} ${t("totalOrders").toLowerCase()}`,
         },
       ]
     : [];

@@ -95,8 +95,30 @@ export const API_ENDPOINTS = {
     data: "/landing",
   },
 
+  donations: {
+    create:  "/donations",
+    myTotal: "/donations/my-total",
+  },
+
   listenHistory: {
     record: "/listen-history",
     list:   "/listen-history",
+  },
+
+  engagementActions: {
+    record: "/engagement-actions",
+    likes:  "/engagement-actions/likes",
+    unlike: (trackId: number) => `/engagement-actions/likes/${trackId}`,
+  },
+
+  adminRoyalties: {
+    calculate:  "/admin/royalties/calculate",
+    list:       "/admin/royalties",
+    artist:     (id: number) => `/admin/royalties/artist/${id}`,
+  },
+
+  algorithmConfig: {
+    list:   "/admin/algorithm-config",
+    update: (key: string) => `/admin/algorithm-config/${key}`,
   },
 } as const;

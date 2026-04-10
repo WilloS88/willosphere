@@ -18,13 +18,23 @@ import {
   setProgress as setReduxProgress,
 } from "@/lib/features/player/playerSlice";
 
+export type PlaybackSource =
+  | "search"
+  | "artist_page"
+  | "direct_link"
+  | "user_playlist"
+  | "browse"
+  | "editorial"
+  | "algorithm"
+  | "radio";
+
 interface PlayerContextValue {
   navCollapsed:      boolean;
   setNavCollapsed:   Dispatch<SetStateAction<boolean>>;
   activeCategory:    string | null;
   setActiveCategory: Dispatch<SetStateAction<string | null>>;
   likedItems:        Set<number>;
-  toggleLike:        (id: number) => void;
+  toggleLike:        (id: number, track?: TrackDto) => void;
   isPlaying:         boolean;
   setIsPlaying:      Dispatch<SetStateAction<boolean>>;
   track:             TrackDto | null;
@@ -39,7 +49,7 @@ interface PlayerContextValue {
   showQueue:         boolean;
   setShowQueue:      Dispatch<SetStateAction<boolean>>;
   queue:             TrackDto[];
-  playTrack:         (track: TrackDto, queue?: TrackDto[]) => void;
+  playTrack:         (track: TrackDto, queue?: TrackDto[], source?: PlaybackSource) => void;
   nextTrack:         () => void;
   prevTrack:         () => void;
   seekTo:            (seconds: number) => void;
@@ -50,6 +60,12 @@ const PlayerContext = createContext<PlayerContextValue | null>(null);
 function getPersistedPlayer() {
   const s = store.getState().player;
   return s;
+}
+
+/** Extract primary artist ID from a TrackDto */
+function getPrimaryArtistId(track: TrackDto): number | null {
+  const primary = track.artists?.find((a) => a.role === "primary");
+  return primary?.artistId ?? track.artists?.[0]?.artistId ?? null;
 }
 
 export function PlayerProvider({ children }: { children: ReactNode }) {
@@ -76,6 +92,9 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
 
   // Listen history tracking: stores track ID that was already logged in current playback session
   const loggedTrackRef = useRef<number | null>(null);
+
+  // Playback source tracking for EWUC algorithm
+  const sourceRef = useRef<PlaybackSource>("browse");
 
   // Keep refs in sync
   useEffect(() => { queueRef.current = queue; }, [queue]);
@@ -104,9 +123,21 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  // Record listen history when threshold is reached
-  const recordListen = useCallback((trackId: number, secondsPlayed: number) => {
-    api.post(API_ENDPOINTS.listenHistory.record, { trackId, secondsPlayed }).catch(() => {
+  // Hydrate liked items from backend on mount
+  useEffect(() => {
+    api.get<{ trackIds: number[] }>(API_ENDPOINTS.engagementActions.likes)
+      .then((res) => setLikedItems(new Set(res.data.trackIds)))
+      .catch(() => {}); // ignore if not logged in
+  }, []);
+
+  // Record listen history + stream event when threshold is reached
+  const recordListen = useCallback((trackId: number, secondsPlayed: number, trackDurationSec: number) => {
+    api.post(API_ENDPOINTS.listenHistory.record, {
+      trackId,
+      secondsPlayed,
+      source: sourceRef.current,
+      trackDurationSec: trackDurationSec > 0 ? Math.floor(trackDurationSec) : undefined,
+    }).catch(() => {
       // Silently ignore — listen history is non-critical
     });
   }, []);
@@ -136,7 +167,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
           const threshold = Math.min(dur * 0.75, 240);
           if (currentTime >= threshold && currentTime >= 30) {
             loggedTrackRef.current = trackObj.id;
-            recordListen(trackObj.id, currentTime);
+            recordListen(trackObj.id, currentTime, dur);
           }
         }
       }
@@ -193,12 +224,13 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     }
   }, [volume]);
 
-  const playTrack = useCallback((newTrack: TrackDto, newQueue?: TrackDto[]) => {
+  const playTrack = useCallback((newTrack: TrackDto, newQueue?: TrackDto[], source?: PlaybackSource) => {
     const q           = newQueue ?? [newTrack];
     const idx         = q.findIndex((t) => t.id === newTrack.id);
     const resolvedIdx = idx >= 0 ? idx : 0;
 
     loggedTrackRef.current  = null;
+    sourceRef.current       = source ?? "browse";
     queueRef.current        = q;
     queueIdxRef.current     = resolvedIdx;
     store.dispatch(setQueueIdx(resolvedIdx));
@@ -280,10 +312,31 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     setProgress(seconds);
   }, []);
 
-  const toggleLike = useCallback((id: number) => {
+  const toggleLike = useCallback((id: number, trackDto?: TrackDto) => {
     setLikedItems((prev) => {
       const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
+      const isCurrentlyLiked = next.has(id);
+
+      if (isCurrentlyLiked) {
+        next.delete(id);
+        // Unlike on the backend
+        api.delete(API_ENDPOINTS.engagementActions.unlike(id)).catch(() => {});
+      } else {
+        next.add(id);
+        // Like on the backend — need artistId
+        const t = trackDto ?? queueRef.current.find((tr) => tr.id === id);
+        if (t) {
+          const artistId = getPrimaryArtistId(t);
+          if (artistId) {
+            api.post(API_ENDPOINTS.engagementActions.record, {
+              actionType: "like_track",
+              artistId,
+              trackId: id,
+            }).catch(() => {});
+          }
+        }
+      }
+
       return next;
     });
   }, []);
