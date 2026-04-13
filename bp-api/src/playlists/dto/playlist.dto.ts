@@ -12,6 +12,7 @@ export class PlaylistDto {
   userId!:          number;
   isPublic!:        boolean;
   isCollaborative!: boolean;
+  isSystem!:        boolean;
   trackCount!:      number;
   tracks?:          PlaylistTrackItem[];
   createdAt!:       Date;
@@ -24,6 +25,7 @@ export class PlaylistDto {
     dto.userId            = playlist.userId;
     dto.isPublic          = Boolean(playlist.isPublic);
     dto.isCollaborative   = Boolean(playlist.isCollaborative);
+    dto.isSystem          = Boolean(playlist.isSystem);
     dto.trackCount        = playlist.playlistTracks?.length ?? 0;
     dto.createdAt         = playlist.createdAt;
     dto.updatedAt         = playlist.updatedAt;

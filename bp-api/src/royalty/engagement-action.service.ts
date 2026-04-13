@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Inject, Injectable, forwardRef } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import {
@@ -6,6 +6,7 @@ import {
   EngagementActionType,
 } from "../entities/engagement-action.entity";
 import { CreateEngagementActionDto } from "./dto/create-engagement-action.dto";
+import { PlaylistsService } from "../playlists/playlists.service";
 
 /** Actions that are limited to once per artist per month */
 const ONCE_PER_MONTH_ACTIONS: EngagementActionType[] = [
@@ -18,6 +19,8 @@ export class EngagementActionService {
   constructor(
     @InjectRepository(EngagementAction)
     private readonly repo: Repository<EngagementAction>,
+    @Inject(forwardRef(() => PlaylistsService))
+    private readonly playlistsService: PlaylistsService,
   ) {}
 
   async record(
@@ -46,6 +49,10 @@ export class EngagementActionService {
     });
 
     await this.repo.save(action);
+
+    if (dto.actionType === EngagementActionType.LIKE_TRACK && dto.trackId) {
+      await this.playlistsService.addTrackToLikedPlaylist(userId, dto.trackId);
+    }
   }
 
   async getLikedTrackIds(userId: number): Promise<number[]> {
@@ -79,5 +86,7 @@ export class EngagementActionService {
       trackId,
       actionType: EngagementActionType.LIKE_TRACK,
     });
+
+    await this.playlistsService.removeTrackFromLikedPlaylist(userId, trackId);
   }
 }

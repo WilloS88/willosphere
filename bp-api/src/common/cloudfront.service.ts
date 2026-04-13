@@ -18,7 +18,11 @@ export class CloudFrontService {
 
   signUrl(s3KeyOrUrl: string, expiresInSeconds = 3600): string {
     const key = this.extractKey(s3KeyOrUrl);
-    const url = `https://${this.domain}/${key}`;
+    const encodedKey = key
+      .split("/")
+      .map((part) => encodeURIComponent(part))
+      .join("/");
+    const url = `https://${this.domain}/${encodedKey}`;
 
     return getSignedUrl({
       url,

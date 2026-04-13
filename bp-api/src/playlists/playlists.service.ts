@@ -115,6 +115,9 @@ export class PlaylistsService {
 
     this.assertOwnerOrAdmin(playlist.userId, requestingUserId, requestingRoles);
 
+    if (playlist.isSystem)
+      throw new ForbiddenException("System playlists cannot be modified");
+
     if(dto.title           !== undefined) playlist.title           = dto.title;
     if(dto.isPublic        !== undefined) playlist.isPublic        = dto.isPublic;
     if(dto.isCollaborative !== undefined) playlist.isCollaborative = dto.isCollaborative;
@@ -130,6 +133,10 @@ export class PlaylistsService {
       throw new NotFoundException("Playlist not found");
 
     this.assertOwnerOrAdmin(playlist.userId, requestingUserId, requestingRoles);
+
+    if (playlist.isSystem)
+      throw new ForbiddenException("System playlists cannot be deleted");
+
     await this.playlistRepo.delete(id);
   }
 
@@ -197,6 +204,57 @@ export class PlaylistsService {
 
     await this.playlistTrackRepo.delete({ playlistId: id, position: entry.position });
     return this.findOne(id);
+  }
+
+  async getOrCreateLikedPlaylist(userId: number): Promise<Playlist> {
+    let playlist = await this.playlistRepo.findOne({
+      where: { userId, isSystem: true },
+    });
+
+    if (!playlist) {
+      playlist = this.playlistRepo.create({
+        title:           "Liked Tracks",
+        userId,
+        isPublic:        false,
+        isCollaborative: false,
+        isSystem:        true,
+      });
+      playlist = await this.playlistRepo.save(playlist);
+    }
+
+    return playlist;
+  }
+
+  async addTrackToLikedPlaylist(userId: number, trackId: number): Promise<void> {
+    const playlist = await this.getOrCreateLikedPlaylist(userId);
+
+    const existing = await this.playlistTrackRepo.findOne({
+      where: { playlistId: playlist.id, trackId },
+    });
+    if (existing) return;
+
+    const maxResult = await this.playlistTrackRepo
+      .createQueryBuilder("pt")
+      .select("MAX(pt.position)", "max")
+      .where("pt.playlistId = :id", { id: playlist.id })
+      .getRawOne<{ max: number | null }>();
+
+    const nextPosition = (maxResult?.max ?? 0) + 1;
+    await this.playlistTrackRepo.save({ playlistId: playlist.id, trackId, position: nextPosition });
+  }
+
+  async removeTrackFromLikedPlaylist(userId: number, trackId: number): Promise<void> {
+    const playlist = await this.playlistRepo.findOne({
+      where: { userId, isSystem: true },
+    });
+    if (!playlist) return;
+
+    const entry = await this.playlistTrackRepo.findOne({
+      where: { playlistId: playlist.id, trackId },
+    });
+    if (!entry) return;
+
+    await this.playlistTrackRepo.delete({ playlistId: playlist.id, position: entry.position });
   }
 
   private assertOwnerOrAdmin(ownerId: number, requestingUserId: number, requestingRoles: string[]): void {

@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { Module, forwardRef } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { StreamEvent } from "../entities/stream-event.entity";
 import { EngagementAction } from "../entities/engagement-action.entity";
@@ -11,6 +11,7 @@ import { EngagementActionService } from "./engagement-action.service";
 import { RoyaltyCalculationService } from "./royalty-calculation.service";
 import { EngagementController } from "./engagement.controller";
 import { RoyaltyController } from "./royalty.controller";
+import { PlaylistsModule } from "../playlists/playlists.module";
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { RoyaltyController } from "./royalty.controller";
       TrackArtist,
       Track,
     ]),
+    forwardRef(() => PlaylistsModule),
   ],
   controllers: [EngagementController, RoyaltyController],
   providers: [

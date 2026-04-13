@@ -170,6 +170,7 @@ CREATE TABLE Playlist (
   title            VARCHAR(255) NOT NULL,
   user_id          INT NOT NULL,
   is_public        TINYINT(1) NOT NULL DEFAULT 0,
+  is_system        TINYINT(1) NOT NULL DEFAULT 0;
   is_collaborative TINYINT(1) NOT NULL DEFAULT 0,
   created_at       DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at       DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

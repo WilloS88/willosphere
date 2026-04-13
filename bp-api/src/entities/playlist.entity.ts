@@ -28,6 +28,9 @@ export class Playlist {
   @Column({ name: "is_collaborative", type: "tinyint", width: 1, default: 0 })
   isCollaborative!: boolean;
 
+  @Column({ name: "is_system", type: "tinyint", width: 1, default: 0 })
+  isSystem!: boolean;
+
   @ManyToOne(() => User, { onDelete: "CASCADE", eager: false })
   @JoinColumn({ name: "user_id" })
   user!: User;
