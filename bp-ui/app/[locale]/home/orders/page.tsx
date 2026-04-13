@@ -51,7 +51,7 @@ export default function OrdersPage() {
         <div className={`py-20 text-center ${mutedCls}`}>
           <Package size={32} className="mx-auto mb-3 opacity-20" />
           <div className="text-xs tracking-widest">{t("noOrders")}</div>
-          <div className="text-[11px] mt-1">{t("ordersHint")}</div>
+          <div className="text-xs mt-1">{t("ordersHint")}</div>
         </div>
       ) : (
         <div className={`rounded border divide-y ${cardCls} ${dividerCls}`}>
@@ -64,19 +64,19 @@ export default function OrdersPage() {
               >
                 <div className="flex-1 grid grid-cols-3 gap-2">
                   <div>
-                    <div className={`text-[10px] tracking-widest mb-0.5 ${mutedCls}`}>{t("orderDate")}</div>
+                    <div className={`text-[11px] tracking-widest mb-0.5 ${mutedCls}`}>{t("orderDate")}</div>
                     <div className={`text-xs font-bold ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}>
                       {new Date(order.purchaseDate).toLocaleDateString()}
                     </div>
                   </div>
                   <div>
-                    <div className={`text-[10px] tracking-widest mb-0.5 ${mutedCls}`}>{t("orderTotal")}</div>
+                    <div className={`text-[11px] tracking-widest mb-0.5 ${mutedCls}`}>{t("orderTotal")}</div>
                     <div className="text-xs font-bold text-fear">
                       {order.totalPrice} {order.currencyCode}
                     </div>
                   </div>
                   <div>
-                    <div className={`text-[10px] tracking-widest mb-0.5 ${mutedCls}`}>{t("orderItems")}</div>
+                    <div className={`text-[11px] tracking-widest mb-0.5 ${mutedCls}`}>{t("orderItems")}</div>
                     <div className={`text-xs font-bold ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}>
                       {order.items.length}
                     </div>

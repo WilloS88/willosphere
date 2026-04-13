@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 
+/** All proxy routes must be dynamic — signed URLs expire. */
+export const dynamic = "force-dynamic";
+
 const NEST_API_URL = process.env.NEST_API_URL!;
 
 /**
@@ -25,7 +28,10 @@ export async function proxy(req: NextRequest, path: string): Promise<NextRespons
 
   const nextRes = new NextResponse(resBody || null, {
     status:   nestRes.status,
-    headers:  { "Content-Type": "application/json" },
+    headers:  {
+      "Content-Type": "application/json",
+      "Cache-Control": "no-store, max-age=0",
+    },
   });
 
   /* Forward Set-Cookie from NestJS to the browser */

@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Heart, Sparkles } from "lucide-react";
+import { HandCoins, Sparkles } from "lucide-react";
 import { SectionLabel, VHSButton } from "@/app/components/ui/elastic-slider/StoreUI";
 import { useTheme } from "@/lib/hooks";
 import { useToast } from "@/app/context/ToastContext";
@@ -80,17 +80,17 @@ export default function DonatePage() {
     <div className="max-w-lg mx-auto">
       <SectionLabel className="mb-1">{t("donateTitle")}</SectionLabel>
       <h1 className={`text-xl font-bold tracking-widest mb-2 ${accentCls}`}>
-        <Heart size={18} className="inline mr-2" />
+        <HandCoins size={18} className="inline mr-2" />
         {t("donateTitle")}
       </h1>
-      <p className={`text-[11px] tracking-wider mb-6 ${mutedCls}`}>
+      <p className={`text-xs tracking-wider mb-6 ${mutedCls}`}>
         {t("donateSubtitle")}
       </p>
 
       {/* User total */}
       {myTotal && myTotal.count > 0 && (
         <div className={`rounded border px-4 py-3 mb-4 flex items-center justify-between ${cardCls}`}>
-          <span className={`text-[11px] tracking-widest ${mutedCls}`}>{t("donateTotal")}</span>
+          <span className={`text-xs tracking-widest ${mutedCls}`}>{t("donateTotal")}</span>
           <span className={`text-lg font-bold ${accentCls}`}>
             {myTotal.total.toLocaleString()} {t("donateCurrency")}
           </span>
@@ -99,7 +99,7 @@ export default function DonatePage() {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* Preset amounts */}
-        <div className={`text-[11px] tracking-widest mb-3 ${mutedCls}`}>
+        <div className={`text-xs tracking-widest mb-3 ${mutedCls}`}>
           {t("donatePresetLabel")}
         </div>
         <div className="grid grid-cols-5 gap-2 mb-5">
@@ -119,13 +119,13 @@ export default function DonatePage() {
               }`}
             >
               <div className="text-sm font-bold">{amount}</div>
-              <div className={`text-[9px] ${mutedCls}`}>{t("donateCurrency")}</div>
+              <div className={`text-[10px] ${mutedCls}`}>{t("donateCurrency")}</div>
             </button>
           ))}
         </div>
 
         {/* Custom amount */}
-        <div className={`text-[11px] tracking-widest mb-2 ${mutedCls}`}>
+        <div className={`text-xs tracking-widest mb-2 ${mutedCls}`}>
           {t("donateCustomLabel")}
         </div>
         <div className={`rounded border mb-1 ${cardCls}`}>
@@ -147,7 +147,7 @@ export default function DonatePage() {
           />
         </div>
         {errors.amount && (
-          <div className="text-error text-[11px] mb-3">{errors.amount.message}</div>
+          <div className="text-error text-xs mb-3">{errors.amount.message}</div>
         )}
 
         {/* Submit */}

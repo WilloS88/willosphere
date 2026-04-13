@@ -76,17 +76,17 @@ function SignupContent() {
     }
   };
 
-  const inputCls = `w-full rounded-sm px-3 py-2.5 border outline-none text-sm tracking-wider font-vcr transition-all ${
+  const inputCls = `w-full rounded-sm px-3 py-2.5 border outline-none focus-visible:ring-2 focus-visible:ring-fear text-sm tracking-wider font-vcr transition-all ${
     isDark
       ? "bg-darkblue/60 border-royalblue/30 text-vhs-white placeholder:text-vhs-muted focus:border-fear"
       : "bg-[#ede7db]/80 border-[#a89888]/40 text-[#2a2520] placeholder:text-[#635b53] focus:border-[#c4234e]"
   }`;
   const inputErrCls = `${inputCls} ${isDark ? "!border-fear" : "!border-[#c4234e]"}`;
-  const labelCls = `block text-[11px] tracking-[2px] mb-1.5 ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`;
-  const fieldErrCls = `mt-1 text-[11px] tracking-wider ${isDark ? "text-fear" : "text-[#c4234e]"}`;
+  const labelCls = `block text-xs tracking-[2px] mb-1.5 ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`;
+  const fieldErrCls = `mt-1 text-xs tracking-wider ${isDark ? "text-fear" : "text-[#c4234e]"}`;
 
   return (
-    <div className="flex min-h-screen items-center justify-center px-4 py-8">
+    <main className="flex min-h-screen items-center justify-center px-4 py-8">
       <div
         className={`w-full max-w-md rounded border p-6 sm:p-8 ${isDark ? "bg-vhs-card/80 border-royalblue/20" : "border-[#a89888]/30 bg-white/80"}`}
       >
@@ -104,8 +104,9 @@ function SignupContent() {
 
         <form className="space-y-3" onSubmit={handleSubmit(onSubmit)}>
           <div>
-            <label className={labelCls}>{t("displayedName")}</label>
+            <label htmlFor="displayName" className={labelCls}>{t("displayedName")}</label>
             <input
+              id="displayName"
               type="text"
               className={errors.displayName ? inputErrCls : inputCls}
               placeholder={t("typeDisplayedName")}
@@ -116,8 +117,9 @@ function SignupContent() {
             )}
           </div>
           <div>
-            <label className={labelCls}>{t("email")}</label>
+            <label htmlFor="email" className={labelCls}>{t("email")}</label>
             <input
+              id="email"
               type="email"
               className={errors.email ? inputErrCls : inputCls}
               placeholder={t("typeEmail")}
@@ -129,8 +131,9 @@ function SignupContent() {
             )}
           </div>
           <div>
-            <label className={labelCls}>{t("password")}</label>
+            <label htmlFor="password" className={labelCls}>{t("password")}</label>
             <input
+              id="password"
               type="password"
               className={errors.password ? inputErrCls : inputCls}
               placeholder={t("typePassword")}
@@ -142,8 +145,9 @@ function SignupContent() {
             )}
           </div>
           <div>
-            <label className={labelCls}>{t("confirmPassword")}</label>
+            <label htmlFor="confirmPassword" className={labelCls}>{t("confirmPassword")}</label>
             <input
+              id="confirmPassword"
               type="password"
               className={errors.confirmPassword ? inputErrCls : inputCls}
               placeholder={t("typeConfirmPassword")}
@@ -175,7 +179,7 @@ function SignupContent() {
           <div
             className={`h-px flex-1 ${isDark ? "bg-royalblue/30" : "bg-[#a89888]/30"}`}
           />
-          <span className="text-[11px] tracking-[2px]">
+          <span className="text-xs tracking-[2px]">
             {t("or").toUpperCase()}
           </span>
           <div
@@ -195,7 +199,7 @@ function SignupContent() {
           </Link>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
 

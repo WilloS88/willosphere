@@ -40,7 +40,7 @@ export default function ArtistsPage() {
         </div>
       ) : artists.length === 0 ? (
         <div
-          className={`py-16 text-center text-[11px] tracking-widest ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
+          className={`py-16 text-center text-xs tracking-widest ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
         >
           {t("noArtists")}
         </div>
@@ -79,14 +79,14 @@ export default function ArtistsPage() {
                 </div>
 
                 <div
-                  className={`mb-1 truncate text-xs font-bold tracking-wider sm:text-[11px] ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}
+                  className={`mb-1 truncate text-xs font-bold tracking-wider sm:text-xs ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}
                 >
                   {artist.displayName.toUpperCase()}
                 </div>
 
                 {artist.bio && (
                   <div
-                    className={`mb-2 line-clamp-2 text-[11px] tracking-wide ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
+                    className={`mb-2 line-clamp-2 text-xs tracking-wide ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
                   >
                     {artist.bio}
                   </div>
@@ -94,7 +94,7 @@ export default function ArtistsPage() {
 
                 {artist.artistSince && (
                   <div
-                    className={`mt-1 text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
+                    className={`mt-1 text-xs tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
                   >
                     {t("since")} {new Date(artist.artistSince).getFullYear()}
                   </div>

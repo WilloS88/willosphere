@@ -195,11 +195,11 @@ function GenreCard({
       onMouseEnter={(e) => (e.currentTarget.style.borderColor = color + "44")}
       onMouseLeave={(e) => (e.currentTarget.style.borderColor = "transparent")}
     >
-      {/* Background glow on hover */}
+      {/* VHS-style hover overlay */}
       <div
         className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         style={{
-          background: `radial-gradient(circle at 50% 50%, ${color}10, transparent 70%)`,
+          background: `linear-gradient(180deg, ${color}08 0%, ${color}18 100%)`,
         }}
       />
 
@@ -210,10 +210,10 @@ function GenreCard({
         >
           <Music2 size={32} strokeWidth={1.5} />
         </div>
-        <div className={`text-xs font-bold tracking-[2px] sm:text-[13px]`}>
+        <div className={`text-xs font-bold tracking-[2px] sm:text-sm`}>
           {genre}
         </div>
-        <div className={`mt-1 text-[10px] tracking-wider`}>
+        <div className={`mt-1 text-[11px] tracking-wider`}>
           {trackCount} TRACKS
         </div>
       </div>
@@ -373,7 +373,7 @@ function LandingContent() {
                 {t("nowTrending")}
               </h2>
               <p
-                className={`mt-2 text-xs tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
+                className={`mt-2 text-xs leading-relaxed tracking-wide ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
               >
                 {t("featuredDesc")}
               </p>
@@ -481,14 +481,14 @@ function LandingContent() {
                           {i < 2 && (
                             <Badge
                               variant="fear"
-                              className="ml-1 shrink-0 text-[9px]"
+                              className="ml-1 shrink-0 text-[10px]"
                             >
                               {t("newRelease")}
                             </Badge>
                           )}
                         </div>
                         <div
-                          className={`text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
+                          className={`text-xs tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
                         >
                           {artistName}
                         </div>
@@ -557,14 +557,14 @@ function LandingContent() {
                         {i < 2 && (
                           <Badge
                             variant="fear"
-                            className="ml-1 shrink-0 text-[9px]"
+                            className="ml-1 shrink-0 text-[10px]"
                           >
                             {t("newRelease")}
                           </Badge>
                         )}
                       </div>
                       <div
-                        className={`text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
+                        className={`text-xs tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
                       >
                         {album.artist}
                       </div>
@@ -619,12 +619,12 @@ function LandingContent() {
                       <IconComponent size={40} strokeWidth={1.5} />
                     </div>
                     <h3
-                      className={`mb-3 text-base font-bold tracking-[2px] sm:text-lg ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}
+                      className={`mb-3 text-base font-semibold tracking-[2px] sm:text-lg ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}
                     >
                       {card.title}
                     </h3>
                     <p
-                      className={`text-[11px] leading-relaxed tracking-wider sm:text-xs ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
+                      className={`text-xs leading-relaxed tracking-wide sm:text-sm ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
                     >
                       {card.desc}
                     </p>
@@ -741,11 +741,11 @@ function LandingContent() {
                 }`}
               >
                 <div
-                  className={`mb-2 text-[11px] tracking-[3px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
+                  className={`mb-2 text-xs tracking-[3px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
                 >
                   {stat.label}
                 </div>
-                <div className={`text-2xl font-bold sm:text-3xl ${stat.color}`}>
+                <div className={`text-2xl font-extrabold sm:text-3xl ${stat.color}`}>
                   {loading ? (
                     <div className={`mx-auto h-8 w-16 animate-pulse rounded ${isDark ? "bg-royalblue/15" : "bg-[#c5bfb3]/40"}`} />
                   ) : (
@@ -753,7 +753,7 @@ function LandingContent() {
                   )}
                 </div>
                 <div
-                  className={`mt-2 text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
+                  className={`mt-2 text-xs leading-relaxed tracking-wide ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
                 >
                   {stat.desc}
                 </div>
@@ -828,12 +828,12 @@ function LandingContent() {
                     <Icon size={22} strokeWidth={1.75} />
                   </div>
                   <h3
-                    className={`mb-2 text-[15px] font-bold tracking-[2px] sm:text-xs ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}
+                    className={`mb-2 text-sm font-bold tracking-[2px] sm:text-xs ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}
                   >
                     {item.title}
                   </h3>
                   <p
-                    className={`text-[13px] leading-relaxed tracking-wide ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
+                    className={`text-sm leading-relaxed tracking-wide ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
                   >
                     {item.desc}
                   </p>
@@ -866,7 +866,7 @@ function LandingContent() {
                   {t("becomeArtistNote")}
                 </div>
                 <div
-                  className={`mt-0.5 text-[10px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
+                  className={`mt-0.5 text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
                 >
                   {t("becomeArtistAlreadyArtist")}{" "}
                   <Link
@@ -965,12 +965,12 @@ function LandingContent() {
                       altText={artist.displayName}
                     />
                     <div
-                      className={`mt-1 text-xs font-bold tracking-[2px] sm:text-[13px] ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}
+                      className={`mt-1 text-xs font-bold tracking-[2px] sm:text-sm ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}
                     >
                       {artist.displayName}
                     </div>
                     <div
-                      className={`text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
+                      className={`text-xs tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
                     >
                       {artist.trackCount} TRACKS
                     </div>
@@ -1000,12 +1000,12 @@ function LandingContent() {
                 <Play fill="#ffffff" />
               </div>
               <h2
-                className={`mb-4 text-2xl font-bold tracking-[3px] sm:text-3xl ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}
+                className={`mb-4 text-2xl font-extrabold tracking-[3px] sm:text-3xl ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}
               >
                 {t("ctaTitle")}
               </h2>
               <p
-                className={`mx-auto mb-8 max-w-md text-[11px] leading-relaxed tracking-wider sm:text-xs ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
+                className={`mx-auto mb-8 max-w-md text-xs leading-relaxed tracking-wide sm:text-sm ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
               >
                 {t("ctaDesc")}
               </p>

@@ -9,7 +9,7 @@ export function Footer() {
   const { isDark }  = useTheme();
 
   return (
-    <footer className={`flex flex-col sm:flex-row justify-between items-center px-5 py-4 border-t font-vcr text-[11px] tracking-wider ${
+    <footer className={`flex flex-col sm:flex-row justify-between items-center px-5 py-4 border-t font-vcr text-xs tracking-wider ${
       isDark
         ? "bg-gradient-to-r from-darkblue to-vhs-surface border-royalblue/30"
         : "bg-gradient-to-r from-[#ede7db] to-[#e5dfd3] border-[#a89888]/30"

@@ -87,7 +87,7 @@ function CopyButton({ text, isDark, labelCopy, labelCopied }: { text: string; is
   return (
     <button
       onClick={handleCopy}
-      className={`inline-flex items-center gap-1 px-2 py-1 rounded text-[11px] tracking-[1px] cursor-pointer border transition-all ${
+      className={`inline-flex items-center gap-1 px-2 py-1 rounded text-xs tracking-[1px] cursor-pointer border transition-all ${
         isDark
           ? "border-royalblue/30 text-vhs-muted hover:text-fear hover:border-fear/40 bg-transparent"
           : "border-[#a89888]/40 text-[#635b53] hover:text-[#c4234e] hover:border-[#c4234e]/40 bg-transparent"

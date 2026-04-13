@@ -158,7 +158,7 @@ function SystemStatus() {
         <>
           <SectionLabel className="mb-1.5">{t("systemStatus")}</SectionLabel>
           <div
-            className={`text-[11px] leading-relaxed tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
+            className={`text-xs leading-relaxed tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
           >
             {t("cacheLabel")}: <span className="text-vhs-green">OK</span>
             <br />
@@ -211,7 +211,7 @@ export function Sidebar({ navItems }: { navItems: StoreNavItem[] }) {
         </span>
         {!navCollapsed && (
           <span
-            className={`text-[11px] tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
+            className={`text-xs tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
           >
             {t("collapse")}
           </span>

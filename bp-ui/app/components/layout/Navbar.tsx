@@ -81,7 +81,7 @@ export function Navbar() {
             <span className="flex items-center gap-1.5">
               <ShoppingCart size={14} />
               {cartCount > 0 && (
-                <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-fear text-[10px] font-bold text-white leading-none">
+                <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-fear text-[11px] font-bold text-white leading-none">
                   {cartCount > 9 ? "9+" : cartCount}
                 </span>
               )}

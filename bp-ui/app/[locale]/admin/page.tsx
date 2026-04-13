@@ -25,11 +25,11 @@ import api from "@/lib/axios";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
 
 type RecentActivityItem = {
-  type: "listen" | "signup" | "purchase";
-  userName: string;
-  detail?: string | null;
-  orderId?: number | null;
-  timestamp: string;
+  type:       "listen" | "signup" | "purchase";
+  userName:   string;
+  detail?:    string | null;
+  orderId?:   number | null;
+  timestamp:  string;
 };
 
 type AdminStats = {
@@ -183,7 +183,10 @@ export default function AdminPage() {
         {/* KPI Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {kpiCards.map((kpi, i) => (
-            <div key={i} className="stat bg-base-100 border border-base-300 rounded-box shadow-sm">
+            <div
+              key={i}
+              className="stat bg-base-100 !border !border-solid border-base-300 rounded-box shadow-sm"
+            >
               <div className="stat-figure">{kpi.icon}</div>
               <div className="stat-title text-base-content/60">{kpi.label}</div>
               <div className="stat-value text-2xl">{kpi.value.toLocaleString()}</div>

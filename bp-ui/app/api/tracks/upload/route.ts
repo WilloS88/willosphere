@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { uploadTrackToS3 } from "@/lib/s3";
 import { NextRequest, NextResponse } from "next/server";
 

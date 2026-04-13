@@ -78,8 +78,11 @@ export function ImageCropModal({ file, aspect = 1, onSave, onClose }: Props) {
   };
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 p-4">
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="Crop image"
         className={`flex w-full max-w-lg flex-col rounded border shadow-2xl ${
           isDark
             ? "bg-vhs-surface border-royalblue/30"
@@ -88,11 +91,12 @@ export function ImageCropModal({ file, aspect = 1, onSave, onClose }: Props) {
       >
         {/* Header */}
         <div className={`flex items-center justify-between border-b px-4 py-3 ${isDark ? "border-royalblue/20" : "border-[#a89888]/20"}`}>
-          <span className={`text-[11px] font-bold tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+          <span className={`text-xs font-bold tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
             {t("cropImage")}
           </span>
           <button
             type="button"
+            aria-label="Close"
             onClick={onClose}
             className={`flex h-6 w-6 cursor-pointer items-center justify-center rounded-sm border transition-colors ${
               isDark
@@ -130,7 +134,7 @@ export function ImageCropModal({ file, aspect = 1, onSave, onClose }: Props) {
           <button
             type="button"
             onClick={onClose}
-            className={`flex-1 rounded-sm border py-2 text-[11px] font-bold tracking-[2px] transition-all ${
+            className={`flex-1 rounded-sm border py-2 text-xs font-bold tracking-[2px] transition-all ${
               isDark
                 ? "border-royalblue/30 text-vhs-muted hover:text-vhs-white"
                 : "border-[#a89888] text-[#635b53] hover:text-[#2a2520]"
@@ -142,7 +146,7 @@ export function ImageCropModal({ file, aspect = 1, onSave, onClose }: Props) {
             type="button"
             onClick={() => void handleApply()}
             disabled={!completedCrop || applying}
-            className={`flex flex-1 items-center justify-center gap-2 rounded-sm py-2 text-[11px] font-bold tracking-[2px] text-white transition-all hover:brightness-110 disabled:opacity-50 ${
+            className={`flex flex-1 items-center justify-center gap-2 rounded-sm py-2 text-xs font-bold tracking-[2px] text-white transition-all hover:brightness-110 disabled:opacity-50 ${
               isDark ? "bg-fear" : "bg-[#c4234e]"
             }`}
           >

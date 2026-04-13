@@ -118,7 +118,7 @@ function ArtistContent() {
             { label: t("plays"),       value: "—",                 color: "text-vhs-green" },
           ].map((s) => (
             <div key={s.label} className={statCls}>
-              <div className={`mb-1 text-[11px] tracking-wider ${mutedCls}`}>{s.label}</div>
+              <div className={`mb-1 text-xs tracking-wider ${mutedCls}`}>{s.label}</div>
               <div className={`text-xl font-bold ${s.color}`}>{String(s.value)}</div>
             </div>
           ))}
@@ -143,7 +143,7 @@ function ArtistContent() {
                 }`}
               >
                 <span>{a.icon}</span>
-                <span className="text-[11px] font-bold tracking-[2px]">{a.label}</span>
+                <span className="text-xs font-bold tracking-[2px]">{a.label}</span>
               </Link>
             ))}
           </div>
@@ -160,7 +160,7 @@ function ArtistContent() {
             <div className={cardCls}>
               <div className="mb-3 flex items-center justify-between">
                 <SectionLabel>{t("recentTracks")}</SectionLabel>
-                <Link href={`/${locale}/artist/tracks`} className={`text-[11px] tracking-widest no-underline ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#635b53] hover:text-[#c4234e]"}`}>
+                <Link href={`/${locale}/artist/tracks`} className={`text-xs tracking-widest no-underline ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#635b53] hover:text-[#c4234e]"}`}>
                   {t("viewAll")} <ArrowRight size={11} />
                 </Link>
               </div>
@@ -178,10 +178,10 @@ function ArtistContent() {
                         </div>
                       )}
                       <div className="min-w-0 flex-1">
-                        <div className={`truncate text-[11px] font-bold tracking-wider ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}>{track.title}</div>
-                        <div className={`text-[11px] tracking-wide ${mutedCls}`}>{track.genres.map((g) => g.name).join(" · ")}</div>
+                        <div className={`truncate text-xs font-bold tracking-wider ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}>{track.title}</div>
+                        <div className={`text-xs tracking-wide ${mutedCls}`}>{track.genres.map((g) => g.name).join(" · ")}</div>
                       </div>
-                      <div className={`flex shrink-0 items-center gap-1 text-[11px] tabular-nums ${mutedCls}`}>
+                      <div className={`flex shrink-0 items-center gap-1 text-xs tabular-nums ${mutedCls}`}>
                         <Clock size={9} />{formatDuration(track.durationSeconds)}
                       </div>
                       <div className="flex shrink-0 items-center gap-1">
@@ -202,7 +202,7 @@ function ArtistContent() {
             <div className={cardCls}>
               <div className="mb-3 flex items-center justify-between">
                 <SectionLabel>{t("recentAlbums")}</SectionLabel>
-                <Link href={`/${locale}/artist/albums`} className={`text-[11px] tracking-widest no-underline ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#635b53] hover:text-[#c4234e]"}`}>
+                <Link href={`/${locale}/artist/albums`} className={`text-xs tracking-widest no-underline ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#635b53] hover:text-[#c4234e]"}`}>
                   {t("viewAll")} <ArrowRight size={11} />
                 </Link>
               </div>
@@ -219,10 +219,10 @@ function ArtistContent() {
                         onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
                       />
                       <div className="min-w-0 flex-1">
-                        <div className={`truncate text-[11px] font-bold tracking-wider ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}>{album.title}</div>
-                        <div className={`text-[11px] tracking-wide ${mutedCls}`}>{new Date(album.releaseDate).getFullYear()}</div>
+                        <div className={`truncate text-xs font-bold tracking-wider ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}>{album.title}</div>
+                        <div className={`text-xs tracking-wide ${mutedCls}`}>{new Date(album.releaseDate).getFullYear()}</div>
                       </div>
-                      <div className={`shrink-0 text-[11px] tabular-nums ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`}>
+                      <div className={`shrink-0 text-xs tabular-nums ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`}>
                         {album.price} CZK
                       </div>
                       <div className="flex shrink-0 items-center gap-1">

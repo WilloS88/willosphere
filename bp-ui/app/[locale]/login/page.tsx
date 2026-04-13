@@ -71,7 +71,8 @@ function MfaCodeInput({
           onChange={(e) => handleChange(i, e.target.value)}
           onKeyDown={(e) => handleKeyDown(i, e)}
           onPaste={i === 0 ? handlePaste : undefined}
-          className={`font-vcr h-12 w-10 rounded-sm border text-center text-lg font-bold tracking-widest transition-all outline-none ${
+          aria-label={`MFA digit ${i + 1} of 6`}
+          className={`font-vcr h-12 w-10 rounded-sm border text-center text-lg font-bold tracking-widest transition-all outline-none focus-visible:ring-2 focus-visible:ring-fear ${
             isDark
               ? "bg-darkblue/60 border-royalblue/30 text-vhs-white focus:border-fear"
               : "border-[#a89888]/40 bg-[#ede7db]/80 text-[#2a2520] focus:border-[#c4234e]"
@@ -154,13 +155,13 @@ function LoginContent() {
     setServerError(null);
   };
 
-  const inputCls = `w-full rounded-sm px-3 py-2.5 border outline-none text-sm tracking-wider font-vcr transition-all ${
+  const inputCls = `w-full rounded-sm px-3 py-2.5 border outline-none focus-visible:ring-2 focus-visible:ring-fear text-sm tracking-wider font-vcr transition-all ${
     isDark
       ? "bg-darkblue/60 border-royalblue/30 text-vhs-white placeholder:text-vhs-muted focus:border-fear"
       : "bg-[#ede7db]/80 border-[#a89888]/40 text-[#2a2520] placeholder:text-[#635b53] focus:border-[#c4234e]"
   }`;
   const inputErrCls = `${inputCls} ${isDark ? "!border-fear" : "!border-[#c4234e]"}`;
-  const fieldErrCls = `mt-1 text-[11px] tracking-wider ${isDark ? "text-fear" : "text-[#c4234e]"}`;
+  const fieldErrCls = `mt-1 text-xs tracking-wider ${isDark ? "text-fear" : "text-[#c4234e]"}`;
 
   if(mfaChallengeId) {
     return (
@@ -214,7 +215,7 @@ function LoginContent() {
           </form>
 
           <p
-            className={`mt-4 text-center text-[9px] tracking-[1.5px] ${isDark ? "text-vhs-muted/60" : "text-[#635b53]/60"}`}
+            className={`mt-4 text-center text-[10px] tracking-[1.5px] ${isDark ? "text-vhs-muted/60" : "text-[#635b53]/60"}`}
           >
             {t("mfaExpiry")}
           </p>
@@ -224,7 +225,7 @@ function LoginContent() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center px-4">
+    <main className="flex min-h-screen items-center justify-center px-4">
       <div
         className={`w-full max-w-md rounded border p-6 sm:p-8 ${isDark ? "bg-vhs-card/80 border-royalblue/20" : "border-[#a89888]/30 bg-white/80"}`}
       >
@@ -243,11 +244,13 @@ function LoginContent() {
         <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
           <div>
             <label
+              htmlFor="email"
               className={`mb-1.5 block text-xs tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
             >
               {t("email")}
             </label>
             <input
+              id="email"
               type="email"
               className={errors.email ? inputErrCls : inputCls}
               placeholder={t("emailExample")}
@@ -260,11 +263,13 @@ function LoginContent() {
           </div>
           <div>
             <label
+              htmlFor="password"
               className={`mb-1.5 block text-xs tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
             >
               {t("password")}
             </label>
             <input
+              id="password"
               type="password"
               className={errors.password ? inputErrCls : inputCls}
               placeholder="••••••••"
@@ -316,7 +321,7 @@ function LoginContent() {
           </Link>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
 

@@ -83,7 +83,7 @@ export default function AlbumsPage() {
       <div className={`relative mb-4 flex items-center gap-2 rounded border px-3 py-2 ${base.input}`}>
         <Search size={14} className={base.muted} />
         <input
-          className="flex-1 bg-transparent text-[11px] tracking-wide outline-none"
+          className="flex-1 bg-transparent text-xs tracking-wide outline-none"
           placeholder={t("searchPlaceholder")}
           value={search}
           onChange={(e) => handleSearch(e.target.value)}
@@ -95,7 +95,7 @@ export default function AlbumsPage() {
           <span className={`inline-block h-6 w-6 animate-spin rounded-full border-2 border-current border-t-transparent ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`} />
         </div>
       ) : albums.length === 0 ? (
-        <div className={`py-16 text-center text-[11px] tracking-widest ${base.muted}`}>
+        <div className={`py-16 text-center text-xs tracking-widest ${base.muted}`}>
           {t("noAlbums")}
         </div>
       ) : (
@@ -116,14 +116,14 @@ export default function AlbumsPage() {
                     </div>
                   )}
                 </div>
-                <div className={`truncate text-[11px] font-bold tracking-wider ${base.text}`}>
+                <div className={`truncate text-xs font-bold tracking-wider ${base.text}`}>
                   {album.title}
                 </div>
-                <div className={`truncate text-[11px] tracking-wide mt-0.5 ${base.muted}`}>
+                <div className={`truncate text-xs tracking-wide mt-0.5 ${base.muted}`}>
                   {album.artists.map((a) => a.displayName).join(", ")}
                 </div>
                 <div className={`flex items-center justify-between mt-1.5`}>
-                  <span className={`text-[11px] tracking-wide ${base.muted}`}>
+                  <span className={`text-xs tracking-wide ${base.muted}`}>
                     {new Date(album.releaseDate).getFullYear()}
                   </span>
                   <span className={`text-xs font-semibold tracking-wider ${base.accent}`}>

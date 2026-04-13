@@ -57,12 +57,15 @@ export function ConfirmDialog({
     <div className="fixed inset-0 z-[9998] flex items-center justify-center">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/60 backdrop-blur-[2px]"
+        className="absolute inset-0 bg-black/60"
         onClick={onCancel}
       />
 
       {/* Dialog */}
       <div
+        role="alertdialog"
+        aria-modal="true"
+        aria-labelledby="confirm-dialog-title"
         className={`relative z-10 w-full max-w-sm rounded border p-5 font-vcr animate-slide-up ${
           isDark
             ? "bg-vhs-card border-royalblue/30"
@@ -72,6 +75,7 @@ export function ConfirmDialog({
         {/* Header */}
         <div className="mb-3 flex items-center justify-between">
           <h3
+            id="confirm-dialog-title"
             className={`text-sm font-bold tracking-[2px] ${
               isDark ? "text-vhs-white" : "text-[#2a2520]"
             }`}
@@ -79,6 +83,7 @@ export function ConfirmDialog({
             {title}
           </h3>
           <button
+            aria-label="Close"
             onClick={onCancel}
             className={`cursor-pointer opacity-50 hover:opacity-100 transition-opacity ${
               isDark ? "text-vhs-muted" : "text-[#635b53]"
@@ -101,7 +106,7 @@ export function ConfirmDialog({
         <div className="flex justify-end gap-2">
           <button
             onClick={onCancel}
-            className={`cursor-pointer rounded-sm border px-4 py-2 text-[11px] font-bold tracking-[2px] transition-all ${
+            className={`cursor-pointer rounded-sm border px-4 py-2 text-xs font-bold tracking-[2px] transition-all ${
               isDark
                 ? "border-royalblue/30 text-vhs-muted hover:text-vhs-white"
                 : "border-[#a89888]/40 text-[#635b53] hover:text-[#2a2520]"
@@ -111,7 +116,7 @@ export function ConfirmDialog({
           </button>
           <button
             onClick={onConfirm}
-            className={`cursor-pointer rounded-sm px-4 py-2 text-[11px] font-bold tracking-[2px] transition-all ${confirmBtnCls}`}
+            className={`cursor-pointer rounded-sm px-4 py-2 text-xs font-bold tracking-[2px] transition-all ${confirmBtnCls}`}
           >
             {confirmLabel}
           </button>

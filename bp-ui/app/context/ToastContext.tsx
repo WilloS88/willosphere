@@ -68,8 +68,8 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   const COLOR = isDark ? DARK_COLOR : LIGHT_COLOR;
 
   const BG = isDark
-    ? "bg-[#0b0f2d]/95 backdrop-blur-sm border font-vcr text-xs tracking-wider"
-    : "bg-white/95 backdrop-blur-sm border font-vcr text-xs tracking-wider shadow-md";
+    ? "bg-[#0b0f2d] border font-vcr text-xs tracking-wider"
+    : "bg-white border font-vcr text-xs tracking-wider shadow-md";
 
   return (
     <ToastContext.Provider value={api}>

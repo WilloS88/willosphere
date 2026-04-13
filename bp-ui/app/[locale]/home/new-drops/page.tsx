@@ -41,12 +41,12 @@ export default function NewDropsPage() {
         <span className="animate-pulse-vhs text-lg">◉</span>
         <div>
           <div
-            className={`text-[11px] font-bold tracking-wider ${isDark ? "text-fearyellow" : "text-[#c4a800]"}`}
+            className={`text-xs font-bold tracking-wider ${isDark ? "text-fearyellow" : "text-[#c4a800]"}`}
           >
             {t("freshUploads")}
           </div>
           <div
-            className={`mt-0.5 text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
+            className={`mt-0.5 text-xs tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
           >
             {t("newRecordsAdded", { count: tracks.length })}
           </div>
@@ -61,7 +61,7 @@ export default function NewDropsPage() {
           <span className={`inline-block h-6 w-6 animate-spin rounded-full border-2 border-current border-t-transparent ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`} />
         </div>
       ) : tracks.length === 0 ? (
-        <div className={`py-16 text-center text-[11px] tracking-widest ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+        <div className={`py-16 text-center text-xs tracking-widest ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
           {t("noTracks")}
         </div>
       ) : (
@@ -88,10 +88,10 @@ export default function NewDropsPage() {
                 )}
               </div>
               <div className="min-w-0 flex-1">
-                <div className={`truncate text-[11px] font-bold tracking-wider ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}>
+                <div className={`truncate text-xs font-bold tracking-wider ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}>
                   {track.title}
                 </div>
-                <div className={`truncate text-[11px] tracking-wide ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+                <div className={`truncate text-xs tracking-wide ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
                   {track.artists.map(a => a.displayName).join(", ")}
                 </div>
               </div>

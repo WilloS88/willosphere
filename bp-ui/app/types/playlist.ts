@@ -11,6 +11,7 @@ export type PlaylistDto = {
   userId:          number;
   isPublic:        boolean;
   isCollaborative: boolean;
+  isSystem:        boolean;
   trackCount:      number;
   tracks?:         PlaylistTrackItem[];
   createdAt:       string;

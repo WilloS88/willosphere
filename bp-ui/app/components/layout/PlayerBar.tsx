@@ -28,10 +28,10 @@ function TrackInfo() {
           : <Music size={18} />}
       </div>
       <div className="min-w-0">
-        <div className={`text-[11px] sm:text-xs font-bold tracking-wider truncate ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}>
+        <div className={`text-xs sm:text-sm font-bold tracking-wider truncate ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}>
           <span className={isDark ? "text-fearyellow" : "text-[#c4234e]"}>{title}</span>
         </div>
-        <div className={`text-[10px] sm:text-[11px] tracking-wider truncate ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>{artist}</div>
+        <div className={`text-[11px] sm:text-xs tracking-wider truncate ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>{artist}</div>
       </div>
     </div>
   );
@@ -43,18 +43,18 @@ function PlaybackControls() {
   const { isDark } = useTheme();
 
   const TimeLeft = () => (
-    <span className={`text-[11px] tracking-wider min-w-[28px] text-right tabular-nums ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+    <span className={`text-xs tracking-wider min-w-[28px] text-right tabular-nums ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
       {formatTime(progress)}
     </span>
   );
   const TimeRight = () => (
-    <span className={`text-[11px] tracking-wider min-w-[28px] tabular-nums ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+    <span className={`text-xs tracking-wider min-w-[28px] tabular-nums ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
       {formatTime(duration)}
     </span>
   );
 
   const btnClass = (active?: boolean) => cn(
-    "bg-transparent border-none cursor-pointer p-1 transition-colors text-sm",
+    "bg-transparent border-none cursor-pointer p-2 min-h-[44px] min-w-[44px] transition-colors text-sm flex items-center justify-center",
     active
       ? (isDark ? "text-fearyellow" : "text-[#c4234e]")
       : (isDark ? "text-vhs-muted hover:text-vhs-light" : "text-[#635b53] hover:text-[#3a3430]")
@@ -63,9 +63,10 @@ function PlaybackControls() {
   return (
     <div className="flex-1 flex flex-col items-center gap-0.5 mx-1 sm:mx-4 min-w-0">
       <div className="flex items-center gap-2 sm:gap-3">
-        <button className={cn(btnClass(shuffle), "hidden sm:block")} onClick={() => setShuffle(!shuffle)}><Shuffle size={16} /></button>
-        <button className={cn(btnClass())} onClick={prevTrack}><SkipBack size={16} /></button>
+        <button aria-label="Shuffle" className={cn(btnClass(shuffle), "hidden sm:block")} onClick={() => setShuffle(!shuffle)}><Shuffle size={16} /></button>
+        <button aria-label="Previous track" className={cn(btnClass())} onClick={prevTrack}><SkipBack size={16} /></button>
         <button
+          aria-label={isPlaying ? "Pause" : "Play"}
           onClick={() => setIsPlaying(!isPlaying)}
           className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full border-2 cursor-pointer flex items-center justify-center text-white transition-all hover:scale-105 active:scale-95 ${
             isDark
@@ -73,11 +74,11 @@ function PlaybackControls() {
               : "bg-gradient-to-br from-[#c4234e] to-[#a01d40] border-[#c4234e]/30 shadow-[0_0_12px_rgba(196,35,78,0.2)]"
           }`}
         >{isPlaying ? <Pause size={17} /> : <Play size={17} />}</button>
-        <button className={cn(btnClass())} onClick={nextTrack}><SkipForward size={16} /></button>
-        <button className={cn(btnClass(repeat), "hidden sm:block")} onClick={() => setRepeat(!repeat)}><Repeat size={16} /></button>
+        <button aria-label="Next track" className={cn(btnClass())} onClick={nextTrack}><SkipForward size={16} /></button>
+        <button aria-label="Repeat" className={cn(btnClass(repeat), "hidden sm:block")} onClick={() => setRepeat(!repeat)}><Repeat size={16} /></button>
       </div>
 
-      <div className="w-full max-w-[460px]">
+      <div className="w-full max-w-[460px]" aria-label="Track progress" role="group">
         <StoreElasticSlider
           defaultValue={progress}
           startingValue={0}
@@ -113,9 +114,10 @@ function VolumeControl() {
         />
       </div>
       <button
+        aria-label="Queue"
         onClick={() => setShowQueue(!showQueue)}
         className={cn(
-          "bg-transparent border-none cursor-pointer p-1 text-sm transition-colors",
+          "bg-transparent border-none cursor-pointer p-2 min-h-[44px] min-w-[44px] text-sm transition-colors flex items-center justify-center",
           showQueue
             ? (isDark ? "text-fearyellow" : "text-[#c4234e]")
             : (isDark ? "text-vhs-muted" : "text-[#635b53]")
@@ -150,11 +152,11 @@ function QueueTrack({ track, index }: { track: TrackDto; index: number }) {
         <div className={cn("text-xs tracking-wider truncate", active ? (isDark ? "text-fearyellow" : "text-[#c4234e]") : (isDark ? "text-vhs-white" : "text-[#2a2520]"))}>
           {track.title}
         </div>
-        <div className={`text-[10px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+        <div className={`text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
           {track.artists.map((a) => a.displayName).join(", ")}
         </div>
       </div>
-      <span className={`text-[9px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+      <span className={`text-[10px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
         {formatTime(track.durationSeconds)}
       </span>
     </button>

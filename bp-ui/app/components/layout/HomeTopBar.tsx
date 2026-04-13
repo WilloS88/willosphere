@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { Sun, Moon, ChevronDown, User, Shield, LogOut, Mic2, Search, Heart, Music, Disc3, Users } from "lucide-react";
+import { Sun, Moon, ChevronDown, User, Shield, LogOut, Mic2, Search, HandCoins, Music, Disc3, Users } from "lucide-react";
 import { useAuth } from "@/app/components/auth/AuthProvider";
 import { useTheme, useDebounce } from "@/lib/hooks";
 import LocaleSwitcher from "@/app/components/locale/LocaleSwitcher";
@@ -30,7 +30,7 @@ export function SearchBar() {
   const inputRef                  = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if !open)
+    if (!open)
       return;
 
     const controller = new AbortController();
@@ -73,7 +73,7 @@ export function SearchBar() {
   const hasResults = results && (results.tracks.length > 0 || results.artists.length > 0 || results.albums.length > 0);
 
   const sectionHeadingCls = cn(
-    "px-3 py-2 text-[11px] font-bold tracking-[2px]",
+    "px-3 py-2 text-xs font-bold tracking-[2px]",
     isDark ? "text-vhs-cyan/70" : "text-[#c4234e]/70",
   );
 
@@ -96,7 +96,11 @@ export function SearchBar() {
           onChange={(e) => setText(e.target.value)}
           onFocus={() => setOpen(true)}
           placeholder={`${t("searchPlaceholder")} . . .`}
-          className={`bg-transparent border-none outline-none text-[11px] font-vcr w-full tracking-wider ${
+          role="combobox"
+          aria-expanded={open}
+          aria-autocomplete="list"
+          aria-controls="search-results-dropdown"
+          className={`bg-transparent border-none outline-none text-xs font-vcr w-full tracking-wider ${
             isDark ? "text-vhs-white placeholder:text-vhs-muted" : "text-[#2a2520] placeholder:text-[#635b53]"
           }`}
         />
@@ -109,14 +113,14 @@ export function SearchBar() {
 
       {/* Dropdown */}
       {open && (
-        <div className={cn(
-          "absolute left-1/2 -translate-x-1/2 top-full z-[300] mt-1 w-[550px] max-h-[70vh] overflow-y-auto rounded-sm border animate-slide-up",
+        <div id="search-results-dropdown" className={cn(
+          "absolute left-1/2 -translate-x-1/2 top-full z-[300] mt-1 w-[550px] max-sm:w-[calc(100vw-2rem)] max-h-[70vh] overflow-y-auto rounded-sm border animate-slide-up",
           isDark
             ? "bg-vhs-surface border-royalblue/30 shadow-[0_4px_20px_rgba(11,15,45,0.8)]"
             : "border-[#a89888]/40 bg-[#f5f0e8] shadow-[0_4px_16px_rgba(0,0,0,0.12)]",
         )}>
           {!hasResults && !loading && (
-            <div className={`px-3 py-4 text-center text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+            <div className={`px-3 py-4 text-center text-xs tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
               {debouncedText.trim() ? t("searchNoResults") : t("searchSuggestions")}
             </div>
           )}
@@ -128,9 +132,10 @@ export function SearchBar() {
                 {t("searchArtists")}
               </div>
               {results.artists.map((artist) => (
-                <div
+                <button
                   key={artist.userId}
-                  className={itemCls}
+                  type="button"
+                  className={`${itemCls} w-full text-left`}
                   onMouseDown={(e) => e.preventDefault()}
                   onClick={() => { router.push(`/${locale}/home/artists/${artist.userId}`); close(); }}
                 >
@@ -140,7 +145,7 @@ export function SearchBar() {
                   )}>
                     {artist.profileImageUrl ? (
                       // eslint-disable-next-line @next/next/no-img-element
-                      <img src={artist.profileImageUrl} alt="" className="h-full w-full object-cover" />
+                      <img src={artist.profileImageUrl} alt="" aria-hidden="true" className="h-full w-full object-cover" loading="lazy" />
                     ) : (
                       artist.displayName[0]?.toUpperCase()
                     )}
@@ -148,7 +153,7 @@ export function SearchBar() {
                   <span className={`text-xs tracking-wider truncate ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}>
                     {artist.displayName}
                   </span>
-                </div>
+                </button>
               ))}
             </div>
           )}
@@ -160,9 +165,10 @@ export function SearchBar() {
                 {t("searchTracks")}
               </div>
               {results.tracks.map((track) => (
-                <div
+                <button
                   key={track.id}
-                  className={itemCls}
+                  type="button"
+                  className={`${itemCls} w-full text-left`}
                   onMouseDown={(e) => e.preventDefault()}
                   onClick={async () => {
                     close();
@@ -178,7 +184,7 @@ export function SearchBar() {
                   )}>
                     {track.coverImageUrl ? (
                       // eslint-disable-next-line @next/next/no-img-element
-                      <img src={track.coverImageUrl} alt="" className="h-full w-full object-cover" />
+                      <img src={track.coverImageUrl} alt="" aria-hidden="true" className="h-full w-full object-cover" loading="lazy" />
                     ) : (
                       <Music size={12} className={isDark ? "text-vhs-muted" : "text-[#635b53]"} />
                     )}
@@ -187,11 +193,11 @@ export function SearchBar() {
                     <div className={`text-xs tracking-wider truncate ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}>
                       {track.title}
                     </div>
-                    <div className={`text-[11px] tracking-wider truncate ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+                    <div className={`text-xs tracking-wider truncate ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
                       {track.artists.map((a) => a.displayName).join(", ")}
                     </div>
                   </div>
-                </div>
+                </button>
               ))}
             </div>
           )}
@@ -203,9 +209,10 @@ export function SearchBar() {
                 {t("searchAlbums")}
               </div>
               {results.albums.map((album) => (
-                <div
+                <button
                   key={album.id}
-                  className={itemCls}
+                  type="button"
+                  className={`${itemCls} w-full text-left`}
                   onMouseDown={(e) => e.preventDefault()}
                   onClick={() => { router.push(`/${locale}/home/albums/${album.id}`); close(); }}
                 >
@@ -215,7 +222,7 @@ export function SearchBar() {
                   )}>
                     {album.coverImageUrl ? (
                       // eslint-disable-next-line @next/next/no-img-element
-                      <img src={album.coverImageUrl} alt="" className="h-full w-full object-cover" />
+                      <img src={album.coverImageUrl} alt="" aria-hidden="true" className="h-full w-full object-cover" loading="lazy" />
                     ) : (
                       <Disc3 size={12} className={isDark ? "text-vhs-muted" : "text-[#635b53]"} />
                     )}
@@ -224,11 +231,11 @@ export function SearchBar() {
                     <div className={`text-xs tracking-wider truncate ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}>
                       {album.title}
                     </div>
-                    <div className={`text-[11px] tracking-wider truncate ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+                    <div className={`text-xs tracking-wider truncate ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
                       {album.artists.map((a) => a.displayName).join(", ")}
                     </div>
                   </div>
-                </div>
+                </button>
               ))}
             </div>
           )}
@@ -271,7 +278,7 @@ function ThemeToggle() {
     <button
       onClick={toggle}
       title={isDark ? t("lightMode") : t("darkMode")}
-      className={`w-7 h-7 sm:w-8 sm:h-8 rounded-sm flex items-center justify-center text-sm border cursor-pointer transition-all hover:scale-105 ${
+      className={`w-8 h-8 rounded-sm flex items-center justify-center text-sm border cursor-pointer transition-all hover:scale-105 ${
         isDark
           ? "border-royalblue/40 bg-royalblue/20 text-vhs-muted hover:border-fearyellow hover:text-fearyellow"
           : "border-[#a89888] bg-white/60 text-[#635b53] hover:border-[#c4234e] hover:text-[#c4234e]"
@@ -323,6 +330,8 @@ function ProfileDropdown() {
       {/* Trigger */}
       <button
         type="button"
+        aria-expanded={open}
+        aria-haspopup="menu"
         onClick={() => setOpen((p) => !p)}
         className={cn(
           "flex cursor-pointer items-center gap-1.5 rounded-sm border px-2 h-8 transition-all",
@@ -331,7 +340,7 @@ function ProfileDropdown() {
             : "border-[#a89888] bg-white/60 hover:border-[#c4234e]/40",
         )}
       >
-        <div className="from-fear to-vhs-purple flex h-5 w-5 items-center justify-center rounded-full bg-gradient-to-br text-[11px] font-bold text-white">
+        <div className="from-fear to-vhs-purple flex h-5 w-5 items-center justify-center rounded-full bg-gradient-to-br text-xs font-bold text-white">
           {name[0]?.toUpperCase() ?? "U"}
         </div>
         <ChevronDown
@@ -346,7 +355,7 @@ function ProfileDropdown() {
 
       {/* Dropdown */}
       {open && (
-        <div className={cn(
+        <div role="menu" className={cn(
           "absolute right-0 top-full z-[300] mt-1.5 min-w-[170px] overflow-hidden rounded-sm border animate-slide-up",
           isDark
             ? "bg-vhs-surface border-royalblue/30 shadow-[0_4px_20px_rgba(11,15,45,0.8)]"
@@ -354,8 +363,8 @@ function ProfileDropdown() {
         )}>
           {/* User info */}
           <div className={`border-b px-3 py-2.5 ${isDark ? "border-royalblue/20" : "border-[#a89888]/20"}`}>
-            <div className={`text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>{tStore("user")}</div>
-            <div className={`truncate text-[11px] font-bold tracking-wider ${isDark ? "text-fearyellow" : "text-[#c4234e]"}`}>{name}</div>
+            <div className={`text-xs tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>{tStore("user")}</div>
+            <div className={`truncate text-xs font-bold tracking-wider ${isDark ? "text-fearyellow" : "text-[#c4234e]"}`}>{name}</div>
           </div>
 
           {/* Profile */}
@@ -427,13 +436,13 @@ export function HomeTopBar() {
         <Link
           href={`/${locale}/home/donate`}
           title={t("nav_donate")}
-          className={`w-7 h-7 sm:w-8 sm:h-8 rounded-sm flex items-center justify-center text-sm border transition-all hover:scale-105 no-underline ${
+          className={`w-8 h-8 rounded-sm flex items-center justify-center text-sm border transition-all hover:scale-105 no-underline ${
             isDark
               ? "border-royalblue/40 bg-royalblue/20 text-fear hover:border-fear hover:text-fearyellow"
               : "border-[#a89888] bg-white/60 text-[#c4234e] hover:border-[#c4234e] hover:text-[#c4234e]"
           }`}
         >
-          <Heart size={14} />
+          <HandCoins size={14} />
         </Link>
         <ThemeToggle />
         <LocaleSwitcher />

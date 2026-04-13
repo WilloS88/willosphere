@@ -163,12 +163,12 @@ function NewTrackContent() {
     }
   };
 
-  const inputCls = `w-full rounded-sm border px-3 py-2.5 outline-none text-[11px] tracking-wider transition-all ${
+  const inputCls = `w-full rounded-sm border px-3 py-2.5 outline-none focus-visible:ring-2 focus-visible:ring-fear text-xs tracking-wider transition-all ${
     isDark
       ? "bg-darkblue/60 border-royalblue/30 text-vhs-white placeholder:text-vhs-muted focus:border-fear"
       : "bg-[#ede7db]/80 border-[#a89888]/40 text-[#2a2520] placeholder:text-[#635b53] focus:border-[#c4234e]"
   }`;
-  const labelCls = `block text-[11px] tracking-[2px] mb-1.5 ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`;
+  const labelCls = `block text-xs tracking-[2px] mb-1.5 ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`;
 
   return (
     <>
@@ -201,8 +201,9 @@ function NewTrackContent() {
           <form onSubmit={(e) => void handleSubmit(e)} className="space-y-5">
             {/* Audio file upload */}
             <div>
-              <label className={labelCls}>AUDIO FILE *</label>
+              <label htmlFor="audioFile" className={labelCls}>AUDIO FILE *</label>
               <input
+                id="audioFile"
                 ref={fileInputRef}
                 type="file"
                 accept="audio/*"
@@ -213,7 +214,7 @@ function NewTrackContent() {
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={uploading}
-                className={`w-full rounded-sm border px-3 py-3 text-[11px] tracking-wider text-left transition-all flex items-center gap-2 ${
+                className={`w-full rounded-sm border px-3 py-3 text-xs tracking-wider text-left transition-all flex items-center gap-2 ${
                   isDark
                     ? "bg-darkblue/60 border-royalblue/30 text-vhs-muted hover:border-fear/50 disabled:opacity-50"
                     : "bg-[#ede7db]/80 border-[#a89888]/40 text-[#635b53] hover:border-[#c4234e]/50 disabled:opacity-50"
@@ -231,8 +232,9 @@ function NewTrackContent() {
 
             {/* Title */}
             <div>
-              <label className={labelCls}>{t("trackTitle")} *</label>
+              <label htmlFor="trackTitle" className={labelCls}>{t("trackTitle")} *</label>
               <input
+                id="trackTitle"
                 required
                 type="text"
                 className={inputCls}
@@ -280,8 +282,9 @@ function NewTrackContent() {
                 />
               </div>
               <div>
-                <label className={labelCls}>{t("coverImageUrl")}</label>
+                <label htmlFor="coverImage" className={labelCls}>{t("coverImageUrl")}</label>
                 <input
+                  id="coverImage"
                   ref={coverInputRef}
                   type="file"
                   accept="image/*"
@@ -292,7 +295,7 @@ function NewTrackContent() {
                   type="button"
                   onClick={() => coverInputRef.current?.click()}
                   disabled={coverUploading}
-                  className={`w-full rounded-sm border px-3 py-2.5 text-[11px] tracking-wider text-left transition-all flex items-center gap-2 ${
+                  className={`w-full rounded-sm border px-3 py-2.5 text-xs tracking-wider text-left transition-all flex items-center gap-2 ${
                     isDark
                       ? "bg-darkblue/60 border-royalblue/30 text-vhs-muted hover:border-fear/50 disabled:opacity-50"
                       : "bg-[#ede7db]/80 border-[#a89888]/40 text-[#635b53] hover:border-[#c4234e]/50 disabled:opacity-50"
@@ -355,7 +358,7 @@ function NewTrackContent() {
             <div className="flex gap-3 pt-1">
               <Link
                 href={`/${locale}/artist`}
-                className={`flex-1 rounded-sm border py-2.5 text-center text-[11px] font-bold tracking-[2px] transition-all ${
+                className={`flex-1 rounded-sm border py-2.5 text-center text-xs font-bold tracking-[2px] transition-all ${
                   isDark
                     ? "border-royalblue/30 text-vhs-muted hover:text-vhs-white"
                     : "border-[#a89888] text-[#635b53] hover:text-[#2a2520]"
@@ -366,7 +369,7 @@ function NewTrackContent() {
               <button
                 type="submit"
                 disabled={saving || uploading || coverUploading || !s3Key}
-                className={`flex-1 rounded-sm py-2.5 text-[11px] font-bold tracking-[2px] text-white transition-all hover:brightness-110 disabled:opacity-50 ${
+                className={`flex-1 rounded-sm py-2.5 text-xs font-bold tracking-[2px] text-white transition-all hover:brightness-110 disabled:opacity-50 ${
                   isDark ? "bg-fear" : "bg-[#c4234e]"
                 }`}
               >

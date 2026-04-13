@@ -67,7 +67,7 @@ function AboutContent() {
                 {c.title}
               </h2>
               <p
-                className={`text-[11px] leading-relaxed tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
+                className={`text-xs leading-relaxed tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
               >
                 {c.text}
               </p>
@@ -78,13 +78,13 @@ function AboutContent() {
         <div className="flex flex-col gap-3 sm:flex-row">
           <Link
             href={`/${locale}/contact`}
-            className={`rounded-sm px-6 py-2.5 text-center text-[11px] font-bold tracking-[2px] no-underline ${isDark ? "bg-fear text-white" : "bg-[#c4234e] text-white"}`}
+            className={`rounded-sm px-6 py-2.5 text-center text-xs font-bold tracking-[2px] no-underline ${isDark ? "bg-fear text-white" : "bg-[#c4234e] text-white"}`}
           >
             {t("contact")}
           </Link>
           <Link
             href={`/${locale}`}
-            className={`rounded-sm border px-6 py-2.5 text-center text-[11px] font-bold tracking-[2px] no-underline ${isDark ? "border-royalblue/40 text-vhs-light" : "border-[#a89888] text-[#524a44]"}`}
+            className={`rounded-sm border px-6 py-2.5 text-center text-xs font-bold tracking-[2px] no-underline ${isDark ? "border-royalblue/40 text-vhs-light" : "border-[#a89888] text-[#524a44]"}`}
           >
             {t("backHome")}
           </Link>

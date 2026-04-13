@@ -33,6 +33,20 @@
   --color-vhs-cyan: #00e5ff;
   --color-vhs-purple: #9b59ff;
 
+  --color-light-bg: #f0ebe3;
+  --color-light-surface: #ede7db;
+  --color-light-card: #f5f0e8;
+  --color-light-muted: #635b53;
+  --color-light-text: #2a2520;
+  --color-light-subtle: #524a44;
+  --color-light-border: #a89888;
+  --color-light-primary: #c4234e;
+  --color-light-accent: #0094a8;
+
+  /* Typography tokens */
+  --text-caption: 0.75rem;    /* 12px */
+  --text-micro: 0.625rem;     /* 10px */
+
   --animate-blink: blink 2s infinite;
   --animate-pulse-vhs: pulse-vhs 1.5s infinite;
   --animate-slide-up: slide-up 0.3s ease both;
@@ -51,8 +65,8 @@
     to { opacity: 1; transform: translateY(0); }
   }
   @keyframes scan-move {
-    0% { top: -5%; }
-    100% { top: 105%; }
+    0% { transform: translateY(-5vh); }
+    100% { transform: translateY(105vh); }
   }
 }
 

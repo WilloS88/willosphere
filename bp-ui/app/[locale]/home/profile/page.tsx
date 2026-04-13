@@ -109,7 +109,7 @@ export default function ProfilePage() {
             </div>
             <div className="mt-1.5 flex gap-1.5">
               {user?.roles?.map((r, i) => (
-                <Badge key={i} variant="cyan" className="text-[10px]">
+                <Badge key={i} variant="cyan" className="text-[11px]">
                   {typeof r === "string"
                     ? r.toUpperCase()
                     : r.role.toUpperCase()}
@@ -162,7 +162,7 @@ export default function ProfilePage() {
               <ShieldCheck size={14} className={isDark ? "text-fear" : "text-[#c4234e]"} />
               <span className="tracking-wider">{t("mfaLabel")}</span>
             </div>
-            <span className={`flex items-center gap-1 text-[11px] tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+            <span className={`flex items-center gap-1 text-xs tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
               {t("mfaManage")}
               <ArrowRight size={12} />
             </span>

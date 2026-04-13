@@ -81,7 +81,7 @@ export function ArtistPicker({ value, onChange, featRole, isDark }: Props) {
 
   const featLabel = featRole === "feat" ? t("featArtist") : t("collaboratorArtist");
 
-  const rowCls = `flex items-center justify-between gap-2 rounded border px-3 py-2 text-[11px] ${
+  const rowCls = `flex items-center justify-between gap-2 rounded border px-3 py-2 text-xs ${
     isDark ? "border-royalblue/20 bg-royalblue/10" 
             : "border-[#a89888]/30 bg-[#ede7db]/40"
   }`;
@@ -95,7 +95,7 @@ export function ArtistPicker({ value, onChange, featRole, isDark }: Props) {
             <span className={isDark ? "text-vhs-white" : "text-[#2a2520]"}>{a.displayName}</span>
             <div className="flex items-center gap-2">
               <span
-                className={`rounded border px-1.5 py-0.5 text-[11px] tracking-widest ${
+                className={`rounded border px-1.5 py-0.5 text-xs tracking-widest ${
                   a.role === "primary"
                     ? isDark ? "border-fear/30 text-fear" : "border-[#c4234e]/30 text-[#c4234e]"
                     : isDark ? "border-royalblue/30 text-vhs-muted" : "border-[#a89888] text-[#635b53]"
@@ -134,7 +134,7 @@ export function ArtistPicker({ value, onChange, featRole, isDark }: Props) {
           }
           <input
             type="text"
-            className="flex-1 bg-transparent text-[11px] tracking-wider outline-none"
+            className="flex-1 bg-transparent text-xs tracking-wider outline-none"
             placeholder={t("searchArtists")}
             value={query}
             onChange={(e) => handleSearch(e.target.value)}
@@ -152,12 +152,12 @@ export function ArtistPicker({ value, onChange, featRole, isDark }: Props) {
                 <button
                   type="button"
                   onClick={() => add(artist)}
-                  className={`flex w-full items-center gap-2.5 px-3 py-2 text-left text-[11px] transition-colors ${
+                  className={`flex w-full items-center gap-2.5 px-3 py-2 text-left text-xs transition-colors ${
                     isDark ? "text-vhs-light hover:bg-royalblue/20" : "text-[#4a4540] hover:bg-[#f5f0e8]"
                   }`}
                 >
                   <div
-                    className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[11px] font-bold ${
+                    className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
                       isDark ? "bg-royalblue/30 text-vhs-cyan" : "bg-[#f5f0e8] text-[#c4234e]"
                     }`}
                   >

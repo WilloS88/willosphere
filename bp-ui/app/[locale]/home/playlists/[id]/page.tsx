@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { ArrowLeft, Clock, ListMusic, Music, Play, Trash2 } from "lucide-react";
+import { ArrowLeft, Clock, Heart, ListMusic, Music, Play, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useTheme } from "@/lib/hooks";
 import { usePlayer } from "@/app/context/PlayerContext";
@@ -44,7 +44,7 @@ export default function PlaylistDetailPage() {
 
   if (!playlist) {
     return (
-      <div className={`py-32 text-center text-[11px] tracking-widest ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+      <div className={`py-32 text-center text-xs tracking-widest ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
         PLAYLIST_NOT_FOUND
       </div>
     );
@@ -81,7 +81,10 @@ export default function PlaylistDetailPage() {
       <div className={`relative mb-6 overflow-hidden rounded-lg ${isDark ? "bg-vhs-card border-royalblue/20" : "bg-white/80 border-[#a89888]/30"} border`}>
         <div className="flex gap-5 p-5">
           <div className={`shrink-0 h-28 w-28 rounded-lg border flex items-center justify-center ${isDark ? "border-royalblue/20 bg-royalblue/10" : "border-[#a89888]/40 bg-[#f5f0e8]"}`}>
-            <ListMusic size={36} className={isDark ? "text-vhs-muted" : "text-[#635b53]"} />
+            {playlist.isSystem
+              ? <Heart size={36} className="text-fear" fill="currentColor" />
+              : <ListMusic size={36} className={isDark ? "text-vhs-muted" : "text-[#635b53]"} />
+            }
           </div>
 
           <div className="flex flex-col justify-end min-w-0">
@@ -104,7 +107,7 @@ export default function PlaylistDetailPage() {
       {tracks.length > 0 && (
         <button
           onClick={() => playTrack(tracks[0], tracks, "user_playlist")}
-          className="mb-5 flex items-center gap-2 rounded-full px-5 py-2 text-[11px] font-bold tracking-widest text-white transition-all hover:scale-105 active:scale-95 shadow-lg"
+          className="mb-5 flex items-center gap-2 rounded-full px-5 py-2 text-xs font-bold tracking-widest text-white transition-all hover:scale-105 active:scale-95 shadow-lg"
           style={{ background: isDark ? "var(--color-fear)" : "#c4234e" }}
         >
           <Play size={14} fill="white" /> {t("playAll")}
@@ -113,7 +116,7 @@ export default function PlaylistDetailPage() {
 
       {tracks.length > 0 && (
         <div>
-          <div className={`mb-3 text-[11px] tracking-widest font-bold ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+          <div className={`mb-3 text-xs tracking-widest font-bold ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
             {t("tracksSection")}
           </div>
           <div className="space-y-1">
@@ -143,10 +146,10 @@ export default function PlaylistDetailPage() {
                   </div>
 
                   <div className="flex-1 min-w-0">
-                    <div className={`truncate text-[11px] font-bold tracking-wider ${active ? (isDark ? "text-fearyellow" : "text-[#c4234e]") : (isDark ? "text-vhs-white" : "text-[#2a2520]")}`}>
+                    <div className={`truncate text-xs font-bold tracking-wider ${active ? (isDark ? "text-fearyellow" : "text-[#c4234e]") : (isDark ? "text-vhs-white" : "text-[#2a2520]")}`}>
                       {track.title}
                     </div>
-                    <div className={`truncate text-[11px] tracking-wide ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+                    <div className={`truncate text-xs tracking-wide ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
                       {track.artists.map((a) => a.displayName).join(", ")}
                     </div>
                   </div>
@@ -162,7 +165,7 @@ export default function PlaylistDetailPage() {
                     {formatTime(track.durationSeconds)}
                   </div>
 
-                  {canManageTracks && (
+                  {canManageTracks && !playlist.isSystem && (
                     <button
                       onClick={(e) => { e.stopPropagation(); handleRemoveTrack(track.id); }}
                       disabled={removing === track.id}
@@ -186,7 +189,7 @@ export default function PlaylistDetailPage() {
       )}
 
       {tracks.length === 0 && (
-        <div className={`py-8 text-center text-[11px] tracking-widest ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+        <div className={`py-8 text-center text-xs tracking-widest ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
           {t("noTracksYet")}
         </div>
       )}

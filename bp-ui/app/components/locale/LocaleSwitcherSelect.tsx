@@ -131,7 +131,7 @@ export default function LocaleSwitcherSelect({
         type="button"
         onClick={() => setOpen((prev) => !prev)}
         className={cn(
-          "font-vcr flex cursor-pointer items-center gap-1.5 rounded-sm border px-2.5 h-8 text-[11px] tracking-wider transition-all",
+          "font-vcr flex cursor-pointer items-center gap-1.5 rounded-sm border px-2.5 h-8 text-xs tracking-wider transition-all",
           isDark
             ? "border-royalblue/40 bg-royalblue/20 text-vhs-light hover:border-fear/40 hover:text-fearyellow"
             : "border-[#a89888] bg-white/60 text-[#524a44] hover:border-[#c4234e]/40 hover:text-[#c4234e]",
@@ -169,7 +169,7 @@ export default function LocaleSwitcherSelect({
                 onClick={() => onPick(it.value)}
                 disabled={isPending}
                 className={cn(
-                  "font-vcr flex w-full cursor-pointer items-center gap-2.5 border-none px-2 py-2.5 text-left text-[11px] tracking-wider transition-colors",
+                  "font-vcr flex w-full cursor-pointer items-center gap-2.5 border-none px-2 py-2.5 text-left text-xs tracking-wider transition-colors",
                   isActive
                     ? isDark
                       ? "bg-fear/15 text-fearyellow"

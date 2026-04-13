@@ -117,7 +117,7 @@ function ProductsContent() {
               >
                 {/* Type badge */}
                 <span
-                  className={`shrink-0 rounded-sm border px-2 py-0.5 text-[10px] font-bold tracking-wider ${
+                  className={`shrink-0 rounded-sm border px-2 py-0.5 text-[11px] font-bold tracking-wider ${
                     product.type === "physical"
                       ? isDark
                         ? "border-fearyellow/40 text-fearyellow"
@@ -133,12 +133,12 @@ function ProductsContent() {
                 {/* Info */}
                 <div className="min-w-0 flex-1">
                   <div
-                    className={`truncate text-[11px] font-bold tracking-wider ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}
+                    className={`truncate text-xs font-bold tracking-wider ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}
                   >
                     {product.name}
                   </div>
                   <div
-                    className={`flex items-center gap-3 text-[11px] ${mutedCls}`}
+                    className={`flex items-center gap-3 text-xs ${mutedCls}`}
                   >
                     {product.track && (
                       <span className="flex items-center gap-1">
@@ -159,7 +159,7 @@ function ProductsContent() {
                 </div>
 
                 {/* Price */}
-                <div className="text-fear shrink-0 text-[11px] font-bold">
+                <div className="text-fear shrink-0 text-xs font-bold">
                   {product.price === 0 ? "FREE" : `${product.price} CZK`}
                 </div>
 

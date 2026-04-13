@@ -64,7 +64,7 @@ function Scene_Spheres({ color }: { color: string }) {
 function Scene_Rain() {
   return <>
     {Array.from({ length: 12 }).map((_, i) => (
-      <div key={i} className="absolute font-mono text-[10px] tracking-widest" style={{ top: `${(i * 7) % 80}%`, left: `${i * 8 + 2}%`, color: `rgba(237,44,94,${0.12 + (i * 0.02) % 0.15})`, writingMode: "vertical-rl" }}>
+      <div key={i} className="absolute font-mono text-[11px] tracking-widest" style={{ top: `${(i * 7) % 80}%`, left: `${i * 8 + 2}%`, color: `rgba(237,44,94,${0.12 + (i * 0.02) % 0.15})`, writingMode: "vertical-rl" }}>
         {String.fromCharCode(0x30a0 + ((i * 13) % 96))}
       </div>
     ))}

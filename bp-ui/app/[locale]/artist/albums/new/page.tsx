@@ -122,12 +122,12 @@ function NewAlbumContent() {
     }
   };
 
-  const inputCls = `w-full rounded-sm border px-3 py-2.5 outline-none text-[11px] tracking-wider transition-all ${
+  const inputCls = `w-full rounded-sm border px-3 py-2.5 outline-none text-xs tracking-wider transition-all ${
     isDark
       ? "bg-darkblue/60 border-royalblue/30 text-vhs-white placeholder:text-vhs-muted focus:border-fear"
       : "bg-[#ede7db]/80 border-[#a89888]/40 text-[#2a2520] placeholder:text-[#635b53] focus:border-[#c4234e]"
   }`;
-  const labelCls = `block text-[11px] tracking-[2px] mb-1.5 ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`;
+  const labelCls = `block text-xs tracking-[2px] mb-1.5 ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`;
 
   return (
     <>
@@ -210,7 +210,7 @@ function NewAlbumContent() {
                 type="button"
                 onClick={() => coverInputRef.current?.click()}
                 disabled={coverUploading}
-                className={`w-full rounded-sm border px-3 py-2.5 text-[11px] tracking-wider text-left transition-all flex items-center gap-2 ${
+                className={`w-full rounded-sm border px-3 py-2.5 text-xs tracking-wider text-left transition-all flex items-center gap-2 ${
                   isDark
                     ? "bg-darkblue/60 border-royalblue/30 text-vhs-muted hover:border-fear/50 disabled:opacity-50"
                     : "bg-[#ede7db]/80 border-[#a89888]/40 text-[#635b53] hover:border-[#c4234e]/50 disabled:opacity-50"
@@ -259,10 +259,10 @@ function NewAlbumContent() {
                           checked={selected}
                           onChange={() => toggleTrack(track.id)}
                         />
-                        <span className={`text-[11px] tracking-wide ${isDark ? "text-vhs-light" : "text-[#4a4540]"}`}>
+                        <span className={`text-xs tracking-wide ${isDark ? "text-vhs-light" : "text-[#4a4540]"}`}>
                           {track.title}
                         </span>
-                        <span className={`ml-auto text-[11px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+                        <span className={`ml-auto text-xs ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
                           {track.artists.map((a) => a.displayName).join(", ")}
                         </span>
                       </label>
@@ -281,7 +281,7 @@ function NewAlbumContent() {
             <div className="flex gap-3 pt-1">
               <Link
                 href={`/${locale}/artist`}
-                className={`flex-1 rounded-sm border py-2.5 text-center text-[11px] font-bold tracking-[2px] transition-all ${
+                className={`flex-1 rounded-sm border py-2.5 text-center text-xs font-bold tracking-[2px] transition-all ${
                   isDark
                     ? "border-royalblue/30 text-vhs-muted hover:text-vhs-white"
                     : "border-[#a89888] text-[#635b53] hover:text-[#2a2520]"
@@ -292,7 +292,7 @@ function NewAlbumContent() {
               <button
                 type="submit"
                 disabled={saving || coverUploading}
-                className={`flex-1 rounded-sm py-2.5 text-[11px] font-bold tracking-[2px] text-white transition-all hover:brightness-110 disabled:opacity-50 ${
+                className={`flex-1 rounded-sm py-2.5 text-xs font-bold tracking-[2px] text-white transition-all hover:brightness-110 disabled:opacity-50 ${
                   isDark ? "bg-fear" : "bg-[#c4234e]"
                 }`}
               >

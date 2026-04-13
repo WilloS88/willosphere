@@ -97,15 +97,19 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const sourceRef = useRef<PlaybackSource>("browse");
 
   // Keep refs in sync
-  useEffect(() => { queueRef.current = queue; }, [queue]);
-  useEffect(() => { repeatRef.current = repeat; }, [repeat]);
+  useEffect(() => {
+    queueRef.current = queue;
+    repeatRef.current = repeat;
+  }, [queue, repeat]);
 
   // Sync local state → Redux
   useEffect(() => { store.dispatch(setReduxVolume(volume)); }, [volume]);
-  useEffect(() => { store.dispatch(setCurrentTrack(track)); }, [track]);
-  useEffect(() => { store.dispatch(setReduxQueue(queue)); }, [queue]);
-  useEffect(() => { store.dispatch(setPlayerShuffle(shuffle)); }, [shuffle]);
-  useEffect(() => { store.dispatch(setPlayerRepeat(repeat)); }, [repeat]);
+  useEffect(() => {
+    store.dispatch(setCurrentTrack(track));
+    store.dispatch(setReduxQueue(queue));
+    store.dispatch(setPlayerShuffle(shuffle));
+    store.dispatch(setPlayerRepeat(repeat));
+  }, [track, queue, shuffle, repeat]);
 
   // Persist progress on pause or unmount
   useEffect(() => {
@@ -121,6 +125,32 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         store.dispatch(setReduxProgress(Math.floor(audio.currentTime)));
       }
     };
+  }, []);
+
+  // Re-fetch persisted track/queue on mount to get fresh signed URLs
+  useEffect(() => {
+    const refreshTrack = async (t: TrackDto): Promise<TrackDto | null> => {
+      try {
+        const res = await api.get<TrackDto>(API_ENDPOINTS.tracks.detail(t.id));
+        return res.data;
+      } catch {
+        return null;
+      }
+    };
+
+    if (track?.id) {
+      refreshTrack(track).then((fresh) => {
+        if (fresh) setTrack(fresh);
+      });
+    }
+
+    if (queue.length > 0) {
+      Promise.all(queue.map((t) => refreshTrack(t))).then((results) => {
+        const refreshed = results.map((r, i) => r ?? queue[i]);
+        setQueue(refreshed);
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Hydrate liked items from backend on mount

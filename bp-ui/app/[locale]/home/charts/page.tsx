@@ -41,7 +41,7 @@ export default function ChartsPage() {
           <span className={`inline-block h-6 w-6 animate-spin rounded-full border-2 border-current border-t-transparent ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`} />
         </div>
       ) : tracks.length === 0 ? (
-        <div className={`py-16 text-center text-[11px] tracking-widest ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+        <div className={`py-16 text-center text-xs tracking-widest ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
           {t("noTracks")}
         </div>
       ) : (
@@ -81,7 +81,7 @@ export default function ChartsPage() {
                 {tracks[0].title}
               </h2>
               <p
-                className={`mt-1 text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
+                className={`mt-1 text-xs tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
               >
                 {tracks[0].artists.map(a => a.displayName).join(", ")}
               </p>
@@ -111,19 +111,19 @@ export default function ChartsPage() {
                     style={{ color }}
                   >
                     {track.coverImageUrl ? (
-                      <img src={track.coverImageUrl} alt={track.title} className="h-full w-full object-cover rounded" />
+                      <img src={track.coverImageUrl} alt={track.title} className="h-full w-full object-cover rounded" loading="lazy" />
                     ) : (
                       <Music size={18} />
                     )}
                   </div>
                   <div className="min-w-0 flex-1">
                     <div
-                      className={`truncate text-[11px] font-bold tracking-wider ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}
+                      className={`truncate text-xs font-bold tracking-wider ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}
                     >
                       {track.title}
                     </div>
                     <div
-                      className={`text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
+                      className={`text-xs tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
                     >
                       {track.artists.map(a => a.displayName).join(", ")}
                     </div>

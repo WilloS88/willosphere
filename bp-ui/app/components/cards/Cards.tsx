@@ -1,20 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Play, Download, ShoppingCart } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { Album, MerchItem } from "@/lib/store-data";
 import { usePlayer } from "@/app/context/PlayerContext";
 import { useTheme } from "@/lib/hooks";
 import { MerchCover } from "@/app/components/covers/Covers";
-import { PriceBadge, VHSButton, LikeButton, Badge } from "@/app/components/ui/elastic-slider/StoreUI";
+import { PriceBadge, VHSButton, Badge } from "@/app/components/ui/elastic-slider/StoreUI";
 import TiltedCard from "@/app/components/ui/react-bits/TiltedCard";
 
 export function AlbumCard({ album, index }: { album: Album; index: number }) {
   const t                                     = useTranslations("Store");
   const [hovered, setHovered]                 = useState(false);
-  const { playTrack, likedItems, toggleLike } = usePlayer();
+  const { playTrack } = usePlayer();
   const { isDark }                            = useTheme();
+
+  const cardStyle = useMemo(() => ({
+    animationDelay: `${index * 0.05}s`,
+    borderColor: hovered ? `${album.color}${isDark ? "44" : "55"}` : undefined,
+    boxShadow: hovered ? `0 8px 24px ${album.color}${isDark ? "15" : "20"}` : undefined,
+  }), [index, hovered, album.color, isDark]);
 
   return (
     <div
@@ -25,11 +31,7 @@ export function AlbumCard({ album, index }: { album: Album; index: number }) {
           ? "bg-vhs-card border-royalblue/20"
           : "bg-white/80 border-[#a89888]/40"
       }`}
-      style={{
-        animationDelay: `${index * 0.05}s`,
-        borderColor: hovered ? `${album.color}${isDark ? "44" : "55"}` : undefined,
-        boxShadow: hovered ? `0 8px 24px ${album.color}${isDark ? "15" : "20"}` : undefined,
-      }}
+      style={cardStyle}
     >
       <div className="relative">
         <TiltedCard
@@ -83,7 +85,7 @@ export function AlbumCard({ album, index }: { album: Album; index: number }) {
         }`}>
           {album.title}
         </div>
-        <div className={`text-[11px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+        <div className={`text-xs tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
           {album.artist} // {album.year}
         </div>
         <div className="flex items-center gap-1.5 mt-2.5">
@@ -91,7 +93,6 @@ export function AlbumCard({ album, index }: { album: Album; index: number }) {
             {album.price === 0 ? <Download size={11} /> : <ShoppingCart size={11} />}
             {album.price === 0 ? t("download") : t("buyNow")}
           </VHSButton>
-          <LikeButton itemId={album.id} liked={likedItems.has(album.id)} onToggle={toggleLike} />
         </div>
       </div>
     </div>
@@ -101,8 +102,12 @@ export function AlbumCard({ album, index }: { album: Album; index: number }) {
 export function MerchCard({ item, index }: { item: MerchItem; index: number }) {
   const t                           = useTranslations("Store");
   const [hovered, setHovered]       = useState(false);
-  const { likedItems, toggleLike }  = usePlayer();
   const { isDark }                  = useTheme();
+
+  const merchStyle = useMemo(() => ({
+    animationDelay: `${index * 0.06}s`,
+    borderColor: hovered ? (isDark ? "rgba(244,229,38,0.27)" : "rgba(196,168,0,0.3)") : undefined,
+  }), [index, hovered, isDark]);
 
   return (
     <div
@@ -111,7 +116,7 @@ export function MerchCard({ item, index }: { item: MerchItem; index: number }) {
       className={`rounded overflow-hidden transition-all duration-250 animate-slide-up border hover:-translate-y-0.5 ${
         isDark ? "bg-vhs-card border-royalblue/20" : "bg-white/80 border-[#a89888]/40"
       }`}
-      style={{ animationDelay: `${index * 0.06}s`, borderColor: hovered ? (isDark ? "rgba(244,229,38,0.27)" : "rgba(196,168,0,0.3)") : undefined }}
+      style={merchStyle}
     >
       <div className="p-2.5 pb-0">
         <MerchCover item={item} index={index} />
@@ -121,10 +126,9 @@ export function MerchCard({ item, index }: { item: MerchItem; index: number }) {
       </div>
       <div className="px-3 pb-3">
         <div className={`text-xs font-bold tracking-wider mb-0.5 ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}>{item.title}</div>
-        <div className={`text-[11px] tracking-wider mb-2.5 ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>{t("by")} {item.artist}</div>
+        <div className={`text-xs tracking-wider mb-2.5 ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>{t("by")} {item.artist}</div>
         <div className="flex gap-1.5">
           <VHSButton variant="yellow"><ShoppingCart size={11} /> {t("addToCart")}</VHSButton>
-          <LikeButton itemId={item.id} liked={likedItems.has(item.id)} onToggle={toggleLike} />
         </div>
       </div>
     </div>

@@ -109,22 +109,22 @@ function TracksContent() {
 
                 {/* Info */}
                 <div className="min-w-0 flex-1">
-                  <div className={`truncate text-[11px] font-bold tracking-wider ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}>
+                  <div className={`truncate text-xs font-bold tracking-wider ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}>
                     {track.title}
                   </div>
-                  <div className={`text-[11px] tracking-wide ${mutedCls}`}>
+                  <div className={`text-xs tracking-wide ${mutedCls}`}>
                     {track.genres.map((g) => g.name).join(" · ")}
                   </div>
                 </div>
 
                 {/* Duration */}
-                <div className={`flex shrink-0 items-center gap-1 text-[11px] tabular-nums ${mutedCls}`}>
+                <div className={`flex shrink-0 items-center gap-1 text-xs tabular-nums ${mutedCls}`}>
                   <Clock size={9} />{formatDuration(track.durationSeconds)}
                 </div>
 
                 {/* Price */}
                 {track.price != null && (
-                  <div className={`shrink-0 text-[11px] font-bold ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`}>
+                  <div className={`shrink-0 text-xs font-bold ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`}>
                     {track.price === 0 ? "FREE" : `${track.price} CZK`}
                   </div>
                 )}

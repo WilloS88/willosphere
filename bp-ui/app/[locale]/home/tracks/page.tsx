@@ -108,7 +108,7 @@ export default function TracksPage() {
       <div className={`relative mb-4 flex items-center gap-2 rounded border px-3 py-2 ${base.input}`}>
         <Search size={14} className={base.muted} />
         <input
-          className="flex-1 bg-transparent text-[11px] tracking-wide outline-none"
+          className="flex-1 bg-transparent text-xs tracking-wide outline-none"
           placeholder={t("searchPlaceholder")}
           value={search}
           onChange={(e) => handleSearch(e.target.value)}
@@ -144,7 +144,7 @@ export default function TracksPage() {
           />
         </div>
       ) : tracks.length === 0 ? (
-        <div className={`py-16 text-center text-[11px] tracking-widest ${base.muted}`}>
+        <div className={`py-16 text-center text-xs tracking-widest ${base.muted}`}>
           {t("noTracks")}
         </div>
       ) : (
@@ -177,10 +177,10 @@ export default function TracksPage() {
 
                 {/* Info */}
                 <div className="flex-1 min-w-0">
-                  <div className={`truncate text-[11px] font-bold tracking-wider ${base.text}`}>
+                  <div className={`truncate text-xs font-bold tracking-wider ${base.text}`}>
                     {track.title}
                   </div>
-                  <div className={`truncate text-[11px] tracking-wide ${base.muted}`}>
+                  <div className={`truncate text-xs tracking-wide ${base.muted}`}>
                     {track.artists.map((a) => a.displayName).join(", ")}
                   </div>
                 </div>
@@ -188,7 +188,7 @@ export default function TracksPage() {
                 {/* Genres */}
                 <div className="hidden sm:flex flex-wrap gap-1">
                   {track.genres.slice(0, 2).map((g) => (
-                    <span key={g.id} className={`rounded border px-1.5 py-0.5 text-[11px] tracking-wider ${base.badge}`}>
+                    <span key={g.id} className={`rounded border px-1.5 py-0.5 text-xs tracking-wider ${base.badge}`}>
                       {g.name}
                     </span>
                   ))}
