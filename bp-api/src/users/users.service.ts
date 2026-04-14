@@ -76,6 +76,11 @@ export class UsersService {
     });
   }
 
+  async emailExists(email: string): Promise<boolean> {
+    const count = await this.usersRepo.count({ where: { email } });
+    return count > 0;
+  }
+
   async create(dto: CreateUserDto): Promise<User> {
     const exists = await this.usersRepo.findOne({
       where: { email: dto.email },

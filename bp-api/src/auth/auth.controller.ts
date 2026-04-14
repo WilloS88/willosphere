@@ -4,6 +4,7 @@ import {
   Get,
   Patch,
   Post,
+  Query,
   Req,
   Res,
   UnauthorizedException,
@@ -18,8 +19,14 @@ import { CreateUserDto } from "../users/dto/create-user.dto";
 import { LoginDto } from "./dto/login.dto";
 import { SignupAsArtistDto } from "./dto/signup-artist.dto";
 import { MfaVerifyDto } from "./dto/mfa.dto";
-import { IsOptional, IsString, MaxLength } from "class-validator";
+import { IsEmail, IsNotEmpty, IsOptional, IsString, MaxLength } from "class-validator";
 import { UsersService } from "../users/users.service";
+
+class CheckEmailQueryDto {
+  @IsEmail()
+  @IsNotEmpty()
+  email: string;
+}
 
 class PatchMeDto {
   @IsOptional()
@@ -104,6 +111,11 @@ export class AuthController {
 
   private getOrCreateDeviceId(req: Request): string {
     return req.cookies?.[COOKIE_DEVICE_ID] || randomUUID();
+  }
+
+  @Get("check-email")
+  async checkEmail(@Query() query: CheckEmailQueryDto) {
+    return this.authService.checkEmailAvailability(query.email);
   }
 
   @Post("signup")

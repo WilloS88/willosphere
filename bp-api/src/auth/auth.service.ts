@@ -193,6 +193,11 @@ export class AuthService {
     }
   }
 
+  async checkEmailAvailability(email: string): Promise<{ available: boolean }> {
+    const exists = await this.usersService.emailExists(email);
+    return { available: !exists };
+  }
+
   async me(userId: number) {
     const user = await this.usersService.findById(userId);
     if(!user)
