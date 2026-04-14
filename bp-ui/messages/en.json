@@ -159,7 +159,8 @@
     "emailValidation": "Enter valid email address",
     "passwordValidation": "Must be more than 8 characters, including\nAt least one number\nAt least one lowercase letter\nAt least one uppercase letter",
     "passwordMismatch": "Passwords do not match",
-    "passwordsMustMatch": "Passwords must match"
+    "passwordsMustMatch": "Passwords must match",
+    "emailAlreadyExists": "An account with this email already exists"
   },
   "Login": {
     "home": "Home",
@@ -671,7 +672,8 @@
     "submitting": "CREATING...",
     "alreadyHaveAccount": "Already have an account?",
     "login": "Log in",
-    "signupAsListener": "Sign up as listener"
+    "signupAsListener": "Sign up as listener",
+    "emailAlreadyExists": "An account with this email already exists"
   },
   "NotFound": {
     "code": "ERROR_404",

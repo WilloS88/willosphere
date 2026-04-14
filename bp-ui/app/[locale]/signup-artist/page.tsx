@@ -10,9 +10,8 @@ import { Navbar } from "@/app/components/layout/Navbar";
 import { useTheme } from "@/lib/hooks";
 import { useAuth } from "@/app/components/auth/AuthProvider";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
-import { parseAxiosError } from "@/lib/axios";
+import api, { parseAxiosError } from "@/lib/axios";
 import type { AuthUser } from "@/lib/auth";
-import api from "@/lib/axios";
 
 function SignupArtistContent() {
   const t                 = useTranslations("SignupArtist");
@@ -31,7 +30,8 @@ function SignupArtistContent() {
     bannerImageUrl: "",
     artistSince:    "",
   });
-  const [error, setError]         = useState<string | null>(null);
+  const [error, setError]           = useState<string | null>(null);
+  const [emailError, setEmailError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
   const set = (field: keyof typeof form) =>
@@ -41,6 +41,7 @@ function SignupArtistContent() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError(null);
+    setEmailError(null);
 
     if (form.password !== form.confirmPassword) {
       setError(t("passwordMismatch"));
@@ -49,6 +50,15 @@ function SignupArtistContent() {
 
     setSubmitting(true);
     try {
+      const { data: emailCheck } = await api.get<{ available: boolean }>(
+        API_ENDPOINTS.auth.checkEmail,
+        { params: { email: form.email.trim() } },
+      );
+      if (!emailCheck.available) {
+        setEmailError(t("emailAlreadyExists"));
+        setSubmitting(false);
+        return;
+      }
       await api.post<{ user: AuthUser }>(API_ENDPOINTS.auth.signupArtist, {
         email:          form.email.trim(),
         password:       form.password,
@@ -122,11 +132,18 @@ function SignupArtistContent() {
                 type="email"
                 autoComplete="email"
                 required
-                className={inputCls}
+                className={emailError
+                  ? `${inputCls} ${isDark ? "!border-fear" : "!border-[#c4234e]"}`
+                  : inputCls}
                 placeholder="you@email.com"
                 value={form.email}
-                onChange={set("email")}
+                onChange={(e) => { setEmailError(null); set("email")(e); }}
               />
+              {emailError && (
+                <p className={`mt-1 text-xs tracking-wider ${isDark ? "text-fear" : "text-[#c4234e]"}`}>
+                  {emailError}
+                </p>
+              )}
             </div>
 
             <div>

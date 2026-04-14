@@ -12,7 +12,8 @@ import PageShell from "@/app/components/layout/PageShell";
 import { useAuth } from "@/app/components/auth/AuthProvider";
 import { useTheme } from "@/lib/hooks";
 import { getRoleRedirect } from "@/lib/auth";
-import { parseAxiosError } from "@/lib/axios";
+import api, { parseAxiosError } from "@/lib/axios";
+import { API_ENDPOINTS } from "@/app/api/enpoints";
 
 function SignupContent() {
   const t           = useTranslations("Registration");
@@ -38,6 +39,21 @@ function SignupContent() {
   }).refine((data) => data.password === data.confirmPassword, {
     message: t("passwordsMustMatch"),
     path: ["confirmPassword"],
+  }).superRefine(async (data, ctx) => {
+    if (!data.email || !z.string().email().safeParse(data.email).success) return;
+    try {
+      const { data: res } = await api.get<{ available: boolean }>(
+        API_ENDPOINTS.auth.checkEmail,
+        { params: { email: data.email } },
+      );
+      if (!res.available) {
+        ctx.addIssue({
+          code:     z.ZodIssueCode.custom,
+          message:  t("emailAlreadyExists"),
+          path:     ["email"],
+        });
+      }
+    } catch {}
   });
 
   type FormValues = z.infer<typeof schema>;

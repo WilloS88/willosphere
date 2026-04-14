@@ -7,6 +7,7 @@ export const API_ENDPOINTS = {
     logout:        "/auth/logout",
     refresh:       "/auth/refresh",
     me:            "/auth/me",
+    checkEmail:    "/auth/check-email",
   },
 
   mfa: {

@@ -159,7 +159,8 @@
     "emailValidation": "Zadejte platnou e-mailovou adresu",
     "passwordValidation": "Musí mít více než 8 znaků, včetně\nAlespoň jednoho čísla\nAlespoň jednoho malého písmene\nAlespoň jednoho velkého písmene",
     "passwordMismatch": "Hesla se neshodují",
-    "passwordsMustMatch": "Hesla se musí shodovat"
+    "passwordsMustMatch": "Hesla se musí shodovat",
+    "emailAlreadyExists": "Účet s tímto emailem již existuje"
   },
   "Login": {
     "home": "Domů",
@@ -670,7 +671,8 @@
     "submitting": "VYTVÁŘENÍ...",
     "alreadyHaveAccount": "Máš již účet?",
     "login": "Přihlásit se",
-    "signupAsListener": "Registrovat se jako posluchač"
+    "signupAsListener": "Registrovat se jako posluchač",
+    "emailAlreadyExists": "Účet s tímto emailem již existuje"
   },
   "NotFound": {
     "code": "CHYBA_404",
