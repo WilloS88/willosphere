@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "./store";
 import { toggleTheme } from "./features/theme/themeSlice";
+import { toggleNav, setNavCollapsed } from "./features/ui/uiSlice";
 
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector = <T>(selector: (state: RootState) => T): T =>
@@ -16,6 +17,16 @@ export function useTheme() {
   }, [dispatch]);
 
   return { theme: mode, toggle, isDark: mode === "dark" } as const;
+}
+
+export function useNav() {
+  const navCollapsed = useAppSelector((s) => s.ui.navCollapsed);
+  const dispatch     = useAppDispatch();
+
+  const toggle = useCallback(() => { dispatch(toggleNav()); }, [dispatch]);
+  const set    = useCallback((v: boolean) => { dispatch(setNavCollapsed(v)); }, [dispatch]);
+
+  return { navCollapsed, toggleNav: toggle, setNavCollapsed: set } as const;
 }
 
 export function useDebounce<T>(value: T, delay: number): T {

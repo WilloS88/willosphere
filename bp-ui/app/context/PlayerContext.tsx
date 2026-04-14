@@ -29,8 +29,6 @@ export type PlaybackSource =
   | "radio";
 
 interface PlayerContextValue {
-  navCollapsed:      boolean;
-  setNavCollapsed:   Dispatch<SetStateAction<boolean>>;
   activeCategory:    string | null;
   setActiveCategory: Dispatch<SetStateAction<string | null>>;
   likedItems:        Set<number>;
@@ -50,6 +48,7 @@ interface PlayerContextValue {
   setShowQueue:      Dispatch<SetStateAction<boolean>>;
   queue:             TrackDto[];
   playTrack:         (track: TrackDto, queue?: TrackDto[], source?: PlaybackSource) => void;
+  addToQueue:        (track: TrackDto) => void;
   nextTrack:         () => void;
   prevTrack:         () => void;
   seekTo:            (seconds: number) => void;
@@ -71,7 +70,6 @@ function getPrimaryArtistId(track: TrackDto): number | null {
 export function PlayerProvider({ children }: { children: ReactNode }) {
   const persisted = getPersistedPlayer();
 
-  const [navCollapsed, setNavCollapsed]     = useState(false);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [likedItems, setLikedItems]         = useState<Set<number>>(new Set());
 
@@ -276,6 +274,12 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  const addToQueue = useCallback((newTrack: TrackDto) => {
+    const q = [...queueRef.current, newTrack];
+    queueRef.current = q;
+    setQueue(q);
+  }, []);
+
   const nextTrack = useCallback(() => {
     const q   = queueRef.current;
     const idx = queueIdxRef.current;
@@ -371,25 +375,16 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
-  // Auto-collapse on mobile
-  useEffect(() => {
-    const mq = window.matchMedia("(max-width: 768px)");
-    if (mq.matches) setNavCollapsed(true);
-    const handler = (e: MediaQueryListEvent) => setNavCollapsed(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
-
   return (
     <PlayerContext.Provider
       value={{
-        navCollapsed, setNavCollapsed, activeCategory, setActiveCategory,
+        activeCategory, setActiveCategory,
         likedItems, toggleLike,
         isPlaying, setIsPlaying,
         track, progress, duration, volume, setVolume,
         shuffle, setShuffle, repeat, setRepeat,
         showQueue, setShowQueue,
-        queue, playTrack, nextTrack, prevTrack, seekTo,
+        queue, playTrack, addToQueue, nextTrack, prevTrack, seekTo,
       }}
     >
       {children}

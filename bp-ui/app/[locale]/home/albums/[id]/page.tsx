@@ -3,14 +3,16 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { ArrowLeft, Clock, Disc3, Music, Play } from "lucide-react";
+import { ArrowLeft, Clock, Disc3, ListPlus, Music, Play } from "lucide-react";
 import Link from "next/link";
 import { useTheme } from "@/lib/hooks";
 import { usePlayer } from "@/app/context/PlayerContext";
+import { VHSSpinner } from "@/app/components/ui/VHSSpinner";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
 import type { AlbumDto } from "@/app/types/album";
 import type { TrackDto } from "@/app/types/track";
 import { formatTime } from "@/lib/store-data";
+import { PlaylistPicker } from "@/app/components/home/PlaylistPicker";
 import api from "@/lib/axios";
 
 export default function AlbumDetailPage() {
@@ -21,7 +23,7 @@ export default function AlbumDetailPage() {
   const [album, setAlbum]     = useState<AlbumDto | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const { playTrack, track: currentTrack, isPlaying } = usePlayer();
+  const { playTrack, addToQueue, track: currentTrack, isPlaying } = usePlayer();
 
   useEffect(() => {
     if(!id)
@@ -36,7 +38,7 @@ export default function AlbumDetailPage() {
   if(loading) {
     return (
       <div className="flex justify-center py-32">
-        <span className={`inline-block h-6 w-6 animate-spin rounded-full border-2 border-current border-t-transparent ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`} />
+        <VHSSpinner size="lg" />
       </div>
     );
   }
@@ -153,6 +155,15 @@ export default function AlbumDetailPage() {
                     <Clock size={10} />
                     {formatTime(track.durationSeconds)}
                   </div>
+
+                  <button
+                    className={`shrink-0 p-1 rounded transition-colors ${isDark ? "hover:bg-royalblue/20 text-vhs-muted hover:text-vhs-white" : "hover:bg-[#c4234e]/10 text-[#635b53] hover:text-[#2a2520]"}`}
+                    title={t("addToQueue")}
+                    onClick={(e) => { e.stopPropagation(); addToQueue(track); }}
+                  >
+                    <ListPlus size={14} />
+                  </button>
+                  <PlaylistPicker trackId={track.id} />
                 </div>
               );
             })}

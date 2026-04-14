@@ -10,6 +10,7 @@ import {
   AdminDataTable,
   AdminPageHeader,
   AdminDetailField,
+  AdminSpinner,
   Dialog,
 } from "@/app/components/admin";
 import api, { parseAxiosError } from "@/lib/axios";
@@ -234,7 +235,7 @@ export default function AdminAlbumsPage() {
           onClick={async () => { setRefreshing(true); await reload(); setRefreshing(false); }}
           disabled={loading || refreshing}
         >
-          {refreshing ? <span className="loading loading-spinner loading-sm" /> : <RotateCcw size={18} />}
+          {refreshing ? <AdminSpinner size="sm" /> : <RotateCcw size={18} />}
         </button>
       </AdminPageHeader>
 
@@ -305,34 +306,49 @@ export default function AdminAlbumsPage() {
       >
         {detailLoading ? (
           <div className="flex justify-center py-8">
-            <span className="loading loading-spinner loading-md" />
+            <AdminSpinner />
           </div>
         ) : dialogMode === "view" && selected ? (
-          <div className="space-y-3 text-sm">
-            {selected.coverImageUrl && (
-              <img src={selected.coverImageUrl} alt={selected.title} className="h-32 w-32 rounded object-cover border" />
-            )}
-            <AdminDetailField label={t("id")}            value={selected.id} />
-            <AdminDetailField label={t("title")}         value={selected.title} />
-            <AdminDetailField label={t("releaseDate")}   value={selected.releaseDate} />
-            <AdminDetailField label={t("price")}         value={`${selected.price} CZK`} />
-            <div>
-              <span className="font-semibold text-gray-600">{t("artists")}: </span>
-              {selected.artists.map((a) => (
-                <span key={a.artistId} className={`badge badge-sm mr-1 ${a.role === "primary" ? "badge-info" : "badge-ghost"}`}>
-                  {a.displayName} ({a.role})
-                </span>
-              ))}
+          <div className="space-y-4">
+            {/* Header */}
+            <div className="flex items-center gap-4 rounded-lg bg-base-300/50 p-4">
+              {selected.coverImageUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={selected.coverImageUrl} alt={selected.title} className="h-14 w-14 rounded object-cover border border-base-content/20 shadow" />
+              ) : (
+                <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-info/15 text-info">
+                  <Disc3 size={24} />
+                </div>
+              )}
+              <div className="flex-1 min-w-0">
+                <div className="font-bold text-base truncate">{selected.title}</div>
+                <div className="mt-1.5 flex flex-wrap gap-1">
+                  {selected.artists.map((a) => (
+                    <span key={a.artistId} className={`badge badge-sm ${a.role === "primary" ? "badge-info" : "bg-base-content/20 text-base-content/80"}`}>
+                      {a.displayName} ({a.role})
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div className="text-xs text-base-content/40 self-start">#{selected.id}</div>
             </div>
+
+            {/* Info grid */}
+            <div className="grid grid-cols-2 gap-3">
+              <AdminDetailField label={t("releaseDate")} value={selected.releaseDate} block />
+              <AdminDetailField label={t("price")} value={`${selected.price} CZK`} block />
+            </div>
+
+            {/* Tracklist */}
             {selected.tracks && selected.tracks.length > 0 && (
               <div>
-                <div className="font-semibold text-gray-600 mb-1">{t("tracks")} ({selected.tracks.length}):</div>
-                <div className="space-y-1 max-h-48 overflow-y-auto">
+                <div className="mb-1 text-xs font-semibold text-base-content/70">{t("tracks")} ({selected.tracks.length}):</div>
+                <div className="rounded border border-base-300 bg-base-200 p-2 text-xs leading-relaxed max-h-48 overflow-y-auto space-y-1">
                   {selected.tracks.map((track, i) => (
-                    <div key={track.id} className="flex items-center gap-2 text-xs text-gray-700">
-                      <span className="text-gray-400 w-5 text-right">{i + 1}.</span>
+                    <div key={track.id} className="flex items-center gap-2 text-base-content">
+                      <span className="text-base-content/40 w-5 text-right">{i + 1}.</span>
                       <span className="font-medium">{track.title}</span>
-                      <span className="text-gray-400">— {track.artists.map((a) => a.displayName).join(", ")}</span>
+                      <span className="text-base-content/40">— {track.artists.map((a) => a.displayName).join(", ")}</span>
                     </div>
                   ))}
                 </div>

@@ -178,7 +178,7 @@ export function QueuePanel() {
       <SectionLabel className="mb-3">{t("queue")} // {queue.length} {t("tracks")}</SectionLabel>
       {queue.length === 0
         ? <div className={`py-4 text-center text-xs tracking-widest ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>—</div>
-        : queue.map((tr, i) => <QueueTrack key={tr.id} track={tr} index={i} />)
+        : queue.map((tr, i) => <QueueTrack key={`${tr.id}-${i}`} track={tr} index={i} />)
       }
     </div>
   );

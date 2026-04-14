@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { ListPlus, Check, Loader, AlertCircle } from "lucide-react";
 import { useAuth } from "@/app/components/auth/AuthProvider";
 import { useTheme } from "@/lib/hooks";
+import { VHSSpinner } from "@/app/components/ui/VHSSpinner";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
 import type { PlaylistDto } from "@/app/types/playlist";
 import type { PaginatedResponse } from "@/app/types/pagination";
@@ -113,7 +114,7 @@ export function PlaylistPicker({ trackId }: Props) {
 
           {loading ? (
             <div className="flex justify-center py-3">
-              <Loader size={14} className={`animate-spin ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`} />
+              <VHSSpinner size="xs" />
             </div>
           ) : playlists.length === 0 ? (
             <div className={`px-3 py-2 text-xs ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>

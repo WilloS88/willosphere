@@ -10,6 +10,7 @@ import { Navbar } from "@/app/components/layout/Navbar";
 import { useTheme } from "@/lib/hooks";
 import { useAuth } from "@/app/components/auth/AuthProvider";
 import { SectionLabel, Badge } from "@/app/components/ui/elastic-slider/StoreUI";
+import { VHSSpinner } from "@/app/components/ui/VHSSpinner";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
 import { parseAxiosError } from "@/lib/axios";
 import type { ArtistDto } from "@/app/types/user";
@@ -120,9 +121,7 @@ function ProfileContent() {
 
             {loading ? (
               <div className="flex justify-center py-8">
-                <span
-                  className={`inline-block h-5 w-5 animate-spin rounded-full border-2 border-current border-t-transparent ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`}
-                />
+                <VHSSpinner />
               </div>
             ) : (
               <div className="space-y-4">

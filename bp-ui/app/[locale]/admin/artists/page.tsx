@@ -10,6 +10,7 @@ import {
   Dialog,
   AdminPageHeader,
   AdminDataTable,
+  AdminSpinner,
 } from "@/app/components/admin";
 import api, { parseAxiosError } from "@/lib/axios";
 import { useToast } from "@/app/context/ToastContext";
@@ -176,7 +177,7 @@ export default function AdminArtistsPage() {
           title={t("refresh")}
           type="button"
         >
-          {refreshing ? <span className="loading loading-spinner loading-sm" /> : <RotateCcw size={18} />}
+          {refreshing ? <AdminSpinner size="sm" /> : <RotateCcw size={18} />}
         </button>
       </AdminPageHeader>
 
@@ -246,7 +247,7 @@ export default function AdminArtistsPage() {
       >
         {detailLoading ? (
           <div className="flex justify-center py-8">
-            <span className="loading loading-spinner loading-md" />
+            <AdminSpinner />
           </div>
         ) : dialogMode === "view" ? (
           selected ? (
@@ -267,7 +268,7 @@ export default function AdminArtistsPage() {
                   )}
                   <div>
                     <div className="font-bold text-base">{selected.displayName}</div>
-                    <div className="text-xs text-gray-500">{selected.email}</div>
+                    <div className="text-xs text-base-content/60">{selected.email}</div>
                     <div className="mt-1 inline-flex items-center gap-1 rounded-full bg-info/15 px-2 py-0.5 text-xs font-medium text-info">
                       <Music size={10} /> {t("artist")}
                     </div>
@@ -276,28 +277,28 @@ export default function AdminArtistsPage() {
               </div>
 
               <div className="grid grid-cols-2 gap-2">
-                <div className="flex items-center gap-2 rounded-lg border bg-slate-50 p-3">
+                <div className="flex items-center gap-2 rounded-lg border border-base-300 bg-base-200 p-3">
                   <CalendarDays size={14} className="shrink-0 text-info" />
                   <div>
-                    <div className="text-xs uppercase tracking-wide text-gray-400">{t("artistSince")}</div>
+                    <div className="text-xs uppercase tracking-wide text-base-content/40">{t("artistSince")}</div>
                     <div className="text-xs font-semibold">
-                      {selected.artistSince ? new Date(selected.artistSince).toLocaleDateString() : <span className="text-gray-400">—</span>}
+                      {selected.artistSince ? new Date(selected.artistSince).toLocaleDateString() : <span className="text-base-content/40">—</span>}
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 rounded-lg border bg-slate-50 p-3">
-                  <UserCircle2 size={14} className="shrink-0 text-gray-400" />
+                <div className="flex items-center gap-2 rounded-lg border border-base-300 bg-base-200 p-3">
+                  <UserCircle2 size={14} className="shrink-0 text-base-content/40" />
                   <div>
-                    <div className="text-xs uppercase tracking-wide text-gray-400">{t("memberSince")}</div>
+                    <div className="text-xs uppercase tracking-wide text-base-content/40">{t("memberSince")}</div>
                     <div className="text-xs font-semibold">{new Date(selected.memberSince).toLocaleDateString()}</div>
                   </div>
                 </div>
               </div>
 
               <div>
-                <div className="mb-1 text-xs uppercase tracking-wide text-gray-400 font-semibold">{t("bio")}</div>
-                <div className="rounded-lg border bg-slate-50 p-3 text-xs leading-relaxed text-gray-700 min-h-[48px]">
-                  {selected.bio || <span className="text-gray-400 italic">{t("noBio")}</span>}
+                <div className="mb-1 text-xs uppercase tracking-wide text-base-content/40 font-semibold">{t("bio")}</div>
+                <div className="rounded-lg border border-base-300 bg-base-200 p-3 text-xs leading-relaxed text-base-content min-h-[48px]">
+                  {selected.bio || <span className="text-base-content/40 italic">{t("noBio")}</span>}
                 </div>
               </div>
 
@@ -305,25 +306,25 @@ export default function AdminArtistsPage() {
                 <div className="space-y-1.5">
                   {selected.bannerImageUrl && (
                     <div className="flex items-center gap-2 text-xs">
-                      <Link2 size={12} className="shrink-0 text-gray-400" />
-                      <span className="text-gray-500 shrink-0">{t("bannerImageUrl")}:</span>
-                      <span className="truncate text-blue-500">{selected.bannerImageUrl}</span>
+                      <Link2 size={12} className="shrink-0 text-base-content/40" />
+                      <span className="text-base-content/60 shrink-0">{t("bannerImageUrl")}:</span>
+                      <span className="truncate text-info">{selected.bannerImageUrl}</span>
                     </div>
                   )}
                   {selected.profileImageUrl && (
                     <div className="flex items-center gap-2 text-xs">
-                      <Link2 size={12} className="shrink-0 text-gray-400" />
-                      <span className="text-gray-500 shrink-0">{t("profileImageUrl")}:</span>
-                      <span className="truncate text-blue-500">{selected.profileImageUrl}</span>
+                      <Link2 size={12} className="shrink-0 text-base-content/40" />
+                      <span className="text-base-content/60 shrink-0">{t("profileImageUrl")}:</span>
+                      <span className="truncate text-info">{selected.profileImageUrl}</span>
                     </div>
                   )}
                 </div>
               )}
 
-              <div className="border-t pt-2 text-xs text-gray-400">ID: {selected.userId}</div>
+              <div className="border-t pt-2 text-xs text-base-content/40">ID: {selected.userId}</div>
             </div>
           ) : (
-            <div className="py-8 text-center text-xs text-gray-400">{t("noArtists")}</div>
+            <div className="py-8 text-center text-xs text-base-content/40">{t("noArtists")}</div>
           )
         ) : (
           <form className="space-y-3">

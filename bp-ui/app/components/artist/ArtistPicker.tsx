@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { Loader, Lock, Search, X } from "lucide-react";
+import { Lock, Search, X } from "lucide-react";
+import { VHSSpinner } from "@/app/components/ui/VHSSpinner";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
 import type { ArtistDto } from "@/app/types/user";
 import type { PaginatedResponse } from "@/app/types/pagination";
@@ -129,7 +130,7 @@ export function ArtistPicker({ value, onChange, featRole, isDark }: Props) {
           }`}
         >
           {searching
-            ? <Loader size={13} className={`animate-spin shrink-0 ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`} />
+            ? <VHSSpinner size="xs" />
             : <Search size={13} className={isDark ? "text-vhs-muted" : "text-[#635b53]"} />
           }
           <input

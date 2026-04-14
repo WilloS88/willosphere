@@ -6,16 +6,7 @@ interface ThemeState {
   mode: ThemeMode;
 }
 
-function loadTheme(): ThemeMode {
-  if(typeof window !== "undefined") {
-    const saved = localStorage.getItem("vhs-store-theme");
-    if(saved === "dark" || saved === "light")
-      return saved;
-  }
-  return "dark";
-}
-
-const initialState: ThemeState = { mode: loadTheme() };
+const initialState: ThemeState = { mode: "dark" };
 
 const themeSlice = createSlice({
   name: "theme",
@@ -27,8 +18,11 @@ const themeSlice = createSlice({
     toggleTheme(state) {
       state.mode = state.mode === "dark" ? "light" : "dark";
     },
+    hydrateTheme(state, action: PayloadAction<ThemeMode>) {
+      state.mode = action.payload;
+    },
   },
 });
 
-export const { setTheme, toggleTheme } = themeSlice.actions;
+export const { setTheme, toggleTheme, hydrateTheme } = themeSlice.actions;
 export default themeSlice.reducer;

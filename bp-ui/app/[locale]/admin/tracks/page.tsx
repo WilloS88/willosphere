@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslations } from "use-intl";
-import { AudioLines, Pencil, Plus, RotateCcw, Trash2 } from "lucide-react";
+import { AudioLines, Music, Pencil, Plus, RotateCcw, Trash2 } from "lucide-react";
 import type { TrackDto, GenreDto, TrackArtistInfo } from "@/app/types/track";
 import type { PaginatedResponse } from "@/app/types/pagination";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
@@ -10,6 +10,7 @@ import {
   AdminDataTable,
   AdminPageHeader,
   AdminDetailField,
+  AdminSpinner,
   Dialog,
 } from "@/app/components/admin";
 import api, { parseAxiosError } from "@/lib/axios";
@@ -274,7 +275,7 @@ export default function AdminTracksPage() {
           disabled={loading || refreshing}
         >
           {refreshing
-            ? <span className="loading loading-spinner loading-sm" />
+            ? <AdminSpinner size="sm" />
             : <RotateCcw size={18} />}
         </button>
       </AdminPageHeader>
@@ -353,36 +354,50 @@ export default function AdminTracksPage() {
       >
         {detailLoading ? (
           <div className="flex justify-center py-8">
-            <span className="loading loading-spinner loading-md" />
+            <AdminSpinner />
           </div>
         ) : dialogMode === "view" && selected ? (
-          <div className="space-y-3 text-sm">
-            {selected.coverImageUrl && (
-              <img src={selected.coverImageUrl} alt={selected.title} className="h-32 w-32 rounded object-cover border" />
-            )}
-            <AdminDetailField label={t("id")}       value={selected.id} />
-            <AdminDetailField label={t("title")}    value={selected.title} />
-            <AdminDetailField label={t("duration")} value={formatDuration(selected.durationSeconds)} />
-            <AdminDetailField label={t("bpm")}      value={selected.bpm ?? "—"} />
-            <AdminDetailField label={t("price")}    value={selected.price != null ? `${selected.price} CZK` : "—"} />
-            <AdminDetailField label={t("albumId")}  value={selected.albumId ?? "—"} />
+          <div className="space-y-4">
+            {/* Header */}
+            <div className="flex items-center gap-4 rounded-lg bg-base-300/50 p-4">
+              {selected.coverImageUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={selected.coverImageUrl} alt={selected.title} className="h-14 w-14 rounded object-cover border border-base-content/20 shadow" />
+              ) : (
+                <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-info/15 text-info">
+                  <Music size={24} />
+                </div>
+              )}
+              <div className="flex-1 min-w-0">
+                <div className="font-bold text-base truncate">{selected.title}</div>
+                <div className="mt-1.5 flex flex-wrap gap-1">
+                  {selected.artists.map((a) => (
+                    <span key={a.artistId} className={`badge badge-sm ${a.role === "primary" ? "badge-info" : "bg-base-content/20 text-base-content/80"}`}>
+                      {a.displayName} ({a.role})
+                    </span>
+                  ))}
+                </div>
+                <div className="mt-1 flex flex-wrap gap-1">
+                  {selected.genres.map((g) => (
+                    <span key={g.id} className="badge badge-sm badge-outline">{g.name}</span>
+                  ))}
+                </div>
+              </div>
+              <div className="text-xs text-base-content/40 self-start">#{selected.id}</div>
+            </div>
+
+            {/* Info grid */}
+            <div className="grid grid-cols-2 gap-3">
+              <AdminDetailField label={t("duration")} value={formatDuration(selected.durationSeconds)} block />
+              <AdminDetailField label={t("bpm")} value={selected.bpm ?? "—"} block />
+              <AdminDetailField label={t("price")} value={selected.price != null ? `${selected.price} CZK` : "—"} block />
+              <AdminDetailField label={t("albumId")} value={selected.albumId ?? "—"} block />
+            </div>
+
+            {/* Audio link */}
             <AdminDetailField label={t("audioUrl")} value={
-              <a href={selected.audioUrl} target="_blank" rel="noreferrer" className="text-blue-500 underline truncate block">{selected.audioUrl}</a>
-            } />
-            <div>
-              <span className="font-semibold text-gray-600">{t("artists")}: </span>
-              {selected.artists.map((a) => (
-                <span key={a.artistId} className={`badge badge-sm mr-1 ${a.role === "primary" ? "badge-info" : "badge-ghost"}`}>
-                  {a.displayName} ({a.role})
-                </span>
-              ))}
-            </div>
-            <div>
-              <span className="font-semibold text-gray-600">{t("genres")}: </span>
-              {selected.genres.map((g) => (
-                <span key={g.id} className="badge badge-sm badge-outline mr-1">{g.name}</span>
-              ))}
-            </div>
+              <a href={selected.audioUrl} target="_blank" rel="noreferrer" className="text-info underline truncate block text-xs">{selected.audioUrl}</a>
+            } block />
           </div>
         ) : (
           <form className="space-y-4">

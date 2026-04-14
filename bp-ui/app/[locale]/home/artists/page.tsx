@@ -7,6 +7,7 @@ import Link from "next/link";
 import { Music } from "lucide-react";
 import { PageHeader } from "@/app/components/ui/elastic-slider/StoreUI";
 import { useTheme } from "@/lib/hooks";
+import { VHSSpinner } from "@/app/components/ui/VHSSpinner";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
 import type { ArtistDto } from "@/app/types/user";
 import type { PaginatedResponse } from "@/app/types/pagination";
@@ -34,9 +35,7 @@ export default function ArtistsPage() {
 
       {loading ? (
         <div className="flex justify-center py-16">
-          <span
-            className={`inline-block h-6 w-6 animate-spin rounded-full border-2 border-current border-t-transparent ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`}
-          />
+          <VHSSpinner size="lg" />
         </div>
       ) : artists.length === 0 ? (
         <div

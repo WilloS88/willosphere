@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { Calculator, Play, TrendingUp } from "lucide-react";
 import api from "@/lib/axios";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
+import { AdminSpinner } from "@/app/components/admin";
 
 type MonthlyRoyaltyDto = {
   id:                   number;
@@ -123,7 +124,7 @@ export default function RoyaltiesPage() {
             disabled={calculating}
           >
             {calculating ? (
-              <span className="loading loading-spinner loading-xs" />
+              <AdminSpinner size="xs" />
             ) : (
               <Calculator size={14} />
             )}
@@ -154,7 +155,7 @@ export default function RoyaltiesPage() {
           <div className="card-body p-0">
             {loading ? (
               <div className="flex items-center justify-center py-8">
-                <span className="loading loading-spinner loading-lg" />
+                <AdminSpinner size="lg" />
               </div>
             ) : royalties.length === 0 ? (
               <div className="text-center py-8 text-base-content/50">

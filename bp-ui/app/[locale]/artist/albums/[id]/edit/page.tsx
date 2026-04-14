@@ -12,6 +12,7 @@ import { useAuth } from "@/app/components/auth/AuthProvider";
 import { SectionLabel } from "@/app/components/ui/elastic-slider/StoreUI";
 import { ArtistPicker, type ArtistInput } from "@/app/components/artist/ArtistPicker";
 import { ImageCropModal } from "@/app/components/ui/ImageCropModal";
+import { VHSSpinner } from "@/app/components/ui/VHSSpinner";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
 import { parseAxiosError } from "@/lib/axios";
 import type { AlbumDto } from "@/app/types/album";
@@ -181,7 +182,7 @@ function EditAlbumContent() {
 
           {loading ? (
             <div className="flex justify-center py-12">
-              <span className={`h-5 w-5 animate-spin rounded-full border-2 border-current border-t-transparent ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`} />
+              <VHSSpinner />
             </div>
           ) : (
             <form onSubmit={(e) => void handleSubmit(e)} className="space-y-5">

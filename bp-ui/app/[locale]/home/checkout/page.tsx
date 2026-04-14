@@ -10,6 +10,7 @@ import { useToast } from "@/app/context/ToastContext";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { clearCart } from "@/lib/features/cart/cartSlice";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
+import { VHSSpinner } from "@/app/components/ui/VHSSpinner";
 import api from "@/lib/axios";
 
 export default function CheckoutPage() {
@@ -94,7 +95,7 @@ export default function CheckoutPage() {
           disabled={loading}
         >
           {loading
-            ? <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+            ? <VHSSpinner size="sm" className="text-current" />
             : <><CheckCircle size={14} />{t("placeOrder")}</>
           }
         </VHSButton>

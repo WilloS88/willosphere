@@ -3,10 +3,12 @@
 import { type ReactNode } from "react";
 import { useTranslations } from "use-intl";
 import { ChevronUp, ChevronDown, ChevronsUpDown, ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react";
+import { AdminSpinner } from "./AdminSpinner";
 
 export type FilterConfig =
   | { type: "text"; placeholder?: string }
-  | { type: "enum"; options: { value: string; label: string }[] };
+  | { type: "enum"; options: { value: string; label: string }[] }
+  | { type: "date" };
 
 export type Column = {
   label:      string;
@@ -136,6 +138,15 @@ export function AdminDataTable({
                           onFilterChange(col.filterKey ?? col.sortKey ?? col.label, e.target.value)
                         }
                       />
+                    ) : col.filter.type === "date" ? (
+                      <input
+                        type="date"
+                        className="input input-xs w-full border border-base-300 bg-base-100 font-normal normal-case"
+                        value={filters[col.filterKey ?? col.sortKey ?? col.label] ?? ""}
+                        onChange={(e) =>
+                          onFilterChange(col.filterKey ?? col.sortKey ?? col.label, e.target.value)
+                        }
+                      />
                     ) : (
                       <select
                         className="select select-xs w-full border border-base-300 bg-base-100 font-normal normal-case"
@@ -161,7 +172,7 @@ export function AdminDataTable({
           {loading ? (
             <tr>
               <td colSpan={colSpan} className="py-8 text-center">
-                <span className="loading loading-spinner" />
+                <AdminSpinner />
               </td>
             </tr>
           ) : empty ? (

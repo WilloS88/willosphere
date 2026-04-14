@@ -11,6 +11,7 @@ import LocaleSwitcher from "@/app/components/locale/LocaleSwitcher";
 import { GlitchText } from "@/app/components/ui/elastic-slider/StoreUI";
 import { hasRole } from "@/lib/auth";
 import { cn } from "@/lib/utils";
+import { VHSSpinner } from "@/app/components/ui/VHSSpinner";
 import { useOptionalPlayer } from "@/app/context/PlayerContext";
 import api from "@/lib/axios";
 import type { SearchResultDto } from "@/app/types/search";
@@ -105,7 +106,7 @@ export function SearchBar() {
           }`}
         />
         {loading ? (
-          <span className={`inline-block h-3 w-3 animate-spin rounded-full border border-current border-t-transparent ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`} />
+          <VHSSpinner size="xs" />
         ) : (
           <Search size={13} className={isDark ? "text-vhs-muted" : "text-[#635b53]"} />
         )}

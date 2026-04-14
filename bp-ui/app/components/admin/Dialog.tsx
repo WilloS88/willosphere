@@ -3,6 +3,7 @@
 import { X, Pencil } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useTranslations } from "use-intl";
+import { AdminSpinner } from "./AdminSpinner";
 
 export type DialogMode = "create" | "edit" | "view";
 
@@ -94,7 +95,7 @@ export function Dialog({
           onClick={handleSave}
           disabled={!canSave}
         >
-          {saving && <span className="loading loading-spinner loading-xs" />}
+          {saving && <AdminSpinner size="xs" />}
           {t("save")}
         </button>
       )}

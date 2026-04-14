@@ -13,6 +13,7 @@ import {
   SectionLabel,
 } from "@/app/components/ui/elastic-slider/StoreUI";
 import { ImageCropModal } from "@/app/components/ui/ImageCropModal";
+import { VHSSpinner } from "@/app/components/ui/VHSSpinner";
 import api from "@/lib/axios";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
 
@@ -84,7 +85,7 @@ export default function ProfilePage() {
           >
             <div className="from-fear to-vhs-purple border-fear/40 flex h-16 w-16 items-center justify-center rounded-full border-2 bg-gradient-to-br text-2xl font-bold text-white sm:h-20 sm:w-20 sm:text-3xl overflow-hidden">
               {uploading ? (
-                <span className="inline-block h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                <VHSSpinner className="text-white" />
               ) : (user as any)?.profileImageUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={(user as any).profileImageUrl} alt="avatar" className="h-full w-full object-cover" />

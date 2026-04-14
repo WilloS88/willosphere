@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslations } from "use-intl";
-import { Barcode, Pencil, Plus, RotateCcw, Trash2 } from "lucide-react";
+import { Barcode, Package, Pencil, Plus, RotateCcw, Trash2 } from "lucide-react";
 import type { ProductDto } from "@/app/types/product";
 import type { PaginatedResponse } from "@/app/types/pagination";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
@@ -10,6 +10,7 @@ import {
   AdminDataTable,
   AdminPageHeader,
   AdminDetailField,
+  AdminSpinner,
   Dialog,
 } from "@/app/components/admin";
 import api, { parseAxiosError } from "@/lib/axios";
@@ -238,7 +239,7 @@ export default function AdminProductsPage() {
           onClick={async () => { setRefreshing(true); await reload(); setRefreshing(false); }}
           disabled={loading || refreshing}
         >
-          {refreshing ? <span className="loading loading-spinner loading-sm" /> : <RotateCcw size={18} />}
+          {refreshing ? <AdminSpinner size="sm" /> : <RotateCcw size={18} />}
         </button>
       </AdminPageHeader>
 
@@ -300,28 +301,39 @@ export default function AdminProductsPage() {
       >
         {detailLoading ? (
           <div className="flex justify-center py-8">
-            <span className="loading loading-spinner loading-md" />
+            <AdminSpinner />
           </div>
         ) : dialogMode === "view" && selected ? (
-          <div className="space-y-3 text-sm">
-            <AdminDetailField label={t("id")}              value={selected.id} />
-            <AdminDetailField label={t("productName")}     value={selected.name} />
-            <div>
-              <span className="font-semibold text-gray-600">{t("productType")}: </span>
-              {typeBadge(selected.type)}
+          <div className="space-y-4">
+            {/* Header */}
+            <div className="flex items-center gap-4 rounded-lg bg-base-300/50 p-4">
+              <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-info/15 text-info">
+                <Package size={24} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="font-bold text-base truncate">{selected.name}</div>
+                <div className="text-xs text-base-content/60 truncate">{selected.artist.displayName}</div>
+                <div className="mt-1.5">{typeBadge(selected.type)}</div>
+              </div>
+              <div className="text-xs text-base-content/40 self-start">#{selected.id}</div>
             </div>
-            <AdminDetailField label={t("price")}           value={`${selected.price} CZK`} />
-            <AdminDetailField label={t("artists")}         value={selected.artist.displayName} />
+
+            {/* Info grid */}
+            <div className="grid grid-cols-2 gap-3">
+              <AdminDetailField label={t("price")} value={`${selected.price} CZK`} block />
+              <AdminDetailField label={t("createdAt")} value={new Date(selected.createdAt).toLocaleString()} block />
+              {selected.track && (
+                <AdminDetailField label={t("linkedTrack")} value={`#${selected.track.id} – ${selected.track.title}`} block />
+              )}
+              {selected.album && (
+                <AdminDetailField label={t("linkedAlbum")} value={`#${selected.album.id} – ${selected.album.title}`} block />
+              )}
+            </div>
+
+            {/* Description */}
             {selected.description && (
-              <AdminDetailField label={t("productDescription")} value={selected.description} />
+              <AdminDetailField label={t("productDescription")} value={selected.description} block />
             )}
-            {selected.track && (
-              <AdminDetailField label={t("linkedTrack")} value={`#${selected.track.id} – ${selected.track.title}`} />
-            )}
-            {selected.album && (
-              <AdminDetailField label={t("linkedAlbum")} value={`#${selected.album.id} – ${selected.album.title}`} />
-            )}
-            <AdminDetailField label={t("createdAt")} value={new Date(selected.createdAt).toLocaleString()} />
           </div>
         ) : (
           <form className="space-y-3">

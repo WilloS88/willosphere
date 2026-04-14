@@ -51,7 +51,12 @@
   --animate-pulse-vhs: pulse-vhs 1.5s infinite;
   --animate-slide-up: slide-up 0.3s ease both;
   --animate-scan-move: scan-move 8s linear infinite;
+  --animate-vhs-shimmer: vhs-shimmer 2s ease-in-out infinite;
 
+  @keyframes vhs-shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
   @keyframes blink {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.3; }

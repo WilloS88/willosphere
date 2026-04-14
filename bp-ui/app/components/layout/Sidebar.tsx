@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { usePathname, useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { usePlayer } from "@/app/context/PlayerContext";
-import { useTheme } from "@/lib/hooks";
+import { useTheme, useNav } from "@/lib/hooks";
 import { SectionLabel } from "@/app/components/ui/elastic-slider/StoreUI";
 import { type StoreNavItem } from "@/lib/store-data";
 import { cn } from "@/lib/utils";
@@ -14,7 +14,7 @@ import { ChevronLeft, Menu } from "lucide-react";
 
 function NavItem({ item }: { item: StoreNavItem }) {
   const t                 = useTranslations("Store");
-  const { navCollapsed }  = usePlayer();
+  const { navCollapsed }  = useNav();
   const { isDark }        = useTheme();
   const pathname          = usePathname();
   const { locale }        = useParams<{ locale: string }>();
@@ -141,7 +141,7 @@ function CategoryItem({ name }: { name: string }) {
 
 function SystemStatus() {
   const t                 = useTranslations("Store");
-  const { navCollapsed }  = usePlayer();
+  const { navCollapsed }  = useNav();
   const { isDark }        = useTheme();
 
   return (
@@ -176,9 +176,18 @@ function SystemStatus() {
 }
 
 export function Sidebar({ navItems }: { navItems: StoreNavItem[] }) {
-  const t                                   = useTranslations("Store");
-  const { navCollapsed, setNavCollapsed }   = usePlayer();
-  const { isDark }                          = useTheme();
+  const t                                                      = useTranslations("Store");
+  const { navCollapsed, toggleNav: toggleNavCollapsed, setNavCollapsed } = useNav();
+  const { isDark }                                             = useTheme();
+
+  // Auto-collapse on mobile
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 768px)");
+    if (mq.matches) setNavCollapsed(true);
+    const handler = (e: MediaQueryListEvent) => setNavCollapsed(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, [setNavCollapsed]);
 
   return (
     <aside
@@ -194,7 +203,7 @@ export function Sidebar({ navItems }: { navItems: StoreNavItem[] }) {
       )}
     >
       <button
-        onClick={() => setNavCollapsed(!navCollapsed)}
+        onClick={toggleNavCollapsed}
         className={cn(
           "flex cursor-pointer items-center gap-2 border-b border-none bg-transparent py-3 text-sm transition-all",
           isDark

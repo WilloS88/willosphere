@@ -2,11 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { Play, Heart, Music, Flame } from "lucide-react";
+import { Play, Heart, Music, Flame, ListPlus } from "lucide-react";
 import { PageHeader, Badge } from "@/app/components/ui/elastic-slider/StoreUI";
 import { useTheme } from "@/lib/hooks";
+import { usePlayer } from "@/app/context/PlayerContext";
+import { PlaylistPicker } from "@/app/components/home/PlaylistPicker";
 import TiltedCard from "@/app/components/ui/react-bits/TiltedCard";
 import { cn } from "@/lib/utils";
+import { VHSSpinner } from "@/app/components/ui/VHSSpinner";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
 import type { TrackDto } from "@/app/types/track";
 import type { PaginatedResponse } from "@/app/types/pagination";
@@ -17,6 +20,7 @@ const CHART_COLORS = ["#00e5ff", "#9b59ff", "#ed2c5e", "#f4e526", "#00ff88"];
 export default function ChartsPage() {
   const t           = useTranslations("Store");
   const { isDark }  = useTheme();
+  const { playTrack, addToQueue, track: currentTrack, isPlaying } = usePlayer();
 
   const [tracks, setTracks]   = useState<TrackDto[]>([]);
   const [total, setTotal]     = useState(0);
@@ -38,7 +42,7 @@ export default function ChartsPage() {
 
       {loading ? (
         <div className="flex justify-center py-16">
-          <span className={`inline-block h-6 w-6 animate-spin rounded-full border-2 border-current border-t-transparent ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`} />
+          <VHSSpinner size="lg" />
         </div>
       ) : tracks.length === 0 ? (
         <div className={`py-16 text-center text-xs tracking-widest ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
@@ -96,12 +100,13 @@ export default function ChartsPage() {
                 <div
                   key={track.id}
                   className={cn(
-                    "animate-slide-up flex items-center gap-3 rounded border border-transparent p-2.5 transition-all sm:gap-4 sm:p-3",
+                    "animate-slide-up flex items-center gap-3 rounded border border-transparent p-2.5 transition-all sm:gap-4 sm:p-3 cursor-pointer",
                     isDark
                       ? "hover:bg-royalblue/10 hover:border-royalblue/20"
                       : "hover:border-[#a89888]/30 hover:bg-[#c4234e]/5",
                   )}
                   style={{ animationDelay: `${i * 0.05}s` }}
+                  onClick={() => playTrack(track, tracks, "browse")}
                 >
                   <span className="text-fear min-w-[28px] text-center text-base font-bold sm:text-lg">
                     {String(i + 1).padStart(2, "0")}
@@ -134,6 +139,14 @@ export default function ChartsPage() {
                     {track.durationSeconds ? `${Math.floor(track.durationSeconds / 60)}:${String(track.durationSeconds % 60).padStart(2, "0")}` : ""}
                   </div>
                   <span className="text-xs text-orange-400">{i < 3 ? <Flame size={12} /> : null}</span>
+                  <button
+                    className={`shrink-0 p-1 rounded transition-colors ${isDark ? "hover:bg-royalblue/20 text-vhs-muted hover:text-vhs-white" : "hover:bg-[#c4234e]/10 text-[#635b53] hover:text-[#2a2520]"}`}
+                    title={t("addToQueue")}
+                    onClick={(e) => { e.stopPropagation(); addToQueue(track); }}
+                  >
+                    <ListPlus size={14} />
+                  </button>
+                  <PlaylistPicker trackId={track.id} />
                 </div>
               );
             })}

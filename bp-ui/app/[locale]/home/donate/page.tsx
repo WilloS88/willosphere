@@ -10,6 +10,7 @@ import { SectionLabel, VHSButton } from "@/app/components/ui/elastic-slider/Stor
 import { useTheme } from "@/lib/hooks";
 import { useToast } from "@/app/context/ToastContext";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
+import { VHSSpinner } from "@/app/components/ui/VHSSpinner";
 import api from "@/lib/axios";
 
 const PRESETS = [49, 99, 149, 249, 499];
@@ -158,7 +159,7 @@ export default function DonatePage() {
             disabled={loading}
           >
             {loading ? (
-              <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+              <VHSSpinner size="sm" className="text-current" />
             ) : (
               <>
                 <Sparkles size={14} />

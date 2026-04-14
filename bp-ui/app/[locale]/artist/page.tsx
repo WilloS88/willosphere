@@ -11,6 +11,7 @@ import { Footer } from "@/app/components/layout/Footer";
 import { useTheme } from "@/lib/hooks";
 import { useAuth } from "@/app/components/auth/AuthProvider";
 import { SectionLabel } from "@/app/components/ui/elastic-slider/StoreUI";
+import { VHSSpinner } from "@/app/components/ui/VHSSpinner";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
 import type { TrackDto } from "@/app/types/track";
 import type { AlbumDto } from "@/app/types/album";
@@ -152,7 +153,7 @@ function ArtistContent() {
         {/* Recent content */}
         {loading ? (
           <div className="flex justify-center py-10">
-            <span className={`inline-block h-5 w-5 animate-spin rounded-full border-2 border-current border-t-transparent ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`} />
+            <VHSSpinner />
           </div>
         ) : (
           <div className="grid gap-6 sm:grid-cols-2">

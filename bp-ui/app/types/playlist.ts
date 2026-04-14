@@ -9,6 +9,7 @@ export type PlaylistDto = {
   id:              number;
   title:           string;
   userId:          number;
+  ownerDisplayName?: string;
   isPublic:        boolean;
   isCollaborative: boolean;
   isSystem:        boolean;

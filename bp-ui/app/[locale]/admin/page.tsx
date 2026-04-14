@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import api from "@/lib/axios";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
+import { AdminSpinner } from "@/app/components/admin";
 
 type RecentActivityItem = {
   type:       "listen" | "signup" | "purchase";
@@ -165,7 +166,7 @@ export default function AdminPage() {
   if (loading) {
     return (
       <div className="flex-1 flex items-center justify-center">
-        <span className="loading loading-spinner loading-lg" />
+        <AdminSpinner size="lg" />
       </div>
     );
   }

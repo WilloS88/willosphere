@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslations } from "use-intl";
-import { Package, RotateCcw } from "lucide-react";
+import { Package, RotateCcw, ShoppingCart } from "lucide-react";
 import type { PurchaseDto } from "@/app/types/order";
 import type { PaginatedResponse } from "@/app/types/pagination";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
@@ -10,6 +10,7 @@ import {
   AdminDataTable,
   AdminPageHeader,
   AdminDetailField,
+  AdminSpinner,
   Dialog,
 } from "@/app/components/admin";
 import api from "@/lib/axios";
@@ -93,7 +94,7 @@ export default function AdminOrdersPage() {
   const columns = [
     { label: t("id"),           sortKey: "id" },
     { label: t("owner"),                                  filter: { type: "text" as const, placeholder: "ID" },         filterKey: "userId" },
-    { label: t("purchaseDate"), sortKey: "purchaseDate",  filter: { type: "text" as const, placeholder: "YYYY-MM-DD" }, filterKey: "from" },
+    { label: t("purchaseDate"), sortKey: "purchaseDate",  filter: { type: "date" as const }, filterKey: "from" },
     { label: t("totalPrice"),   sortKey: "totalPrice" },
     { label: t("currency") },
     { label: t("itemCount") },
@@ -110,7 +111,7 @@ export default function AdminOrdersPage() {
           onClick={async () => { setRefreshing(true); await reload(); setRefreshing(false); }}
           disabled={loading || refreshing}
         >
-          {refreshing ? <span className="loading loading-spinner loading-sm" /> : <RotateCcw size={18} />}
+          {refreshing ? <AdminSpinner size="sm" /> : <RotateCcw size={18} />}
         </button>
       </AdminPageHeader>
 
@@ -157,22 +158,36 @@ export default function AdminOrdersPage() {
       >
         {detailLoading ? (
           <div className="flex justify-center py-8">
-            <span className="loading loading-spinner loading-md" />
+            <AdminSpinner />
           </div>
         ) : selected ? (
-          <div className="space-y-4 text-sm">
-            <div className="grid grid-cols-2 gap-2">
-              <AdminDetailField label={t("id")}           value={selected.id} />
-              <AdminDetailField label={t("owner")}        value={`userId: ${selected.userId}`} />
-              <AdminDetailField label={t("purchaseDate")} value={new Date(selected.purchaseDate).toLocaleString()} />
-              <AdminDetailField label={t("totalPrice")}   value={`${selected.totalPrice} ${selected.currencyCode}`} />
+          <div className="space-y-4">
+            {/* Header */}
+            <div className="flex items-center gap-4 rounded-lg bg-base-300/50 p-4">
+              <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-info/15 text-info">
+                <ShoppingCart size={24} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="font-bold text-base">Order #{selected.id}</div>
+                <div className="text-xs text-base-content/60">userId: {selected.userId}</div>
+                <div className="mt-1.5">
+                  <span className="badge badge-sm badge-info">{selected.totalPrice} {selected.currencyCode}</span>
+                </div>
+              </div>
             </div>
 
+            {/* Info grid */}
+            <div className="grid grid-cols-2 gap-3">
+              <AdminDetailField label={t("purchaseDate")} value={new Date(selected.purchaseDate).toLocaleString()} block />
+              <AdminDetailField label={t("totalPrice")} value={`${selected.totalPrice} ${selected.currencyCode}`} block />
+            </div>
+
+            {/* Items table */}
             <div>
-              <div className="font-semibold text-gray-600 mb-2">
+              <div className="mb-1 text-xs font-semibold text-base-content/70">
                 {t("orderItems")} ({selected.items.length})
               </div>
-              <div className="overflow-x-auto">
+              <div className="overflow-x-auto rounded border border-base-300">
                 <table className="table table-sm w-full">
                   <thead>
                     <tr className="bg-base-200 text-xs">
@@ -185,7 +200,7 @@ export default function AdminOrdersPage() {
                     {selected.items.map((item) => (
                       <tr key={item.productId} className="text-xs">
                         <td className="font-medium">{item.name}</td>
-                        <td className="text-gray-500">{item.artist.displayName}</td>
+                        <td className="text-base-content/60">{item.artist.displayName}</td>
                         <td>{item.price} {selected.currencyCode}</td>
                       </tr>
                     ))}

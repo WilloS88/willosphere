@@ -2,11 +2,12 @@
 
 import { useEffect, useState, useCallback, useRef } from "react";
 import { useTranslations } from "next-intl";
-import { Music, Clock, Search, Play } from "lucide-react";
+import { Music, Clock, Search, Play, ListPlus } from "lucide-react";
 import { PageHeader } from "@/app/components/ui/elastic-slider/StoreUI";
 import { useTheme } from "@/lib/hooks";
 import { usePlayer } from "@/app/context/PlayerContext";
 import { PlaylistPicker } from "@/app/components/home/PlaylistPicker";
+import { VHSSpinner } from "@/app/components/ui/VHSSpinner";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
 import type { TrackDto, GenreDto } from "@/app/types/track";
 import type { PaginatedResponse } from "@/app/types/pagination";
@@ -23,7 +24,7 @@ function formatDuration(seconds: number): string {
 export default function TracksPage() {
   const t              = useTranslations("Store");
   const { isDark }     = useTheme();
-  const { playTrack, track: currentTrack, isPlaying } = usePlayer();
+  const { playTrack, addToQueue, track: currentTrack, isPlaying } = usePlayer();
 
   const [tracks, setTracks]     = useState<TrackDto[]>([]);
   const [total, setTotal]       = useState(0);
@@ -139,9 +140,7 @@ export default function TracksPage() {
       {/* Content */}
       {loading ? (
         <div className="flex justify-center py-16">
-          <span
-            className={`inline-block h-6 w-6 animate-spin rounded-full border-2 border-current border-t-transparent ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`}
-          />
+          <VHSSpinner size="lg" />
         </div>
       ) : tracks.length === 0 ? (
         <div className={`py-16 text-center text-xs tracking-widest ${base.muted}`}>
@@ -207,6 +206,13 @@ export default function TracksPage() {
                   </div>
                 )}
 
+                <button
+                  className={`shrink-0 p-1 rounded transition-colors ${isDark ? "hover:bg-royalblue/20 text-vhs-muted hover:text-vhs-white" : "hover:bg-[#c4234e]/10 text-[#635b53] hover:text-[#2a2520]"}`}
+                  title={t("addToQueue")}
+                  onClick={(e) => { e.stopPropagation(); addToQueue(track); }}
+                >
+                  <ListPlus size={14} />
+                </button>
                 <PlaylistPicker trackId={track.id} />
               </div>
             ))}

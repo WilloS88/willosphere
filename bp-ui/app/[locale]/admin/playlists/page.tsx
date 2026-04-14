@@ -4,12 +4,14 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslations } from "use-intl";
 import { ListMusic, Pencil, RotateCcw, Trash2 } from "lucide-react";
 import type { PlaylistDto } from "@/app/types/playlist";
+import type { UserDTO } from "@/app/types/user";
 import type { PaginatedResponse } from "@/app/types/pagination";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
 import {
   AdminDataTable,
   AdminPageHeader,
   AdminDetailField,
+  AdminSpinner,
   Dialog,
 } from "@/app/components/admin";
 import api, { parseAxiosError } from "@/lib/axios";
@@ -21,10 +23,11 @@ type PlaylistForm = {
   title:           string;
   isPublic:        boolean;
   isCollaborative: boolean;
+  userId:          number;
 };
 
 function formFromPlaylist(p: PlaylistDto): PlaylistForm {
-  return { title: p.title, isPublic: p.isPublic, isCollaborative: p.isCollaborative };
+  return { title: p.title, isPublic: p.isPublic, isCollaborative: p.isCollaborative, userId: p.userId };
 }
 
 export default function AdminPlaylistsPage() {
@@ -44,7 +47,8 @@ export default function AdminPlaylistsPage() {
   const [dialogMode, setDialogMode]       = useState<"edit" | "view">("view");
   const [selected, setSelected]           = useState<PlaylistDto | null>(null);
   const [detailLoading, setDetailLoading] = useState(false);
-  const [form, setForm]                   = useState<PlaylistForm>({ title: "", isPublic: false, isCollaborative: false });
+  const [form, setForm]                   = useState<PlaylistForm>({ title: "", isPublic: false, isCollaborative: false, userId: 0 });
+  const [allUsers, setAllUsers]           = useState<UserDTO[]>([]);
 
   const load = useCallback(async (
     p:  number,
@@ -70,6 +74,12 @@ export default function AdminPlaylistsPage() {
   }, []);
 
   useEffect(() => { void load(1, undefined, "desc", {}); }, [load]);
+
+  useEffect(() => {
+    api.get<PaginatedResponse<UserDTO>>(`${API_ENDPOINTS.admin.users}?limit=1000`)
+      .then(({ data }) => setAllUsers(data.data))
+      .catch(() => {});
+  }, []);
 
   const reload = () => load(page, sortBy, sortDir, filters);
 
@@ -139,6 +149,7 @@ export default function AdminPlaylistsPage() {
           title:           form.title,
           isPublic:        form.isPublic,
           isCollaborative: form.isCollaborative,
+          userId:          form.userId,
         });
       }
       await reload();
@@ -186,7 +197,7 @@ export default function AdminPlaylistsPage() {
           onClick={async () => { setRefreshing(true); await reload(); setRefreshing(false); }}
           disabled={loading || refreshing}
         >
-          {refreshing ? <span className="loading loading-spinner loading-sm" /> : <RotateCcw size={18} />}
+          {refreshing ? <AdminSpinner size="sm" /> : <RotateCcw size={18} />}
         </button>
       </AdminPageHeader>
 
@@ -215,7 +226,7 @@ export default function AdminPlaylistsPage() {
             >
               <td>{playlist.id}</td>
               <td className="font-medium max-w-[200px] truncate">{playlist.title}</td>
-              <td>{playlist.userId}</td>
+              <td>{playlist.ownerDisplayName ?? playlist.userId}</td>
               <td>
                 <span className={`badge badge-xs ${playlist.isPublic ? "badge-success" : "badge-ghost"}`}>
                   {playlist.isPublic ? "✓" : "✗"}
@@ -250,25 +261,43 @@ export default function AdminPlaylistsPage() {
       >
         {detailLoading ? (
           <div className="flex justify-center py-8">
-            <span className="loading loading-spinner loading-md" />
+            <AdminSpinner />
           </div>
         ) : dialogMode === "view" && selected ? (
-          <div className="space-y-3 text-sm">
-            <AdminDetailField label={t("id")}              value={selected.id} />
-            <AdminDetailField label={t("title")}           value={selected.title} />
-            <AdminDetailField label={t("owner")}           value={selected.userId} />
-            <AdminDetailField label={t("isPublic")}        value={selected.isPublic ? "✓" : "✗"} />
-            <AdminDetailField label={t("isCollaborative")} value={selected.isCollaborative ? "✓" : "✗"} />
-            <AdminDetailField label={t("trackCount")}      value={selected.trackCount} />
+          <div className="space-y-4">
+            {/* Header */}
+            <div className="flex items-center gap-4 rounded-lg bg-base-300/50 p-4">
+              <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-info/15 text-info">
+                <ListMusic size={24} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="font-bold text-base truncate">{selected.title}</div>
+                <div className="text-xs text-base-content/60">{selected.ownerDisplayName ?? `userId ${selected.userId}`}</div>
+                <div className="mt-1.5 flex flex-wrap gap-1">
+                  {selected.isPublic && <span className="badge badge-sm badge-info">Public</span>}
+                  {!selected.isPublic && <span className="badge badge-sm bg-base-content/20 text-base-content/80">Private</span>}
+                  {selected.isCollaborative && <span className="badge badge-sm badge-warning">Collaborative</span>}
+                </div>
+              </div>
+              <div className="text-xs text-base-content/40 self-start">#{selected.id}</div>
+            </div>
+
+            {/* Info grid */}
+            <div className="grid grid-cols-2 gap-3">
+              <AdminDetailField label={t("trackCount")} value={selected.trackCount} block />
+              <AdminDetailField label={t("owner")} value={selected.ownerDisplayName ?? selected.userId} block />
+            </div>
+
+            {/* Tracklist */}
             {selected.tracks && selected.tracks.length > 0 && (
               <div>
-                <div className="font-semibold text-gray-600 mb-1">{t("tracks")}:</div>
-                <div className="space-y-1 max-h-48 overflow-y-auto">
+                <div className="mb-1 text-xs font-semibold text-base-content/70">{t("tracks")}:</div>
+                <div className="rounded border border-base-300 bg-base-200 p-2 text-xs leading-relaxed max-h-48 overflow-y-auto space-y-1">
                   {selected.tracks.map((pt) => (
-                    <div key={pt.track.id} className="flex items-center gap-2 text-xs text-gray-700">
-                      <span className="text-gray-400 w-5 text-right">{pt.position}.</span>
+                    <div key={pt.track.id} className="flex items-center gap-2 text-base-content">
+                      <span className="text-base-content/40 w-5 text-right">{pt.position}.</span>
                       <span className="font-medium">{pt.track.title}</span>
-                      <span className="text-gray-400">— {pt.track.artists.map((a) => a.displayName).join(", ")}</span>
+                      <span className="text-base-content/40">— {pt.track.artists.map((a) => a.displayName).join(", ")}</span>
                     </div>
                   ))}
                 </div>
@@ -284,6 +313,18 @@ export default function AdminPlaylistsPage() {
                 value={form.title}
                 onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
               />
+            </fieldset>
+            <fieldset className="fieldset">
+              <legend className="text-sm font-medium">{t("owner")}</legend>
+              <select
+                className="select select-bordered w-full text-sm"
+                value={form.userId}
+                onChange={(e) => setForm((f) => ({ ...f, userId: Number(e.target.value) }))}
+              >
+                {allUsers.map((u) => (
+                  <option key={u.id} value={u.id}>{u.displayName} ({u.email})</option>
+                ))}
+              </select>
             </fieldset>
             <div className="flex gap-6">
               <label className="flex items-center gap-2 cursor-pointer">

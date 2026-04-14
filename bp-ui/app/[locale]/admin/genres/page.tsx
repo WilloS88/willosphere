@@ -2,13 +2,15 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslations } from "use-intl";
-import { Music2, Pencil, Plus, RotateCcw, Trash2 } from "lucide-react";
+import { Music2, Pencil, Plus, RotateCcw, Tag, Trash2 } from "lucide-react";
 import type { GenreDto } from "@/app/types/track";
 import type { PaginatedResponse } from "@/app/types/pagination";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
 import {
   AdminDataTable,
+  AdminDetailField,
   AdminPageHeader,
+  AdminSpinner,
   Dialog,
 } from "@/app/components/admin";
 import api, { parseAxiosError } from "@/lib/axios";
@@ -162,7 +164,7 @@ export default function AdminGenresPage() {
           disabled={loading || refreshing}
         >
           {refreshing
-            ? <span className="loading loading-spinner loading-sm" />
+            ? <AdminSpinner size="sm" />
             : <RotateCcw size={18} />}
         </button>
       </AdminPageHeader>
@@ -221,10 +223,20 @@ export default function AdminGenresPage() {
         onEdit={dialogMode === "view" ? () => openEdit() : undefined}
       >
         {dialogMode === "view" && selected ? (
-          <div className="space-y-3">
-            <div className="text-sm"><span className="font-semibold text-gray-600">{t("id")}: </span>{selected.id}</div>
-            <div className="text-sm"><span className="font-semibold text-gray-600">{t("genreName")}: </span>{selected.name}</div>
-            <div className="text-sm"><span className="font-semibold text-gray-600">{t("memberSince")}: </span>{new Date(selected.createdAt).toLocaleDateString()}</div>
+          <div className="space-y-4">
+            {/* Header */}
+            <div className="flex items-center gap-4 rounded-lg bg-base-300/50 p-4">
+              <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-info/15 text-info">
+                <Tag size={24} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="font-bold text-base">{selected.name}</div>
+              </div>
+              <div className="text-xs text-base-content/40 self-start">#{selected.id}</div>
+            </div>
+
+            {/* Info */}
+            <AdminDetailField label={t("memberSince")} value={new Date(selected.createdAt).toLocaleDateString()} block />
           </div>
         ) : (
           <form className="space-y-3">

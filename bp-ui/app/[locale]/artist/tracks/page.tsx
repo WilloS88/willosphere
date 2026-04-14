@@ -11,6 +11,7 @@ import { Footer } from "@/app/components/layout/Footer";
 import { SectionLabel } from "@/app/components/ui/elastic-slider/StoreUI";
 import { useTheme } from "@/lib/hooks";
 import { useAuth } from "@/app/components/auth/AuthProvider";
+import { VHSSpinner } from "@/app/components/ui/VHSSpinner";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
 import type { TrackDto } from "@/app/types/track";
 import type { PaginatedResponse } from "@/app/types/pagination";
@@ -79,7 +80,7 @@ function TracksContent() {
 
         {loading ? (
           <div className="flex justify-center py-16">
-            <span className={`h-5 w-5 animate-spin rounded-full border-2 border-current border-t-transparent ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`} />
+            <VHSSpinner />
           </div>
         ) : tracks.length === 0 ? (
           <div className={`rounded border p-10 text-center ${cardCls}`}>
