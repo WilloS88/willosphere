@@ -40,13 +40,15 @@ export class PlaylistsService {
     const ALLOWED_SORT: Record<string, string> = {
       title:     "p.title",
       createdAt: "p.createdAt",
+      userId:    "p.userId",
     };
     const sortCol = (dto.sortBy && ALLOWED_SORT[dto.sortBy]) ? ALLOWED_SORT[dto.sortBy] : "p.createdAt";
     const sortDir = dto.sortDir ?? "DESC";
 
     const qb = this.playlistRepo
       .createQueryBuilder("p")
-      .leftJoinAndSelect("p.playlistTracks", "pt");
+      .leftJoinAndSelect("p.playlistTracks", "pt")
+      .leftJoinAndSelect("p.user", "owner");
 
     if(dto.title)
       qb.andWhere("p.title LIKE :title", { title: `%${dto.title}%` });
@@ -75,6 +77,7 @@ export class PlaylistsService {
     const playlist = await this.playlistRepo
       .createQueryBuilder("p")
       .leftJoinAndSelect("p.playlistTracks",         "pt")
+      .leftJoinAndSelect("p.user",                   "owner")
       .leftJoinAndSelect("pt.track",                 "t")
       .leftJoinAndSelect("t.trackArtists",           "ta")
       .leftJoinAndSelect("ta.artist",                "ap")
@@ -121,6 +124,7 @@ export class PlaylistsService {
     if(dto.title           !== undefined) playlist.title           = dto.title;
     if(dto.isPublic        !== undefined) playlist.isPublic        = dto.isPublic;
     if(dto.isCollaborative !== undefined) playlist.isCollaborative = dto.isCollaborative;
+    if(dto.userId          !== undefined) playlist.userId          = dto.userId;
 
     await this.playlistRepo.save(playlist);
     return this.findOne(id);

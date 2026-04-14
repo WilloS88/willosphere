@@ -7,22 +7,24 @@ export class PlaylistTrackItem {
 }
 
 export class PlaylistDto {
-  id!:              number;
-  title!:           string;
-  userId!:          number;
-  isPublic!:        boolean;
-  isCollaborative!: boolean;
-  isSystem!:        boolean;
-  trackCount!:      number;
-  tracks?:          PlaylistTrackItem[];
-  createdAt!:       Date;
-  updatedAt!:       Date;
+  id!:                number;
+  title!:             string;
+  userId!:            number;
+  isPublic!:          boolean;
+  isCollaborative!:   boolean;
+  isSystem!:          boolean;
+  trackCount!:        number;
+  ownerDisplayName?:  string;
+  tracks?:            PlaylistTrackItem[];
+  createdAt!:         Date;
+  updatedAt!:         Date;
 
   static fromEntity(playlist: Playlist, includeTracks = false): PlaylistDto {
     const dto             = new PlaylistDto();
     dto.id                = playlist.id;
     dto.title             = playlist.title;
     dto.userId            = playlist.userId;
+    dto.ownerDisplayName  = playlist.user?.displayName ?? undefined;
     dto.isPublic          = Boolean(playlist.isPublic);
     dto.isCollaborative   = Boolean(playlist.isCollaborative);
     dto.isSystem          = Boolean(playlist.isSystem);

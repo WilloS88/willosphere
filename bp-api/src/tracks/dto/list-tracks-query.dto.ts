@@ -18,4 +18,8 @@ export class ListTracksQueryDto extends PaginateQueryDto {
   @IsInt()
   @Min(1)
   genreId?: number;
+
+  @IsOptional()
+  @IsString()
+  createdAfter?: string;
 }

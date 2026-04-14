@@ -1,4 +1,4 @@
-import { IsBoolean, IsNotEmpty, IsOptional, IsString, MaxLength } from "class-validator";
+import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength } from "class-validator";
 
 export class UpdatePlaylistDto {
   @IsOptional()
@@ -14,4 +14,8 @@ export class UpdatePlaylistDto {
   @IsOptional()
   @IsBoolean()
   isCollaborative?: boolean;
+
+  @IsOptional()
+  @IsNumber()
+  userId?: number;
 }

@@ -19,12 +19,22 @@ import { AuthGuard } from "../auth/guard/jwt-auth.guard";
 import { RolesGuard } from "../auth/guard/roles.guard";
 import { Roles } from "../auth/decorators/roles.decorator";
 import { Role } from "../entities/role.enum";
+import { CloudFrontService } from "../common/cloudfront.service";
 
 @Controller("users")
 @UseGuards(AuthGuard, RolesGuard)
 @Roles(Role.ADMIN)
 export class UsersController {
-  constructor(private readonly users: UsersService) {}
+  constructor(
+    private readonly users: UsersService,
+    private readonly cf: CloudFrontService,
+  ) {}
+
+  private signDetail(dto: UserDetailDTO): UserDetailDTO {
+    if (dto.profileImageUrl)
+      dto.profileImageUrl = this.cf.signUrl(dto.profileImageUrl);
+    return dto;
+  }
 
   @Get()
   async list(@Query() query: ListUsersQueryDto): Promise<PaginatedResult<UserDTO>> {
@@ -34,7 +44,7 @@ export class UsersController {
   @Get(":id")
   async detail(@Param("id", ParseIntPipe) id: number): Promise<UserDetailDTO> {
     const u = await this.users.findById(id);
-    return UserDetailDTO.fromEntity(u);
+    return this.signDetail(UserDetailDTO.fromEntity(u));
   }
 
   // @Get()
@@ -47,7 +57,7 @@ export class UsersController {
   @Post()
   async create(@Body() dto: CreateUserDto): Promise<UserDetailDTO> {
     const u = await this.users.create(dto);
-    return UserDetailDTO.fromEntity(u);
+    return this.signDetail(UserDetailDTO.fromEntity(u));
   }
 
   @Put(":id")
@@ -56,7 +66,7 @@ export class UsersController {
       @Body() dto: UpdateUserDto,
   ): Promise<UserDetailDTO> {
     const u = await this.users.update(id, dto);
-    return UserDetailDTO.fromEntity(u);
+    return this.signDetail(UserDetailDTO.fromEntity(u));
   }
 
   @Delete(":id")

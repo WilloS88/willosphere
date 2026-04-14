@@ -63,6 +63,9 @@ export class TracksService {
     if(dto.genreId)
       qb.andWhere("tg.genreId = :genreId", { genreId: dto.genreId });
 
+    if(dto.createdAfter)
+      qb.andWhere("t.createdAt >= :createdAfter", { createdAfter: dto.createdAfter });
+
     qb.orderBy(sortCol, sortDir)
       .skip((page - 1) * limit)
       .take(limit);
