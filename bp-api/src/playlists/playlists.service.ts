@@ -18,6 +18,7 @@ import { PaginatedResult } from "../common/dto/paginated-result";
 import { Role } from "../entities/role.enum";
 import { EngagementActionService } from "../royalty/engagement-action.service";
 import { EngagementActionType } from "../entities/engagement-action.entity";
+import { CloudFrontService } from "../common/cloudfront.service";
 
 @Injectable()
 export class PlaylistsService {
@@ -31,6 +32,7 @@ export class PlaylistsService {
     @InjectRepository(TrackArtist)
     private readonly trackArtistRepo: Repository<TrackArtist>,
     private readonly engagementService: EngagementActionService,
+    private readonly cf: CloudFrontService,
   ) {}
 
   async findAll(dto: ListPlaylistsQueryDto): Promise<PaginatedResult<PlaylistDto>> {
@@ -91,7 +93,21 @@ export class PlaylistsService {
     if(!playlist)
       throw new NotFoundException("Playlist not found");
 
-    return PlaylistDto.fromEntity(playlist, true);
+    return this.signPlaylistUrls(PlaylistDto.fromEntity(playlist, true));
+  }
+
+  private signPlaylistUrls(dto: PlaylistDto): PlaylistDto {
+    if (dto.tracks) {
+      for (const pt of dto.tracks) {
+        const t = pt.track;
+        t.audioUrl = this.cf.signUrl(t.audioUrl);
+        if (t.coverImageUrl) t.coverImageUrl = this.cf.signUrl(t.coverImageUrl);
+        for (const a of t.artists ?? []) {
+          if (a.profileImageUrl) a.profileImageUrl = this.cf.signUrl(a.profileImageUrl);
+        }
+      }
+    }
+    return dto;
   }
 
   async create(dto: CreatePlaylistDto, userId: number): Promise<PlaylistDto> {

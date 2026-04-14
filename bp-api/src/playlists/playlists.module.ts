@@ -8,6 +8,7 @@ import { TrackGenre } from "../entities/track-genre.entity";
 import { PlaylistsController } from "./playlists.controller";
 import { PlaylistsService } from "./playlists.service";
 import { RoyaltyModule } from "../royalty/royalty.module";
+import { CloudFrontService } from "../common/cloudfront.service";
 
 @Module({
   imports: [
@@ -15,7 +16,7 @@ import { RoyaltyModule } from "../royalty/royalty.module";
     forwardRef(() => RoyaltyModule),
   ],
   controllers: [PlaylistsController],
-  providers: [PlaylistsService],
+  providers: [PlaylistsService, CloudFrontService],
   exports: [PlaylistsService],
 })
 export class PlaylistsModule {}
