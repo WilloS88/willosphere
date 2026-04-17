@@ -41,6 +41,15 @@ export class EngagementActionService {
         return;
     }
 
+    // Dedup: prevent duplicate like_track for the same user + track
+    if(dto.actionType === EngagementActionType.LIKE_TRACK && dto.trackId) {
+      const alreadyLiked = await this.repo.findOne({
+        where: { userId, trackId: dto.trackId, actionType: EngagementActionType.LIKE_TRACK },
+      });
+      if(alreadyLiked)
+        return;
+    }
+
     const action = this.repo.create({
       userId,
       artistId:   dto.artistId,

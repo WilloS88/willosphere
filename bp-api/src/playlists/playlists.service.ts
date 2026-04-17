@@ -232,14 +232,23 @@ export class PlaylistsService {
     });
 
     if (!playlist) {
-      playlist = this.playlistRepo.create({
-        title:           "Liked Tracks",
-        userId,
-        isPublic:        false,
-        isCollaborative: false,
-        isSystem:        true,
-      });
-      playlist = await this.playlistRepo.save(playlist);
+      try {
+        playlist = this.playlistRepo.create({
+          title:           "Liked Tracks",
+          userId,
+          isPublic:        false,
+          isCollaborative: false,
+          isSystem:        true,
+        });
+        playlist = await this.playlistRepo.save(playlist);
+      } catch {
+        // Race condition: another request created it first — just fetch it
+        playlist = await this.playlistRepo.findOne({
+          where: { userId, isSystem: true },
+        });
+        if (!playlist)
+          throw new NotFoundException("Failed to create liked playlist");
+      }
     }
 
     return playlist;
