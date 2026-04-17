@@ -173,13 +173,13 @@ export default function AdminPage() {
 
   return (
     <div className="flex-1 flex flex-col">
-      <header className="h-14 bg-base-100 border-b border-base-300 flex items-center justify-between px-6 rounded-sm">
-        <div className="font-semibold flex items-center gap-2 text-lg">
+      <header className="min-h-12 sm:h-14 bg-base-100 border-b border-base-300 flex items-center justify-between px-3 sm:px-6 rounded-sm">
+        <div className="font-semibold flex items-center gap-2 text-sm sm:text-lg">
           {t("welcome")}
         </div>
       </header>
 
-      <main className="p-4 flex-1 overflow-auto space-y-4">
+      <main className="p-2 sm:p-4 flex-1 overflow-auto space-y-3 sm:space-y-4">
 
         {/* KPI Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -259,7 +259,7 @@ export default function AdminPage() {
                       </div>
                     </div>
                     <div className="flex items-center gap-2 flex-shrink-0">
-                      <span className={activityBadgeClass(item.type)}>{item.type}</span>
+                      <span className={`${activityBadgeClass(item.type)} hidden sm:inline-flex`}>{item.type}</span>
                       <span className="text-xs text-base-content/40 flex items-center gap-1">
                         <Clock size={10} />
                         {relativeTime(item.timestamp)}

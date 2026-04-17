@@ -50,7 +50,7 @@ export function PlaylistPicker({ trackId }: Props) {
       const { data } = await api.get<PaginatedResponse<PlaylistDto>>(
         `${API_ENDPOINTS.playlists.list}?userId=${session.user.id}&limit=50`,
       );
-      setPlaylists(data.data);
+      setPlaylists(data.data.filter((p) => !p.isSystem));
     } finally {
       setLoading(false);
     }

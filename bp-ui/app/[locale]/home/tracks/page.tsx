@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { Music, Clock, Search, Play, ListPlus } from "lucide-react";
-import { PageHeader } from "@/app/components/ui/elastic-slider/StoreUI";
+import { PageHeader, LikeButton } from "@/app/components/ui/elastic-slider/StoreUI";
 import { useTheme } from "@/lib/hooks";
 import { usePlayer } from "@/app/context/PlayerContext";
 import { PlaylistPicker } from "@/app/components/home/PlaylistPicker";
@@ -24,7 +24,7 @@ function formatDuration(seconds: number): string {
 export default function TracksPage() {
   const t              = useTranslations("Store");
   const { isDark }     = useTheme();
-  const { playTrack, addToQueue, track: currentTrack, isPlaying } = usePlayer();
+  const { playTrack, addToQueue, track: currentTrack, isPlaying, likedItems, toggleLike } = usePlayer();
 
   const [tracks, setTracks]     = useState<TrackDto[]>([]);
   const [total, setTotal]       = useState(0);
@@ -194,26 +194,31 @@ export default function TracksPage() {
                 </div>
 
                 {/* Duration */}
-                <div className={`flex items-center gap-1 tabular-nums text-xs ${base.muted}`}>
+                <div className={`hidden sm:flex items-center gap-1 tabular-nums text-xs ${base.muted}`}>
                   <Clock size={11} />
                   {formatDuration(track.durationSeconds)}
                 </div>
 
                 {/* Price */}
                 {track.price != null && (
-                  <div className={`text-xs font-semibold tracking-wider ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`}>
+                  <div className={`hidden sm:block text-xs font-semibold tracking-wider ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`}>
                     {track.price} CZK
                   </div>
                 )}
 
+                <span onClick={(e) => e.stopPropagation()}>
+                  <LikeButton itemId={track.id} liked={likedItems.has(track.id)} onToggle={() => toggleLike(track.id, track)} />
+                </span>
                 <button
-                  className={`shrink-0 p-1 rounded transition-colors ${isDark ? "hover:bg-royalblue/20 text-vhs-muted hover:text-vhs-white" : "hover:bg-[#c4234e]/10 text-[#635b53] hover:text-[#2a2520]"}`}
+                  className={`hidden sm:block shrink-0 p-1 rounded transition-colors ${isDark ? "hover:bg-royalblue/20 text-vhs-muted hover:text-vhs-white" : "hover:bg-[#c4234e]/10 text-[#635b53] hover:text-[#2a2520]"}`}
                   title={t("addToQueue")}
                   onClick={(e) => { e.stopPropagation(); addToQueue(track); }}
                 >
                   <ListPlus size={14} />
                 </button>
-                <PlaylistPicker trackId={track.id} />
+                <span className="hidden sm:block">
+                  <PlaylistPicker trackId={track.id} />
+                </span>
               </div>
             ))}
           </div>
@@ -222,23 +227,39 @@ export default function TracksPage() {
           {totalPages > 1 && (
             <div className="mt-4 flex justify-center gap-1">
               <button
-                className={`rounded border px-2 py-1 text-xs transition-colors ${base.badge}`}
+                className={`rounded border px-3 py-2 text-xs transition-colors ${base.badge}`}
                 onClick={() => handlePageChange(page - 1)}
                 disabled={page <= 1}
               >
                 ‹
               </button>
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
-                <button
-                  key={n}
-                  className={`rounded border px-2 py-1 text-xs transition-colors ${n === page ? base.activeBadge : base.badge}`}
-                  onClick={() => handlePageChange(n)}
-                >
-                  {n}
-                </button>
-              ))}
+              {(() => {
+                const pages: (number | "…")[] = [];
+                if (totalPages <= 5) {
+                  for (let i = 1; i <= totalPages; i++) pages.push(i);
+                } else {
+                  pages.push(1);
+                  if (page > 3) pages.push("…");
+                  for (let i = Math.max(2, page - 1); i <= Math.min(totalPages - 1, page + 1); i++) pages.push(i);
+                  if (page < totalPages - 2) pages.push("…");
+                  pages.push(totalPages);
+                }
+                return pages.map((n, idx) =>
+                  n === "…" ? (
+                    <span key={`ellipsis-${idx}`} className={`px-2 py-2 text-xs ${base.muted}`}>…</span>
+                  ) : (
+                    <button
+                      key={n}
+                      className={`rounded border px-3 py-2 text-xs transition-colors ${n === page ? base.activeBadge : base.badge}`}
+                      onClick={() => handlePageChange(n)}
+                    >
+                      {n}
+                    </button>
+                  )
+                );
+              })()}
               <button
-                className={`rounded border px-2 py-1 text-xs transition-colors ${base.badge}`}
+                className={`rounded border px-3 py-2 text-xs transition-colors ${base.badge}`}
                 onClick={() => handlePageChange(page + 1)}
                 disabled={page >= totalPages}
               >

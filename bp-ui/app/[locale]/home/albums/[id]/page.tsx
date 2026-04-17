@@ -13,6 +13,7 @@ import type { AlbumDto } from "@/app/types/album";
 import type { TrackDto } from "@/app/types/track";
 import { formatTime } from "@/lib/store-data";
 import { PlaylistPicker } from "@/app/components/home/PlaylistPicker";
+import { LikeButton } from "@/app/components/ui/elastic-slider/StoreUI";
 import api from "@/lib/axios";
 
 export default function AlbumDetailPage() {
@@ -23,7 +24,7 @@ export default function AlbumDetailPage() {
   const [album, setAlbum]     = useState<AlbumDto | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const { playTrack, addToQueue, track: currentTrack, isPlaying } = usePlayer();
+  const { playTrack, addToQueue, track: currentTrack, isPlaying, likedItems, toggleLike } = usePlayer();
 
   useEffect(() => {
     if(!id)
@@ -66,8 +67,8 @@ export default function AlbumDetailPage() {
 
       {/* Hero */}
       <div className={`relative mb-6 overflow-hidden rounded-lg ${isDark ? "bg-vhs-card border-royalblue/20" : "bg-white/80 border-[#a89888]/30"} border`}>
-        <div className="flex gap-5 p-5">
-          <div className={`shrink-0 h-36 w-36 sm:h-44 sm:w-44 rounded-lg border overflow-hidden flex items-center justify-center ${isDark ? "border-royalblue/20 bg-royalblue/10" : "border-[#a89888]/40 bg-[#f5f0e8]"}`}>
+        <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 p-4 sm:p-5">
+          <div className={`shrink-0 h-28 w-28 sm:h-44 sm:w-44 rounded-lg border overflow-hidden flex items-center justify-center ${isDark ? "border-royalblue/20 bg-royalblue/10" : "border-[#a89888]/40 bg-[#f5f0e8]"}`}>
             {album.coverImageUrl ? (
               <img src={album.coverImageUrl} alt={album.title} className="h-full w-full object-cover" />
             ) : (
@@ -146,24 +147,29 @@ export default function AlbumDetailPage() {
                   </div>
 
                   {track.price != null && (
-                    <div className={`text-xs font-semibold tracking-wider shrink-0 ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`}>
+                    <div className={`hidden sm:block text-xs font-semibold tracking-wider shrink-0 ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`}>
                       {track.price} CZK
                     </div>
                   )}
 
-                  <div className={`flex items-center gap-1 text-xs tabular-nums shrink-0 ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+                  <div className={`hidden sm:flex items-center gap-1 text-xs tabular-nums shrink-0 ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
                     <Clock size={10} />
                     {formatTime(track.durationSeconds)}
                   </div>
 
+                  <span onClick={(e) => e.stopPropagation()}>
+                    <LikeButton itemId={track.id} liked={likedItems.has(track.id)} onToggle={() => toggleLike(track.id, track)} />
+                  </span>
                   <button
-                    className={`shrink-0 p-1 rounded transition-colors ${isDark ? "hover:bg-royalblue/20 text-vhs-muted hover:text-vhs-white" : "hover:bg-[#c4234e]/10 text-[#635b53] hover:text-[#2a2520]"}`}
+                    className={`hidden sm:block shrink-0 p-1 rounded transition-colors ${isDark ? "hover:bg-royalblue/20 text-vhs-muted hover:text-vhs-white" : "hover:bg-[#c4234e]/10 text-[#635b53] hover:text-[#2a2520]"}`}
                     title={t("addToQueue")}
                     onClick={(e) => { e.stopPropagation(); addToQueue(track); }}
                   >
                     <ListPlus size={14} />
                   </button>
-                  <PlaylistPicker trackId={track.id} />
+                  <span className="hidden sm:block">
+                    <PlaylistPicker trackId={track.id} />
+                  </span>
                 </div>
               );
             })}

@@ -33,7 +33,7 @@ function HomeShell({ children }: { children: React.ReactNode }) {
   return (
     <div
       data-store-theme={theme}
-      className={`font-vcr relative flex h-screen w-full flex-col overflow-hidden text-xs transition-colors duration-300 ${
+      className={`font-vcr relative flex h-dvh w-full flex-col overflow-hidden text-xs transition-colors duration-300 ${
         isDark ? "bg-darkblue text-vhs-white" : "bg-[#f0ebe3] text-[#2a2520]"
       }`}
     >
@@ -51,7 +51,7 @@ function HomeShell({ children }: { children: React.ReactNode }) {
       <div className="flex flex-1 overflow-hidden">
         <Sidebar navItems={navItems} />
         <main
-          className={`vhs-scrollbar flex-1 overflow-y-auto p-3 sm:p-5 ${
+          className={`vhs-scrollbar flex-1 overflow-y-auto p-2 sm:p-5 ${
             isDark
               ? "bg-[radial-gradient(ellipse_at_30%_20%,rgba(37,48,120,0.06)_0%,transparent_60%)]"
               : "bg-[radial-gradient(ellipse_at_30%_20%,rgba(196,35,78,0.03)_0%,transparent_60%)]"

@@ -11,12 +11,13 @@ export type FilterConfig =
   | { type: "date" };
 
 export type Column = {
-  label:      string;
-  align?:     "left" | "center" | "right";
-  className?: string;
-  sortKey?:   string;
-  filterKey?: string;
-  filter?:    FilterConfig;
+  label:           string;
+  align?:          "left" | "center" | "right";
+  className?:      string;
+  sortKey?:        string;
+  filterKey?:      string;
+  filter?:         FilterConfig;
+  hiddenOnMobile?: boolean;
 };
 
 type Props = {
@@ -79,6 +80,15 @@ export function AdminDataTable({
   const t       = useTranslations("Admin");
   const colSpan = columns.length;
 
+  // Build className per column (used by both <th> and consumer <td> via CSS)
+  const colClass = (col: Column) =>
+    [
+      col.hiddenOnMobile ? "hidden sm:table-cell" : "",
+      col.className ?? alignClass[col.align ?? "left"],
+    ]
+      .filter(Boolean)
+      .join(" ");
+
   const totalPages  = total !== undefined ? Math.ceil(total / pageSize) : 0;
   const from        = total ? (page - 1) * pageSize + 1 : 0;
   const to          = total ? Math.min(page * pageSize, total) : 0;
@@ -109,13 +119,13 @@ export function AdminDataTable({
 
   return (
     <div className="bg-base-100 border border-base-300 rounded shadow-sm overflow-x-auto">
-      <table className="table table-zebra table-sm table-fixed w-full">
+      <table className="table table-zebra table-xs sm:table-sm table-fixed w-full">
         <thead className="bg-base-200 text-xs uppercase">
           <tr>
             {columns.map((col, i) => (
               <th
                 key={i}
-                className={col.className ?? alignClass[col.align ?? "left"]}
+                className={colClass(col)}
               >
                 {/* Label + sort button */}
                 <div

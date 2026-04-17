@@ -10,12 +10,12 @@ import { useTheme, useNav } from "@/lib/hooks";
 import { SectionLabel } from "@/app/components/ui/elastic-slider/StoreUI";
 import { type StoreNavItem } from "@/lib/store-data";
 import { cn } from "@/lib/utils";
-import { ChevronLeft, Menu } from "lucide-react";
+import { ChevronLeft, Menu, X } from "lucide-react";
 
 function NavItem({ item }: { item: StoreNavItem }) {
-  const t                 = useTranslations("Store");
-  const { navCollapsed }  = useNav();
-  const { isDark }        = useTheme();
+  const t                                = useTranslations("Store");
+  const { navCollapsed, setNavCollapsed } = useNav();
+  const { isDark }                       = useTheme();
   const pathname          = usePathname();
   const { locale }        = useParams<{ locale: string }>();
   const fullHref          = `/${locale}${item.href}`;
@@ -37,6 +37,10 @@ function NavItem({ item }: { item: StoreNavItem }) {
     >
       <Link
         href={fullHref}
+        onClick={() => {
+          // Close drawer on mobile after nav click
+          if (window.matchMedia("(max-width: 768px)").matches) setNavCollapsed(true);
+        }}
         className={cn(
           "group relative flex w-full items-center gap-2.5 border-l-2 no-underline transition-all",
           navCollapsed
@@ -179,74 +183,114 @@ export function Sidebar({ navItems }: { navItems: StoreNavItem[] }) {
   const t                                                      = useTranslations("Store");
   const { navCollapsed, toggleNav: toggleNavCollapsed, setNavCollapsed } = useNav();
   const { isDark }                                             = useTheme();
+  const [isMobile, setIsMobile] = useState(false);
 
-  // Auto-collapse on mobile
+  // Auto-collapse on mobile + track mobile state
   useEffect(() => {
     const mq = window.matchMedia("(max-width: 768px)");
+    setIsMobile(mq.matches);
     if (mq.matches) setNavCollapsed(true);
-    const handler = (e: MediaQueryListEvent) => setNavCollapsed(e.matches);
+    const handler = (e: MediaQueryListEvent) => {
+      setIsMobile(e.matches);
+      if (e.matches) setNavCollapsed(true);
+    };
     mq.addEventListener("change", handler);
     return () => mq.removeEventListener("change", handler);
   }, [setNavCollapsed]);
 
+  // On mobile: completely hidden when collapsed, full drawer when expanded
+  const mobileHidden = isMobile && navCollapsed;
+  const mobileDrawer = isMobile && !navCollapsed;
+
   return (
-    <aside
-      className={cn(
-        "flex flex-col border-r transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
-        navCollapsed ? "w-[52px] min-w-[52px]" : "w-[200px] min-w-[200px]",
-        // KLÍČ: overflow-visible když je collapsed (kvůli tooltipům), jinak overflow-hidden
-        navCollapsed ? "overflow-visible" : "overflow-hidden",
-        isDark
-          ? "from-vhs-surface to-darkblue border-royalblue/25 bg-gradient-to-b"
-          : "border-[#a89888]/30 bg-gradient-to-b from-[#ede7db] to-[#e5dfd3]",
-        "max-md:fixed max-md:top-11 max-md:bottom-[72px] max-md:left-0 max-md:z-40",
-      )}
-    >
-      <button
-        onClick={toggleNavCollapsed}
-        className={cn(
-          "flex cursor-pointer items-center gap-2 border-b border-none bg-transparent py-3 text-sm transition-all",
-          isDark
-            ? "text-vhs-muted border-royalblue/15"
-            : "border-[#a89888]/20 text-[#635b53]",
-          navCollapsed ? "justify-center px-0" : "justify-start px-4",
+    <>
+      {/* Mobile backdrop */}
+      <AnimatePresence>
+        {mobileDrawer && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-30 bg-black/50 md:hidden"
+            onClick={() => setNavCollapsed(true)}
+          />
         )}
-      >
-        <span
-          className="text-base transition-transform duration-300"
-          style={{ transform: navCollapsed ? "rotate(0)" : "rotate(180deg)" }}
+      </AnimatePresence>
+
+      {/* Sidebar / Drawer */}
+      {!mobileHidden && (
+        <aside
+          className={cn(
+            "flex flex-col border-r transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
+            // Desktop: normal sidebar behavior
+            !isMobile && (navCollapsed ? "w-[52px] min-w-[52px]" : "w-[200px] min-w-[200px]"),
+            !isMobile && (navCollapsed ? "overflow-visible" : "overflow-hidden"),
+            // Mobile drawer: fixed full-height overlay
+            isMobile && "fixed inset-y-0 left-0 z-40 w-[280px] overflow-hidden shadow-2xl",
+            isDark
+              ? "from-vhs-surface to-darkblue border-royalblue/25 bg-gradient-to-b"
+              : "border-[#a89888]/30 bg-gradient-to-b from-[#ede7db] to-[#e5dfd3]",
+          )}
         >
-          <Menu />
-        </span>
-        {!navCollapsed && (
-          <span
-            className={`text-xs tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
+          {/* Header: collapse/close button */}
+          <button
+            onClick={toggleNavCollapsed}
+            className={cn(
+              "flex cursor-pointer items-center gap-2 border-none bg-transparent py-3 text-sm transition-all",
+              isDark
+                ? "text-vhs-muted border-royalblue/15"
+                : "border-[#a89888]/20 text-[#635b53]",
+              // Mobile drawer: show close X, aligned left with padding
+              isMobile ? "justify-between px-4" : (navCollapsed ? "justify-center px-0" : "justify-start px-4"),
+            )}
           >
-            {t("collapse")}
-          </span>
-        )}
-      </button>
+            {isMobile ? (
+              <>
+                <span className={`text-xs font-bold tracking-[2px] ${isDark ? "text-fearyellow" : "text-[#c4234e]"}`}>
+                  MENU
+                </span>
+                <X size={18} />
+              </>
+            ) : (
+              <>
+                <span
+                  className="text-base transition-transform duration-300"
+                  style={{ transform: navCollapsed ? "rotate(0)" : "rotate(180deg)" }}
+                >
+                  <Menu />
+                </span>
+                {!navCollapsed && (
+                  <span className={`text-xs tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+                    {t("collapse")}
+                  </span>
+                )}
+              </>
+            )}
+          </button>
 
-      {/* KLÍČ: overflow-visible na scroll divu v collapsed módu */}
-      <div
-        className={cn(
-          "flex-1 py-2",
-          navCollapsed ? "overflow-visible" : "vhs-scrollbar overflow-y-auto",
-        )}
-      >
-        {!navCollapsed && (
-          <SectionLabel
-            className={`mb-1 border-b px-4 py-2 ${isDark ? "border-royalblue/10" : "border-[#a89888]/15"}`}
+          {/* Nav items */}
+          <div
+            className={cn(
+              "flex-1 py-2",
+              !isMobile && navCollapsed ? "overflow-visible" : "vhs-scrollbar overflow-y-auto",
+            )}
           >
-            {t("navigation")}
-          </SectionLabel>
-        )}
-        {navItems.map((item) => (
-          <NavItem key={item.id} item={item} />
-        ))}
-      </div>
+            {(!navCollapsed || isMobile) && (
+              <SectionLabel
+                className={`mb-1 border-b px-4 py-2 ${isDark ? "border-royalblue/10" : "border-[#a89888]/15"}`}
+              >
+                {t("navigation")}
+              </SectionLabel>
+            )}
+            {navItems.map((item) => (
+              <NavItem key={item.id} item={item} />
+            ))}
+          </div>
 
-      <SystemStatus />
-    </aside>
+          <SystemStatus />
+        </aside>
+      )}
+    </>
   );
 }

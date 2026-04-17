@@ -270,7 +270,7 @@ export default function UsersPage() {
 
   // ── Columns ───────────────────────────────────────────────────────────────
   const columns = [
-    { label: t("id"),         sortKey: "id" },
+    { label: t("id"),         sortKey: "id", hiddenOnMobile: true },
     { label: t("email"),      sortKey: "email",       filter: { type: "text" as const } },
     { label: t("nickname"),   sortKey: "displayName", filter: { type: "text" as const } },
     { label: t("role"),       filter: { type: "enum" as const, options: [
@@ -500,7 +500,7 @@ export default function UsersPage() {
               className="hover:bg-base-200 transition-colors cursor-pointer"
               onClick={() => openView(user)}
             >
-              <td>{user.id}</td>
+              <td className="hidden sm:table-cell">{user.id}</td>
               <td>{user.email}</td>
               <td>{user.displayName}</td>
               <td><RoleBadges roles={user.roles as Role[]} /></td>

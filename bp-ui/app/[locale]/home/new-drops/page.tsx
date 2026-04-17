@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Music, Clock, Play, ListPlus } from "lucide-react";
-import { PageHeader, Badge } from "@/app/components/ui/elastic-slider/StoreUI";
+import { PageHeader, Badge, LikeButton } from "@/app/components/ui/elastic-slider/StoreUI";
 import { useTheme } from "@/lib/hooks";
 import { VHSSpinner } from "@/app/components/ui/VHSSpinner";
 import { usePlayer } from "@/app/context/PlayerContext";
@@ -16,7 +16,7 @@ import api from "@/lib/axios";
 export default function NewDropsPage() {
   const t           = useTranslations("Store");
   const { isDark }  = useTheme();
-  const { playTrack, addToQueue, track: currentTrack, isPlaying } = usePlayer();
+  const { playTrack, addToQueue, track: currentTrack, isPlaying, likedItems, toggleLike } = usePlayer();
 
   const [tracks, setTracks]   = useState<TrackDto[]>([]);
   const [total, setTotal]     = useState(0);
@@ -109,19 +109,24 @@ export default function NewDropsPage() {
                   {track.artists.map(a => a.displayName).join(", ")}
                 </div>
               </div>
-              <div className={`flex items-center gap-1 text-xs ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+              <div className={`hidden sm:flex items-center gap-1 text-xs ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
                 <Clock size={11} />
                 {Math.floor(track.durationSeconds / 60)}:{String(track.durationSeconds % 60).padStart(2, "0")}
               </div>
-              <Badge variant="yellow">{t("new")}</Badge>
+              <span className="hidden sm:block"><Badge variant="yellow">{t("new")}</Badge></span>
+              <span onClick={(e) => e.stopPropagation()}>
+                <LikeButton itemId={track.id} liked={likedItems.has(track.id)} onToggle={() => toggleLike(track.id, track)} />
+              </span>
               <button
-                className={`shrink-0 p-1 rounded transition-colors ${isDark ? "hover:bg-royalblue/20 text-vhs-muted hover:text-vhs-white" : "hover:bg-[#c4234e]/10 text-[#635b53] hover:text-[#2a2520]"}`}
+                className={`hidden sm:block shrink-0 p-1 rounded transition-colors ${isDark ? "hover:bg-royalblue/20 text-vhs-muted hover:text-vhs-white" : "hover:bg-[#c4234e]/10 text-[#635b53] hover:text-[#2a2520]"}`}
                 title={t("addToQueue")}
                 onClick={(e) => { e.stopPropagation(); addToQueue(track); }}
               >
                 <ListPlus size={14} />
               </button>
-              <PlaylistPicker trackId={track.id} />
+              <span className="hidden sm:block">
+                <PlaylistPicker trackId={track.id} />
+              </span>
             </div>
           ))}
         </div>

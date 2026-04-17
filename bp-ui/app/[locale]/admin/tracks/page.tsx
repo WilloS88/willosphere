@@ -248,13 +248,13 @@ export default function AdminTracksPage() {
     }));
 
   const columns = [
-    { label: t("id"),       sortKey: "id" },
+    { label: t("id"),       sortKey: "id", hiddenOnMobile: true },
     { label: t("title"),    sortKey: "title", filter: { type: "text" as const } },
     { label: t("duration"), sortKey: "duration" },
-    { label: t("bpm"),      sortKey: "bpm" },
-    { label: t("price"),    sortKey: "price" },
-    { label: t("artists") },
-    { label: t("genres") },
+    { label: t("bpm"),      sortKey: "bpm", hiddenOnMobile: true },
+    { label: t("price"),    sortKey: "price", hiddenOnMobile: true },
+    { label: t("artists"),  hiddenOnMobile: true },
+    { label: t("genres"),   hiddenOnMobile: true },
     { label: t("operations"), align: "center" as const },
   ];
 
@@ -303,12 +303,12 @@ export default function AdminTracksPage() {
               className="hover:bg-base-200 transition-colors cursor-pointer"
               onClick={() => void openView(track)}
             >
-              <td>{track.id}</td>
+              <td className="hidden sm:table-cell">{track.id}</td>
               <td className="font-medium max-w-[180px] truncate">{track.title}</td>
               <td className="tabular-nums">{formatDuration(track.durationSeconds)}</td>
-              <td>{track.bpm ?? <span className="text-gray-400">—</span>}</td>
-              <td>{track.price != null ? `${track.price} CZK` : <span className="text-gray-400">—</span>}</td>
-              <td>
+              <td className="hidden sm:table-cell">{track.bpm ?? <span className="text-gray-400">—</span>}</td>
+              <td className="hidden sm:table-cell">{track.price != null ? `${track.price} CZK` : <span className="text-gray-400">—</span>}</td>
+              <td className="hidden sm:table-cell">
                 <div className="flex flex-wrap gap-1">
                   {track.artists.map((a) => (
                     <span key={a.artistId} className={`badge badge-xs ${a.role === "primary" ? "badge-info" : "badge-ghost"}`}>
@@ -317,7 +317,7 @@ export default function AdminTracksPage() {
                   ))}
                 </div>
               </td>
-              <td>
+              <td className="hidden sm:table-cell">
                 <div className="flex flex-wrap gap-1">
                   {track.genres.map((g) => (
                     <span key={g.id} className="badge badge-xs badge-outline">{g.name}</span>

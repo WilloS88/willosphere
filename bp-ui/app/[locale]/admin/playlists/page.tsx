@@ -178,12 +178,12 @@ export default function AdminPlaylistsPage() {
   };
 
   const columns = [
-    { label: t("id"),              sortKey: "id" },
+    { label: t("id"),              sortKey: "id", hiddenOnMobile: true },
     { label: t("title"),           sortKey: "title", filter: { type: "text" as const } },
     { label: t("owner"),           sortKey: "userId" },
     { label: t("isPublic") },
-    { label: t("isCollaborative") },
-    { label: t("trackCount") },
+    { label: t("isCollaborative"), hiddenOnMobile: true },
+    { label: t("trackCount"),      hiddenOnMobile: true },
     { label: t("operations"),      align: "center" as const },
   ];
 
@@ -224,7 +224,7 @@ export default function AdminPlaylistsPage() {
               className="hover:bg-base-200 transition-colors cursor-pointer"
               onClick={() => void openView(playlist)}
             >
-              <td>{playlist.id}</td>
+              <td className="hidden sm:table-cell">{playlist.id}</td>
               <td className="font-medium max-w-[200px] truncate">{playlist.title}</td>
               <td>{playlist.ownerDisplayName ?? playlist.userId}</td>
               <td>
@@ -232,12 +232,12 @@ export default function AdminPlaylistsPage() {
                   {playlist.isPublic ? "✓" : "✗"}
                 </span>
               </td>
-              <td>
+              <td className="hidden sm:table-cell">
                 <span className={`badge badge-xs ${playlist.isCollaborative ? "badge-warning" : "badge-ghost"}`}>
                   {playlist.isCollaborative ? "✓" : "✗"}
                 </span>
               </td>
-              <td>{playlist.trackCount}</td>
+              <td className="hidden sm:table-cell">{playlist.trackCount}</td>
               <td className="text-center">
                 <button className="btn btn-xs btn-info mr-1" onClick={(e) => { e.stopPropagation(); void openEdit(playlist); }}>
                   <Pencil size={14} color="#fff" />

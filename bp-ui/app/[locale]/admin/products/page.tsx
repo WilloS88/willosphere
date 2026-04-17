@@ -205,12 +205,12 @@ export default function AdminProductsPage() {
   };
 
   const columns = [
-    { label: t("id"),          sortKey: "id" },
+    { label: t("id"),          sortKey: "id", hiddenOnMobile: true },
     { label: t("productName"), sortKey: "name",   filter: { type: "text" as const } },
     { label: t("productType"),                    filter: { type: "enum" as const, options: [{ value: "digital", label: t("digital") }, { value: "physical", label: t("physical") }] }, filterKey: "type" },
     { label: t("price"),       sortKey: "price" },
-    { label: t("artists"),                        filter: { type: "text" as const, placeholder: "ID" }, filterKey: "artistId" },
-    { label: "Track / Album" },
+    { label: t("artists"),                        filter: { type: "text" as const, placeholder: "ID" }, filterKey: "artistId", hiddenOnMobile: true },
+    { label: "Track / Album",  hiddenOnMobile: true },
     { label: t("operations"),  align: "center" as const },
   ];
 
@@ -266,12 +266,12 @@ export default function AdminProductsPage() {
               className="hover:bg-base-200 transition-colors cursor-pointer"
               onClick={() => void openView(product)}
             >
-              <td>{product.id}</td>
+              <td className="hidden sm:table-cell">{product.id}</td>
               <td className="font-medium max-w-[180px] truncate">{product.name}</td>
               <td>{typeBadge(product.type)}</td>
               <td>{product.price} CZK</td>
-              <td className="text-sm">{product.artist.displayName}</td>
-              <td className="text-xs text-gray-500">
+              <td className="hidden sm:table-cell text-sm">{product.artist.displayName}</td>
+              <td className="hidden sm:table-cell text-xs text-gray-500">
                 {product.track ? `T: ${product.track.title}` : ""}
                 {product.track && product.album ? " / " : ""}
                 {product.album ? `A: ${product.album.title}` : ""}

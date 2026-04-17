@@ -141,9 +141,9 @@ export default function AdminGenresPage() {
   };
 
   const columns = [
-    { label: t("id"),        sortKey: "id" },
+    { label: t("id"),        sortKey: "id", hiddenOnMobile: true },
     { label: t("genreName"), sortKey: "name", filter: { type: "text" as const } },
-    { label: t("memberSince"), sortKey: "createdAt" },
+    { label: t("memberSince"), sortKey: "createdAt", hiddenOnMobile: true },
     { label: t("operations"), align: "center" as const },
   ];
 
@@ -192,9 +192,9 @@ export default function AdminGenresPage() {
               className="hover:bg-base-200 transition-colors cursor-pointer"
               onClick={() => openView(genre)}
             >
-              <td>{genre.id}</td>
+              <td className="hidden sm:table-cell">{genre.id}</td>
               <td className="font-medium">{genre.name}</td>
-              <td>{new Date(genre.createdAt).toLocaleDateString()}</td>
+              <td className="hidden sm:table-cell">{new Date(genre.createdAt).toLocaleDateString()}</td>
               <td className="text-center">
                 <button
                   className="btn btn-xs btn-info mr-1"

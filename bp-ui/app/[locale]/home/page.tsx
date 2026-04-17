@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { Disc3, Music, Clock, Users, Play, ListPlus } from "lucide-react";
-import { PageHeader, SectionLabel } from "@/app/components/ui/elastic-slider/StoreUI";
+import { PageHeader, SectionLabel, LikeButton } from "@/app/components/ui/elastic-slider/StoreUI";
 import { useTheme } from "@/lib/hooks";
 import { VHSSpinner } from "@/app/components/ui/VHSSpinner";
 import { usePlayer } from "@/app/context/PlayerContext";
@@ -29,7 +29,7 @@ export default function HomePage() {
   const t          = useTranslations("Store");
   const { isDark } = useTheme();
   const { locale } = useParams<{ locale: string }>();
-  const { playTrack, addToQueue, track: currentTrack, isPlaying } = usePlayer();
+  const { playTrack, addToQueue, track: currentTrack, isPlaying, likedItems, toggleLike } = usePlayer();
 
   const [albums, setAlbums]     = useState<AlbumDto[]>([]);
   const [tracks, setTracks]     = useState<TrackDto[]>([]);
@@ -182,18 +182,23 @@ export default function HomePage() {
                   {formatDuration(track.durationSeconds)}
                 </div>
                 {track.price != null && track.price > 0 && (
-                  <span className={`text-xs font-semibold tracking-wider ${base.accent}`}>
+                  <span className={`hidden sm:inline text-xs font-semibold tracking-wider ${base.accent}`}>
                     {track.price} CZK
                   </span>
                 )}
+                <span onClick={(e) => e.stopPropagation()}>
+                  <LikeButton itemId={track.id} liked={likedItems.has(track.id)} onToggle={() => toggleLike(track.id, track)} />
+                </span>
                 <button
-                  className={`shrink-0 p-1 rounded transition-colors ${isDark ? "hover:bg-royalblue/20 text-vhs-muted hover:text-vhs-white" : "hover:bg-[#c4234e]/10 text-[#635b53] hover:text-[#2a2520]"}`}
+                  className={`hidden sm:block shrink-0 p-1 rounded transition-colors ${isDark ? "hover:bg-royalblue/20 text-vhs-muted hover:text-vhs-white" : "hover:bg-[#c4234e]/10 text-[#635b53] hover:text-[#2a2520]"}`}
                   title={t("addToQueue")}
                   onClick={(e) => { e.stopPropagation(); addToQueue(track); }}
                 >
                   <ListPlus size={14} />
                 </button>
-                <PlaylistPicker trackId={track.id} />
+                <span className="hidden sm:block">
+                  <PlaylistPicker trackId={track.id} />
+                </span>
               </div>
             ))}
           </div>

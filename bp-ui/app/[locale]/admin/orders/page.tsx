@@ -94,10 +94,10 @@ export default function AdminOrdersPage() {
   const columns = [
     { label: t("id"),           sortKey: "id" },
     { label: t("owner"),                                  filter: { type: "text" as const, placeholder: "ID" },         filterKey: "userId" },
-    { label: t("purchaseDate"), sortKey: "purchaseDate",  filter: { type: "date" as const }, filterKey: "from" },
+    { label: t("purchaseDate"), sortKey: "purchaseDate",  filter: { type: "date" as const }, filterKey: "from", hiddenOnMobile: true },
     { label: t("totalPrice"),   sortKey: "totalPrice" },
-    { label: t("currency") },
-    { label: t("itemCount") },
+    { label: t("currency"),     hiddenOnMobile: true },
+    { label: t("itemCount"),    hiddenOnMobile: true },
   ];
 
   return (
@@ -140,10 +140,10 @@ export default function AdminOrdersPage() {
             >
               <td>{order.id}</td>
               <td>{order.userId}</td>
-              <td>{new Date(order.purchaseDate).toLocaleString()}</td>
+              <td className="hidden sm:table-cell">{new Date(order.purchaseDate).toLocaleString()}</td>
               <td className="font-medium">{order.totalPrice} {order.currencyCode}</td>
-              <td>{order.currencyCode}</td>
-              <td>{order.items.length}</td>
+              <td className="hidden sm:table-cell">{order.currencyCode}</td>
+              <td className="hidden sm:table-cell">{order.items.length}</td>
             </tr>
           ))}
         </AdminDataTable>

@@ -98,14 +98,14 @@ export default function RoyaltiesPage() {
 
   return (
     <div className="flex-1 flex flex-col">
-      <header className="h-14 bg-base-100 border-b border-base-300 flex items-center justify-between px-6">
+      <header className="min-h-12 sm:h-14 bg-base-100 border-b border-base-300 flex items-center justify-between px-3 sm:px-6">
         <div className="flex items-center gap-2">
           <TrendingUp size={20} />
-          <span className="font-semibold text-lg">{t("royaltiesTitle")}</span>
+          <span className="font-semibold text-sm sm:text-lg">{t("royaltiesTitle")}</span>
         </div>
       </header>
 
-      <main className="p-4 flex-1 overflow-auto space-y-4">
+      <main className="p-2 sm:p-4 flex-1 overflow-auto space-y-3 sm:space-y-4">
         {/* Controls */}
         <div className="flex flex-wrap items-center gap-3">
           <select
@@ -139,7 +139,7 @@ export default function RoyaltiesPage() {
         </div>
 
         {/* Summary */}
-        <div className="stats shadow border border-base-300">
+        <div className="stats stats-vertical sm:stats-horizontal shadow border border-base-300 w-full">
           <div className="stat">
             <div className="stat-title">{t("royaltiesArtists")}</div>
             <div className="stat-value text-xl">{royalties.length}</div>
@@ -163,15 +163,15 @@ export default function RoyaltiesPage() {
               </div>
             ) : (
               <div className="overflow-x-auto">
-                <table className="table table-zebra">
+                <table className="table table-zebra table-xs sm:table-sm">
                   <thead>
                     <tr>
                       <th>{t("royaltiesColArtist")}</th>
-                      <th className="text-right">{t("royaltiesColBase")}</th>
-                      <th className="text-right">{t("royaltiesColBonus")}</th>
+                      <th className="hidden sm:table-cell text-right">{t("royaltiesColBase")}</th>
+                      <th className="hidden sm:table-cell text-right">{t("royaltiesColBonus")}</th>
                       <th className="text-right">{t("royaltiesColTotal")}</th>
-                      <th className="text-right">{t("royaltiesColStreams")}</th>
-                      <th className="text-right">{t("royaltiesColListeners")}</th>
+                      <th className="hidden sm:table-cell text-right">{t("royaltiesColStreams")}</th>
+                      <th className="hidden sm:table-cell text-right">{t("royaltiesColListeners")}</th>
                       <th>{t("royaltiesColTier")}</th>
                     </tr>
                   </thead>
@@ -186,19 +186,19 @@ export default function RoyaltiesPage() {
                             {r.artist?.email ?? ""}
                           </div>
                         </td>
-                        <td className="text-right font-mono">
+                        <td className="hidden sm:table-cell text-right font-mono">
                           {Number(r.basePayout).toFixed(2)}
                         </td>
-                        <td className="text-right font-mono">
+                        <td className="hidden sm:table-cell text-right font-mono">
                           {Number(r.discoveryBonus).toFixed(2)}
                         </td>
                         <td className="text-right font-mono font-bold">
                           {Number(r.totalPayout).toFixed(2)}
                         </td>
-                        <td className="text-right font-mono">
+                        <td className="hidden sm:table-cell text-right font-mono">
                           {Number(r.totalWeightedStreams).toFixed(2)}
                         </td>
-                        <td className="text-right">{r.uniqueListeners}</td>
+                        <td className="hidden sm:table-cell text-right">{r.uniqueListeners}</td>
                         <td>
                           <span className={`badge badge-sm ${TIER_BADGE[r.tier]}`}>
                             {r.tier}

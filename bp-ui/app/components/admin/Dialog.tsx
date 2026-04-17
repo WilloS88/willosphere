@@ -107,7 +107,7 @@ export function Dialog({
 
   return (
     <dialog className="modal modal-open">
-      <div className={`modal-box bg-base-200 ${maxWidthClass} p-0`}>
+      <div className={`modal-box bg-base-200 w-[95vw] sm:w-auto ${maxWidthClass} p-0`}>
         {/* Header — title only + close X */}
         {(title || showCloseButton) && (
           <div className="flex items-center justify-between gap-3 px-5 py-3 bg-base-300 border-b border-base-content/10">

@@ -35,7 +35,8 @@
     "logout": "Log out",
     "adminDashboard": "Admin",
     "artistDashboard": "Artist",
-    "application": "Application"
+    "application": "Application",
+    "cart": "Cart"
   },
   "Footer": {
     "rights": "All rights reserved",

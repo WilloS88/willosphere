@@ -87,6 +87,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const queueRef     = useRef<TrackDto[]>(persisted.queue);
   const queueIdxRef  = useRef<number>(persisted.queueIdx);
   const repeatRef    = useRef(repeat);
+  const shuffleRef   = useRef(shuffle);
 
   // Listen history tracking: stores track ID that was already logged in current playback session
   const loggedTrackRef = useRef<number | null>(null);
@@ -98,7 +99,8 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     queueRef.current = queue;
     repeatRef.current = repeat;
-  }, [queue, repeat]);
+    shuffleRef.current = shuffle;
+  }, [queue, repeat, shuffle]);
 
   // Sync local state → Redux
   useEffect(() => { store.dispatch(setReduxVolume(volume)); }, [volume]);
@@ -211,19 +213,30 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       const q   = queueRef.current;
       const idx = queueIdxRef.current;
 
-      if(q.length > 0 && idx < q.length - 1) {
-        loggedTrackRef.current = null;
-        const next = q[idx + 1];
-        queueIdxRef.current = idx + 1;
-        store.dispatch(setQueueIdx(idx + 1));
-        setTrack(next);
-        setProgress(0);
-        audio.src = next.audioUrl;
-        void audio.play();
+      if(q.length === 0) {
+        setIsPlaying(false);
+        return;
+      }
+
+      let nextIdx: number;
+      if(shuffleRef.current && q.length > 1) {
+        do { nextIdx = Math.floor(Math.random() * q.length); } while (nextIdx === idx);
+      } else if(idx < q.length - 1) {
+        nextIdx = idx + 1;
       } else {
         setIsPlaying(false);
         setProgress(0);
+        return;
       }
+
+      const nextItem = q[nextIdx];
+      loggedTrackRef.current = null;
+      queueIdxRef.current = nextIdx;
+      store.dispatch(setQueueIdx(nextIdx));
+      setTrack(nextItem);
+      setProgress(0);
+      audio.src = nextItem.audioUrl;
+      void audio.play();
     };
 
     return () => {
@@ -287,7 +300,13 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     if(q.length === 0)
       return;
 
-    const next          = (idx + 1) % q.length;
+    let next: number;
+    if(shuffleRef.current && q.length > 1) {
+      do { next = Math.floor(Math.random() * q.length); } while (next === idx);
+    } else {
+      next = (idx + 1) % q.length;
+    }
+
     const nextTrackItem = q[next];
 
     if(!nextTrackItem)
@@ -346,18 +365,23 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     setProgress(seconds);
   }, []);
 
+  const pendingLikes = useRef(new Set<number>());
+
   const toggleLike = useCallback((id: number, trackDto?: TrackDto) => {
+    if (pendingLikes.current.has(id)) return;
+    pendingLikes.current.add(id);
+
     setLikedItems((prev) => {
       const next = new Set(prev);
       const isCurrentlyLiked = next.has(id);
 
       if (isCurrentlyLiked) {
         next.delete(id);
-        // Unlike on the backend
-        api.delete(API_ENDPOINTS.engagementActions.unlike(id)).catch(() => {});
+        api.delete(API_ENDPOINTS.engagementActions.unlike(id))
+          .catch(() => {})
+          .finally(() => pendingLikes.current.delete(id));
       } else {
         next.add(id);
-        // Like on the backend — need artistId
         const t = trackDto ?? queueRef.current.find((tr) => tr.id === id);
         if (t) {
           const artistId = getPrimaryArtistId(t);
@@ -366,8 +390,14 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
               actionType: "like_track",
               artistId,
               trackId: id,
-            }).catch(() => {});
+            })
+              .catch(() => {})
+              .finally(() => pendingLikes.current.delete(id));
+          } else {
+            pendingLikes.current.delete(id);
           }
+        } else {
+          pendingLikes.current.delete(id);
         }
       }
 

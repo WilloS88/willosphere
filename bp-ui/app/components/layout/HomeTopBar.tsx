@@ -4,9 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { Sun, Moon, ChevronDown, User, Shield, LogOut, Mic2, Search, HandCoins, Music, Disc3, Users } from "lucide-react";
+import { Sun, Moon, ChevronDown, User, Shield, LogOut, Mic2, Search, HandCoins, Music, Disc3, Users, Menu } from "lucide-react";
 import { useAuth } from "@/app/components/auth/AuthProvider";
-import { useTheme, useDebounce } from "@/lib/hooks";
+import { useTheme, useDebounce, useNav } from "@/lib/hooks";
 import LocaleSwitcher from "@/app/components/locale/LocaleSwitcher";
 import { GlitchText } from "@/app/components/ui/elastic-slider/StoreUI";
 import { hasRole } from "@/lib/auth";
@@ -84,7 +84,7 @@ export function SearchBar() {
   );
 
   return (
-    <div ref={wrapperRef} className="relative flex-1 max-w-[400px] mx-auto">
+    <div ref={wrapperRef} className="relative flex-1 mx-auto">
       {/* Input */}
       <div className={`h-[30px] flex items-center rounded-sm px-2.5 transition-all border ${
         open
@@ -279,13 +279,13 @@ function ThemeToggle() {
     <button
       onClick={toggle}
       title={isDark ? t("lightMode") : t("darkMode")}
-      className={`w-8 h-8 rounded-sm flex items-center justify-center text-sm border cursor-pointer transition-all hover:scale-105 ${
+      className={`w-9 h-9 rounded-sm flex items-center justify-center text-sm border cursor-pointer transition-all hover:scale-105 ${
         isDark
           ? "border-royalblue/40 bg-royalblue/20 text-vhs-muted hover:border-fearyellow hover:text-fearyellow"
           : "border-[#a89888] bg-white/60 text-[#635b53] hover:border-[#c4234e] hover:text-[#c4234e]"
       }`}
     >
-      {isDark ? <Sun size={14} /> : <Moon size={14} />}
+      {isDark ? <Sun size={15} /> : <Moon size={15} />}
     </button>
   );
 }
@@ -335,7 +335,7 @@ function ProfileDropdown() {
         aria-haspopup="menu"
         onClick={() => setOpen((p) => !p)}
         className={cn(
-          "flex cursor-pointer items-center gap-1.5 rounded-sm border px-2 h-8 transition-all",
+          "flex cursor-pointer items-center gap-1.5 rounded-sm border px-2 h-9 transition-all",
           isDark
             ? "border-royalblue/40 bg-royalblue/20 hover:border-fear/40 hover:bg-fear/10"
             : "border-[#a89888] bg-white/60 hover:border-[#c4234e]/40",
@@ -410,44 +410,67 @@ function ProfileDropdown() {
   );
 }
 
+function HamburgerButton() {
+  const { toggleNav }  = useNav();
+  const { isDark }     = useTheme();
+
+  return (
+    <button
+      aria-label="Menu"
+      onClick={toggleNav}
+      className={`md:hidden w-9 h-9 rounded-sm flex items-center justify-center text-sm border cursor-pointer transition-all hover:scale-105 ${
+        isDark
+          ? "border-royalblue/40 bg-royalblue/20 text-vhs-muted hover:text-vhs-white"
+          : "border-[#a89888] bg-white/60 text-[#635b53] hover:text-[#2a2520]"
+      }`}
+    >
+      <Menu size={16} />
+    </button>
+  );
+}
+
 export function HomeTopBar() {
   const t           = useTranslations("Store");
   const { locale }  = useParams<{ locale: string }>();
   const { isDark }  = useTheme();
 
+  const headerBg = isDark
+    ? "bg-gradient-to-r from-darkblue via-royalblue/50 to-darkblue border-royalblue/50"
+    : "bg-gradient-to-r from-[#ede7db] via-[#e5dfd3] to-[#ede7db] border-[#a89888]/50";
+
   return (
-    <header className={`h-11 min-h-[44px] flex items-center px-2 sm:px-4 gap-1.5 sm:gap-3 z-50 border-b ${
-      isDark
-        ? "bg-gradient-to-r from-darkblue via-royalblue/50 to-darkblue border-royalblue/50"
-        : "bg-gradient-to-r from-[#ede7db] via-[#e5dfd3] to-[#ede7db] border-[#a89888]/50"
-    }`}>
-      {/* Logo */}
-      <Link href={`/${locale}`} className="flex items-center gap-1.5 sm:gap-2 shrink-0 no-underline">
-        <div className="w-6 h-6 sm:w-7 sm:h-7 bg-fear flex items-center justify-center font-bold text-sm sm:text-base text-white vhs-logo-clip">W</div>
-        <GlitchText className={`font-bold text-sm sm:text-base tracking-[2px] hidden xs:inline ${isDark ? "text-fearyellow" : "text-[#c4234e]"}`}>
-          {t("waveStore")}
-        </GlitchText>
-      </Link>
+    <header className={`flex flex-col z-50 border-b ${headerBg}`}>
+      {/* Row 1: Logo + hamburger + (desktop: search) + utilities */}
+      <div className="flex items-center h-11 min-h-[44px] px-2 sm:px-4 gap-1.5 sm:gap-3">
+        {/* Logo */}
 
-      <SearchBar />
+        {/*<Link href={`/${locale}`} className="flex items-center gap-1.5 sm:gap-2 shrink-0 no-underline">*/}
+        {/*  <img src="/favicon.ico" alt="WilloSphere" className="w-6 h-6 sm:w-7 sm:h-7 object-contain" />*/}
+        {/*</Link>*/}
 
-      <div className="ml-auto flex items-center gap-1.5 sm:gap-3 shrink-0">
-        <LiveIndicator />
-        <Clock />
-        <Link
-          href={`/${locale}/home/donate`}
-          title={t("nav_donate")}
-          className={`w-8 h-8 rounded-sm flex items-center justify-center text-sm border transition-all hover:scale-105 no-underline ${
-            isDark
-              ? "border-royalblue/40 bg-royalblue/20 text-fear hover:border-fear hover:text-fearyellow"
-              : "border-[#a89888] bg-white/60 text-[#c4234e] hover:border-[#c4234e] hover:text-[#c4234e]"
-          }`}
-        >
-          <HandCoins size={14} />
+        <Link href={`/${locale}`} className="w-8 h-8 sm:w-10 sm:h-8 bg-fear flex items-center justify-center font-bold text-sm sm:text-base text-white vhs-logo-clip">
+          <img src="/favicon.ico" alt="WilloSphere" className="w-6 h-6 sm:w-7 sm:h-7 object-contain" />
         </Link>
-        <ThemeToggle />
-        <LocaleSwitcher />
-        <ProfileDropdown />
+
+        <HamburgerButton />
+
+        {/* Desktop SearchBar */}
+        <div className="hidden sm:flex flex-1 max-w-[400px] mx-auto">
+          <SearchBar />
+        </div>
+
+        <div className="ml-auto flex items-center gap-1.5 sm:gap-3 shrink-0">
+          <LiveIndicator />
+          <Clock />
+          <ThemeToggle />
+          <LocaleSwitcher />
+          <ProfileDropdown />
+        </div>
+      </div>
+
+      {/* Row 2: Mobile SearchBar */}
+      <div className="flex sm:hidden px-2 pb-2">
+        <SearchBar />
       </div>
     </header>
   );

@@ -277,14 +277,14 @@ function LandingContent() {
         />
 
         {/* Content */}
-        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-4">
+        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-6 sm:px-8">
           {/* Main title — SplitText animation */}
           <div
-            className={`mb-4 rounded-lg px-6 py-4 sm:px-10 sm:py-6 ${isDark ? "bg-black/85" : "bg-white/80 backdrop-blur-sm"}`}
+            className={`mb-4 rounded-lg px-4 py-3 sm:px-10 sm:py-6 text-center ${isDark ? "bg-black/85" : "bg-white/80 backdrop-blur-sm"}`}
           >
             <SplitText
               text={t("title")}
-              className={`vhs-glitch-text text-5xl font-bold tracking-[6px] sm:text-7xl lg:text-8xl ${isDark ? "text-fear" : "text-[#c4234e]"}`}
+              className={`vhs-glitch-text text-[2.75rem] font-bold tracking-[5px] sm:text-7xl sm:tracking-[6px] lg:text-8xl ${isDark ? "text-fear" : "text-[#c4234e]"}`}
               delay={80}
               duration={0.8}
               ease="power3.out"
@@ -318,10 +318,10 @@ function LandingContent() {
           </div>
 
           {/* CTAs */}
-          <div className="flex flex-col gap-3 sm:flex-row">
+          <div className="flex flex-col items-center gap-2.5 sm:flex-row sm:gap-3">
             <Link
               href={`/${locale}/home`}
-              className={`rounded-sm px-8 py-3.5 text-sm font-bold tracking-[2px] no-underline transition-all hover:scale-105 active:scale-95 ${
+              className={`rounded-sm px-6 py-3 sm:px-8 sm:py-3.5 text-sm font-bold tracking-[2px] no-underline transition-all hover:scale-105 active:scale-95 ${
                 isDark
                   ? "bg-fear text-white shadow-[0_0_30px_rgba(237,44,94,0.5)]"
                   : "bg-[#c4234e] text-white shadow-[0_0_20px_rgba(196,35,78,0.35)]"
@@ -334,7 +334,7 @@ function LandingContent() {
             </Link>
             <Link
               href={`/${locale}/signup`}
-              className={`rounded-sm border px-8 py-3.5 text-sm font-bold tracking-[2px] no-underline transition-all hover:scale-105 ${
+              className={`rounded-sm border px-6 py-3 sm:px-8 sm:py-3.5 text-sm font-bold tracking-[2px] no-underline transition-all hover:scale-105 ${
                 isDark
                   ? "border-fearyellow/50 text-fearyellow bg-black/30"
                   : "border-[#c4a800]/50 bg-black/60 text-[#c4a800]"
@@ -346,14 +346,12 @@ function LandingContent() {
         </div>
 
         {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 animate-bounce">
+        <div className="absolute bottom-4 sm:bottom-8 left-1/2 z-10 -translate-x-1/2 animate-bounce">
           <div
-            className={`text-[24px] tracking-[3px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
+            className={`flex flex-col items-center gap-1 text-xs sm:text-base tracking-[3px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
           >
-            <div className="flex items-center gap-2">
-              <ArrowBigDown fill="currentColor" />
-              {t("scrollDown")}
-            </div>
+            {t("scrollDown")}
+            <ArrowBigDown size={20} className="sm:!w-6 sm:!h-6" fill="currentColor" />
           </div>
         </div>
       </section>

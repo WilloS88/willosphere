@@ -67,20 +67,20 @@ export default function AlgorithmConfigPage() {
 
   return (
     <div className="flex-1 flex flex-col">
-      <header className="h-14 bg-base-100 border-b border-base-300 flex items-center px-6">
+      <header className="min-h-12 sm:h-14 bg-base-100 border-b border-base-300 flex items-center px-3 sm:px-6">
         <Settings size={20} className="mr-2" />
-        <span className="font-semibold text-lg">{t("algorithmTitle")}</span>
+        <span className="font-semibold text-sm sm:text-lg">{t("algorithmTitle")}</span>
       </header>
 
       <main className="p-4 flex-1 overflow-auto">
         <div className="card bg-base-100 border border-base-300 shadow-sm">
           <div className="card-body p-0">
-            <table className="table table-zebra">
+            <table className="table table-zebra table-xs sm:table-sm">
               <thead>
                 <tr>
                   <th>{t("algorithmColParam")}</th>
                   <th>{t("algorithmColValue")}</th>
-                  <th>{t("algorithmColDesc")}</th>
+                  <th className="hidden sm:table-cell">{t("algorithmColDesc")}</th>
                   <th className="w-24">{t("algorithmColAction")}</th>
                 </tr>
               </thead>
@@ -113,7 +113,7 @@ export default function AlgorithmConfigPage() {
                         <span className="font-mono">{Number(p.paramValue).toFixed(4)}</span>
                       )}
                     </td>
-                    <td className="text-sm text-base-content/60">
+                    <td className="hidden sm:table-cell text-sm text-base-content/60">
                       {p.description}
                     </td>
                     <td>

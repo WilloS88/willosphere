@@ -211,11 +211,11 @@ export default function AdminAlbumsPage() {
     setForm((f) => ({ ...f, artists: f.artists.map((a, idx) => idx === i ? { ...a, [field]: value } : a) }));
 
   const columns = [
-    { label: t("id"),          sortKey: "id" },
+    { label: t("id"),          sortKey: "id", hiddenOnMobile: true },
     { label: t("title"),       sortKey: "title", filter: { type: "text" as const } },
-    { label: t("releaseDate"), sortKey: "releaseDate" },
+    { label: t("releaseDate"), sortKey: "releaseDate", hiddenOnMobile: true },
     { label: t("price"),       sortKey: "price" },
-    { label: t("artists") },
+    { label: t("artists"),     hiddenOnMobile: true },
     { label: t("operations"),  align: "center" as const },
   ];
 
@@ -262,7 +262,7 @@ export default function AdminAlbumsPage() {
               className="hover:bg-base-200 transition-colors cursor-pointer"
               onClick={() => void openView(album)}
             >
-              <td>{album.id}</td>
+              <td className="hidden sm:table-cell">{album.id}</td>
               <td className="font-medium max-w-[200px] truncate">
                 <div className="flex items-center gap-2">
                   {album.coverImageUrl && (
@@ -271,9 +271,9 @@ export default function AdminAlbumsPage() {
                   {album.title}
                 </div>
               </td>
-              <td>{album.releaseDate}</td>
+              <td className="hidden sm:table-cell">{album.releaseDate}</td>
               <td>{album.price} CZK</td>
-              <td>
+              <td className="hidden sm:table-cell">
                 <div className="flex flex-wrap gap-1">
                   {album.artists.map((a: AlbumArtistInfo) => (
                     <span key={a.artistId} className={`badge badge-xs ${a.role === "primary" ? "badge-info" : "badge-ghost"}`}>

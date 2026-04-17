@@ -157,11 +157,11 @@ export default function AdminArtistsPage() {
 
   // ── Columns ───────────────────────────────────────────────────────────────
   const columns = [
-    { label: t("id"),          sortKey: "userId" },
+    { label: t("id"),          sortKey: "userId", hiddenOnMobile: true },
     { label: t("nickname"),    sortKey: "displayName", filter: { type: "text" as const } },
     { label: t("email"),       sortKey: "email",       filter: { type: "text" as const } },
-    { label: t("artistSince"), sortKey: "artistSince" },
-    { label: t("memberSince"), sortKey: "memberSince" },
+    { label: t("artistSince"), sortKey: "artistSince", hiddenOnMobile: true },
+    { label: t("memberSince"), sortKey: "memberSince", hiddenOnMobile: true },
     { label: t("operations"),  align: "center" as const },
   ];
 
@@ -204,15 +204,15 @@ export default function AdminArtistsPage() {
               className="hover:bg-base-200 transition-colors cursor-pointer"
               onClick={() => openView(artist)}
             >
-              <td>{artist.userId}</td>
+              <td className="hidden sm:table-cell">{artist.userId}</td>
               <td className="font-medium">{artist.displayName}</td>
               <td>{artist.email}</td>
-              <td>
+              <td className="hidden sm:table-cell">
                 {artist.artistSince
                   ? new Date(artist.artistSince).toLocaleDateString()
                   : <span className="text-gray-400">—</span>}
               </td>
-              <td>{new Date(artist.memberSince).toLocaleDateString()}</td>
+              <td className="hidden sm:table-cell">{new Date(artist.memberSince).toLocaleDateString()}</td>
               <td className="text-center">
                 <div className="flex justify-center items-center gap-1">
                   <button

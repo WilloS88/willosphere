@@ -49,7 +49,7 @@ export function VHSButton({ variant = "primary", children, className, ...props }
     primary: "flex-1 py-[7px] bg-gradient-to-r from-fear to-fear/80 text-white border-none",
     success: "flex-1 py-[7px] bg-gradient-to-r from-vhs-green/60 to-vhs-green/40 text-darkblue border-none",
     yellow:  "flex-1 py-[7px] bg-gradient-to-r from-fearyellow to-fearyellow/80 text-darkblue border-none",
-    ghost:   cn("w-[30px] h-[30px] flex-none border",
+    ghost:   cn("w-9 h-9 flex-none border",
       isDark ? "bg-royalblue/25 border-royalblue/40 text-vhs-muted" : "bg-[#a89888]/20 border-[#a89888]/40 text-[#635b53]"
     ),
   };

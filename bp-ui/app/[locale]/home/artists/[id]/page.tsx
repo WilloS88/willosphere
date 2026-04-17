@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useTheme } from "@/lib/hooks";
 import { usePlayer } from "@/app/context/PlayerContext";
 import { PlaylistPicker } from "@/app/components/home/PlaylistPicker";
+import { LikeButton } from "@/app/components/ui/elastic-slider/StoreUI";
 import { VHSSpinner } from "@/app/components/ui/VHSSpinner";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
 import type { ArtistDto } from "@/app/types/user";
@@ -20,7 +21,7 @@ export default function ArtistDetailPage() {
   const t                = useTranslations("Store");
   const { id, locale }   = useParams<{ id: string; locale: string }>();
   const { isDark }       = useTheme();
-  const { playTrack, addToQueue, track: currentTrack, isPlaying } = usePlayer();
+  const { playTrack, addToQueue, track: currentTrack, isPlaying, likedItems, toggleLike } = usePlayer();
 
   const [artist, setArtist]   = useState<ArtistDto | null>(null);
   const [tracks, setTracks]   = useState<TrackDto[]>([]);
@@ -122,7 +123,7 @@ export default function ArtistDetailPage() {
           </div>
 
           {/* Stats row */}
-          <div className={`mt-3 flex flex-wrap gap-4 text-xs tracking-widest ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+          <div className={`mt-3 flex flex-wrap gap-2 sm:gap-4 text-xs tracking-widest ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
             {artist.artistSince && (
               <span className="flex items-center gap-1.5">
                 <CalendarDays size={11} />
@@ -211,25 +212,30 @@ export default function ArtistDetailPage() {
 
                   {/* Price */}
                   {track.price != null && (
-                    <div className={`text-xs font-semibold tracking-wider shrink-0 ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`}>
+                    <div className={`hidden sm:block text-xs font-semibold tracking-wider shrink-0 ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`}>
                       {track.price} CZK
                     </div>
                   )}
 
                   {/* Duration */}
-                  <div className={`flex items-center gap-1 text-xs tabular-nums shrink-0 ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+                  <div className={`hidden sm:flex items-center gap-1 text-xs tabular-nums shrink-0 ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
                     <Clock size={10} />
                     {formatTime(track.durationSeconds)}
                   </div>
 
+                  <span onClick={(e) => e.stopPropagation()}>
+                    <LikeButton itemId={track.id} liked={likedItems.has(track.id)} onToggle={() => toggleLike(track.id, track)} />
+                  </span>
                   <button
-                    className={`shrink-0 p-1 rounded transition-colors ${isDark ? "hover:bg-royalblue/20 text-vhs-muted hover:text-vhs-white" : "hover:bg-[#c4234e]/10 text-[#635b53] hover:text-[#2a2520]"}`}
+                    className={`hidden sm:block shrink-0 p-1 rounded transition-colors ${isDark ? "hover:bg-royalblue/20 text-vhs-muted hover:text-vhs-white" : "hover:bg-[#c4234e]/10 text-[#635b53] hover:text-[#2a2520]"}`}
                     title={t("addToQueue")}
                     onClick={(e) => { e.stopPropagation(); addToQueue(track); }}
                   >
                     <ListPlus size={14} />
                   </button>
-                  <PlaylistPicker trackId={track.id} />
+                  <span className="hidden sm:block">
+                    <PlaylistPicker trackId={track.id} />
+                  </span>
                 </div>
               );
             })}

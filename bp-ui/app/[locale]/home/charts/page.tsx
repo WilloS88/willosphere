@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { Play, Heart, Music, Flame, ListPlus } from "lucide-react";
-import { PageHeader, Badge } from "@/app/components/ui/elastic-slider/StoreUI";
+import { Music, Flame, ListPlus } from "lucide-react";
+import { PageHeader, Badge, LikeButton } from "@/app/components/ui/elastic-slider/StoreUI";
 import { useTheme } from "@/lib/hooks";
 import { usePlayer } from "@/app/context/PlayerContext";
 import { PlaylistPicker } from "@/app/components/home/PlaylistPicker";
@@ -20,7 +20,7 @@ const CHART_COLORS = ["#00e5ff", "#9b59ff", "#ed2c5e", "#f4e526", "#00ff88"];
 export default function ChartsPage() {
   const t           = useTranslations("Store");
   const { isDark }  = useTheme();
-  const { playTrack, addToQueue, track: currentTrack, isPlaying } = usePlayer();
+  const { playTrack, addToQueue, track: currentTrack, isPlaying, likedItems, toggleLike } = usePlayer();
 
   const [tracks, setTracks]   = useState<TrackDto[]>([]);
   const [total, setTotal]     = useState(0);
@@ -139,14 +139,19 @@ export default function ChartsPage() {
                     {track.durationSeconds ? `${Math.floor(track.durationSeconds / 60)}:${String(track.durationSeconds % 60).padStart(2, "0")}` : ""}
                   </div>
                   <span className="text-xs text-orange-400">{i < 3 ? <Flame size={12} /> : null}</span>
+                  <span onClick={(e) => e.stopPropagation()}>
+                    <LikeButton itemId={track.id} liked={likedItems.has(track.id)} onToggle={() => toggleLike(track.id, track)} />
+                  </span>
                   <button
-                    className={`shrink-0 p-1 rounded transition-colors ${isDark ? "hover:bg-royalblue/20 text-vhs-muted hover:text-vhs-white" : "hover:bg-[#c4234e]/10 text-[#635b53] hover:text-[#2a2520]"}`}
+                    className={`hidden sm:block shrink-0 p-1 rounded transition-colors ${isDark ? "hover:bg-royalblue/20 text-vhs-muted hover:text-vhs-white" : "hover:bg-[#c4234e]/10 text-[#635b53] hover:text-[#2a2520]"}`}
                     title={t("addToQueue")}
                     onClick={(e) => { e.stopPropagation(); addToQueue(track); }}
                   >
                     <ListPlus size={14} />
                   </button>
-                  <PlaylistPicker trackId={track.id} />
+                  <span className="hidden sm:block">
+                    <PlaylistPicker trackId={track.id} />
+                  </span>
                 </div>
               );
             })}

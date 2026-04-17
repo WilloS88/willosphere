@@ -35,7 +35,8 @@
     "logout": "Odhlásit se",
     "adminDashboard": "Admin",
     "artistDashboard": "Studio",
-    "application": "Aplikace"
+    "application": "Aplikace",
+    "cart": "Košík"
   },
   "Footer": {
     "rights": "Všechna práva vyhrazena",
