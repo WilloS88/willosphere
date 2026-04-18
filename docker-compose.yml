@@ -1,0 +1,71 @@
+services:
+  mysql:
+    image: mysql:8.0.23
+    command: --default-authentication-plugin=mysql_native_password --explicit-defaults-for-timestamp=ON
+    restart: unless-stopped
+    container_name: willosphere_mysql
+    ports:
+      - "3307:3306"
+    env_file:
+      - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - app
+
+  api:
+    build:
+      context: ./bp-api
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    container_name: willosphere_api
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./bp-api/.env
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_PORT: "3306"
+      MYSQL_SYNC: "1"
+      SEED_DB: "1"
+      FRONTEND_ORIGIN: http://localhost:3001
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - app
+
+  ui:
+    build:
+      context: ./bp-ui
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    container_name: willosphere_ui
+    ports:
+      - "3001:3000"
+    env_file:
+      - ./bp-ui/.env
+    environment:
+      NEST_API_URL: http://api:3000
+    depends_on:
+      - api
+    networks:
+      - app
+
+volumes:
+  mysql_data:
+
+networks:
+  app:
+    driver: bridge
