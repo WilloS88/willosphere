@@ -35,6 +35,7 @@ export class Album {
   @CreateDateColumn({
     name: "created_at",
     type: "datetime",
+    precision: 0,
     default: () => "CURRENT_TIMESTAMP",
   })
   createdAt!: Date;
@@ -42,6 +43,7 @@ export class Album {
   @UpdateDateColumn({
     name: "updated_at",
     type: "datetime",
+    precision: 0,
     default: () => "CURRENT_TIMESTAMP",
     onUpdate: "CURRENT_TIMESTAMP",
   })

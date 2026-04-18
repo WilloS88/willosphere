@@ -49,6 +49,7 @@ export class StreamEvent {
   @Column({
     name: "created_at",
     type: "datetime",
+    precision: 0,
     default: () => "CURRENT_TIMESTAMP",
   })
   createdAt!: Date;

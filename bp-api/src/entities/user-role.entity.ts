@@ -21,6 +21,7 @@ export class UserRole {
   @Column({
     name: "assigned_at",
     type: "datetime",
+    precision: 0,
     default: () => "CURRENT_TIMESTAMP",
   })
   assignedAt!: Date;

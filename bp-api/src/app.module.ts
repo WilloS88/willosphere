@@ -20,6 +20,7 @@ import { ScheduleModule } from "@nestjs/schedule";
 import { RoyaltyModule } from "./royalty/royalty.module";
 import { DonationsModule } from "./donations/donations.module";
 import { SearchModule } from "./search/search.module";
+import { SeedModule } from "./seed/seed.module";
 
 @Module({
   imports: [
@@ -36,7 +37,7 @@ import { SearchModule } from "./search/search.module";
         password: cfg.get<string>("MYSQL_PASSWORD"),
         database: cfg.get<string>("MYSQL_DATABASE"),
         autoLoadEntities: true,
-        synchronize: false,
+        synchronize: cfg.get("MYSQL_SYNC") === "1",
         logging: cfg.get("DB_LOGGING") === "true",
         timezone: "Z",
       }),
@@ -58,6 +59,7 @@ import { SearchModule } from "./search/search.module";
     RoyaltyModule,
     DonationsModule,
     SearchModule,
+    SeedModule,
   ],
   controllers: [AppController],
   providers: [AppService],

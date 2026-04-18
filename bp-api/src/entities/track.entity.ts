@@ -53,6 +53,7 @@ export class Track {
   @CreateDateColumn({
     name: "created_at",
     type: "datetime",
+    precision: 0,
     default: () => "CURRENT_TIMESTAMP",
   })
   createdAt!: Date;
@@ -60,6 +61,7 @@ export class Track {
   @UpdateDateColumn({
     name: "updated_at",
     type: "datetime",
+    precision: 0,
     default: () => "CURRENT_TIMESTAMP",
     onUpdate: "CURRENT_TIMESTAMP",
   })

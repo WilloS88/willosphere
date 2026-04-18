@@ -27,6 +27,7 @@ export class ListenHistory {
   @Column({
     name: "listened_at",
     type: "datetime",
+    precision: 0,
     default: () => "CURRENT_TIMESTAMP",
   })
   listenedAt!: Date;
@@ -48,6 +49,7 @@ export class ListenHistory {
   @CreateDateColumn({
     name: "created_at",
     type: "datetime",
+    precision: 0,
     default: () => "CURRENT_TIMESTAMP",
   })
   createdAt!: Date;
@@ -55,6 +57,7 @@ export class ListenHistory {
   @UpdateDateColumn({
     name: "updated_at",
     type: "datetime",
+    precision: 0,
     default: () => "CURRENT_TIMESTAMP",
     onUpdate: "CURRENT_TIMESTAMP",
   })

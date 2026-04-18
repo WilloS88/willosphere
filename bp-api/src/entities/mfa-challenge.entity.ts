@@ -31,6 +31,7 @@ export class MfaChallenge {
   @CreateDateColumn({
     name: "created_at",
     type: "datetime",
+    precision: 0,
     default: () => "CURRENT_TIMESTAMP",
   })
   createdAt!: Date;

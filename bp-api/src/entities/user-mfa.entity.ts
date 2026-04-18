@@ -23,6 +23,7 @@ export class UserMfa {
   @CreateDateColumn({
     name: "created_at",
     type: "datetime",
+    precision: 0,
     default: () => "CURRENT_TIMESTAMP",
   })
   createdAt!: Date;
@@ -30,6 +31,7 @@ export class UserMfa {
   @UpdateDateColumn({
     name: "updated_at",
     type: "datetime",
+    precision: 0,
     default: () => "CURRENT_TIMESTAMP",
     onUpdate: "CURRENT_TIMESTAMP",
   })

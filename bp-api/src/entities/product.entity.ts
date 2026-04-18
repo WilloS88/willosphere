@@ -61,6 +61,7 @@ export class Product {
   @CreateDateColumn({
     name: "created_at",
     type: "datetime",
+    precision: 0,
     default: () => "CURRENT_TIMESTAMP",
   })
   createdAt!: Date;
@@ -68,6 +69,7 @@ export class Product {
   @UpdateDateColumn({
     name: "updated_at",
     type: "datetime",
+    precision: 0,
     default: () => "CURRENT_TIMESTAMP",
     onUpdate: "CURRENT_TIMESTAMP",
   })

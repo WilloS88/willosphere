@@ -23,6 +23,7 @@ export class PlaylistTrack {
   @CreateDateColumn({
     name: "added_at",
     type: "datetime",
+    precision: 0,
     default: () => "CURRENT_TIMESTAMP",
   })
   addedAt!: Date;
