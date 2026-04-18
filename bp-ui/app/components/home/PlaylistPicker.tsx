@@ -100,7 +100,7 @@ export function PlaylistPicker({ trackId }: Props) {
     <div ref={containerRef} className="relative shrink-0" onClick={(e) => e.stopPropagation()}>
       <button
         title={t("addToPlaylist")}
-        className={`transition-colors ${btn}`}
+        className={`w-9 h-9 flex items-center justify-center rounded-sm transition-colors ${btn}`}
         onClick={handleOpen}
       >
         <ListPlus size={14} />

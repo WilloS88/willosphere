@@ -201,7 +201,7 @@ export default function PlaylistsPage() {
                   href={`/${locale}/home/playlists/${playlist.id}`}
                   className={`truncate text-sm font-bold tracking-wider ${base.text}`}
                 >
-                  {playlist.title}
+                  {playlist.isSystem ? t("likedTracks") : playlist.title}
                 </Link>
                 <div className={`mt-1 text-xs tracking-wide ${base.muted}`}>
                   {playlist.trackCount} {t("tracksCount")}
@@ -211,12 +211,12 @@ export default function PlaylistsPage() {
                   <div className="mt-2 flex flex-wrap gap-1.5">
                     {playlist.isCollaborative && (
                       <span className={`rounded-sm border px-2 py-0.5 text-xs tracking-wider ${base.badge}`}>
-                        COLLAB
+                        {t("collabBadge")}
                       </span>
                     )}
                     {!playlist.isPublic && (
                       <span className={`rounded-sm border px-2 py-0.5 text-xs tracking-wider ${base.badge}`}>
-                        PRIVATE
+                        {t("privateBadge")}
                       </span>
                     )}
                   </div>

@@ -15,6 +15,7 @@ import type { TrackDto } from "@/app/types/track";
 import { formatTime } from "@/lib/store-data";
 import { hasRole } from "@/lib/auth";
 import { PlaylistPicker } from "@/app/components/home/PlaylistPicker";
+import { ShareButton } from "@/app/components/home/ShareButton";
 import { LikeButton } from "@/app/components/ui/elastic-slider/StoreUI";
 import api from "@/lib/axios";
 
@@ -96,12 +97,12 @@ export default function PlaylistDetailPage() {
               PLAYLIST
             </div>
             <h1 className={`text-xl sm:text-2xl font-bold tracking-wide truncate mb-1 ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}>
-              {playlist.title.toUpperCase()}
+              {(playlist.isSystem ? t("likedTracks") : playlist.title).toUpperCase()}
             </h1>
             <div className={`flex flex-wrap gap-4 text-xs tracking-widest ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
               <span>{playlist.trackCount} {t("tracksCount")}</span>
               {playlist.isCollaborative && (
-                <span className={`${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`}>COLLAB</span>
+                <span className={`${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`}>{t("collabBadge")}</span>
               )}
             </div>
           </div>
@@ -174,15 +175,18 @@ export default function PlaylistDetailPage() {
                   </span>
 
                   <button
-                    className={`hidden sm:block shrink-0 rounded transition-colors ${isDark ? "hover:bg-royalblue/20 text-vhs-muted hover:text-vhs-white" : "hover:bg-[#c4234e]/10 text-[#635b53] hover:text-[#2a2520]"}`}
+                    className={`hidden sm:flex items-center justify-center shrink-0 w-9 h-9 rounded-sm transition-colors ${isDark ? "hover:bg-royalblue/20 text-vhs-muted hover:text-vhs-white" : "hover:bg-[#c4234e]/10 text-[#635b53] hover:text-[#2a2520]"}`}
                     title={t("addToQueue")}
                     onClick={(e) => { e.stopPropagation(); addToQueue(track); }}
                   >
                     <ListPlus size={14} />
                   </button>
 
-                  <span className="hidden sm:block">
+                  <span className="hidden sm:flex items-center">
                     <PlaylistPicker trackId={track.id} />
+                  </span>
+                  <span className="hidden sm:flex items-center">
+                    <ShareButton track={track} />
                   </span>
 
                   {canManageTracks && !playlist.isSystem && (

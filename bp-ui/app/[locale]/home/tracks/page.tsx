@@ -7,6 +7,7 @@ import { PageHeader, LikeButton } from "@/app/components/ui/elastic-slider/Store
 import { useTheme } from "@/lib/hooks";
 import { usePlayer } from "@/app/context/PlayerContext";
 import { PlaylistPicker } from "@/app/components/home/PlaylistPicker";
+import { ShareButton } from "@/app/components/home/ShareButton";
 import { VHSSpinner } from "@/app/components/ui/VHSSpinner";
 import { API_ENDPOINTS } from "@/app/api/enpoints";
 import type { TrackDto, GenreDto } from "@/app/types/track";
@@ -210,14 +211,17 @@ export default function TracksPage() {
                   <LikeButton itemId={track.id} liked={likedItems.has(track.id)} onToggle={() => toggleLike(track.id, track)} />
                 </span>
                 <button
-                  className={`hidden sm:block shrink-0 p-1 rounded transition-colors ${isDark ? "hover:bg-royalblue/20 text-vhs-muted hover:text-vhs-white" : "hover:bg-[#c4234e]/10 text-[#635b53] hover:text-[#2a2520]"}`}
+                  className={`hidden sm:flex items-center justify-center shrink-0 w-9 h-9 rounded-sm transition-colors ${isDark ? "hover:bg-royalblue/20 text-vhs-muted hover:text-vhs-white" : "hover:bg-[#c4234e]/10 text-[#635b53] hover:text-[#2a2520]"}`}
                   title={t("addToQueue")}
                   onClick={(e) => { e.stopPropagation(); addToQueue(track); }}
                 >
                   <ListPlus size={14} />
                 </button>
-                <span className="hidden sm:block">
+                <span className="hidden sm:flex items-center">
                   <PlaylistPicker trackId={track.id} />
+                </span>
+                <span className="hidden sm:flex items-center">
+                  <ShareButton track={track} />
                 </span>
               </div>
             ))}

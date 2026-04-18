@@ -10,6 +10,7 @@ import { formatTime } from "@/lib/store-data";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import type { TrackDto } from "@/app/types/track";
+import { ShareButton } from "@/app/components/home/ShareButton";
 
 /* ── Track info (left) ── */
 function TrackInfo() {
@@ -183,7 +184,7 @@ function MobileVolumeButton() {
 
 /* ── Volume (right) ── */
 function VolumeControl() {
-  const { volume, setVolume, showQueue, setShowQueue } = usePlayer();
+  const { volume, setVolume, showQueue, setShowQueue, track } = usePlayer();
   const { isDark } = useTheme();
 
   return (
@@ -203,6 +204,12 @@ function VolumeControl() {
 
       {/* Mobile volume button with popup */}
       <MobileVolumeButton />
+
+      {track && (
+        <span className="hidden sm:flex">
+          <ShareButton track={track} size={16} />
+        </span>
+      )}
 
       <button
         aria-label="Queue"

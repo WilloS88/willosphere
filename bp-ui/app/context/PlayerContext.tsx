@@ -140,7 +140,18 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
 
     if (track?.id) {
       refreshTrack(track).then((fresh) => {
-        if (fresh) setTrack(fresh);
+        if (fresh) {
+          setTrack(fresh);
+          // Update audio src with fresh signed URL (replaces expired persisted URL)
+          const audio = audioRef.current;
+          if (audio) {
+            const wasPlaying = !audio.paused;
+            const currentPos = audio.currentTime || persisted.progress;
+            audio.src = fresh.audioUrl;
+            audio.currentTime = currentPos;
+            if (wasPlaying) void audio.play();
+          }
+        }
       });
     }
 
@@ -177,12 +188,9 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     const audio = new Audio();
     audioRef.current = audio;
 
-    // If we have a persisted track, set it up (paused) so user can resume
-    if (persisted.currentTrack) {
-      audio.src = persisted.currentTrack.audioUrl;
-      audio.currentTime = persisted.progress;
-      audio.volume = persisted.volume / 100;
-    }
+    // Set volume from persisted state; audio.src will be set after
+    // fresh signed URLs are fetched (see refresh effect below)
+    audio.volume = persisted.volume / 100;
 
     audio.ontimeupdate = () => {
       const currentTime = Math.floor(audio.currentTime);
@@ -203,6 +211,29 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       }
     };
     audio.ondurationchange = () => setDuration(Math.floor(audio.duration) || 0);
+    // Re-fetch fresh signed URL on playback error (expired CloudFront URL)
+    audio.onerror = () => {
+      const currentTrack = queueRef.current[queueIdxRef.current];
+      if (!currentTrack) return;
+
+      api.get<TrackDto>(API_ENDPOINTS.tracks.detail(currentTrack.id))
+        .then((res) => {
+          const fresh = res.data;
+          setTrack(fresh);
+          // Update the track in queue too
+          const q = [...queueRef.current];
+          q[queueIdxRef.current] = fresh;
+          queueRef.current = q;
+          setQueue(q);
+          // Retry playback with fresh URL
+          audio.src = fresh.audioUrl;
+          void audio.play();
+        })
+        .catch(() => {
+          setIsPlaying(false);
+        });
+    };
+
     audio.onended          = () => {
       if(repeatRef.current) {
         loggedTrackRef.current = null;
