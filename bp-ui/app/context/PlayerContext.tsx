@@ -88,6 +88,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const queueIdxRef  = useRef<number>(persisted.queueIdx);
   const repeatRef    = useRef(repeat);
   const shuffleRef   = useRef(shuffle);
+  const isPlayingRef = useRef(false);
 
   // Listen history tracking: stores track ID that was already logged in current playback session
   const loggedTrackRef = useRef<number | null>(null);
@@ -101,6 +102,8 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     repeatRef.current = repeat;
     shuffleRef.current = shuffle;
   }, [queue, repeat, shuffle]);
+
+  useEffect(() => { isPlayingRef.current = isPlaying; }, [isPlaying]);
 
   // Sync local state → Redux
   useEffect(() => { store.dispatch(setReduxVolume(volume)); }, [volume]);
@@ -145,11 +148,8 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
           // Update audio src with fresh signed URL (replaces expired persisted URL)
           const audio = audioRef.current;
           if (audio) {
-            const wasPlaying = !audio.paused;
-            const currentPos = audio.currentTime || persisted.progress;
             audio.src = fresh.audioUrl;
-            audio.currentTime = currentPos;
-            if (wasPlaying) void audio.play();
+            audio.currentTime = persisted.progress || 0;
           }
         }
       });
@@ -225,9 +225,9 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
           q[queueIdxRef.current] = fresh;
           queueRef.current = q;
           setQueue(q);
-          // Retry playback with fresh URL
+          // Retry playback with fresh URL only if user was actively playing
           audio.src = fresh.audioUrl;
-          void audio.play();
+          if (isPlayingRef.current) void audio.play();
         })
         .catch(() => {
           setIsPlaying(false);

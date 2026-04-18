@@ -4,7 +4,6 @@ import { useState, useMemo } from "react";
 import { Play, Download, ShoppingCart } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { Album, MerchItem } from "@/lib/store-data";
-import { usePlayer } from "@/app/context/PlayerContext";
 import { useTheme } from "@/lib/hooks";
 import { MerchCover } from "@/app/components/covers/Covers";
 import { PriceBadge, VHSButton, Badge } from "@/app/components/ui/elastic-slider/StoreUI";
@@ -13,7 +12,6 @@ import TiltedCard from "@/app/components/ui/react-bits/TiltedCard";
 export function AlbumCard({ album, index }: { album: Album; index: number }) {
   const t                                     = useTranslations("Store");
   const [hovered, setHovered]                 = useState(false);
-  const { playTrack } = usePlayer();
   const { isDark }                            = useTheme();
 
   const cardStyle = useMemo(() => ({
@@ -48,7 +46,7 @@ export function AlbumCard({ album, index }: { album: Album; index: number }) {
           overlayContent={
             <div className="w-full h-full flex items-center justify-center">
               <button
-                onClick={(e) => { e.stopPropagation(); playTrack(index); }}
+                onClick={(e) => { e.stopPropagation(); }}
                 className="w-10 h-10 rounded-full bg-fear/90 border-2 border-white cursor-pointer flex items-center justify-center text-white shadow-[0_0_16px_rgba(237,44,94,0.5)] hover:scale-110 transition-transform z-20"
               >
                 <Play size={16} />

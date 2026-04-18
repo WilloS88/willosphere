@@ -556,6 +556,11 @@
     "securitySection": "SECURITY",
     "mfaLabel": "Two-Factor Authentication (2FA)",
     "mfaManage": "MANAGE",
+    "roleListener": "Listener",
+    "roleArtist": "Artist",
+    "becomeArtistProfileSection": "Artist profile",
+    "becomeArtistProfileDesc": "Start sharing your music with the world. Registration is free.",
+    "becomeArtistProfileCta": "Become an artist",
     "toastItemRemoved": "Item removed from cart",
     "toastCartCleared": "Cart cleared",
     "toastAddedToCart": "Added to cart"

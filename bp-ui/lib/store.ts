@@ -22,7 +22,7 @@ if(typeof window !== "undefined") {
       localStorage.setItem("nav-collapsed", String(state.ui.navCollapsed));
 
       const { volume, currentTrack, queue, queueIdx, shuffle, repeat, progress } = state.player;
-      localStorage.setItem("player_v1", JSON.stringify({ volume, currentTrack, queue, queueIdx, shuffle, repeat, progress }));
+      localStorage.setItem("player_v1", JSON.stringify({ volume, currentTrack, queue, queueIdx, shuffle, repeat, progress, savedAt: Date.now() }));
     } catch {}
   });
 }

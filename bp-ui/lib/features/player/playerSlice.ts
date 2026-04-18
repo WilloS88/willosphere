@@ -13,6 +13,8 @@ interface PlayerState {
 
 const STORAGE_KEY = "player_v1";
 
+const MAX_AGE_MS = 6 * 60 * 60 * 1000; // 6 hours
+
 function loadPlayer(): PlayerState {
   const defaults: PlayerState = {
     volume:       75,
@@ -29,6 +31,10 @@ function loadPlayer(): PlayerState {
       const raw = localStorage.getItem(STORAGE_KEY);
       if(raw) {
         const parsed = JSON.parse(raw);
+        const savedAt = parsed.savedAt ?? 0;
+        if (Date.now() - savedAt > MAX_AGE_MS) {
+          return { ...defaults, volume: parsed.volume ?? 75 };
+        }
         return { ...defaults, ...parsed };
       }
     } catch {}
@@ -63,6 +69,12 @@ const playerSlice = createSlice({
     setProgress(state, action: PayloadAction<number>) {
       state.progress = action.payload;
     },
+    clearPlayer(state) {
+      state.currentTrack = null;
+      state.queue = [];
+      state.queueIdx = -1;
+      state.progress = 0;
+    },
   },
 });
 
@@ -74,6 +86,7 @@ export const {
   setPlayerShuffle,
   setPlayerRepeat,
   setProgress,
+  clearPlayer,
 } = playerSlice.actions;
 
 export default playerSlice.reducer;

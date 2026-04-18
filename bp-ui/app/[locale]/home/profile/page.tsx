@@ -4,7 +4,8 @@ import Link from "next/link";
 import React, { useRef, useState } from "react";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { Camera, ShieldCheck, ArrowRight } from "lucide-react";
+import { Camera, ShieldCheck, ArrowRight, Mic2 } from "lucide-react";
+import { hasRole } from "@/lib/auth";
 import { useAuth } from "@/app/components/auth/AuthProvider";
 import { useTheme } from "@/lib/hooks";
 import {
@@ -109,13 +110,15 @@ export default function ProfilePage() {
               {user?.email ?? "not@logged.in"}
             </div>
             <div className="mt-1.5 flex gap-1.5">
-              {user?.roles?.map((r, i) => (
-                <Badge key={i} variant="cyan" className="text-[11px]">
-                  {typeof r === "string"
-                    ? r.toUpperCase()
-                    : r.role.toUpperCase()}
-                </Badge>
-              ))}
+              {user?.roles?.map((r, i) => {
+                const role = typeof r === "string" ? r : r.role;
+                const key = `role${role.charAt(0).toUpperCase()}${role.slice(1)}` as any;
+                return (
+                  <Badge key={i} variant="cyan" className="text-[11px]">
+                    {t(key).toUpperCase()}
+                  </Badge>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -169,6 +172,34 @@ export default function ProfilePage() {
             </span>
           </Link>
         </div>
+
+        {!hasRole(user, "artist") && (
+          <div
+            className={`mt-4 space-y-3 border-t pt-4 ${isDark ? "border-royalblue/20" : "border-[#a89888]/20"}`}
+          >
+            <SectionLabel>{t("becomeArtistProfileSection")}</SectionLabel>
+
+            <Link
+              href={`/${locale}/create-artist`}
+              className={`flex items-center justify-between rounded px-3 py-2.5 text-xs no-underline transition-all ${
+                isDark
+                  ? "bg-royalblue/10 hover:bg-royalblue/20 text-vhs-white"
+                  : "bg-[#ede7db]/60 hover:bg-[#ede7db] text-[#2a2520]"
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <Mic2 size={14} className={isDark ? "text-fear" : "text-[#c4234e]"} />
+                <div>
+                  <span className="tracking-wider">{t("becomeArtistProfileCta")}</span>
+                  <p className={`mt-0.5 text-[10px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+                    {t("becomeArtistProfileDesc")}
+                  </p>
+                </div>
+              </div>
+              <ArrowRight size={12} className={isDark ? "text-vhs-muted" : "text-[#635b53]"} />
+            </Link>
+          </div>
+        )}
       </div>
     </>
   );

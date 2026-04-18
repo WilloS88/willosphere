@@ -1,7 +1,6 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Link } from "@/app/i18n/navigation";
 import { useTheme } from "@/lib/hooks";
 
 export function Footer() {
@@ -23,12 +22,12 @@ export function Footer() {
 
       <nav className="flex items-center gap-4 mt-2 sm:mt-0">
         <span className={`font-bold ${isDark ? "text-fear" : "text-[#c4234e]"}`}>{t("company")}</span>
-        <Link href="/about" className={`no-underline transition-colors ${isDark ? "text-vhs-light hover:text-fearyellow" : "text-[#524a44] hover:text-[#c4234e]"}`}>
+        <a href="/about" className={`no-underline transition-colors ${isDark ? "text-vhs-light hover:text-fearyellow" : "text-[#524a44] hover:text-[#c4234e]"}`}>
           {t("aboutUs")}
-        </Link>
-        <Link href="/contact" className={`no-underline transition-colors ${isDark ? "text-vhs-light hover:text-fearyellow" : "text-[#524a44] hover:text-[#c4234e]"}`}>
+        </a>
+        <a href="/contact" className={`no-underline transition-colors ${isDark ? "text-vhs-light hover:text-fearyellow" : "text-[#524a44] hover:text-[#c4234e]"}`}>
           {t("contact")}
-        </Link>
+        </a>
       </nav>
     </footer>
   );

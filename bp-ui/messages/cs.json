@@ -556,6 +556,11 @@
     "securitySection": "ZABEZPEČENÍ",
     "mfaLabel": "Dvoufaktorové ověření (2FA)",
     "mfaManage": "NASTAVIT",
+    "roleListener": "Posluchač",
+    "roleArtist": "Umělec",
+    "becomeArtistProfileSection": "Umělecký profil",
+    "becomeArtistProfileDesc": "Začni sdílet svou hudbu se světem. Registrace je zdarma.",
+    "becomeArtistProfileCta": "Stát se umělcem",
     "toastItemRemoved": "Položka odebrána z košíku",
     "toastCartCleared": "Košík vyprázdněn",
     "toastAddedToCart": "Přidáno do košíku"
