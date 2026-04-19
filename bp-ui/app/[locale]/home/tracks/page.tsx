@@ -121,7 +121,7 @@ export default function TracksPage() {
       {genres.length > 0 && (
         <div className="mb-4 flex flex-wrap gap-2">
           <button
-            className={`rounded border px-3 py-1 text-xs tracking-widest transition-colors ${activeGenre === null ? base.activeBadge : base.badge}`}
+            className={`rounded border px-3 py-1 text-xs tracking-widest transition-colors uppercase ${activeGenre === null ? base.activeBadge : base.badge}`}
             onClick={() => handleGenreClick(null)}
           >
             {t("allGenres")}
@@ -129,10 +129,10 @@ export default function TracksPage() {
           {genres.map((g) => (
             <button
               key={g.id}
-              className={`rounded border px-3 py-1 text-xs tracking-widest transition-colors ${activeGenre === g.id ? base.activeBadge : base.badge}`}
+              className={`rounded border px-3 py-1 text-xs tracking-widest transition-colors uppercase ${activeGenre === g.id ? base.activeBadge : base.badge}`}
               onClick={() => handleGenreClick(g.id)}
             >
-              {g.name.toUpperCase()}
+              {g.name}
             </button>
           ))}
         </div>
@@ -144,7 +144,7 @@ export default function TracksPage() {
           <VHSSpinner size="lg" />
         </div>
       ) : tracks.length === 0 ? (
-        <div className={`py-16 text-center text-xs tracking-widest ${base.muted}`}>
+        <div className={`py-16 text-center text-xs tracking-widest uppercase ${base.muted}`}>
           {t("noTracks")}
         </div>
       ) : (

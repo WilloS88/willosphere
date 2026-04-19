@@ -46,11 +46,11 @@ export default function CartPage() {
       <div className="flex flex-col items-center justify-center py-24 gap-4">
         <ShoppingCart size={48} className="opacity-20" />
         <SectionLabel>{t("cartTitle")}</SectionLabel>
-        <p className={`text-xs tracking-widest ${mutedCls}`}>{t("cartEmpty")}</p>
+        <p className={`text-xs tracking-widest uppercase ${mutedCls}`}>{t("cartEmpty")}</p>
         <p className={`text-xs ${mutedCls}`}>{t("cartEmptyHint")}</p>
         <Link
           href={`/${locale}/home/merch`}
-          className={`mt-2 border rounded-sm px-4 py-2 text-xs font-bold tracking-widest transition-all no-underline ${
+          className={`mt-2 border rounded-sm px-4 py-2 text-xs font-bold tracking-widest transition-all no-underline uppercase ${
             isDark ? "border-royalblue/40 text-vhs-light hover:border-fear/40" : "border-[#a89888] text-[#524a44] hover:border-[#c4234e]"
           }`}
         >
@@ -71,7 +71,7 @@ export default function CartPage() {
         </div>
         <button
           onClick={handleClear}
-          className={`cursor-pointer rounded-sm border px-3 py-1.5 text-xs tracking-wider transition-opacity hover:opacity-70 ${
+          className={`cursor-pointer rounded-sm border px-3 py-1.5 text-xs tracking-wider transition-opacity hover:opacity-70 uppercase ${
             isDark
               ? "border-royalblue/30 text-vhs-muted"
               : "border-[#a89888]/40 text-[#635b53]"
@@ -176,7 +176,7 @@ export default function CartPage() {
         className={`rounded border px-4 py-4 ${cardCls} flex items-center justify-between`}
       >
         <div>
-          <div className={`mb-1 text-xs tracking-widest ${mutedCls}`}>
+          <div className={`mb-1 text-xs tracking-widest uppercase ${mutedCls}`}>
             {t("total")}
           </div>
           <div className="text-fear text-xl font-bold">

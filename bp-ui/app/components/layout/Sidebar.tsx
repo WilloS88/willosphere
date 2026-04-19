@@ -57,7 +57,7 @@ function NavItem({ item }: { item: StoreNavItem }) {
                   ? "text-vhs-light hover:text-vhs-white hover:bg-royalblue/10"
                   : "text-[#524a44] hover:bg-[#c4234e]/5 hover:text-[#2a2520]",
               ),
-          "font-vcr text-xs tracking-wider",
+          "font-vcr text-xs tracking-wider uppercase",
         )}
       >
         <span
@@ -85,7 +85,7 @@ function NavItem({ item }: { item: StoreNavItem }) {
             style={{ position: "fixed", zIndex: 9999 }}
             className={cn(
               "pointer-events-none flex items-center rounded-sm border px-2.5 py-1.5",
-              "font-vcr text-xs tracking-wider whitespace-nowrap",
+              "font-vcr text-xs tracking-wider whitespace-nowrap uppercase",
               isDark
                 ? "bg-darkblue border-royalblue/40 text-vhs-white shadow-[0_2px_12px_rgba(0,0,0,0.6)]"
                 : "border-[#a89888]/50 bg-white text-[#2a2520] shadow-md",
@@ -162,7 +162,7 @@ function SystemStatus() {
         <>
           <SectionLabel className="mb-1.5">{t("systemStatus")}</SectionLabel>
           <div
-            className={`text-xs leading-relaxed tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
+            className={`text-xs leading-relaxed tracking-wider uppercase ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
           >
             {t("cacheLabel")}: <span className="text-vhs-green">OK</span>
             <br />
@@ -261,7 +261,7 @@ export function Sidebar({ navItems }: { navItems: StoreNavItem[] }) {
                   <Menu />
                 </span>
                 {!navCollapsed && (
-                  <span className={`text-xs tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+                  <span className={`text-xs tracking-[2px] uppercase ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
                     {t("collapse")}
                   </span>
                 )}

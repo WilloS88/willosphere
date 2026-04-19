@@ -68,7 +68,7 @@ function TracksContent() {
           </div>
           <Link
             href={`/${locale}/artist/tracks/new`}
-            className={`flex items-center gap-2 rounded-sm border px-4 py-2 text-xs font-bold tracking-[2px] no-underline transition-all ${
+            className={`flex items-center gap-2 rounded-sm border px-4 py-2 text-xs font-bold tracking-[2px] no-underline transition-all uppercase ${
               isDark
                 ? "border-fear/40 bg-fear/10 text-fear hover:bg-fear/20"
                 : "border-[#c4234e]/40 bg-[#c4234e]/5 text-[#c4234e] hover:bg-[#c4234e]/10"
@@ -85,10 +85,10 @@ function TracksContent() {
         ) : tracks.length === 0 ? (
           <div className={`rounded border p-10 text-center ${cardCls}`}>
             <Play size={32} className={`mx-auto mb-3 opacity-30 ${mutedCls}`} />
-            <div className={`text-xs tracking-widest ${mutedCls}`}>{t("noRecentTracks")}</div>
+            <div className={`text-xs tracking-widest uppercase ${mutedCls}`}>{t("noRecentTracks")}</div>
             <Link
               href={`/${locale}/artist/tracks/new`}
-              className={`mt-4 inline-flex items-center gap-2 rounded-sm border px-4 py-2 text-xs font-bold tracking-widest no-underline ${
+              className={`mt-4 inline-flex items-center gap-2 rounded-sm border px-4 py-2 text-xs font-bold tracking-widest no-underline uppercase ${
                 isDark ? "border-royalblue/30 text-vhs-light hover:border-fear/40" : "border-[#a89888] text-[#524a44]"
               }`}
             >

@@ -186,7 +186,7 @@ function LoginContent() {
               />
             </div>
             <h1
-              className={`text-center text-xl font-bold tracking-[3px] sm:text-2xl ${isDark ? "text-fearyellow" : "text-[#c4234e]"}`}
+              className={`text-center text-xl font-bold tracking-[3px] sm:text-2xl uppercase ${isDark ? "text-fearyellow" : "text-[#c4234e]"}`}
             >
               {t("mfaTitle")}
             </h1>
@@ -207,7 +207,7 @@ function LoginContent() {
             )}
 
             <button
-              className={`w-full cursor-pointer rounded-sm py-2.5 text-xs font-bold tracking-[2px] transition-all hover:brightness-110 disabled:opacity-50 ${isDark ? "bg-fear text-white" : "bg-[#c4234e] text-white"}`}
+              className={`w-full cursor-pointer rounded-sm py-2.5 text-xs font-bold tracking-[2px] transition-all hover:brightness-110 disabled:opacity-50 uppercase ${isDark ? "bg-fear text-white" : "bg-[#c4234e] text-white"}`}
               disabled={mfaSubmitting || mfaCode.length !== 6}
             >
               {mfaSubmitting ? "..." : t("mfaVerify")}
@@ -236,7 +236,7 @@ function LoginContent() {
           <ArrowLeft size={12} /> {t("home")}
         </Link>
         <h1
-          className={`mb-6 text-center text-xl font-bold tracking-[3px] sm:text-2xl ${isDark ? "text-fearyellow" : "text-[#c4234e]"}`}
+          className={`mb-6 text-center text-xl font-bold tracking-[3px] sm:text-2xl uppercase ${isDark ? "text-fearyellow" : "text-[#c4234e]"}`}
         >
           {t("header")}
         </h1>
@@ -245,7 +245,7 @@ function LoginContent() {
           <div>
             <label
               htmlFor="email"
-              className={`mb-1.5 block text-xs tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
+              className={`mb-1.5 block text-xs tracking-[2px] uppercase ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
             >
               {t("email")}
             </label>
@@ -264,7 +264,7 @@ function LoginContent() {
           <div>
             <label
               htmlFor="password"
-              className={`mb-1.5 block text-xs tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
+              className={`mb-1.5 block text-xs tracking-[2px] uppercase ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
             >
               {t("password")}
             </label>
@@ -288,7 +288,7 @@ function LoginContent() {
           )}
 
           <button
-            className={`w-full cursor-pointer rounded-sm py-2.5 text-xs font-bold tracking-[2px] transition-all hover:brightness-110 disabled:opacity-50 ${isDark ? "bg-fear text-white" : "bg-[#c4234e] text-white"}`}
+            className={`w-full cursor-pointer rounded-sm py-2.5 text-xs font-bold tracking-[2px] transition-all hover:brightness-110 disabled:opacity-50 uppercase ${isDark ? "bg-fear text-white" : "bg-[#c4234e] text-white"}`}
             disabled={isSubmitting}
           >
             {isSubmitting ? "..." : t("login")}
@@ -301,8 +301,8 @@ function LoginContent() {
           <div
             className={`h-px flex-1 ${isDark ? "bg-royalblue/30" : "bg-[#a89888]/30"}`}
           />
-          <span className="text-xs tracking-[2px]">
-            {t("or").toUpperCase()}
+          <span className="text-xs tracking-[2px] uppercase">
+            {t("or")}
           </span>
           <div
             className={`h-px flex-1 ${isDark ? "bg-royalblue/30" : "bg-[#a89888]/30"}`}

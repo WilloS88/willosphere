@@ -47,7 +47,7 @@ export default function NewDropsPage() {
         <span className="animate-pulse-vhs text-lg">◉</span>
         <div>
           <div
-            className={`text-xs font-bold tracking-wider ${isDark ? "text-fearyellow" : "text-[#c4a800]"}`}
+            className={`text-xs font-bold tracking-wider uppercase ${isDark ? "text-fearyellow" : "text-[#c4a800]"}`}
           >
             {t("freshUploads")}
           </div>
@@ -67,7 +67,7 @@ export default function NewDropsPage() {
           <VHSSpinner size="lg" />
         </div>
       ) : tracks.length === 0 ? (
-        <div className={`py-16 text-center text-xs tracking-widest ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+        <div className={`py-16 text-center text-xs tracking-widest uppercase ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
           {t("noTracks")}
         </div>
       ) : (

@@ -96,7 +96,7 @@ export default function AlbumsPage() {
           <VHSSpinner size="lg" />
         </div>
       ) : albums.length === 0 ? (
-        <div className={`py-16 text-center text-xs tracking-widest ${base.muted}`}>
+        <div className={`py-16 text-center text-xs tracking-widest uppercase ${base.muted}`}>
           {t("noAlbums")}
         </div>
       ) : (

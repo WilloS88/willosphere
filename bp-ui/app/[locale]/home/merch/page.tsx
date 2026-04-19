@@ -206,7 +206,7 @@ export default function MerchPage() {
     <button
       key={type}
       onClick={() => handleTypeFilter(type)}
-      className={`px-3 py-1 rounded-sm text-xs font-bold tracking-widest transition-all border cursor-pointer ${
+      className={`px-3 py-1 rounded-sm text-xs font-bold tracking-widest transition-all border cursor-pointer uppercase ${
         typeFilter === type
           ? isDark ? "bg-fear border-fear text-white" : "bg-[#c4234e] border-[#c4234e] text-white"
           : isDark ? "border-royalblue/30 text-vhs-muted hover:border-fear/40" : "border-[#a89888]/40 text-[#635b53] hover:border-[#c4234e]/30"
@@ -221,7 +221,7 @@ export default function MerchPage() {
       <PageHeader title={t("merchShop")} count={total} />
 
       <div className="flex items-center gap-2 mb-5 flex-wrap">
-        <span className={`text-xs tracking-widest ${mutedCls}`}>{t("filterByType")}:</span>
+        <span className={`text-xs tracking-widest uppercase ${mutedCls}`}>{t("filterByType")}:</span>
         {filterBtn("all",      t("allTypes"))}
         {filterBtn("physical", t("physical"))}
         {filterBtn("digital",  t("digital"))}
@@ -232,7 +232,7 @@ export default function MerchPage() {
           {Array.from({ length: 8 }).map((_, i) => <SkeletonCard key={i} isDark={isDark} />)}
         </CardGrid>
       ) : products.length === 0 ? (
-        <div className={`py-20 text-center text-xs tracking-widest ${mutedCls}`}>
+        <div className={`py-20 text-center text-xs tracking-widest uppercase ${mutedCls}`}>
           <Zap size={24} className="mx-auto mb-3 opacity-30" />
           {t("noProductsFound")}
         </div>

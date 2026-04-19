@@ -161,11 +161,11 @@ function MfaSetupContent() {
     isDark ? "bg-vhs-card/80 border-royalblue/20" : "border-[#a89888]/30 bg-white/80"
   }`;
 
-  const btnPrimaryCls = `w-full cursor-pointer rounded-sm py-2.5 text-xs font-bold tracking-[2px] transition-all hover:brightness-110 disabled:opacity-50 ${
+  const btnPrimaryCls = `w-full cursor-pointer rounded-sm py-2.5 text-xs font-bold tracking-[2px] transition-all hover:brightness-110 disabled:opacity-50 uppercase ${
     isDark ? "bg-fear text-white" : "bg-[#c4234e] text-white"
   }`;
 
-  const headingCls = `text-center text-xl font-bold tracking-[3px] sm:text-2xl ${
+  const headingCls = `text-center text-xl font-bold tracking-[3px] sm:text-2xl uppercase ${
     isDark ? "text-fearyellow" : "text-[#c4234e]"
   }`;
 

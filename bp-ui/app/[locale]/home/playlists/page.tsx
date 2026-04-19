@@ -210,12 +210,12 @@ export default function PlaylistsPage() {
                 {(playlist.isCollaborative || !playlist.isPublic) && (
                   <div className="mt-2 flex flex-wrap gap-1.5">
                     {playlist.isCollaborative && (
-                      <span className={`rounded-sm border px-2 py-0.5 text-xs tracking-wider ${base.badge}`}>
+                      <span className={`rounded-sm border px-2 py-0.5 text-xs tracking-wider uppercase ${base.badge}`}>
                         {t("collabBadge")}
                       </span>
                     )}
                     {!playlist.isPublic && (
-                      <span className={`rounded-sm border px-2 py-0.5 text-xs tracking-wider ${base.badge}`}>
+                      <span className={`rounded-sm border px-2 py-0.5 text-xs tracking-wider uppercase ${base.badge}`}>
                         {t("privateBadge")}
                       </span>
                     )}

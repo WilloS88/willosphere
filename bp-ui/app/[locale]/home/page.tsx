@@ -96,12 +96,12 @@ export default function HomePage() {
       <div className="mb-6">
         <div className="flex items-center justify-between mb-3">
           <SectionLabel>{t("albums")}</SectionLabel>
-          <Link href={`/${locale}/home/albums`} className={`text-xs tracking-wider ${base.accent} hover:underline`}>
+          <Link href={`/${locale}/home/albums`} className={`text-xs tracking-wider uppercase ${base.accent} hover:underline`}>
             {t("viewAll")} →
           </Link>
         </div>
         {albums.length === 0 ? (
-          <div className={`py-8 text-center text-xs tracking-widest ${base.muted}`}>{t("noAlbums")}</div>
+          <div className={`py-8 text-center text-xs tracking-widest uppercase ${base.muted}`}>{t("noAlbums")}</div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             {albums.map((album) => (
@@ -142,12 +142,12 @@ export default function HomePage() {
       <div className="mb-6">
         <div className="flex items-center justify-between mb-3">
           <SectionLabel>{t("tracks")}</SectionLabel>
-          <Link href={`/${locale}/home/tracks`} className={`text-xs tracking-wider ${base.accent} hover:underline`}>
+          <Link href={`/${locale}/home/tracks`} className={`text-xs tracking-wider uppercase ${base.accent} hover:underline`}>
             {t("viewAll")} →
           </Link>
         </div>
         {tracks.length === 0 ? (
-          <div className={`py-8 text-center text-xs tracking-widest ${base.muted}`}>{t("noTracks")}</div>
+          <div className={`py-8 text-center text-xs tracking-widest uppercase ${base.muted}`}>{t("noTracks")}</div>
         ) : (
           <div className="space-y-1.5">
             {tracks.map((track, i) => (
@@ -213,12 +213,12 @@ export default function HomePage() {
       <div className="mb-6">
         <div className="flex items-center justify-between mb-3">
           <SectionLabel>{t("artists")}</SectionLabel>
-          <Link href={`/${locale}/home/artists`} className={`text-xs tracking-wider ${base.accent} hover:underline`}>
+          <Link href={`/${locale}/home/artists`} className={`text-xs tracking-wider uppercase ${base.accent} hover:underline`}>
             {t("viewAll")} →
           </Link>
         </div>
         {artists.length === 0 ? (
-          <div className={`py-8 text-center text-xs tracking-widest ${base.muted}`}>{t("noArtists")}</div>
+          <div className={`py-8 text-center text-xs tracking-widest uppercase ${base.muted}`}>{t("noArtists")}</div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
             {artists.map((artist, i) => {

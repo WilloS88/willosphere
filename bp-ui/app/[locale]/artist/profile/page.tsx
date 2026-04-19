@@ -77,7 +77,12 @@ function ProfileContent() {
       ? "bg-darkblue/60 border-royalblue/30 text-vhs-white placeholder:text-vhs-muted focus:border-fear"
       : "bg-[#ede7db]/80 border-[#a89888]/40 text-[#2a2520] placeholder:text-[#635b53] focus:border-[#c4234e]"
   }`;
-  const labelCls = `block text-xs tracking-[2px] mb-1.5 ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`;
+  const disabledCls = `w-full rounded-sm px-3 py-2.5 border outline-none text-xs tracking-wider font-vcr ${
+    isDark
+      ? "bg-darkblue/30 border-royalblue/15 text-vhs-muted"
+      : "bg-[#ede7db]/40 border-[#a89888]/20 text-[#635b53]"
+  }`;
+  const labelCls = `block text-xs tracking-[2px] mb-1.5 uppercase ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`;
 
   return (
     <>
@@ -85,7 +90,7 @@ function ProfileContent() {
       <main className="mx-auto max-w-2xl px-4 py-10 sm:px-6 sm:py-16">
         <Link
           href={`/${locale}/artist`}
-          className={`mb-6 inline-flex items-center gap-1.5 text-xs tracking-[2px] no-underline ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#635b53] hover:text-[#c4234e]"}`}
+          className={`mb-6 inline-flex items-center gap-1.5 text-xs tracking-[2px] no-underline uppercase ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#635b53] hover:text-[#c4234e]"}`}
         >
           <ArrowLeft size={12} /> {t("backToDashboard")}
         </Link>
@@ -105,11 +110,15 @@ function ProfileContent() {
                 {user?.displayName ?? "ARTIST"}
               </h1>
               <div className="mt-1 flex gap-1.5">
-                {user?.roles?.map((r, i) => (
-                  <Badge key={i} variant="cyan" className="text-[11px]">
-                    {typeof r === "string" ? r.toUpperCase() : r.role.toUpperCase()}
-                  </Badge>
-                ))}
+                {user?.roles?.map((r, i) => {
+                  const role = typeof r === "string" ? r : r.role;
+                  const roleKey = `role${role.charAt(0).toUpperCase()}${role.slice(1).toLowerCase()}` as const;
+                  return (
+                    <Badge key={i} variant="cyan" className="text-[11px]">
+                      {t.has(roleKey) ? t(roleKey).toUpperCase() : role.toUpperCase()}
+                    </Badge>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -129,7 +138,7 @@ function ProfileContent() {
                   <label className={labelCls}>{t("displayName")}</label>
                   <input
                     type="text"
-                    className={inputCls}
+                    className={disabledCls}
                     defaultValue={user?.displayName ?? ""}
                     disabled
                   />
@@ -138,7 +147,7 @@ function ProfileContent() {
                   <label className={labelCls}>{t("email")}</label>
                   <input
                     type="email"
-                    className={inputCls}
+                    className={disabledCls}
                     defaultValue={user?.email ?? ""}
                     disabled
                   />
@@ -180,14 +189,14 @@ function ProfileContent() {
                   type="button"
                   onClick={handleSave}
                   disabled={saving}
-                  className={`w-full cursor-pointer rounded-sm py-2.5 text-xs font-bold tracking-[2px] transition-all hover:brightness-110 disabled:opacity-50 ${isDark ? "bg-fear text-white" : "bg-[#c4234e] text-white"}`}
+                  className={`w-full cursor-pointer rounded-sm py-2.5 text-xs font-bold tracking-[2px] transition-all hover:brightness-110 disabled:opacity-50 uppercase ${isDark ? "bg-fear text-white" : "bg-[#c4234e] text-white"}`}
                 >
                   {saving ? t("saving") : t("saveChanges")}
                 </button>
 
                 {profile && (
                   <div
-                    className={`mt-4 border-t pt-4 text-xs tracking-wider ${isDark ? "border-royalblue/20 text-vhs-muted" : "border-[#a89888]/20 text-[#635b53]"}`}
+                    className={`mt-4 border-t pt-4 text-xs tracking-wider uppercase ${isDark ? "border-royalblue/20 text-vhs-muted" : "border-[#a89888]/20 text-[#635b53]"}`}
                   >
                     {t("memberSince")}: {new Date(profile.memberSince).toLocaleDateString()}
                   </div>

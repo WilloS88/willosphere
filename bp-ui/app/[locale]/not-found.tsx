@@ -39,7 +39,7 @@ export default function NotFound() {
             thickness={2}
             style={{ borderRadius: 2 }}
           >
-            <div className={`px-5 py-2 text-xs tracking-[3px] ${isDark ? "text-vhs-muted" : "text-light-muted"}`}>
+            <div className={`px-5 py-2 text-xs tracking-[3px] uppercase ${isDark ? "text-vhs-muted" : "text-light-muted"}`}>
               {t("code")}
             </div>
           </ElectricBorder>
@@ -49,7 +49,7 @@ export default function NotFound() {
           404
         </h1>
 
-        <h2 className={`mt-4 text-2xl font-bold tracking-[2px] md:text-4xl ${isDark ? "text-vhs-white" : "text-light-text"}`}>
+        <h2 className={`mt-4 text-2xl font-bold tracking-[2px] uppercase md:text-4xl ${isDark ? "text-vhs-white" : "text-light-text"}`}>
           {t("title")}
         </h2>
 
@@ -60,13 +60,13 @@ export default function NotFound() {
         <div className="mt-8 flex w-full flex-col items-center justify-center gap-3 sm:flex-row">
           <Link
             href={`/${locale}`}
-            className="w-full rounded-sm bg-fear px-8 py-3 text-xs font-bold tracking-[3px] text-white transition-all hover:brightness-110 sm:w-auto"
+            className="w-full rounded-sm bg-fear px-8 py-3 text-xs font-bold tracking-[3px] uppercase text-white transition-all hover:brightness-110 sm:w-auto"
           >
             {t("backHome")}
           </Link>
           <button
             onClick={() => window.history.back()}
-            className={`w-full rounded-sm border px-8 py-3 text-xs font-bold tracking-[3px] transition-all sm:w-auto ${
+            className={`w-full rounded-sm border px-8 py-3 text-xs font-bold tracking-[3px] uppercase transition-all sm:w-auto ${
               isDark
                 ? "border-royalblue/40 text-vhs-muted hover:border-royalblue hover:text-vhs-white"
                 : "border-light-border text-light-muted hover:border-light-subtle hover:text-light-text"
@@ -83,7 +83,7 @@ export default function NotFound() {
               : "bg-light-card border-light-border/40"
           }`}
         >
-          <h3 className={`mb-3 text-xs font-bold tracking-[2px] ${isDark ? "text-vhs-white" : "text-light-text"}`}>
+          <h3 className={`mb-3 text-xs font-bold tracking-[2px] uppercase ${isDark ? "text-vhs-white" : "text-light-text"}`}>
             {t("tipsTitle")}
           </h3>
           <ul className={`space-y-2 text-xs tracking-wider ${isDark ? "text-vhs-muted" : "text-light-muted"}`}>

@@ -321,7 +321,7 @@ function LandingContent() {
           <div className="flex flex-col items-center gap-2.5 sm:flex-row sm:gap-3">
             <Link
               href={`/${locale}/home`}
-              className={`rounded-sm px-6 py-3 sm:px-8 sm:py-3.5 text-sm font-bold tracking-[2px] no-underline transition-all hover:scale-105 active:scale-95 ${
+              className={`rounded-sm px-6 py-3 sm:px-8 sm:py-3.5 text-sm font-bold tracking-[2px] uppercase no-underline transition-all hover:scale-105 active:scale-95 ${
                 isDark
                   ? "bg-fear text-white shadow-[0_0_30px_rgba(237,44,94,0.5)]"
                   : "bg-[#c4234e] text-white shadow-[0_0_20px_rgba(196,35,78,0.35)]"
@@ -334,7 +334,7 @@ function LandingContent() {
             </Link>
             <Link
               href={`/${locale}/signup`}
-              className={`rounded-sm border px-6 py-3 sm:px-8 sm:py-3.5 text-sm font-bold tracking-[2px] no-underline transition-all hover:scale-105 ${
+              className={`rounded-sm border px-6 py-3 sm:px-8 sm:py-3.5 text-sm font-bold tracking-[2px] uppercase no-underline transition-all hover:scale-105 ${
                 isDark
                   ? "border-fearyellow/50 text-fearyellow bg-black/30"
                   : "border-[#c4a800]/50 bg-black/60 text-[#c4a800]"
@@ -348,7 +348,7 @@ function LandingContent() {
         {/* Scroll indicator */}
         <div className="absolute bottom-4 sm:bottom-8 left-1/2 z-10 -translate-x-1/2 animate-bounce">
           <div
-            className={`flex flex-col items-center gap-1 text-xs sm:text-base tracking-[3px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
+            className={`flex flex-col items-center gap-1 text-xs sm:text-base tracking-[3px] uppercase ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
           >
             {t("scrollDown")}
             <ArrowBigDown size={20} className="sm:!w-6 sm:!h-6" fill="currentColor" />
@@ -378,7 +378,7 @@ function LandingContent() {
             </div>
             <Link
               href={`/${locale}/home`}
-              className={`hidden rounded-sm border px-4 py-2 text-xs font-bold tracking-[2px] no-underline transition-all sm:inline-block ${
+              className={`hidden rounded-sm border px-4 py-2 text-xs font-bold tracking-[2px] uppercase no-underline transition-all sm:inline-block ${
                 isDark
                   ? "border-fear/40 text-fear hover:bg-fear/10"
                   : "border-[#c4234e]/30 text-[#c4234e] hover:bg-[#c4234e]/5"
@@ -739,7 +739,7 @@ function LandingContent() {
                 }`}
               >
                 <div
-                  className={`mb-2 text-xs tracking-[3px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
+                  className={`mb-2 text-xs tracking-[3px] uppercase ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
                 >
                   {stat.label}
                 </div>
@@ -879,7 +879,7 @@ function LandingContent() {
 
             <Link
               href={`/${locale}/signup-artist`}
-              className={`shrink-0 rounded-sm px-8 py-3.5 text-sm font-bold tracking-[2px] no-underline transition-all hover:scale-105 active:scale-95 sm:ml-auto ${
+              className={`shrink-0 rounded-sm px-8 py-3.5 text-sm font-bold tracking-[2px] uppercase no-underline transition-all hover:scale-105 active:scale-95 sm:ml-auto ${
                 isDark
                   ? "bg-fear text-white shadow-[0_0_30px_rgba(237,44,94,0.4)]"
                   : "bg-[#c4234e] text-white shadow-[0_0_20px_rgba(196,35,78,0.3)]"
@@ -1010,7 +1010,7 @@ function LandingContent() {
               <div className="flex flex-col justify-center gap-3 sm:flex-row">
                 <Link
                   href={`/${locale}/signup`}
-                  className={`rounded-sm px-8 py-3.5 text-sm font-bold tracking-[2px] no-underline transition-all hover:scale-105 ${
+                  className={`rounded-sm px-8 py-3.5 text-sm font-bold tracking-[2px] uppercase no-underline transition-all hover:scale-105 ${
                     isDark
                       ? "bg-fear text-white shadow-[0_0_25px_rgba(237,44,94,0.4)]"
                       : "bg-[#c4234e] text-white shadow-[0_0_20px_rgba(196,35,78,0.3)]"
@@ -1020,7 +1020,7 @@ function LandingContent() {
                 </Link>
                 <Link
                   href={`/${locale}/home`}
-                  className={`rounded-sm border px-8 py-3.5 text-sm font-bold tracking-[2px] no-underline transition-all hover:scale-105 ${
+                  className={`rounded-sm border px-8 py-3.5 text-sm font-bold tracking-[2px] uppercase no-underline transition-all hover:scale-105 ${
                     isDark
                       ? "border-royalblue/40 text-vhs-light hover:border-fear/40"
                       : "border-[#a89888] text-[#524a44] hover:border-[#c4234e]/30"

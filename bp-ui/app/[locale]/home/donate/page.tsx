@@ -80,7 +80,7 @@ export default function DonatePage() {
   return (
     <div className="max-w-lg mx-auto">
       <SectionLabel className="mb-1">{t("donateTitle")}</SectionLabel>
-      <h1 className={`text-xl font-bold tracking-widest mb-2 ${accentCls}`}>
+      <h1 className={`text-xl font-bold tracking-widest mb-2 uppercase ${accentCls}`}>
         <HandCoins size={18} className="inline mr-2" />
         {t("donateTitle")}
       </h1>
@@ -91,7 +91,7 @@ export default function DonatePage() {
       {/* User total */}
       {myTotal && myTotal.count > 0 && (
         <div className={`rounded border px-4 py-3 mb-4 flex items-center justify-between ${cardCls}`}>
-          <span className={`text-xs tracking-widest ${mutedCls}`}>{t("donateTotal")}</span>
+          <span className={`text-xs tracking-widest uppercase ${mutedCls}`}>{t("donateTotal")}</span>
           <span className={`text-lg font-bold ${accentCls}`}>
             {myTotal.total.toLocaleString()} {t("donateCurrency")}
           </span>
@@ -100,7 +100,7 @@ export default function DonatePage() {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* Preset amounts */}
-        <div className={`text-xs tracking-widest mb-3 ${mutedCls}`}>
+        <div className={`text-xs tracking-widest mb-3 uppercase ${mutedCls}`}>
           {t("donatePresetLabel")}
         </div>
         <div className="grid grid-cols-5 gap-2 mb-5">
@@ -126,7 +126,7 @@ export default function DonatePage() {
         </div>
 
         {/* Custom amount */}
-        <div className={`text-xs tracking-widest mb-2 ${mutedCls}`}>
+        <div className={`text-xs tracking-widest mb-2 uppercase ${mutedCls}`}>
           {t("donateCustomLabel")}
         </div>
         <div className={`rounded border mb-1 ${cardCls}`}>

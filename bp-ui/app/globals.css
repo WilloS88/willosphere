@@ -144,6 +144,40 @@ html, body {
   margin: 0;
 }
 
+/* Global cursor styles */
+button:not(:disabled),
+[role="button"]:not(:disabled) {
+  cursor: pointer;
+}
+
+input:not(:disabled):not([type="checkbox"]):not([type="radio"]),
+textarea:not(:disabled),
+select:not(:disabled) {
+  cursor: text;
+}
+
+input[type="date"]:not(:disabled),
+input[type="time"]:not(:disabled),
+input[type="datetime-local"]:not(:disabled),
+input[type="color"]:not(:disabled),
+input[type="file"]:not(:disabled),
+input[type="range"]:not(:disabled) {
+  cursor: pointer;
+}
+
+input[type="checkbox"]:not(:disabled),
+input[type="radio"]:not(:disabled) {
+  cursor: pointer;
+}
+
+input:disabled,
+textarea:disabled,
+select:disabled,
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
 html[data-theme="light"], html[data-theme="light"] body {
   background-color: aliceblue;
 }

@@ -57,7 +57,7 @@ export default function ArtistDetailPage() {
 
   if(!artist) {
     return (
-      <div className={`py-32 text-center text-xs tracking-widest ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+      <div className={`py-32 text-center text-xs tracking-widest uppercase ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
         {t("artistNotFound")}
       </div>
     );
@@ -69,7 +69,7 @@ export default function ArtistDetailPage() {
         href={`/${locale}/home/artists`}
         className={`mb-4 inline-flex items-center gap-1.5 text-xs tracking-widest transition-colors ${isDark ? "text-vhs-muted hover:text-vhs-white" : "text-[#635b53] hover:text-[#2a2520]"}`}
       >
-        <ArrowLeft size={12} /> {t("artists").toUpperCase()}
+        <ArrowLeft size={12} /> <span className="uppercase">{t("artists")}</span>
       </Link>
 
       {/* Hero */}
@@ -114,7 +114,7 @@ export default function ArtistDetailPage() {
             </div>
 
             <div className="mb-2 min-w-0 flex-1">
-              <div className={`text-xs tracking-widest mb-0.5 ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+              <div className={`text-xs tracking-widest mb-0.5 uppercase ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
                 {t("artistLabel")}
               </div>
               <h1 className={`text-xl sm:text-3xl font-bold tracking-wide truncate ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}>
@@ -152,14 +152,14 @@ export default function ArtistDetailPage() {
           className={`mb-5 flex items-center gap-2 rounded-full px-5 py-2 text-xs font-bold tracking-widest text-white transition-all hover:scale-105 active:scale-95 shadow-lg`}
           style={{ background: isDark ? "var(--color-fear)" : "#c4234e" }}
         >
-          <Play size={14} fill="white" /> {t("playAll")}
+          <Play size={14} fill="white" /> <span className="uppercase">{t("playAll")}</span>
         </button>
       )}
 
       {/* Bio */}
       {artist.bio && (
         <div className={`mb-5 rounded-lg border p-4 ${isDark ? "border-royalblue/20 bg-vhs-card" : "border-[#a89888]/30 bg-white/80"}`}>
-          <div className={`mb-2 text-xs tracking-widest font-bold ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+          <div className={`mb-2 text-xs tracking-widest font-bold uppercase ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
             {t("aboutSection")}
           </div>
           <p className={`text-xs leading-relaxed tracking-wide ${isDark ? "text-vhs-light" : "text-[#4a4540]"}`}>
@@ -171,7 +171,7 @@ export default function ArtistDetailPage() {
       {/* Tracks */}
       {tracks.length > 0 && (
         <div>
-          <div className={`mb-3 text-xs tracking-widest font-bold ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+          <div className={`mb-3 text-xs tracking-widest font-bold uppercase ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
             {t("tracksSection")}
           </div>
           <div className="space-y-1">
@@ -248,7 +248,7 @@ export default function ArtistDetailPage() {
       )}
 
       {tracks.length === 0 && (
-        <div className={`py-8 text-center text-xs tracking-widest ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+        <div className={`py-8 text-center text-xs tracking-widest uppercase ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
           {t("noTracksYet")}
         </div>
       )}

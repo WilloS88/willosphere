@@ -108,7 +108,7 @@ export function PlaylistPicker({ trackId }: Props) {
 
       {open && (
         <div className={`absolute right-0 bottom-full mb-1 z-50 min-w-[160px] rounded border shadow-lg text-xs tracking-wider ${dropdown}`}>
-          <div className={`px-3 py-1.5 text-xs font-bold border-b ${isDark ? "border-royalblue/20 text-vhs-muted" : "border-[#e8e0d4] text-[#635b53]"}`}>
+          <div className={`px-3 py-1.5 text-xs font-bold border-b uppercase ${isDark ? "border-royalblue/20 text-vhs-muted" : "border-[#e8e0d4] text-[#635b53]"}`}>
             {t("selectPlaylist")}
           </div>
 
@@ -117,7 +117,7 @@ export function PlaylistPicker({ trackId }: Props) {
               <VHSSpinner size="xs" />
             </div>
           ) : playlists.length === 0 ? (
-            <div className={`px-3 py-2 text-xs ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+            <div className={`px-3 py-2 text-xs uppercase ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
               {t("noPlaylists")}
             </div>
           ) : (

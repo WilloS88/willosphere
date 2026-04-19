@@ -100,7 +100,7 @@ function ArtistContent() {
           </div>
           <Link
             href={`/${locale}/artist/profile`}
-            className={`flex items-center gap-2 rounded-sm border px-4 py-2 text-xs font-bold tracking-[2px] no-underline transition-all ${
+            className={`flex items-center gap-2 rounded-sm border px-4 py-2 text-xs font-bold tracking-[2px] uppercase no-underline transition-all ${
               isDark
                 ? "border-royalblue/40 text-vhs-light hover:border-fear"
                 : "border-[#a89888] text-[#524a44] hover:border-[#c4234e]"
@@ -119,7 +119,7 @@ function ArtistContent() {
             { label: t("plays"),       value: "—",                 color: "text-vhs-green" },
           ].map((s) => (
             <div key={s.label} className={statCls}>
-              <div className={`mb-1 text-xs tracking-wider ${mutedCls}`}>{s.label}</div>
+              <div className={`mb-1 text-xs tracking-wider uppercase ${mutedCls}`}>{s.label}</div>
               <div className={`text-xl font-bold ${s.color}`}>{String(s.value)}</div>
             </div>
           ))}
@@ -144,7 +144,7 @@ function ArtistContent() {
                 }`}
               >
                 <span>{a.icon}</span>
-                <span className="text-xs font-bold tracking-[2px]">{a.label}</span>
+                <span className="text-xs font-bold tracking-[2px] uppercase">{a.label}</span>
               </Link>
             ))}
           </div>
@@ -161,12 +161,12 @@ function ArtistContent() {
             <div className={cardCls}>
               <div className="mb-3 flex items-center justify-between">
                 <SectionLabel>{t("recentTracks")}</SectionLabel>
-                <Link href={`/${locale}/artist/tracks`} className={`text-xs tracking-widest no-underline ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#635b53] hover:text-[#c4234e]"}`}>
+                <Link href={`/${locale}/artist/tracks`} className={`text-xs tracking-widest uppercase no-underline ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#635b53] hover:text-[#c4234e]"}`}>
                   {t("viewAll")} <ArrowRight size={11} />
                 </Link>
               </div>
               {recentTracks.length === 0 ? (
-                <div className={`py-6 text-center text-xs tracking-widest ${mutedCls}`}>{t("noRecentTracks")}</div>
+                <div className={`py-6 text-center text-xs tracking-widest uppercase ${mutedCls}`}>{t("noRecentTracks")}</div>
               ) : (
                 <div className="space-y-1">
                   {recentTracks.map((track) => (
@@ -203,12 +203,12 @@ function ArtistContent() {
             <div className={cardCls}>
               <div className="mb-3 flex items-center justify-between">
                 <SectionLabel>{t("recentAlbums")}</SectionLabel>
-                <Link href={`/${locale}/artist/albums`} className={`text-xs tracking-widest no-underline ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#635b53] hover:text-[#c4234e]"}`}>
+                <Link href={`/${locale}/artist/albums`} className={`text-xs tracking-widest uppercase no-underline ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#635b53] hover:text-[#c4234e]"}`}>
                   {t("viewAll")} <ArrowRight size={11} />
                 </Link>
               </div>
               {recentAlbums.length === 0 ? (
-                <div className={`py-6 text-center text-xs tracking-widest ${mutedCls}`}>{t("noRecentAlbums")}</div>
+                <div className={`py-6 text-center text-xs tracking-widest uppercase ${mutedCls}`}>{t("noRecentAlbums")}</div>
               ) : (
                 <div className="space-y-1">
                   {recentAlbums.map((album) => (

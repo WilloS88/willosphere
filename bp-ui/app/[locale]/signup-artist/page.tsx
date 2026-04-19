@@ -82,8 +82,8 @@ function SignupArtistContent() {
       ? "bg-darkblue/60 border-royalblue/30 text-vhs-white placeholder:text-vhs-muted focus:border-fear"
       : "bg-[#ede7db]/80 border-[#a89888]/40 text-[#2a2520] placeholder:text-[#635b53] focus:border-[#c4234e]"
   }`;
-  const labelCls        = `block text-xs tracking-[2px] mb-1.5 ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`;
-  const sectionHeadCls  = `flex items-center gap-2 mb-4 text-xs font-bold tracking-[2px] ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`;
+  const labelCls        = `block text-xs tracking-[2px] mb-1.5 uppercase ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`;
+  const sectionHeadCls  = `flex items-center gap-2 mb-4 text-xs font-bold tracking-[2px] uppercase ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`;
   const dividerCls      = `my-6 border-t ${isDark ? "border-royalblue/20" : "border-[#a89888]/30"}`;
 
   return (
@@ -105,7 +105,7 @@ function SignupArtistContent() {
           </Link>
 
           <h1
-            className={`mb-1 text-center text-xl font-bold tracking-[3px] sm:text-2xl ${
+            className={`mb-1 text-center text-xl font-bold tracking-[3px] sm:text-2xl uppercase ${
               isDark ? "text-fearyellow" : "text-[#c4234e]"
             }`}
           >
@@ -224,7 +224,7 @@ function SignupArtistContent() {
             <button
               type="submit"
               disabled={submitting}
-              className={`mt-2 w-full cursor-pointer rounded-sm py-2.5 text-xs font-bold tracking-[2px] transition-all hover:brightness-110 disabled:opacity-50 ${
+              className={`mt-2 w-full cursor-pointer rounded-sm py-2.5 text-xs font-bold tracking-[2px] transition-all hover:brightness-110 disabled:opacity-50 uppercase ${
                 isDark ? "bg-fear text-white" : "bg-[#c4234e] text-white"
               }`}
             >

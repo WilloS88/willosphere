@@ -58,7 +58,7 @@ export default function CheckoutPage() {
   return (
     <div className="max-w-lg mx-auto">
       <SectionLabel className="mb-1">{t("checkoutTitle")}</SectionLabel>
-      <h1 className={`text-xl font-bold tracking-widest mb-6 ${isDark ? "text-fearyellow" : "text-[#c4234e]"}`}>
+      <h1 className={`text-xl font-bold tracking-widest mb-6 uppercase ${isDark ? "text-fearyellow" : "text-[#c4234e]"}`}>
         {t("orderSummary")}
       </h1>
 
@@ -85,7 +85,7 @@ export default function CheckoutPage() {
       {/* Total + button */}
       <div className={`rounded border px-4 py-4 ${cardCls}`}>
         <div className="flex items-center justify-between mb-4">
-          <div className={`text-xs tracking-widest ${mutedCls}`}>{t("total")}</div>
+          <div className={`text-xs tracking-widest uppercase ${mutedCls}`}>{t("total")}</div>
           <div className="text-2xl font-bold text-fear">{total.toFixed(2)} CZK</div>
         </div>
         <VHSButton

@@ -44,7 +44,7 @@ export default function TrackDetailPage() {
 
   if (!track) {
     return (
-      <div className={`py-32 text-center text-xs tracking-widest ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+      <div className={`py-32 text-center text-xs tracking-widest uppercase ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
         {t("trackNotFound")}
       </div>
     );
@@ -58,7 +58,7 @@ export default function TrackDetailPage() {
         href={`/${locale}/home/tracks`}
         className={`mb-4 inline-flex items-center gap-1.5 text-xs tracking-widest transition-colors ${isDark ? "text-vhs-muted hover:text-vhs-white" : "text-[#635b53] hover:text-[#2a2520]"}`}
       >
-        <ArrowLeft size={12} /> {t("tracks").toUpperCase()}
+        <ArrowLeft size={12} /> <span className="uppercase">{t("tracks")}</span>
       </Link>
 
       {/* Hero */}
@@ -73,8 +73,8 @@ export default function TrackDetailPage() {
           </div>
 
           <div className="flex flex-col justify-end min-w-0">
-            <div className={`text-xs tracking-widest mb-1 ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
-              {t("track").toUpperCase()}
+            <div className={`text-xs tracking-widest mb-1 uppercase ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+              {t("track")}
             </div>
             <h1 className={`text-xl sm:text-3xl font-bold tracking-wide truncate mb-1 ${isDark ? "text-vhs-white" : "text-[#2a2520]"}`}>
               {track.title.toUpperCase()}
@@ -103,7 +103,7 @@ export default function TrackDetailPage() {
           className="flex items-center gap-2 rounded-full px-5 py-2 text-xs font-bold tracking-widest text-white transition-all hover:scale-105 active:scale-95 shadow-lg"
           style={{ background: isDark ? "var(--color-fear)" : "#c4234e" }}
         >
-          <Play size={14} fill="white" /> {active && isPlaying ? "PLAYING" : t("playAll")}
+          <Play size={14} fill="white" /> <span className="uppercase">{t("playAll")}</span>
         </button>
 
         <span onClick={(e) => e.stopPropagation()}>
@@ -125,8 +125,8 @@ export default function TrackDetailPage() {
 
       {/* Track info table */}
       <div className={`rounded-lg border p-4 ${isDark ? "bg-vhs-card border-royalblue/20" : "bg-white/80 border-[#a89888]/30"}`}>
-        <div className={`text-xs tracking-widest font-bold mb-3 ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
-          {t("details").toUpperCase()}
+        <div className={`text-xs tracking-widest font-bold mb-3 uppercase ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+          {t("details")}
         </div>
         <dl className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-2 text-xs tracking-wider">
           <dt className={isDark ? "text-vhs-muted" : "text-[#635b53]"}>{t("artists")}</dt>

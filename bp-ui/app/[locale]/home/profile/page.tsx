@@ -139,7 +139,7 @@ export default function ProfilePage() {
                 isDark ? "bg-royalblue/10" : "bg-[#ede7db]/60"
               }`}
             >
-              <span className={isDark ? "text-vhs-muted" : "text-[#635b53]"}>
+              <span className={`uppercase ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
                 {label}
               </span>
               <span className={isDark ? "text-vhs-white" : "text-[#2a2520]"}>
@@ -164,9 +164,9 @@ export default function ProfilePage() {
           >
             <div className="flex items-center gap-2">
               <ShieldCheck size={14} className={isDark ? "text-fear" : "text-[#c4234e]"} />
-              <span className="tracking-wider">{t("mfaLabel")}</span>
+              <span className="tracking-wider uppercase">{t("mfaLabel")}</span>
             </div>
-            <span className={`flex items-center gap-1 text-xs tracking-[2px] ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+            <span className={`flex items-center gap-1 text-xs tracking-[2px] uppercase ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
               {t("mfaManage")}
               <ArrowRight size={12} />
             </span>
@@ -190,7 +190,7 @@ export default function ProfilePage() {
               <div className="flex items-center gap-2">
                 <Mic2 size={14} className={isDark ? "text-fear" : "text-[#c4234e]"} />
                 <div>
-                  <span className="tracking-wider">{t("becomeArtistProfileCta")}</span>
+                  <span className="tracking-wider uppercase">{t("becomeArtistProfileCta")}</span>
                   <p className={`mt-0.5 text-[10px] tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
                     {t("becomeArtistProfileDesc")}
                   </p>

@@ -185,7 +185,7 @@ function EditTrackContent() {
       ? "bg-darkblue/60 border-royalblue/30 text-vhs-white placeholder:text-vhs-muted focus:border-fear"
       : "bg-[#ede7db]/80 border-[#a89888]/40 text-[#2a2520] placeholder:text-[#635b53] focus:border-[#c4234e]"
   }`;
-  const labelCls = `block text-xs tracking-[2px] mb-1.5 ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`;
+  const labelCls = `block text-xs tracking-[2px] mb-1.5 uppercase ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`;
 
   return (
     <>
@@ -201,7 +201,7 @@ function EditTrackContent() {
       <main className="mx-auto max-w-2xl px-4 py-10 sm:px-6 sm:py-16">
         <Link
           href={`/${locale}/artist/tracks`}
-          className={`mb-6 inline-flex items-center gap-1.5 text-xs tracking-[2px] no-underline ${
+          className={`mb-6 inline-flex items-center gap-1.5 text-xs tracking-[2px] no-underline uppercase ${
             isDark ? "text-vhs-muted hover:text-fear" : "text-[#635b53] hover:text-[#c4234e]"
           }`}
         >
@@ -315,13 +315,13 @@ function EditTrackContent() {
                           key={g.id}
                           type="button"
                           onClick={() => toggleGenre(g.id)}
-                          className={`rounded border px-3 py-1 text-xs tracking-widest transition-colors ${
+                          className={`rounded border px-3 py-1 text-xs tracking-widest transition-colors uppercase ${
                             active
                               ? isDark ? "bg-fear text-white border-fear" : "bg-[#c4234e] text-white border-[#c4234e]"
                               : isDark ? "bg-royalblue/20 text-vhs-cyan border-royalblue/30" : "bg-[#f5f0e8] text-[#6b5f4e] border-[#d4c8b0]"
                           }`}
                         >
-                          {g.name.toUpperCase()}
+                          {g.name}
                         </button>
                       );
                     })}
@@ -342,7 +342,7 @@ function EditTrackContent() {
               <div className="flex gap-3 pt-1">
                 <Link
                   href={`/${locale}/artist/tracks`}
-                  className={`flex-1 rounded-sm border py-2.5 text-center text-xs font-bold tracking-[2px] no-underline transition-all ${
+                  className={`flex-1 rounded-sm border py-2.5 text-center text-xs font-bold tracking-[2px] no-underline transition-all uppercase ${
                     isDark ? "border-royalblue/30 text-vhs-muted hover:text-vhs-white" : "border-[#a89888] text-[#635b53] hover:text-[#2a2520]"
                   }`}
                 >
@@ -351,7 +351,7 @@ function EditTrackContent() {
                 <button
                   type="submit"
                   disabled={saving || uploading || coverUploading || !s3Key}
-                  className={`flex-1 rounded-sm py-2.5 text-xs font-bold tracking-[2px] text-white transition-all hover:brightness-110 disabled:opacity-50 ${
+                  className={`flex-1 rounded-sm py-2.5 text-xs font-bold tracking-[2px] text-white transition-all hover:brightness-110 disabled:opacity-50 uppercase ${
                     isDark ? "bg-fear" : "bg-[#c4234e]"
                   }`}
                 >

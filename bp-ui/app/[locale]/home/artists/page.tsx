@@ -39,7 +39,7 @@ export default function ArtistsPage() {
         </div>
       ) : artists.length === 0 ? (
         <div
-          className={`py-16 text-center text-xs tracking-widest ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
+          className={`py-16 text-center text-xs tracking-widest uppercase ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}
         >
           {t("noArtists")}
         </div>

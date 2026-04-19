@@ -46,7 +46,7 @@ export default function ChartsPage() {
           <VHSSpinner size="lg" />
         </div>
       ) : tracks.length === 0 ? (
-        <div className={`py-16 text-center text-xs tracking-widest ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+        <div className={`py-16 text-center text-xs tracking-widest uppercase ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
           {t("noTracks")}
         </div>
       ) : (

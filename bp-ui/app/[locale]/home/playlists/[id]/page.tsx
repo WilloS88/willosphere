@@ -79,7 +79,7 @@ export default function PlaylistDetailPage() {
         href={`/${locale}/home/playlists`}
         className={`mb-4 inline-flex items-center gap-1.5 text-xs tracking-widest transition-colors ${isDark ? "text-vhs-muted hover:text-vhs-white" : "text-[#635b53] hover:text-[#2a2520]"}`}
       >
-        <ArrowLeft size={12} /> {t("playlists").toUpperCase()}
+        <ArrowLeft size={12} /> <span className="uppercase">{t("playlists")}</span>
       </Link>
 
       {/* Hero */}
@@ -102,7 +102,7 @@ export default function PlaylistDetailPage() {
             <div className={`flex flex-wrap gap-4 text-xs tracking-widest ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
               <span>{playlist.trackCount} {t("tracksCount")}</span>
               {playlist.isCollaborative && (
-                <span className={`${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`}>{t("collabBadge")}</span>
+                <span className={`uppercase ${isDark ? "text-vhs-cyan" : "text-[#c4234e]"}`}>{t("collabBadge")}</span>
               )}
             </div>
           </div>
@@ -115,13 +115,13 @@ export default function PlaylistDetailPage() {
           className="mb-5 flex items-center gap-2 rounded-full px-5 py-2 text-xs font-bold tracking-widest text-white transition-all hover:scale-105 active:scale-95 shadow-lg"
           style={{ background: isDark ? "var(--color-fear)" : "#c4234e" }}
         >
-          <Play size={14} fill="white" /> {t("playAll")}
+          <Play size={14} fill="white" /> <span className="uppercase">{t("playAll")}</span>
         </button>
       )}
 
       {tracks.length > 0 && (
         <div>
-          <div className={`mb-3 text-xs tracking-widest font-bold ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+          <div className={`mb-3 text-xs tracking-widest font-bold uppercase ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
             {t("tracksSection")}
           </div>
           <div className="space-y-1">
@@ -213,7 +213,7 @@ export default function PlaylistDetailPage() {
       )}
 
       {tracks.length === 0 && (
-        <div className={`py-8 text-center text-xs tracking-widest ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+        <div className={`py-8 text-center text-xs tracking-widest uppercase ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
           {t("noTracksYet")}
         </div>
       )}

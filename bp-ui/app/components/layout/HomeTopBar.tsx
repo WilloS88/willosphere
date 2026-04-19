@@ -74,7 +74,7 @@ export function SearchBar() {
   const hasResults = results && (results.tracks.length > 0 || results.artists.length > 0 || results.albums.length > 0);
 
   const sectionHeadingCls = cn(
-    "px-3 py-2 text-xs font-bold tracking-[2px]",
+    "px-3 py-2 text-xs font-bold tracking-[2px] uppercase",
     isDark ? "text-vhs-cyan/70" : "text-[#c4234e]/70",
   );
 
@@ -101,7 +101,7 @@ export function SearchBar() {
           aria-expanded={open}
           aria-autocomplete="list"
           aria-controls="search-results-dropdown"
-          className={`bg-transparent border-none outline-none text-xs font-vcr w-full tracking-wider ${
+          className={`bg-transparent border-none outline-none text-xs font-vcr w-full tracking-wider placeholder:uppercase ${
             isDark ? "text-vhs-white placeholder:text-vhs-muted" : "text-[#2a2520] placeholder:text-[#635b53]"
           }`}
         />
@@ -121,7 +121,7 @@ export function SearchBar() {
             : "border-[#a89888]/40 bg-[#f5f0e8] shadow-[0_4px_16px_rgba(0,0,0,0.12)]",
         )}>
           {!hasResults && !loading && (
-            <div className={`px-3 py-4 text-center text-xs tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
+            <div className={`px-3 py-4 text-center text-xs tracking-wider uppercase ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>
               {debouncedText.trim() ? t("searchNoResults") : t("searchSuggestions")}
             </div>
           )}
@@ -251,7 +251,7 @@ function LiveIndicator() {
   return (
     <div className="hidden sm:flex items-center gap-1.5">
       <div className="w-1.5 h-1.5 rounded-full bg-fear animate-blink" />
-      <span className="text-fear text-xs tracking-wider">{t("live")}</span>
+      <span className="text-fear text-xs tracking-wider uppercase">{t("live")}</span>
     </div>
   );
 }
@@ -364,7 +364,7 @@ function ProfileDropdown() {
         )}>
           {/* User info */}
           <div className={`border-b px-3 py-2.5 ${isDark ? "border-royalblue/20" : "border-[#a89888]/20"}`}>
-            <div className={`text-xs tracking-wider ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>{tStore("user")}</div>
+            <div className={`text-xs tracking-wider uppercase ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`}>{tStore("user")}</div>
             <div className={`truncate text-xs font-bold tracking-wider ${isDark ? "text-fearyellow" : "text-[#c4234e]"}`}>{name}</div>
           </div>
 
