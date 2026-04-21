@@ -28,7 +28,7 @@ export function Badge({ children, variant = "fear", className }: {
   children: ReactNode; variant?: BadgeVariant; className?: string;
 }) {
   return (
-    <span className={cn("px-2.5 py-0.5 rounded-sm text-xs font-bold tracking-wider leading-none", badgeColors[variant], className)}>
+    <span className={cn("px-2.5 py-0.5 rounded-sm text-xs font-bold tracking-wider leading-none uppercase", badgeColors[variant], className)}>
       {children}
     </span>
   );
@@ -57,7 +57,7 @@ export function VHSButton({ variant = "primary", children, className, ...props }
   return (
     <button
       className={cn(
-        "flex items-center justify-center gap-1.5 rounded-sm cursor-pointer text-xs font-bold tracking-wider font-vcr transition-all hover:brightness-110 active:scale-[0.97]",
+        "flex items-center justify-center gap-1.5 rounded-sm cursor-pointer text-xs font-bold tracking-wider font-vcr uppercase transition-all hover:brightness-110 active:scale-[0.97]",
         btnVariants[variant], className
       )}
       {...props}
@@ -107,7 +107,7 @@ export function ProgressSlider({ value, max, onChange, showThumb = true, height 
 
 /* ── SectionLabel ── */
 export function SectionLabel({ children, className }: { children: ReactNode; className?: string }) {
-  return <div className={cn("text-xs tracking-[2px] font-bold italic text-fear", className)}>{children}</div>;
+  return <div className={cn("text-xs tracking-[2px] font-bold italic text-fear uppercase", className)}>{children}</div>;
 }
 
 /* ── PageHeader (with theme + TextType) ── */
