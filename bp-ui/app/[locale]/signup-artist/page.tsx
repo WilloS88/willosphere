@@ -69,7 +69,7 @@ function SignupArtistContent() {
       });
       /* Log in to hydrate session & get cookies */
       await login({ email: form.email.trim(), password: form.password });
-      router.push(`/${locale}/artist`);
+      router.push(`/${locale}/home/artist`);
     } catch (err) {
       setError(parseAxiosError(err));
     } finally {

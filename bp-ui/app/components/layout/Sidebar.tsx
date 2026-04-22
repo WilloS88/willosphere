@@ -23,6 +23,7 @@ function NavItem({ item }: { item: StoreNavItem }) {
     pathname === fullHref ||
     (item.href !== "/store" &&
       item.href !== "/home" &&
+      item.href !== "/home/artist" &&
       pathname.startsWith(fullHref));
 
   const [hovered, setHovered] = useState(false);

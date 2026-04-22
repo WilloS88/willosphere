@@ -5,9 +5,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { ArrowRight, Clock, Disc2, Music, Package, Pencil, Play, Settings, Trash2 } from "lucide-react";
-import PageShell from "@/app/components/layout/PageShell";
-import { Navbar } from "@/app/components/layout/Navbar";
-import { Footer } from "@/app/components/layout/Footer";
+
 import { useTheme } from "@/lib/hooks";
 import { useAuth } from "@/app/components/auth/AuthProvider";
 import { SectionLabel } from "@/app/components/ui/elastic-slider/StoreUI";
@@ -87,8 +85,6 @@ function ArtistContent() {
   const mutedCls  = isDark ? "text-vhs-muted" : "text-[#635b53]";
 
   return (
-    <>
-      <Navbar />
       <main className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-16">
         {/* Header */}
         <div className="mb-8 flex items-center justify-between">
@@ -99,7 +95,7 @@ function ArtistContent() {
             </h1>
           </div>
           <Link
-            href={`/${locale}/artist/profile`}
+            href={`/${locale}/home/artist/profile`}
             className={`flex items-center gap-2 rounded-sm border px-4 py-2 text-xs font-bold tracking-[2px] uppercase no-underline transition-all ${
               isDark
                 ? "border-royalblue/40 text-vhs-light hover:border-fear"
@@ -130,9 +126,9 @@ function ArtistContent() {
           <SectionLabel className="mb-4">{t("quickActions")}</SectionLabel>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
             {[
-              { label: t("uploadTrack"), icon: <Music   size={20} />, href: `/${locale}/artist/tracks/new` },
-              { label: t("createAlbum"), icon: <Disc2   size={20} />, href: `/${locale}/artist/albums/new` },
-              { label: t("addProduct"),  icon: <Package size={20} />, href: `/${locale}/artist/products/new` },
+              { label: t("uploadTrack"), icon: <Music   size={20} />, href: `/${locale}/home/artist/tracks/new` },
+              { label: t("createAlbum"), icon: <Disc2   size={20} />, href: `/${locale}/home/artist/albums/new` },
+              { label: t("addProduct"),  icon: <Package size={20} />, href: `/${locale}/home/artist/products/new` },
             ].map((a) => (
               <Link
                 key={a.label}
@@ -161,7 +157,7 @@ function ArtistContent() {
             <div className={cardCls}>
               <div className="mb-3 flex items-center justify-between">
                 <SectionLabel>{t("recentTracks")}</SectionLabel>
-                <Link href={`/${locale}/artist/tracks`} className={`text-xs tracking-widest uppercase no-underline ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#635b53] hover:text-[#c4234e]"}`}>
+                <Link href={`/${locale}/home/artist/tracks`} className={`text-xs tracking-widest uppercase no-underline ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#635b53] hover:text-[#c4234e]"}`}>
                   {t("viewAll")} <ArrowRight size={11} />
                 </Link>
               </div>
@@ -186,7 +182,7 @@ function ArtistContent() {
                         <Clock size={9} />{formatDuration(track.durationSeconds)}
                       </div>
                       <div className="flex shrink-0 items-center gap-1">
-                        <Link href={`/${locale}/artist/tracks/${track.id}/edit`} className={`flex h-6 w-6 items-center justify-center rounded-sm border transition-opacity hover:opacity-70 ${isDark ? "border-royalblue/30 text-vhs-muted" : "border-[#a89888]/40 text-[#635b53]"}`}>
+                        <Link href={`/${locale}/home/artist/tracks/${track.id}/edit`} className={`flex h-6 w-6 items-center justify-center rounded-sm border transition-opacity hover:opacity-70 ${isDark ? "border-royalblue/30 text-vhs-muted" : "border-[#a89888]/40 text-[#635b53]"}`}>
                           <Pencil size={10} />
                         </Link>
                         <button onClick={() => void deleteTrack(track.id, track.title)} className={`hover:text-fear flex h-6 w-6 cursor-pointer items-center justify-center rounded-sm border transition-all ${isDark ? "border-royalblue/30 text-vhs-muted" : "border-[#a89888]/40 text-[#635b53]"}`}>
@@ -203,7 +199,7 @@ function ArtistContent() {
             <div className={cardCls}>
               <div className="mb-3 flex items-center justify-between">
                 <SectionLabel>{t("recentAlbums")}</SectionLabel>
-                <Link href={`/${locale}/artist/albums`} className={`text-xs tracking-widest uppercase no-underline ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#635b53] hover:text-[#c4234e]"}`}>
+                <Link href={`/${locale}/home/artist/albums`} className={`text-xs tracking-widest uppercase no-underline ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#635b53] hover:text-[#c4234e]"}`}>
                   {t("viewAll")} <ArrowRight size={11} />
                 </Link>
               </div>
@@ -227,7 +223,7 @@ function ArtistContent() {
                         {album.price} CZK
                       </div>
                       <div className="flex shrink-0 items-center gap-1">
-                        <Link href={`/${locale}/artist/albums/${album.id}/edit`} className={`flex h-6 w-6 items-center justify-center rounded-sm border transition-opacity hover:opacity-70 ${isDark ? "border-royalblue/30 text-vhs-muted" : "border-[#a89888]/40 text-[#635b53]"}`}>
+                        <Link href={`/${locale}/home/artist/albums/${album.id}/edit`} className={`flex h-6 w-6 items-center justify-center rounded-sm border transition-opacity hover:opacity-70 ${isDark ? "border-royalblue/30 text-vhs-muted" : "border-[#a89888]/40 text-[#635b53]"}`}>
                           <Pencil size={10} />
                         </Link>
                         <button onClick={() => void deleteAlbum(album.id, album.title)} className={`hover:text-fear flex h-6 w-6 cursor-pointer items-center justify-center rounded-sm border transition-all ${isDark ? "border-royalblue/30 text-vhs-muted" : "border-[#a89888]/40 text-[#635b53]"}`}>
@@ -242,15 +238,9 @@ function ArtistContent() {
           </div>
         )}
       </main>
-      <Footer />
-    </>
   );
 }
 
 export default function ArtistPage() {
-  return (
-    <PageShell>
-      <ArtistContent />
-    </PageShell>
-  );
+  return <ArtistContent />;
 }

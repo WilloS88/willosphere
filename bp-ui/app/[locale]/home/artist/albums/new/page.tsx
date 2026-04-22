@@ -6,8 +6,7 @@ import { useTranslations } from "next-intl";
 import { ArrowLeft, Upload, CheckCircle, Loader } from "lucide-react";
 import { ImageCropModal } from "@/app/components/ui/ImageCropModal";
 import Link from "next/link";
-import PageShell from "@/app/components/layout/PageShell";
-import { Navbar } from "@/app/components/layout/Navbar";
+
 import { useTheme } from "@/lib/hooks";
 import { useAuth } from "@/app/components/auth/AuthProvider";
 import { SectionLabel } from "@/app/components/ui/elastic-slider/StoreUI";
@@ -44,7 +43,7 @@ function NewAlbumContent() {
 
   // Pre-fill primary artist
   useEffect(() => {
-    if (session?.user) {
+    if(session?.user) {
       setArtists([{
         artistId:    session.user.id,
         displayName: session.user.displayName,
@@ -55,7 +54,8 @@ function NewAlbumContent() {
 
   // Load own tracks for selection
   useEffect(() => {
-    if (!session?.user?.id) return;
+    if(!session?.user?.id)
+      return;
     api.get<PaginatedResponse<TrackDto>>(
       `${API_ENDPOINTS.tracks.list}?artistId=${session.user.id}&limit=100`,
     )
@@ -65,7 +65,9 @@ function NewAlbumContent() {
 
   const handleCoverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!file) return;
+    if(!file)
+      return;
+
     e.target.value = "";
     setCropFile(file);
   };
@@ -80,7 +82,9 @@ function NewAlbumContent() {
       const formData = new FormData();
       formData.append("file", new File([blob], filename, { type: blob.type }));
       const res = await fetch("/api/covers/upload", { method: "POST", body: formData });
-      if (!res.ok) throw new Error("Upload failed");
+      if(!res.ok)
+        throw new Error("Upload failed");
+
       const { key } = await res.json() as { key: string };
       setCoverKey(key);
     } catch {
@@ -99,7 +103,7 @@ function NewAlbumContent() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!coverKey) {
+    if(!coverKey) {
       setError("Please upload a cover image first.");
       return;
     }
@@ -114,7 +118,7 @@ function NewAlbumContent() {
         artists:       artists.map(({ artistId, role }) => ({ artistId, role })),
         trackIds:      trackIds.length > 0 ? trackIds : undefined,
       });
-      router.push(`/${locale}/artist`);
+      router.push(`/${locale}/home/artist`);
     } catch (err) {
       setError(parseAxiosError(err));
     } finally {
@@ -139,10 +143,9 @@ function NewAlbumContent() {
           onClose={() => setCropFile(null)}
         />
       )}
-      <Navbar />
       <main className="mx-auto max-w-2xl px-4 py-10 sm:px-6 sm:py-16">
         <Link
-          href={`/${locale}/artist`}
+          href={`/${locale}/home/artist`}
           className={`mb-6 inline-flex items-center gap-1.5 text-xs tracking-[2px] no-underline uppercase ${
             isDark ? "text-vhs-muted hover:text-fear" : "text-[#635b53] hover:text-[#c4234e]"
           }`}
@@ -280,7 +283,7 @@ function NewAlbumContent() {
 
             <div className="flex gap-3 pt-1">
               <Link
-                href={`/${locale}/artist`}
+                href={`/${locale}/home/artist`}
                 className={`flex-1 rounded-sm border py-2.5 text-center text-xs font-bold tracking-[2px] transition-all uppercase ${
                   isDark
                     ? "border-royalblue/30 text-vhs-muted hover:text-vhs-white"
@@ -307,9 +310,5 @@ function NewAlbumContent() {
 }
 
 export default function NewAlbumPage() {
-  return (
-    <PageShell>
-      <NewAlbumContent />
-    </PageShell>
-  );
+  return <NewAlbumContent />;
 }

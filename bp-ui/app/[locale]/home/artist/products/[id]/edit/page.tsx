@@ -5,9 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import PageShell from "@/app/components/layout/PageShell";
-import { Navbar } from "@/app/components/layout/Navbar";
-import { Footer } from "@/app/components/layout/Footer";
+
 import { SectionLabel } from "@/app/components/ui/elastic-slider/StoreUI";
 import { useTheme } from "@/lib/hooks";
 import { useAuth } from "@/app/components/auth/AuthProvider";
@@ -82,7 +80,7 @@ function EditProductContent() {
         trackId:     form.trackId ? Number(form.trackId) : null,
         albumId:     form.albumId ? Number(form.albumId) : null,
       });
-      router.push(`/${locale}/artist/products`);
+      router.push(`/${locale}/home/artist/products`);
     } catch (err) {
       setError(parseAxiosError(err));
     } finally {
@@ -99,11 +97,9 @@ function EditProductContent() {
   const selectCls = `${inputCls} cursor-pointer`;
 
   return (
-    <>
-      <Navbar />
       <main className="mx-auto max-w-2xl px-4 py-10 sm:px-6 sm:py-16">
         <Link
-          href={`/${locale}/artist/products`}
+          href={`/${locale}/home/artist/products`}
           className={`mb-6 inline-flex items-center gap-1.5 text-xs tracking-[2px] no-underline uppercase ${
             isDark ? "text-vhs-muted hover:text-fear" : "text-[#635b53] hover:text-[#c4234e]"
           }`}
@@ -212,7 +208,7 @@ function EditProductContent() {
 
               <div className="flex gap-3 pt-1">
                 <Link
-                  href={`/${locale}/artist/products`}
+                  href={`/${locale}/home/artist/products`}
                   className={`flex-1 rounded-sm border py-2.5 text-center text-xs font-bold tracking-[2px] no-underline transition-all uppercase ${
                     isDark
                       ? "border-royalblue/30 text-vhs-muted hover:text-vhs-white"
@@ -235,15 +231,9 @@ function EditProductContent() {
           )}
         </div>
       </main>
-      <Footer />
-    </>
   );
 }
 
 export default function EditProductPage() {
-  return (
-    <PageShell>
-      <EditProductContent />
-    </PageShell>
-  );
+  return <EditProductContent />;
 }

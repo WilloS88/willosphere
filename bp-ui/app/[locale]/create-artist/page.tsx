@@ -44,7 +44,7 @@ function CreateArtistContent() {
         artistSince:    form.artistSince || undefined,
       });
       await refreshSession();
-      router.push(`/${locale}/artist`);
+      router.push(`/${locale}/home/artist`);
     } catch (err) {
       setError(parseAxiosError(err));
     } finally {

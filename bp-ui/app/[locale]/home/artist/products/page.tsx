@@ -5,9 +5,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Disc3, Music, Package, Pencil, Plus, Trash2 } from "lucide-react";
-import PageShell from "@/app/components/layout/PageShell";
-import { Navbar } from "@/app/components/layout/Navbar";
-import { Footer } from "@/app/components/layout/Footer";
+
 import { SectionLabel } from "@/app/components/ui/elastic-slider/StoreUI";
 import { useTheme } from "@/lib/hooks";
 import { useAuth } from "@/app/components/auth/AuthProvider";
@@ -59,8 +57,6 @@ function ProductsContent() {
     : "border-[#a89888]/30 bg-white/70";
 
   return (
-    <>
-      <Navbar />
       <main className="mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-16">
         <div className="mb-8 flex items-center justify-between">
           <div>
@@ -72,7 +68,7 @@ function ProductsContent() {
             </h1>
           </div>
           <Link
-            href={`/${locale}/artist/products/new`}
+            href={`/${locale}/home/artist/products/new`}
             className={`flex items-center gap-2 rounded-sm border px-4 py-2 text-xs font-bold tracking-[2px] no-underline transition-all uppercase ${
               isDark
                 ? "border-fear/40 bg-fear/10 text-fear hover:bg-fear/20"
@@ -97,7 +93,7 @@ function ProductsContent() {
               {t("noProducts")}
             </div>
             <Link
-              href={`/${locale}/artist/products/new`}
+              href={`/${locale}/home/artist/products/new`}
               className={`mt-4 inline-flex items-center gap-2 rounded-sm border px-4 py-2 text-xs font-bold tracking-widest no-underline uppercase ${
                 isDark
                   ? "border-royalblue/30 text-vhs-light hover:border-fear/40"
@@ -165,7 +161,7 @@ function ProductsContent() {
                 {/* Actions */}
                 <div className="flex shrink-0 items-center gap-2">
                   <Link
-                    href={`/${locale}/artist/products/${product.id}/edit`}
+                    href={`/${locale}/home/artist/products/${product.id}/edit`}
                     className={`flex h-7 w-7 items-center justify-center rounded-sm border transition-opacity hover:opacity-70 ${
                       isDark
                         ? "border-royalblue/30 text-vhs-muted"
@@ -190,15 +186,9 @@ function ProductsContent() {
           </div>
         )}
       </main>
-      <Footer />
-    </>
   );
 }
 
 export default function ArtistProductsPage() {
-  return (
-    <PageShell>
-      <ProductsContent />
-    </PageShell>
-  );
+  return <ProductsContent />;
 }

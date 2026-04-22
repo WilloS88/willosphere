@@ -98,7 +98,7 @@ export function Navbar() {
         )}
 
         {isArtist && (
-          <Link href={`/${locale}/artist`} className={linkClass}>
+          <Link href={`/${locale}/home/artist`} className={linkClass}>
             <span className="flex items-center gap-1.5">
               <Mic2 size={14} />
               <span className="hidden sm:inline">{t("artistDashboard")}</span>
@@ -206,7 +206,7 @@ export function Navbar() {
             )}
 
             {isArtist && (
-              <Link href={`/${locale}/artist`} className={mobileItemClass} onClick={() => setMenuOpen(false)}>
+              <Link href={`/${locale}/home/artist`} className={mobileItemClass} onClick={() => setMenuOpen(false)}>
                 <Mic2 size={14} /> {t("artistDashboard")}
               </Link>
             )}

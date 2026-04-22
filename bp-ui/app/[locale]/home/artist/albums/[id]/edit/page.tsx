@@ -5,8 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { ArrowLeft, Upload, CheckCircle, Loader, Trash2 } from "lucide-react";
 import Link from "next/link";
-import PageShell from "@/app/components/layout/PageShell";
-import { Navbar } from "@/app/components/layout/Navbar";
+
 import { useTheme } from "@/lib/hooks";
 import { useAuth } from "@/app/components/auth/AuthProvider";
 import { SectionLabel } from "@/app/components/ui/elastic-slider/StoreUI";
@@ -43,7 +42,8 @@ function EditAlbumContent() {
   const [artists, setArtists]   = useState<ArtistInput[]>([]);
 
   useEffect(() => {
-    if (!session?.user?.id) return;
+    if(!session?.user?.id)
+      return;
 
     Promise.all([
       api.get<AlbumDto>(API_ENDPOINTS.albums.detail(Number(id))),
@@ -115,7 +115,7 @@ function EditAlbumContent() {
         artists:       artists.map(({ artistId, role }) => ({ artistId, role })),
         trackIds:      trackIds.length > 0 ? trackIds : undefined,
       });
-      router.push(`/${locale}/artist/albums`);
+      router.push(`/${locale}/home/artist/albums`);
     } catch (err) {
       setError(parseAxiosError(err));
     } finally {
@@ -128,7 +128,7 @@ function EditAlbumContent() {
     setDeleting(true);
     try {
       await api.delete(API_ENDPOINTS.albums.detail(Number(id)));
-      router.push(`/${locale}/artist/albums`);
+      router.push(`/${locale}/home/artist/albums`);
     } catch (err) {
       setError(parseAxiosError(err));
       setDeleting(false);
@@ -152,10 +152,9 @@ function EditAlbumContent() {
           onClose={() => setCropFile(null)}
         />
       )}
-      <Navbar />
       <main className="mx-auto max-w-2xl px-4 py-10 sm:px-6 sm:py-16">
         <Link
-          href={`/${locale}/artist/albums`}
+          href={`/${locale}/home/artist/albums`}
           className={`mb-6 inline-flex items-center gap-1.5 text-xs tracking-[2px] no-underline uppercase ${
             isDark ? "text-vhs-muted hover:text-fear" : "text-[#635b53] hover:text-[#c4234e]"
           }`}
@@ -268,7 +267,7 @@ function EditAlbumContent() {
 
               <div className="flex gap-3 pt-1">
                 <Link
-                  href={`/${locale}/artist/albums`}
+                  href={`/${locale}/home/artist/albums`}
                   className={`flex-1 rounded-sm border py-2.5 text-center text-xs font-bold tracking-[2px] no-underline transition-all uppercase ${
                     isDark ? "border-royalblue/30 text-vhs-muted hover:text-vhs-white" : "border-[#a89888] text-[#635b53] hover:text-[#2a2520]"
                   }`}
@@ -294,9 +293,5 @@ function EditAlbumContent() {
 }
 
 export default function EditAlbumPage() {
-  return (
-    <PageShell>
-      <EditAlbumContent />
-    </PageShell>
-  );
+  return <EditAlbumContent />;
 }

@@ -5,8 +5,7 @@ import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { ArrowLeft } from "lucide-react";
 import { useEffect, useState } from "react";
-import PageShell from "@/app/components/layout/PageShell";
-import { Navbar } from "@/app/components/layout/Navbar";
+
 import { useTheme } from "@/lib/hooks";
 import { useAuth } from "@/app/components/auth/AuthProvider";
 import { SectionLabel, Badge } from "@/app/components/ui/elastic-slider/StoreUI";
@@ -85,11 +84,9 @@ function ProfileContent() {
   const labelCls = `block text-xs tracking-[2px] mb-1.5 uppercase ${isDark ? "text-vhs-muted" : "text-[#635b53]"}`;
 
   return (
-    <>
-      <Navbar />
       <main className="mx-auto max-w-2xl px-4 py-10 sm:px-6 sm:py-16">
         <Link
-          href={`/${locale}/artist`}
+          href={`/${locale}/home/artist`}
           className={`mb-6 inline-flex items-center gap-1.5 text-xs tracking-[2px] no-underline uppercase ${isDark ? "text-vhs-muted hover:text-fear" : "text-[#635b53] hover:text-[#c4234e]"}`}
         >
           <ArrowLeft size={12} /> {t("backToDashboard")}
@@ -206,14 +203,9 @@ function ProfileContent() {
           </div>
         </div>
       </main>
-    </>
   );
 }
 
 export default function ArtistProfilePage() {
-  return (
-    <PageShell>
-      <ProfileContent />
-    </PageShell>
-  );
+  return <ProfileContent />;
 }

@@ -376,7 +376,7 @@ function ProfileDropdown() {
 
           {/* Artist */}
           {isArtist && (
-            <Link href={`/${locale}/artist`} onClick={() => setOpen(false)} className={itemCls}>
+            <Link href={`/${locale}/home/artist`} onClick={() => setOpen(false)} className={itemCls}>
               <Mic2 size={13} />
               {t("artistDashboard")}
             </Link>

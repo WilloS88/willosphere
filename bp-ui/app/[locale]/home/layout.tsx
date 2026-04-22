@@ -26,7 +26,7 @@ function HomeShell({ children }: { children: React.ReactNode }) {
     if (!hasRole(session?.user, "artist")) return HOME_NAV_ITEMS;
     return [
       ...HOME_NAV_ITEMS,
-      { id: "artist", icon: createElement(Mic2, { size: 15 }), label: "ARTIST_STUDIO", href: "/artist" },
+      { id: "artist", icon: createElement(Mic2, { size: 15 }), label: "ARTIST_STUDIO", href: "/home/artist" },
     ];
   }, [session?.user]);
 
