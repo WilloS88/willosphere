@@ -171,7 +171,7 @@ export default function PlaylistDetailPage() {
                   </div>
 
                   <span onClick={(e) => e.stopPropagation()}>
-                    <LikeButton itemId={track.id} liked={likedItems.has(track.id)} onToggle={() => toggleLike(track.id, track)} />
+                    <LikeButton itemId={track.id} liked={likedItems.has(track.id)} onToggleAction={() => toggleLike(track.id, track)} />
                   </span>
 
                   <button

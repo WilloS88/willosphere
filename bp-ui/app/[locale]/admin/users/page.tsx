@@ -486,13 +486,13 @@ export default function UsersPage() {
           footer={<span>{t("total")}: {total}</span>}
           sortBy={sortBy}
           sortDir={sortDir}
-          onSortChange={handleSortChange}
+          onSortChangeAction={handleSortChange}
           filters={filters}
-          onFilterChange={handleFilterChange}
+          onFilterChangeAction={handleFilterChange}
           page={page}
           pageSize={PAGE_SIZE}
           total={total}
-          onPageChange={handlePageChange}
+          onPageChangeAction={handlePageChange}
         >
           {users.map((user) => (
             <tr
@@ -531,8 +531,8 @@ export default function UsersPage() {
         open={dialogOpen}
         mode={dialogMode}
         onCloseAction={() => setDialogOpen(false)}
-        onEdit={dialogMode === "view" ? () => openEdit() : undefined}
-        onSave={dialogMode !== "view" ? saveUser : undefined}
+        onEditAction={dialogMode === "view" ? () => openEdit() : undefined}
+        onSaveAction={dialogMode !== "view" ? saveUser : undefined}
         title={
           dialogMode === "create" ? t("newUser")
           : dialogMode === "edit"  ? t("editUser")
@@ -546,8 +546,8 @@ export default function UsersPage() {
         <ImageCropModal
           file={cropFile}
           aspect={1}
-          onSave={uploadCroppedAvatar}
-          onClose={() => setCropFile(null)}
+          onSaveAction={uploadCroppedAvatar}
+          onCloseAction={() => setCropFile(null)}
         />
       )}
     </div>

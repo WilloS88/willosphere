@@ -61,8 +61,8 @@ export default function ProfilePage() {
         <ImageCropModal
           file={cropFile}
           aspect={1}
-          onSave={(blob, filename) => void uploadCroppedAvatar(blob, filename)}
-          onClose={() => setCropFile(null)}
+          onSaveAction={(blob, filename) => void uploadCroppedAvatar(blob, filename)}
+          onCloseAction={() => setCropFile(null)}
         />
       )}
       <PageHeader title={t("nav_profile")} />

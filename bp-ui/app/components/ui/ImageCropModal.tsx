@@ -10,8 +10,8 @@ import { useTheme } from "@/lib/hooks";
 interface Props {
   file: File;
   aspect?: number;
-  onSave: (blob: Blob, filename: string) => void;
-  onClose: () => void;
+  onSaveAction: (blob: Blob, filename: string) => void;
+  onCloseAction: () => void;
 }
 
 function centerAspectCrop(width: number, height: number, aspect: number): Crop {
@@ -50,7 +50,7 @@ async function cropToBlob(image: HTMLImageElement, crop: PixelCrop, mimeType: st
   );
 }
 
-export function ImageCropModal({ file, aspect = 1, onSave, onClose }: Props) {
+export function ImageCropModal({ file, aspect = 1, onSaveAction, onCloseAction }: Props) {
   const t               = useTranslations("Common");
   const { isDark }      = useTheme();
   const imgRef          = useRef<HTMLImageElement>(null);
@@ -71,7 +71,7 @@ export function ImageCropModal({ file, aspect = 1, onSave, onClose }: Props) {
     setApplying(true);
     try {
       const blob = await cropToBlob(imgRef.current, completedCrop, file.type);
-      onSave(blob, file.name);
+      onSaveAction(blob, file.name);
     } finally {
       setApplying(false);
     }
@@ -97,7 +97,7 @@ export function ImageCropModal({ file, aspect = 1, onSave, onClose }: Props) {
           <button
             type="button"
             aria-label="Close"
-            onClick={onClose}
+            onClick={onCloseAction}
             className={`flex h-6 w-6 cursor-pointer items-center justify-center rounded-sm border transition-colors ${
               isDark
                 ? "border-royalblue/30 text-vhs-muted hover:border-fear/40 hover:text-fear"
@@ -133,7 +133,7 @@ export function ImageCropModal({ file, aspect = 1, onSave, onClose }: Props) {
         <div className={`flex gap-3 border-t px-4 py-3 ${isDark ? "border-royalblue/20" : "border-[#a89888]/20"}`}>
           <button
             type="button"
-            onClick={onClose}
+            onClick={onCloseAction}
             className={`flex-1 rounded-sm border py-2 text-xs font-bold tracking-[2px] transition-all ${
               isDark
                 ? "border-royalblue/30 text-vhs-muted hover:text-vhs-white"

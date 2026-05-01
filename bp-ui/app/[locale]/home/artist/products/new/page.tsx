@@ -63,6 +63,7 @@ function NewProductContent() {
         type:        form.type,
         description: form.description.trim() || undefined,
         price:       Number(form.price),
+        artistId:    userId,
         trackId:     form.trackId ? Number(form.trackId) : undefined,
         albumId:     form.albumId ? Number(form.albumId) : undefined,
       });

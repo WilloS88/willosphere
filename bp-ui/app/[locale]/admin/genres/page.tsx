@@ -178,13 +178,13 @@ export default function AdminGenresPage() {
           footer={<span>{t("total")}: {total}</span>}
           sortBy={sortBy}
           sortDir={sortDir}
-          onSortChange={handleSortChange}
+          onSortChangeAction={handleSortChange}
           filters={filters}
-          onFilterChange={handleFilterChange}
+          onFilterChangeAction={handleFilterChange}
           page={page}
           pageSize={PAGE_SIZE}
           total={total}
-          onPageChange={handlePageChange}
+          onPageChangeAction={handlePageChange}
         >
           {genres.map((genre) => (
             <tr
@@ -219,8 +219,8 @@ export default function AdminGenresPage() {
         mode={dialogMode}
         title={dialogTitle}
         onCloseAction={() => setDialogOpen(false)}
-        onSave={dialogMode !== "view" ? save : undefined}
-        onEdit={dialogMode === "view" ? () => openEdit() : undefined}
+        onSaveAction={dialogMode !== "view" ? save : undefined}
+        onEditAction={dialogMode === "view" ? () => openEdit() : undefined}
       >
         {dialogMode === "view" && selected ? (
           <div className="space-y-4">

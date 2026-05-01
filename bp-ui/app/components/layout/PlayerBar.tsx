@@ -171,7 +171,7 @@ function MobileVolumeButton() {
           <ProgressSlider
             value={volume}
             max={100}
-            onChange={(v) => setVolume(v)}
+            onChangeAction={(v) => setVolume(v)}
             showThumb
             height="md"
             colorClass={isDark ? "bg-vhs-light" : "bg-[#635b53]"}

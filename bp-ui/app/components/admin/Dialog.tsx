@@ -13,8 +13,8 @@ type DialogProps = {
   title?:           React.ReactNode;
   children:         React.ReactNode;
   onCloseAction:    () => void;
-  onSave?:          () => void | Promise<void>;
-  onEdit?:          () => void;
+  onSaveAction?:          () => void | Promise<void>;
+  onEditAction?:          () => void;
   maxWidthClass?:   string;
   closeOnBackdrop?: boolean;
   closeOnEsc?:      boolean;
@@ -31,8 +31,8 @@ export function Dialog({
    title,
    children,
    onCloseAction,
-   onSave,
-   onEdit,
+   onSaveAction,
+   onEditAction,
    maxWidthClass    = "max-w-lg",
    closeOnBackdrop  = true,
    closeOnEsc       = true,
@@ -63,15 +63,15 @@ export function Dialog({
 
   const isView            = mode === "view";
   const shouldRenderSave  = !hideSave && (!isView);
-  const canSave           = !!onSave && shouldRenderSave && !disableSave && !saving;
+  const canSave           = !!onSaveAction && shouldRenderSave && !disableSave && !saving;
 
   const handleSave = async () => {
-    if(!onSave || !canSave)
+    if(!onSaveAction || !canSave)
       return;
 
     try {
       setSaving(true);
-      await onSave();
+      await onSaveAction();
       if(closeAfterSave)
         onCloseAction();
     } finally {
@@ -82,8 +82,8 @@ export function Dialog({
   /* Footer: action button (edit/save) LEFT, close RIGHT — always */
   const defaultActions = (
     <>
-      {isView && onEdit && (
-        <button type="button" className="btn btn-warning btn-sm" onClick={onEdit}>
+      {isView && onEditAction && (
+        <button type="button" className="btn btn-warning btn-sm" onClick={onEditAction}>
           <Pencil size={14} />
           {t("edit")}
         </button>

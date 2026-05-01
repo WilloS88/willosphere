@@ -190,13 +190,13 @@ export default function AdminArtistsPage() {
           footer={<span>{t("total")}: {total}</span>}
           sortBy={sortBy}
           sortDir={sortDir}
-          onSortChange={handleSortChange}
+          onSortChangeAction={handleSortChange}
           filters={filters}
-          onFilterChange={handleFilterChange}
+          onFilterChangeAction={handleFilterChange}
           page={page}
           pageSize={PAGE_SIZE}
           total={total}
-          onPageChange={handlePageChange}
+          onPageChangeAction={handlePageChange}
         >
           {artists.map((artist) => (
             <tr
@@ -240,8 +240,8 @@ export default function AdminArtistsPage() {
         open={dialogOpen}
         mode={dialogMode}
         onCloseAction={() => { setDialogOpen(false); setSelected(null); }}
-        onEdit={dialogMode === "view" ? () => openEdit() : undefined}
-        onSave={dialogMode === "edit" ? saveArtist : undefined}
+        onEditAction={dialogMode === "view" ? () => openEdit() : undefined}
+        onSaveAction={dialogMode === "edit" ? saveArtist : undefined}
         closeAfterSave
         title={dialogMode === "edit" ? t("editArtist") : t("detailArtist")}
       >

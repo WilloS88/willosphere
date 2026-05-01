@@ -188,7 +188,7 @@ export default function HomePage() {
                   </span>
                 )}
                 <span onClick={(e) => e.stopPropagation()}>
-                  <LikeButton itemId={track.id} liked={likedItems.has(track.id)} onToggle={() => toggleLike(track.id, track)} />
+                  <LikeButton itemId={track.id} liked={likedItems.has(track.id)} onToggleAction={() => toggleLike(track.id, track)} />
                 </span>
                 <button
                   className={`hidden sm:flex items-center justify-center shrink-0 w-9 h-9 rounded-sm transition-colors ${isDark ? "hover:bg-royalblue/20 text-vhs-muted hover:text-vhs-white" : "hover:bg-[#c4234e]/10 text-[#635b53] hover:text-[#2a2520]"}`}

@@ -124,13 +124,13 @@ export default function AdminOrdersPage() {
           footer={<span>{t("total")}: {total}</span>}
           sortBy={sortBy}
           sortDir={sortDir}
-          onSortChange={handleSortChange}
+          onSortChangeAction={handleSortChange}
           filters={filters}
-          onFilterChange={handleFilterChange}
+          onFilterChangeAction={handleFilterChange}
           page={page}
           pageSize={PAGE_SIZE}
           total={total}
-          onPageChange={handlePageChange}
+          onPageChangeAction={handlePageChange}
         >
           {orders.map((order) => (
             <tr

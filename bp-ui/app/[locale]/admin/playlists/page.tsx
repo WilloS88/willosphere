@@ -210,13 +210,13 @@ export default function AdminPlaylistsPage() {
           footer={<span>{t("total")}: {total}</span>}
           sortBy={sortBy}
           sortDir={sortDir}
-          onSortChange={handleSortChange}
+          onSortChangeAction={handleSortChange}
           filters={filters}
-          onFilterChange={handleFilterChange}
+          onFilterChangeAction={handleFilterChange}
           page={page}
           pageSize={PAGE_SIZE}
           total={total}
-          onPageChange={handlePageChange}
+          onPageChangeAction={handlePageChange}
         >
           {playlists.map((playlist) => (
             <tr
@@ -256,8 +256,8 @@ export default function AdminPlaylistsPage() {
         mode={dialogMode}
         title={dialogTitle}
         onCloseAction={() => setDialogOpen(false)}
-        onSave={dialogMode === "edit" ? save : undefined}
-        onEdit={dialogMode === "view" ? () => void openEdit() : undefined}
+        onSaveAction={dialogMode === "edit" ? save : undefined}
+        onEditAction={dialogMode === "view" ? () => void openEdit() : undefined}
       >
         {detailLoading ? (
           <div className="flex justify-center py-8">

@@ -30,15 +30,15 @@ type Props = {
   // sort
   sortBy?:         string;
   sortDir?:        "asc" | "desc";
-  onSortChange?:   (key: string, dir: "asc" | "desc") => void;
+  onSortChangeAction?:   (key: string, dir: "asc" | "desc") => void;
   // filter
   filters?:        Record<string, string>;
-  onFilterChange?: (key: string, value: string) => void;
+  onFilterChangeAction?: (key: string, value: string) => void;
   // pagination
   page?:           number;
   pageSize?:       number;
   total?:          number;
-  onPageChange?:   (page: number) => void;
+  onPageChangeAction?:   (page: number) => void;
 };
 
 const alignClass: Record<NonNullable<Column["align"]>, string> = {
@@ -69,13 +69,13 @@ export function AdminDataTable({
   children,
   sortBy,
   sortDir = "asc",
-  onSortChange,
+  onSortChangeAction,
   filters = {},
-  onFilterChange,
+  onFilterChangeAction,
   page = 1,
   pageSize = 20,
   total,
-  onPageChange,
+  onPageChangeAction,
 }: Props) {
   const t       = useTranslations("Admin");
   const colSpan = columns.length;
@@ -95,12 +95,12 @@ export function AdminDataTable({
   const pageNumbers = totalPages > 1 ? getPageNumbers(page, totalPages) : [];
 
   const handleSort = (key: string) => {
-    if(!onSortChange)
+    if(!onSortChangeAction)
       return;
     if(sortBy === key) {
-      onSortChange(key, sortDir === "asc" ? "desc" : "asc");
+      onSortChangeAction(key, sortDir === "asc" ? "desc" : "asc");
     } else {
-      onSortChange(key, "asc");
+      onSortChangeAction(key, "asc");
     }
   };
 
@@ -137,7 +137,7 @@ export function AdminDataTable({
                 </div>
 
                 {/* Filter input */}
-                {col.filter && onFilterChange && (
+                {col.filter && onFilterChangeAction && (
                   <div className="mt-1" onClick={(e) => e.stopPropagation()}>
                     {col.filter.type === "text" ? (
                       <input
@@ -145,7 +145,7 @@ export function AdminDataTable({
                         placeholder={(col.filter as { type: "text"; placeholder?: string }).placeholder ?? t("filterPlaceholder")}
                         value={filters[col.filterKey ?? col.sortKey ?? col.label] ?? ""}
                         onChange={(e) =>
-                          onFilterChange(col.filterKey ?? col.sortKey ?? col.label, e.target.value)
+                          onFilterChangeAction(col.filterKey ?? col.sortKey ?? col.label, e.target.value)
                         }
                       />
                     ) : col.filter.type === "date" ? (
@@ -154,7 +154,7 @@ export function AdminDataTable({
                         className="input input-xs w-full border border-base-300 bg-base-100 font-normal normal-case"
                         value={filters[col.filterKey ?? col.sortKey ?? col.label] ?? ""}
                         onChange={(e) =>
-                          onFilterChange(col.filterKey ?? col.sortKey ?? col.label, e.target.value)
+                          onFilterChangeAction(col.filterKey ?? col.sortKey ?? col.label, e.target.value)
                         }
                       />
                     ) : (
@@ -162,7 +162,7 @@ export function AdminDataTable({
                         className="select select-xs w-full border border-base-300 bg-base-100 font-normal normal-case"
                         value={filters[col.filterKey ?? col.sortKey ?? col.label] ?? ""}
                         onChange={(e) =>
-                          onFilterChange(col.filterKey ?? col.sortKey ?? col.label, e.target.value)
+                          onFilterChangeAction(col.filterKey ?? col.sortKey ?? col.label, e.target.value)
                         }
                       >
                         <option value="">{t("allRoles")}</option>
@@ -208,11 +208,11 @@ export function AdminDataTable({
           )}
         </div>
 
-        {totalPages > 1 && onPageChange && (
+        {totalPages > 1 && onPageChangeAction && (
           <div className="flex items-center gap-1">
             <button
               className="btn btn-xs btn-ghost"
-              onClick={() => onPageChange(page - 1)}
+              onClick={() => onPageChangeAction(page - 1)}
               disabled={page <= 1}
               aria-label={t("prevPage")}
             >
@@ -226,7 +226,7 @@ export function AdminDataTable({
                 <button
                   key={n}
                   className={`btn btn-xs ${n === page ? "btn-info text-white" : "btn-ghost"}`}
-                  onClick={() => onPageChange(n as number)}
+                  onClick={() => onPageChangeAction(n as number)}
                 >
                   {n}
                 </button>
@@ -235,7 +235,7 @@ export function AdminDataTable({
 
             <button
               className="btn btn-xs btn-ghost"
-              onClick={() => onPageChange(page + 1)}
+              onClick={() => onPageChangeAction(page + 1)}
               disabled={page >= totalPages}
               aria-label={t("nextPage")}
             >

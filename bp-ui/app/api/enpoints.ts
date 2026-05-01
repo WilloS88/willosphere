@@ -27,6 +27,7 @@ export const API_ENDPOINTS = {
     list:     "/artists",
     become:   "/artists/become",
     me:       "/artists/me",
+    stats:    "/artists/me/stats",
     detail:   (id: number) => `/artists/${id}`,
   },
 

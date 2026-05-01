@@ -39,7 +39,7 @@ export const getRoleRedirect = (user: AuthUser | null, locale: string) => {
     return `/${locale}/admin`;
 
   if(roles.includes("artist"))
-    return `/${locale}/artist`;
+    return `/${locale}/home/artist`;
 
   return `/${locale}`;
 };

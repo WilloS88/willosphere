@@ -10,8 +10,8 @@ interface ConfirmDialogProps {
   message:    string;
   confirmLabel?: string;
   cancelLabel?:  string;
-  onConfirm:  () => void;
-  onCancel:   () => void;
+  onConfirmAction:  () => void;
+  onCancelAction:   () => void;
   variant?:   "danger" | "default";
 }
 
@@ -21,17 +21,17 @@ export function ConfirmDialog({
   message,
   confirmLabel = "OK",
   cancelLabel  = "Cancel",
-  onConfirm,
-  onCancel,
+  onConfirmAction,
+  onCancelAction,
   variant = "danger",
 }: ConfirmDialogProps) {
   const { isDark } = useTheme();
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
-      if (e.key === "Escape") onCancel();
+      if (e.key === "Escape") onCancelAction();
     },
-    [onCancel],
+    [onCancelAction],
   );
 
   useEffect(() => {
@@ -58,7 +58,7 @@ export function ConfirmDialog({
       {/* Backdrop */}
       <div
         className="absolute inset-0 bg-black/60"
-        onClick={onCancel}
+        onClick={onCancelAction}
       />
 
       {/* Dialog */}
@@ -84,7 +84,7 @@ export function ConfirmDialog({
           </h3>
           <button
             aria-label="Close"
-            onClick={onCancel}
+            onClick={onCancelAction}
             className={`cursor-pointer opacity-50 hover:opacity-100 transition-opacity ${
               isDark ? "text-vhs-muted" : "text-[#635b53]"
             }`}
@@ -105,7 +105,7 @@ export function ConfirmDialog({
         {/* Actions */}
         <div className="flex justify-end gap-2">
           <button
-            onClick={onCancel}
+            onClick={onCancelAction}
             className={`cursor-pointer rounded-sm border px-4 py-2 text-xs font-bold tracking-[2px] transition-all ${
               isDark
                 ? "border-royalblue/30 text-vhs-muted hover:text-vhs-white"
@@ -115,7 +115,7 @@ export function ConfirmDialog({
             {cancelLabel}
           </button>
           <button
-            onClick={onConfirm}
+            onClick={onConfirmAction}
             className={`cursor-pointer rounded-sm px-4 py-2 text-xs font-bold tracking-[2px] transition-all ${confirmBtnCls}`}
           >
             {confirmLabel}

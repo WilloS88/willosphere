@@ -41,8 +41,8 @@ export function useConfirm() {
       confirmLabel={state.options.confirmLabel}
       cancelLabel={state.options.cancelLabel}
       variant={state.options.variant}
-      onConfirm={handleConfirm}
-      onCancel={handleCancel}
+      onConfirmAction={handleConfirm}
+      onCancelAction={handleCancel}
     />
   ) : null;
 

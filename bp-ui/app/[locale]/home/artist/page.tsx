@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { ArrowRight, Clock, Disc2, Music, Package, Pencil, Play, Settings, Trash2 } from "lucide-react";
+import { ArrowRight, BarChart3, Clock, Disc2, Music, Package, Pencil, Play, Settings, Trash2 } from "lucide-react";
 
 import { useTheme } from "@/lib/hooks";
 import { useAuth } from "@/app/components/auth/AuthProvider";
@@ -32,6 +32,7 @@ function ArtistContent() {
   const [trackTotal, setTrackTotal]     = useState<number | null>(null);
   const [albumTotal, setAlbumTotal]     = useState<number | null>(null);
   const [productTotal, setProductTotal] = useState<number | null>(null);
+  const [totalPlays, setTotalPlays]     = useState<number | null>(null);
   const [recentTracks, setRecentTracks] = useState<TrackDto[]>([]);
   const [recentAlbums, setRecentAlbums] = useState<AlbumDto[]>([]);
   const [loading, setLoading]           = useState(true);
@@ -68,11 +69,13 @@ function ArtistContent() {
       api.get<PaginatedResponse<TrackDto>>(`${API_ENDPOINTS.tracks.list}?artistId=${userId}&limit=5`),
       api.get<PaginatedResponse<AlbumDto>>(`${API_ENDPOINTS.albums.list}?artistId=${userId}&limit=5`),
       api.get<PaginatedResponse<ProductDto>>(`${API_ENDPOINTS.products.list}?artistId=${userId}&limit=1`),
+      api.get<{ totalPlays: number }>(API_ENDPOINTS.artists.stats),
     ])
-      .then(([tracksRes, albumsRes, productsRes]) => {
+      .then(([tracksRes, albumsRes, productsRes, statsRes]) => {
         setTrackTotal(tracksRes.data.total);
         setAlbumTotal(albumsRes.data.total);
         setProductTotal(productsRes.data.total);
+        setTotalPlays(statsRes.data.totalPlays);
         setRecentTracks(tracksRes.data.data);
         setRecentAlbums(albumsRes.data.data);
       })
@@ -112,7 +115,7 @@ function ArtistContent() {
             { label: t("tracks"),      value: trackTotal   ?? "—", color: "text-fear" },
             { label: t("albums"),      value: albumTotal   ?? "—", color: "text-vhs-purple" },
             { label: t("myProducts"),  value: productTotal ?? "—", color: "text-vhs-cyan" },
-            { label: t("plays"),       value: "—",                 color: "text-vhs-green" },
+            { label: t("plays"),       value: totalPlays   ?? "—", color: "text-vhs-green" },
           ].map((s) => (
             <div key={s.label} className={statCls}>
               <div className={`mb-1 text-xs tracking-wider uppercase ${mutedCls}`}>{s.label}</div>
@@ -126,9 +129,10 @@ function ArtistContent() {
           <SectionLabel className="mb-4">{t("quickActions")}</SectionLabel>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
             {[
-              { label: t("uploadTrack"), icon: <Music   size={20} />, href: `/${locale}/home/artist/tracks/new` },
-              { label: t("createAlbum"), icon: <Disc2   size={20} />, href: `/${locale}/home/artist/albums/new` },
-              { label: t("addProduct"),  icon: <Package size={20} />, href: `/${locale}/home/artist/products/new` },
+              { label: t("uploadTrack"), icon: <Music      size={20} />, href: `/${locale}/home/artist/tracks/new` },
+              { label: t("createAlbum"), icon: <Disc2      size={20} />, href: `/${locale}/home/artist/albums/new` },
+              { label: t("addProduct"),  icon: <Package    size={20} />, href: `/${locale}/home/artist/products/new` },
+              { label: t("viewStats"),   icon: <BarChart3  size={20} />, href: `/${locale}/home/artist/stats` },
             ].map((a) => (
               <Link
                 key={a.label}

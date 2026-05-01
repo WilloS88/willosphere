@@ -252,13 +252,13 @@ export default function AdminProductsPage() {
           footer={<span>{t("total")}: {total}</span>}
           sortBy={sortBy}
           sortDir={sortDir}
-          onSortChange={handleSortChange}
+          onSortChangeAction={handleSortChange}
           filters={filters}
-          onFilterChange={handleFilterChange}
+          onFilterChangeAction={handleFilterChange}
           page={page}
           pageSize={PAGE_SIZE}
           total={total}
-          onPageChange={handlePageChange}
+          onPageChangeAction={handlePageChange}
         >
           {products.map((product) => (
             <tr
@@ -295,8 +295,8 @@ export default function AdminProductsPage() {
         mode={dialogMode}
         title={dialogTitle}
         onCloseAction={() => setDialogOpen(false)}
-        onSave={dialogMode !== "view" ? save : undefined}
-        onEdit={dialogMode === "view" ? () => void openEdit() : undefined}
+        onSaveAction={dialogMode !== "view" ? save : undefined}
+        onEditAction={dialogMode === "view" ? () => void openEdit() : undefined}
         maxWidthClass="max-w-xl"
       >
         {detailLoading ? (

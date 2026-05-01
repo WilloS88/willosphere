@@ -139,8 +139,8 @@ function NewAlbumContent() {
         <ImageCropModal
           file={cropFile}
           aspect={1}
-          onSave={(blob, filename) => void uploadCroppedCover(blob, filename)}
-          onClose={() => setCropFile(null)}
+          onSaveAction={(blob, filename) => void uploadCroppedCover(blob, filename)}
+          onCloseAction={() => setCropFile(null)}
         />
       )}
       <main className="mx-auto max-w-2xl px-4 py-10 sm:px-6 sm:py-16">

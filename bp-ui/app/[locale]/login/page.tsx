@@ -109,9 +109,9 @@ function LoginContent() {
   const [serverError, setServerError] = useState<string | null>(null);
 
   // MFA challenge state
-  const [mfaChallengeId, setMfaChallengeId] = useState<string | null>(null);
-  const [mfaCode, setMfaCode]               = useState("");
-  const [mfaSubmitting, setMfaSubmitting]    = useState(false);
+  const [mfaChallengeId, setMfaChallengeId]   = useState<string | null>(null);
+  const [mfaCode, setMfaCode]                 = useState("");
+  const [mfaSubmitting, setMfaSubmitting]     = useState(false);
 
   const onSubmit = async (data: FormValues) => {
     setServerError(null);

@@ -68,17 +68,17 @@ export function VHSButton({ variant = "primary", children, className, ...props }
 }
 
 /* ── LikeButton ── */
-export function LikeButton({ itemId, liked, onToggle }: { itemId: number; liked: boolean; onToggle: (id: number) => void }) {
+export function LikeButton({ itemId, liked, onToggleAction }: { itemId: number; liked: boolean; onToggleAction: (id: number) => void }) {
   return (
-    <VHSButton variant="ghost" onClick={() => onToggle(itemId)} className={cn(liked ? "!text-fear" : "")}>
+    <VHSButton variant="ghost" onClick={() => onToggleAction(itemId)} className={cn(liked ? "!text-fear" : "")}>
       <Heart size={13} fill={liked ? "currentColor" : "none"} />
     </VHSButton>
   );
 }
 
 /* ── ProgressSlider (fallback, non-elastic) ── */
-export function ProgressSlider({ value, max, onChange, showThumb = true, height = "md", colorClass = "bg-gradient-to-r from-fear to-fearyellow", className }: {
-  value: number; max: number; onChange?: (v: number) => void;
+export function ProgressSlider({ value, max, onChangeAction, showThumb = true, height = "md", colorClass = "bg-gradient-to-r from-fear to-fearyellow", className }: {
+  value: number; max: number; onChangeAction?: (v: number) => void;
   showThumb?: boolean; height?: "sm" | "md"; colorClass?: string; className?: string;
 }) {
   const ref         = useRef<HTMLDivElement>(null);
@@ -86,12 +86,12 @@ export function ProgressSlider({ value, max, onChange, showThumb = true, height 
   const pct         = max > 0 ? (value / max) * 100 : 0;
 
   const handleClick = (e: React.MouseEvent) => {
-    if(!ref.current || !onChange)
+    if(!ref.current || !onChangeAction)
       return;
 
     const rect = ref.current.getBoundingClientRect();
 
-    onChange(Math.max(0, Math.min(max, Math.floor(((e.clientX - rect.left) / rect.width) * max))));
+    onChangeAction(Math.max(0, Math.min(max, Math.floor(((e.clientX - rect.left) / rect.width) * max))));
   };
   const h = height === "sm" ? "h-[3px]" : "h-1";
 
