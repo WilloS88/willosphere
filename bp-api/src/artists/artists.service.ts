@@ -9,7 +9,10 @@ import { ArtistProfile } from "../entities/artist-profile.entity";
 import { Role } from "../entities/role.enum";
 import { User } from "../entities/user.entity";
 import { UserRole } from "../entities/user-role.entity";
+import { StreamEvent } from "../entities/stream-event.entity";
+import { Track } from "../entities/track.entity";
 import { ArtistDto } from "./dto/artist.dto";
+import { ArtistStatsDto } from "./dto/artist-stats.dto";
 import { BecomeArtistDto } from "./dto/become-artist.dto";
 import { UpdateArtistProfileDto } from "./dto/update-artist-profile.dto";
 import { ListArtistsQueryDto } from "./dto/list-artists-query.dto";
@@ -23,6 +26,10 @@ export class ArtistsService {
     private readonly usersRepo: Repository<User>,
     @InjectRepository(ArtistProfile)
     private readonly profileRepo: Repository<ArtistProfile>,
+    @InjectRepository(StreamEvent)
+    private readonly streamRepo: Repository<StreamEvent>,
+    @InjectRepository(Track)
+    private readonly trackRepo: Repository<Track>,
     @InjectDataSource()
     private readonly ds: DataSource,
     private readonly cf: CloudFrontService,
@@ -145,5 +152,109 @@ export class ArtistsService {
       await trx.getRepository(ArtistProfile).delete({ userId });
       await trx.getRepository(UserRole).delete({ userId, role: Role.ARTIST });
     });
+  }
+
+  async getStats(artistId: number): Promise<ArtistStatsDto> {
+    const qb = this.streamRepo.createQueryBuilder("se");
+
+    const now = new Date();
+    const todayStr = now.toISOString().slice(0, 10);
+    const monthStart = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-01`;
+
+    // Total plays
+    const totalPlays = await qb
+      .clone()
+      .where("se.artist_id = :artistId", { artistId })
+      .getCount();
+
+    // Plays today
+    const playsToday = await qb
+      .clone()
+      .where("se.artist_id = :artistId", { artistId })
+      .andWhere("DATE(se.created_at) = :today", { today: todayStr })
+      .getCount();
+
+    // Plays this month
+    const playsThisMonth = await qb
+      .clone()
+      .where("se.artist_id = :artistId", { artistId })
+      .andWhere("se.created_at >= :monthStart", { monthStart })
+      .getCount();
+
+    // Unique listeners this month
+    const uniqueRow = await qb
+      .clone()
+      .select("COUNT(DISTINCT se.user_id)", "cnt")
+      .where("se.artist_id = :artistId", { artistId })
+      .andWhere("se.created_at >= :monthStart", { monthStart })
+      .getRawOne();
+    const uniqueListeners = Number(uniqueRow?.cnt ?? 0);
+
+    // Top 5 tracks
+    const topTracksRaw: { trackId: number; plays: string }[] = await qb
+      .clone()
+      .select("se.track_id", "trackId")
+      .addSelect("COUNT(*)", "plays")
+      .where("se.artist_id = :artistId", { artistId })
+      .groupBy("se.track_id")
+      .orderBy("plays", "DESC")
+      .limit(5)
+      .getRawMany();
+
+    const topTracks = await Promise.all(
+      topTracksRaw.map(async (row) => {
+        const track = await this.trackRepo.findOne({ where: { id: row.trackId } });
+        return {
+          trackId: row.trackId,
+          title: track?.title ?? "Unknown",
+          coverImageUrl: track?.coverImageUrl
+            ? this.cf.signUrl(track.coverImageUrl)
+            : null,
+          plays: Number(row.plays),
+        };
+      }),
+    );
+
+    // Daily plays (last 30 days)
+    const dailyRaw: { date: string; plays: string }[] = await qb
+      .clone()
+      .select("DATE(se.created_at)", "date")
+      .addSelect("COUNT(*)", "plays")
+      .where("se.artist_id = :artistId", { artistId })
+      .andWhere("se.created_at >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)")
+      .groupBy("DATE(se.created_at)")
+      .orderBy("date", "ASC")
+      .getRawMany();
+
+    const dailyPlays = dailyRaw.map((r) => ({
+      date: typeof r.date === "string" ? r.date.slice(0, 10) : new Date(r.date).toISOString().slice(0, 10),
+      plays: Number(r.plays),
+    }));
+
+    // Monthly plays (last 12 months)
+    const monthlyRaw: { month: string; plays: string }[] = await qb
+      .clone()
+      .select("DATE_FORMAT(se.created_at, '%Y-%m')", "month")
+      .addSelect("COUNT(*)", "plays")
+      .where("se.artist_id = :artistId", { artistId })
+      .andWhere("se.created_at >= DATE_SUB(CURDATE(), INTERVAL 12 MONTH)")
+      .groupBy("month")
+      .orderBy("month", "ASC")
+      .getRawMany();
+
+    const monthlyPlays = monthlyRaw.map((r) => ({
+      month: r.month,
+      plays: Number(r.plays),
+    }));
+
+    return {
+      totalPlays,
+      playsToday,
+      playsThisMonth,
+      uniqueListeners,
+      topTracks,
+      dailyPlays,
+      monthlyPlays,
+    };
   }
 }

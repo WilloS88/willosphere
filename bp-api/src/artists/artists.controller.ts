@@ -19,6 +19,7 @@ import { Roles } from "../auth/decorators/roles.decorator";
 import { Role } from "../entities/role.enum";
 import { ArtistsService } from "./artists.service";
 import { ArtistDto } from "./dto/artist.dto";
+import { ArtistStatsDto } from "./dto/artist-stats.dto";
 import { BecomeArtistDto } from "./dto/become-artist.dto";
 import { UpdateArtistProfileDto } from "./dto/update-artist-profile.dto";
 import { ListArtistsQueryDto } from "./dto/list-artists-query.dto";
@@ -31,6 +32,12 @@ export class ArtistsController {
   @Get()
   findAll(@Query() query: ListArtistsQueryDto): Promise<PaginatedResult<ArtistDto>> {
     return this.artists.findAll(query);
+  }
+
+  @Get("me/stats")
+  @UseGuards(AuthGuard)
+  getStats(@Req() req: Request): Promise<ArtistStatsDto> {
+    return this.artists.getStats((req as any).userId);
   }
 
   @Get(":id")
